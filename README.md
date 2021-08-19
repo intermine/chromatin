@@ -1,2 +1,2 @@
 # chromatin
-Intermine's design  system
+Intermine's component library
