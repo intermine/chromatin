@@ -1,0 +1,17 @@
+node_modules
+dist
+
+# config files
+*.config.ts
+
+# test files
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# stories files
+*.stories.tsx
+*.stories.ts
+*.stories.jsx
+*.stories.js
