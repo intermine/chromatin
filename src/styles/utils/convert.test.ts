@@ -28,5 +28,14 @@ describe('Testing styles/utils/convert', () => {
             rgb: 'rgb(255, 0, 0)',
             rgba: 'rgba(255, 0, 0, 1)',
         })
+
+        expect(hex2rgba('#f00', 0.4)).toEqual({
+            r: 255,
+            g: 0,
+            b: 0,
+            alpha: 0.4,
+            rgb: 'rgb(255, 0, 0)',
+            rgba: 'rgba(255, 0, 0, 0.4)',
+        })
     })
 })
