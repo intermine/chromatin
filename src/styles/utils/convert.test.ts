@@ -17,6 +17,7 @@ describe('Testing styles/utils/convert', () => {
             alpha: 0,
             rgb: '',
             rgba: '',
+            hex: '',
         })
 
         // All truthy test
@@ -27,6 +28,7 @@ describe('Testing styles/utils/convert', () => {
             alpha: 1,
             rgb: 'rgb(255, 0, 0)',
             rgba: 'rgba(255, 0, 0, 1)',
+            hex: '#f00',
         })
 
         expect(hex2rgba('#f00', 0.4)).toEqual({
@@ -36,6 +38,7 @@ describe('Testing styles/utils/convert', () => {
             alpha: 0.4,
             rgb: 'rgb(255, 0, 0)',
             rgba: 'rgba(255, 0, 0, 0.4)',
+            hex: '#f00',
         })
     })
 })

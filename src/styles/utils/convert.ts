@@ -8,6 +8,7 @@ export type RGBAObject = {
     alpha: number
     rgb: string
     rgba: string
+    hex: string
 }
 
 /**
@@ -58,7 +59,8 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  *  b: 0,
  *  alpha: 1,
  *  rgba: "rgba(255, 0, 0, 1)",
- *  rgb: (255, 0, 0)
+ *  rgb: (255, 0, 0),
+ *  hex: '#ff0000'
  * }
  *
  * hex2rgba('#ff0000', 0.4)
@@ -69,7 +71,8 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  *  b: 0,
  *  alpha: 0.4,
  *  rgba: "rgba(255, 0, 0, 0.4)",
- *  rgb: (255, 0, 0)
+ *  rgb: (255, 0, 0),
+ *  hex: '#ff0000'
  * }
  *
  *
@@ -90,6 +93,7 @@ export const hex2rgba = (hex: string, alpha = 1): RGBAObject => {
             alpha: 0,
             rgb: '',
             rgba: '',
+            hex: '',
         }
     }
 
@@ -104,5 +108,6 @@ export const hex2rgba = (hex: string, alpha = 1): RGBAObject => {
         alpha: alphaValue,
         rgb: `rgb(${r}, ${g}, ${b})`,
         rgba: `rgba(${r}, ${g}, ${b}, ${alphaValue})`,
+        hex,
     }
 }
