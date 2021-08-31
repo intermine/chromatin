@@ -18,7 +18,7 @@ export type BasicColor = {
  * To get the tint or shade of the given color.
  *
  * @param {(RGBAObject | string)} hex color hex code
- * @param {number} factor tint factor
+ * @param {number} factor must be between 0 and 1
  *
  * @returns {string} hex color code
  */
@@ -30,7 +30,7 @@ export const getTintOrShade = (
     if (typeof color !== 'object' && typeof color !== 'string') {
         if (isDevEnv()) {
             console.error(
-                '[getTint]: color should be a hex string or a RGBAObject',
+                '[getTintOrShade]: color should be a string or an object',
                 'Got: '.concat(typeof color)
             )
         }
@@ -40,6 +40,16 @@ export const getTintOrShade = (
 
     if (typeof color === 'string' && !isValidColorHex(color)) {
         return color
+    }
+
+    if (factor > 1 || factor < 0) {
+        if (isDevEnv()) {
+            console.error(
+                '[getTintOrShade] Factor should be between 0 and 1',
+                'Got: '.concat(factor.toString())
+            )
+        }
+        return typeof color === 'string' ? color : color.hex
     }
 
     const rgba = typeof color === 'object' ? color : hex2rgba(color)
@@ -61,14 +71,16 @@ export const getTintOrShade = (
 export type CreateColorOptions = {
     tintFactor?: number
     shadeFactor?: number
+    mode?: 'dark' | 'light'
 }
 
 /**
  * A utility function which is used for creating basic color object.
  *
- * 10-40 will be created using tint factor.
- * 60-90 will be created using shade factor.
+ * 10-40 will be created using tint factor if mode is light.
+ * 60-90 will be created using shade factor if mode is light.
  * 50 will be the color passed to createColor.
+ * if mode is dark then 10-40 is shade and 60-90 is tint.
  *
  * @example
  *  createColor('#23704a')
@@ -103,7 +115,7 @@ export const createColor = (
         }
     }
 
-    const { tintFactor = 0.1, shadeFactor = 0.1 } = options
+    const { tintFactor = 0.1, shadeFactor = 0.1, mode = 'light' } = options
     const rgba = hex2rgba(baseColor)
 
     const color: BasicColor = {
@@ -119,18 +131,20 @@ export const createColor = (
     }
 
     for (let i = 1; i <= 4; i += 1) {
-        color[((5 - i) * 10) as keyof BasicColor] = getTintOrShade(
+        const key = mode === 'light' ? (5 - i) * 10 : (5 + i) * 10
+        color[key as keyof BasicColor] = getTintOrShade(
             rgba,
             true,
             i * tintFactor * 2
         )
     }
 
-    for (let i = 6; i < 10; i += 1) {
-        color[(i * 10) as keyof BasicColor] = getTintOrShade(
+    for (let i = 1; i <= 4; i += 1) {
+        const key = mode === 'light' ? (5 + i) * 10 : (5 - i) * 10
+        color[key as keyof BasicColor] = getTintOrShade(
             rgba,
             false,
-            shadeFactor * 2 * (i - 5)
+            shadeFactor * 2 * i
         )
     }
 
