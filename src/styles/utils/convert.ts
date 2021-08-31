@@ -61,7 +61,7 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  *  rgb: (255, 0, 0)
  * }
  *
- * hex2rgba('ff0000', 0.4)
+ * hex2rgba('#ff0000', 0.4)
  *
  * output: {
  *  r: 255,
