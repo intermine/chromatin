@@ -8,6 +8,4 @@ export const grey = {
     70: '#dedede',
     80: '#d9d9d9',
     90: '#bbbbbb',
-    100: '#a6a6a6',
-    110: '#929292',
 }
