@@ -50,7 +50,7 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  *
  * @example
  *
- * hex2rgba('ff0000')
+ * hex2rgba('#ff0000')
  *
  * output: {
  *  r: 255,
