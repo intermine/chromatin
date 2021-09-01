@@ -1,6 +1,6 @@
 import { isDevEnv } from '../../utils/misc'
-import { isValidColorHex } from './check'
-import { hex2rgba, RGBAObject } from './convert'
+import { isValidColorHex, isColorOrRGBA } from './check'
+import { hex2rgba, RGBA } from './convert'
 
 export type BasicColor = {
     10: string
@@ -17,32 +17,26 @@ export type BasicColor = {
 /**
  * To get the tint or shade of the given color.
  *
- * @param {(RGBAObject | string)} hex color hex code
+ * @param {(RGBA | string)} hex color hex code
  * @param {number} factor must be between 0 and 1
  *
  * @returns {string} hex color code
  */
 export const getTintOrShade = (
-    color: RGBAObject | string,
+    color: RGBA | string,
     tint = true,
     factor = 0.1
 ): string => {
-    if (typeof color !== 'object' && typeof color !== 'string') {
+    if (!isColorOrRGBA(color)) {
         if (isDevEnv()) {
             console.error(
-                '[getTintOrShade]: color should be a string or an object',
-                'Got: '.concat(typeof color)
+                '[getTintOrShade]: color should be a valid hex'.concat(
+                    'code or an instance of RGBA class. Got: ',
+                    typeof color
+                )
             )
         }
 
-        return color
-    }
-
-    if (typeof color === 'string' && !isValidColorHex(color)) {
-        console.error(
-            '[getTintOrShade]: Invalid hex color code.',
-            'Got: '.concat(color)
-        )
         return color
     }
 
@@ -56,7 +50,7 @@ export const getTintOrShade = (
         return typeof color === 'string' ? color : color.hex
     }
 
-    const rgba = typeof color === 'object' ? color : hex2rgba(color)
+    const rgba = color instanceof RGBA ? color : hex2rgba(color)
     const { r, g, b } = rgba
 
     /**
@@ -156,9 +150,81 @@ export const createColor = (
 }
 
 /**
+ * To calculate the luminous of the given color.
+ *
+ * @param {RGBA} color rgba object
+ * @returns {number} luminous value
+ */
+export const getLuminous = (color: RGBA): number => {
+    if (!(color instanceof RGBA)) {
+        if (isDevEnv()) {
+            console.error('[getLuminous]: color is not an instance of RGBA')
+        }
+        return 0
+    }
+
+    const { r, g, b } = color
+
+    // Formula taken from:
+    // https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-procedure
+
+    // ((R sRGB +0.055)/1.055) ^ 2.4
+    const [R, G, B] = [r, g, b].map((v) => {
+        const sRGB = v / 255
+        return sRGB <= 0.039_28
+            ? sRGB / 255
+            : Math.pow((sRGB + 0.055) / 1.055, 2.4)
+    })
+
+    return R * 0.2126 + G * 0.7152 + B * 0.0722
+}
+
+/**
  * Check the contrast ratio of two given color
  *
- * @param {(string | RGBAObject)} color1 color 1 hex value or rgba object
- * @param {(string | RGBAObject)} color2 color 2 hex value or rgba object
+ * @param {(string | RGBA)} color1 color 1 hex value or rgba object
+ * @param {(string | RGBA)} color2 color 2 hex value or rgba object
  */
-export const contrastRatio = (color1: string, color2: string): number => {}
+export const getContrastRatio = (
+    color1: string | RGBA,
+    color2: string | RGBA
+): number => {
+    if (!isColorOrRGBA(color1)) {
+        if (isDevEnv()) {
+            console.error(
+                '[getContrastRatio]: color1 is not valid.'.concat(
+                    ' It should be hex code or an instance of RGBA',
+                    ' Got: ',
+                    typeof color1
+                )
+            )
+        }
+
+        return -1
+    }
+
+    if (!isColorOrRGBA(color2)) {
+        if (isDevEnv()) {
+            console.error(
+                '[getContrastRatio]: color2 is not valid.'.concat(
+                    ' It should be hex code or an instance of RGBA',
+                    ' Got: ',
+                    typeof color2
+                )
+            )
+        }
+
+        return -1
+    }
+
+    const c1 = color1 instanceof RGBA ? color1 : hex2rgba(color1)
+    const c2 = color2 instanceof RGBA ? color2 : hex2rgba(color2)
+
+    const c1Lux = getLuminous(c1)
+    const c2Lux = getLuminous(c2)
+
+    const light = Math.max(c1Lux, c2Lux)
+    const dark = Math.min(c1Lux, c2Lux)
+
+    return (light + 0.05) / (dark + 0.05)
+}

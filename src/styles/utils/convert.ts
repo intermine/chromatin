@@ -1,14 +1,16 @@
 import { isDevEnv } from '../../utils/misc'
 import { isValidColorHex } from './check'
 
-export type RGBAObject = {
-    r: number
-    g: number
-    b: number
-    alpha: number
-    rgb: string
-    rgba: string
-    hex: string
+export class RGBA {
+    constructor(
+        public r: number,
+        public g: number,
+        public b: number,
+        public alpha: number,
+        public rgb: string,
+        public rgba: string,
+        public hex: string
+    ) {}
 }
 
 /**
@@ -79,36 +81,28 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  * @param {string} hex any valid hex value
  * @param {number} alpha alpha value. Value must be between 0 and 1.
  *
- * @returns {RGBAObject} rgba object equivalent to the given hex
+ * @returns {RGBA} rgba object equivalent to the given hex
  */
-export const hex2rgba = (hex: string, alpha = 1): RGBAObject => {
+export const hex2rgba = (hex: string, alpha = 1): RGBA => {
     if (!isValidColorHex(hex)) {
         if (isDevEnv()) {
             console.error('[hex2rgba]: Not a valid hex. Given', hex)
         }
 
-        return {
-            r: 0,
-            g: 0,
-            b: 0,
-            alpha: 0,
-            rgb: '',
-            rgba: '',
-            hex: '',
-        }
+        return new RGBA(0, 0, 0, 0, '', '', '')
     }
 
     const value = hex.split('#')[1]
     const alphaValue = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha
     const [r, g, b] = hex2rgbArray(value)
 
-    return {
+    return new RGBA(
         r,
         g,
         b,
-        alpha: alphaValue,
-        rgb: `rgb(${r}, ${g}, ${b})`,
-        rgba: `rgba(${r}, ${g}, ${b}, ${alphaValue})`,
-        hex,
-    }
+        alphaValue,
+        `rgb(${r}, ${g}, ${b})`,
+        `rgba(${r}, ${g}, ${b}, ${alphaValue})`,
+        hex
+    )
 }
