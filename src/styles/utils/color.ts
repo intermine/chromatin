@@ -171,7 +171,7 @@ export const getLuminous = (color: RGBA): number => {
     const [R, G, B] = [r, g, b].map((v) => {
         const sRGB = v / 255
         return sRGB <= 0.039_28
-            ? sRGB / 255
+            ? sRGB / 12.92
             : Math.pow((sRGB + 0.055) / 1.055, 2.4)
     })
 
