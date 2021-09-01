@@ -1,4 +1,4 @@
-import { isDevEnv } from '../../utils/misc'
+import { isProdEnv } from '../../utils/misc'
 import { isValidColorHex, isColorOrRGBA } from './check'
 import { hex2rgba, RGBA } from './convert'
 
@@ -28,7 +28,7 @@ export const getTintOrShade = (
     factor = 0.1
 ): string => {
     if (!isColorOrRGBA(color)) {
-        if (isDevEnv()) {
+        if (isProdEnv()) {
             console.error(
                 '[getTintOrShade]: color should be a valid hex'.concat(
                     'code or an instance of RGBA class. Got: ',
@@ -43,7 +43,7 @@ export const getTintOrShade = (
     }
 
     if (factor > 1 || factor < 0) {
-        if (isDevEnv()) {
+        if (isProdEnv()) {
             console.error(
                 '[getTintOrShade] Factor should be between 0 and 1',
                 'Got: '.concat(factor.toString())
@@ -106,7 +106,7 @@ export const createColor = (
     options = {} as CreateColorOptions
 ): BasicColor | undefined => {
     if (!isValidColorHex(baseColor)) {
-        if (isDevEnv()) {
+        if (isProdEnv()) {
             console.error(
                 '[createColor]: Expecting baseColor as hex as string. Got',
                 baseColor
@@ -159,7 +159,7 @@ export const createColor = (
  */
 export const getLuminous = (color: RGBA): number => {
     if (!(color instanceof RGBA)) {
-        if (isDevEnv()) {
+        if (isProdEnv()) {
             console.error('[getLuminous]: color is not an instance of RGBA')
         }
         return 0
@@ -191,7 +191,7 @@ export const getContrastRatio = (
     color2: string | RGBA
 ): number => {
     if (!isColorOrRGBA(color1)) {
-        if (isDevEnv()) {
+        if (isProdEnv()) {
             console.error(
                 '[getContrastRatio]: color1 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
@@ -205,7 +205,7 @@ export const getContrastRatio = (
     }
 
     if (!isColorOrRGBA(color2)) {
-        if (isDevEnv()) {
+        if (isProdEnv()) {
             console.error(
                 '[getContrastRatio]: color2 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
