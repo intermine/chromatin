@@ -1,5 +1,4 @@
-import { isDevEnv } from '../../utils/misc'
-import { RGBAObject } from './convert'
+import { RGBA } from './convert'
 
 /**
  * To check whether given string is a valid color hex value.
@@ -23,4 +22,14 @@ export const isValidColorHex = (hex: string): boolean => {
     return hexRegex.test(hex)
 }
 
-export const isColorOrRGBAObject = (color: string | RGBAObject): boolean => {}
+export const isColorOrRGBA = (color: string | RGBA): color is string | RGBA => {
+    if (!(color instanceof RGBA) && typeof color !== 'string') {
+        return false
+    }
+
+    if (typeof color === 'string' && !isValidColorHex(color)) {
+        return false
+    }
+
+    return true
+}
