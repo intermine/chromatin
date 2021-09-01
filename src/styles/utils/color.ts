@@ -168,7 +168,6 @@ export const getLuminous = (color: RGBA): number => {
     // Formula taken from:
     // https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-procedure
 
-    // ((R sRGB +0.055)/1.055) ^ 2.4
     const [R, G, B] = [r, g, b].map((v) => {
         const sRGB = v / 255
         return sRGB <= 0.039_28
