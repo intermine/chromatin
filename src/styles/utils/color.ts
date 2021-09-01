@@ -32,7 +32,9 @@ export const getTintOrShade = (
             console.error(
                 '[getTintOrShade]: color should be a valid hex'.concat(
                     'code or an instance of RGBA class. Got: ',
-                    typeof color
+                    typeof color,
+                    '-',
+                    color
                 )
             )
         }
@@ -106,8 +108,8 @@ export const createColor = (
     if (!isValidColorHex(baseColor)) {
         if (isDevEnv()) {
             console.error(
-                '[createColor]: Expecting baseColor as hex. Got',
-                typeof baseColor
+                '[createColor]: Expecting baseColor as hex as string. Got',
+                baseColor
             )
         }
         return
@@ -194,7 +196,7 @@ export const getContrastRatio = (
                 '[getContrastRatio]: color1 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
                     ' Got: ',
-                    typeof color1
+                    color1
                 )
             )
         }
@@ -208,7 +210,7 @@ export const getContrastRatio = (
                 '[getContrastRatio]: color2 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
                     ' Got: ',
-                    typeof color2
+                    color2
                 )
             )
         }
