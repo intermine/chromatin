@@ -86,6 +86,7 @@ export const hex2rgba = (hex: string, alpha = 1): RGBAObject => {
         if (isDevEnv()) {
             console.error('[hex2rgba]: Not a valid hex. Given', hex)
         }
+
         return {
             r: 0,
             g: 0,

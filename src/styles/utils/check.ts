@@ -1,4 +1,5 @@
 import { isDevEnv } from '../../utils/misc'
+import { RGBAObject } from './convert'
 
 /**
  * To check whether given string is a valid color hex value.
@@ -13,12 +14,6 @@ import { isDevEnv } from '../../utils/misc'
  */
 export const isValidColorHex = (hex: string): boolean => {
     if (typeof hex !== 'string') {
-        if (isDevEnv()) {
-            console.error(
-                '[isValidColorHex]: Expecting hex as string. Got',
-                typeof hex
-            )
-        }
         return false
     }
 
@@ -27,3 +22,5 @@ export const isValidColorHex = (hex: string): boolean => {
     const hexRegex = new RegExp('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$')
     return hexRegex.test(hex)
 }
+
+export const isColorOrRGBAObject = (color: string | RGBAObject): boolean => {}

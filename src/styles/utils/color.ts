@@ -39,6 +39,10 @@ export const getTintOrShade = (
     }
 
     if (typeof color === 'string' && !isValidColorHex(color)) {
+        console.error(
+            '[getTintOrShade]: Invalid hex color code.',
+            'Got: '.concat(color)
+        )
         return color
     }
 
@@ -105,14 +109,14 @@ export const createColor = (
     baseColor: string,
     options = {} as CreateColorOptions
 ): BasicColor | undefined => {
-    if (isValidColorHex(baseColor)) {
+    if (!isValidColorHex(baseColor)) {
         if (isDevEnv()) {
             console.error(
                 '[createColor]: Expecting baseColor as hex. Got',
                 typeof baseColor
             )
-            return
         }
+        return
     }
 
     const { tintFactor = 0.1, shadeFactor = 0.1, mode = 'light' } = options
@@ -150,3 +154,11 @@ export const createColor = (
 
     return color
 }
+
+/**
+ * Check the contrast ratio of two given color
+ *
+ * @param {(string | RGBAObject)} color1 color 1 hex value or rgba object
+ * @param {(string | RGBAObject)} color2 color 2 hex value or rgba object
+ */
+export const contrastRatio = (color1: string, color2: string): number => {}
