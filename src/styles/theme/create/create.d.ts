@@ -1,4 +1,6 @@
 import { CSSProperties } from 'react'
+import { BasicColor, CreateColorOptions } from '../../colors'
+import { ThemeType } from '../../colors/color'
 
 /**
  * -----------------------------
@@ -16,15 +18,40 @@ export type CreateThemeVarsOptions = Partial<ThemeVars>
  * Color Palette
  * -----------------------------
  */
-export type ThemePaletteColor = any
+export type ThemePaletteColor = BasicColor & {
+    main: string
+    text: string
+    mainLightShade: string
+    mainDarkShade: string
+}
+
 export type ThemePalette = {
     primary: ThemePaletteColor
     secondary: ThemePaletteColor
     error: ThemePaletteColor
     warning: ThemePaletteColor
     info: ThemePaletteColor
+    common: {
+        black: string
+        white: string
+    }
+    contrastThreshold: number
 }
-export type CreateThemePaletteOptions = Partial<ThemePalette>
+
+export type CreateThemePaletteOptionsColorType =
+    | string
+    | ({ baseColor: string } & CreateColorOptions)
+    | (() => ThemePaletteColor)
+
+export type CreateThemePaletteOptions = {
+    primary?: CreateThemePaletteOptionsColorType
+    secondary?: CreateThemePaletteOptionsColorType
+    error?: CreateThemePaletteOptionsColorType
+    warning?: CreateThemePaletteOptionsColorType
+    info?: CreateThemePaletteOptionsColorType
+    themeType?: ThemeType
+    contrastThreshold?: number
+}
 
 /**
  * -----------------------------
