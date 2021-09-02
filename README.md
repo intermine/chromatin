@@ -1,2 +1,2 @@
 # chromatin
-Intermine's component library
+Intermine's component library in React.
