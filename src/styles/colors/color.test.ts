@@ -19,9 +19,20 @@ describe('Testing styles/utils/create-color', () => {
     })
 
     test('Testing createColor', () => {
+        const defaultOutput = {
+            10: '',
+            20: '',
+            30: '',
+            40: '',
+            50: '',
+            60: '',
+            70: '',
+            80: '',
+            90: '',
+        }
         // @ts-expect-error
-        expect(createColor()).toBeUndefined()
-        expect(createColor({} as any)).toBeUndefined()
+        expect(createColor()).toEqual(defaultOutput)
+        expect(createColor({} as any)).toEqual(defaultOutput)
 
         expect(createColor('#23704a')).toEqual({
             '10': '#d3e2da',
