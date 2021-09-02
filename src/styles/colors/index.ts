@@ -14,5 +14,6 @@ export { green } from './constants/green'
 export { grey } from './constants/grey'
 export { red } from './constants/red'
 export { yellow } from './constants/yellow'
+export { purple } from './constants/purple'
 
 export type { BasicColor, CreateColorOptions } from './color'
