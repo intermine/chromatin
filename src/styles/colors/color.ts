@@ -106,7 +106,7 @@ export type CreateColorOptions = {
 export const createColor = (
     baseColor: string,
     options = {} as CreateColorOptions
-): BasicColor | undefined => {
+): BasicColor => {
     if (!isValidColorHex(baseColor)) {
         if (isProdEnv()) {
             console.error(
@@ -114,7 +114,17 @@ export const createColor = (
                 baseColor
             )
         }
-        return
+        return {
+            10: '',
+            20: '',
+            30: '',
+            40: '',
+            50: '',
+            60: '',
+            70: '',
+            80: '',
+            90: '',
+        }
     }
 
     const { tintFactor = 0.1, shadeFactor = 0.1, themeType = 'light' } = options
