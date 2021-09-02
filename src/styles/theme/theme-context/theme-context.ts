@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-import { createTheme } from '../create'
+import { Theme } from '../create'
 
-const ThemeContext = createContext(createTheme())
+const ThemeContext = createContext<Theme | null>(null)
 export default ThemeContext
