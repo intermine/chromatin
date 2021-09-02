@@ -68,19 +68,21 @@ export const getTintOrShade = (
     return `#${ich(r)}${ich(g)}${ich(b)}`
 }
 
+export type ThemeType = 'dark' | 'light'
+
 export type CreateColorOptions = {
     tintFactor?: number
     shadeFactor?: number
-    mode?: 'dark' | 'light'
+    themeType?: ThemeType
 }
 
 /**
  * A utility function which is used for creating basic color object.
  *
- * 10-40 will be created using tint factor if mode is light.
- * 60-90 will be created using shade factor if mode is light.
+ * 10-40 will be created using tint factor if themeType is light.
+ * 60-90 will be created using shade factor if themeType is light.
  * 50 will be the color passed to createColor.
- * if mode is dark then 10-40 is shade and 60-90 is tint.
+ * if themeType is dark then 10-40 is shade and 60-90 is tint.
  *
  * @example
  *  createColor('#23704a')
@@ -115,7 +117,7 @@ export const createColor = (
         return
     }
 
-    const { tintFactor = 0.1, shadeFactor = 0.1, mode = 'light' } = options
+    const { tintFactor = 0.1, shadeFactor = 0.1, themeType = 'light' } = options
     const rgba = hex2rgba(baseColor)
 
     const color: BasicColor = {
@@ -131,7 +133,7 @@ export const createColor = (
     }
 
     for (let i = 1; i <= 4; i += 1) {
-        const key = mode === 'light' ? (5 - i) * 10 : (5 + i) * 10
+        const key = themeType === 'light' ? (5 - i) * 10 : (5 + i) * 10
         color[key as keyof BasicColor] = getTintOrShade(
             rgba,
             true,
@@ -140,7 +142,7 @@ export const createColor = (
     }
 
     for (let i = 1; i <= 4; i += 1) {
-        const key = mode === 'light' ? (5 + i) * 10 : (5 - i) * 10
+        const key = themeType === 'light' ? (5 + i) * 10 : (5 - i) * 10
         color[key as keyof BasicColor] = getTintOrShade(
             rgba,
             false,

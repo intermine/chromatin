@@ -35,7 +35,7 @@ describe('Testing styles/utils/create-color', () => {
             '90': '#06160e',
         })
 
-        expect(createColor('#23704a', { mode: 'dark' })).toEqual({
+        expect(createColor('#23704a', { themeType: 'dark' })).toEqual({
             '90': '#d3e2da',
             '80': '#a7c5b6',
             '70': '#7ba992',
@@ -49,7 +49,7 @@ describe('Testing styles/utils/create-color', () => {
 
         expect(
             createColor('#23704a', {
-                mode: 'light',
+                themeType: 'light',
                 tintFactor: 5,
                 shadeFactor: 4,
             })

@@ -9,8 +9,8 @@ Currently, we only have following colors:
 1. Yellow
 1. Common: White (#fff) and Black (#000)
 
-Above colors consider the theme mode is light. If you need color for dark mode you can use `createColor()`.
+Above colors consider the theme type is light. If you need color for dark type you can use `createColor()`.
 ```js
-const myNewColor = createColor('#23704a', { mode: 'dark'})
+const myNewColor = createColor('#23704a', { themeType: 'dark'})
 console.log(myNewColor[10]) // '#06160e'
 ```
