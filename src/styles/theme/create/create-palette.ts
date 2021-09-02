@@ -1,9 +1,7 @@
-/**
- * Color Variant:
- *  1. Primary
- *  2. Secondary
- *  3. Error
- *  4. Warning
- *  5. Info
- *  6. Success
- */
+import { CreateThemePaletteOptions, ThemePalette } from './create'
+
+export const createPalette = (
+    options = {} as CreateThemePaletteOptions
+): ThemePalette => {
+    return {} as any
+}

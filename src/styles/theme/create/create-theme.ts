@@ -1,8 +1,22 @@
-import { Theme } from './create'
+import { CreateThemeOptions, Theme } from './create'
+import { createPalette } from './create-palette'
 import { createThemeVars } from './create-theme-vars'
+import { createTypography } from './create-typography'
 
-export const createTheme = (): Theme => {
+export const createTheme = (options = {} as CreateThemeOptions): Theme => {
+    const {
+        palette: paletteOptions = {},
+        themeVars: themeVarsOptions = {},
+        typography: typographyOptions = {},
+    } = options
+
+    const themeVars = createThemeVars(themeVarsOptions)
+    const palette = createPalette(paletteOptions)
+    const typography = createTypography(typographyOptions)
+
     return {
-        themeVars: createThemeVars(),
+        themeVars,
+        palette,
+        typography,
     }
 }
