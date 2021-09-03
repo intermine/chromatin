@@ -1,11 +1,12 @@
 module.exports = (api) => {
     const isTest = api.env('test')
-
+    
+    console.log(api.env())
     const ignore = [
-        'src/**/*.stories.ts',
-        'src/**/*.stories.tsx',
-        'src/**/*.stories.js',
-        'src/**/*.stories.jsx',
+        // 'src/**/*.stories.ts',
+        // 'src/**/*.stories.tsx',
+        // 'src/**/*.stories.js',
+        // 'src/**/*.stories.jsx',
     ]
 
     if (!isTest) {
@@ -29,5 +30,6 @@ module.exports = (api) => {
             '@babel/proposal-object-rest-spread',
         ],
         ignore: ignore,
+        babelrcRoots: ['.', '.storybook/*']
     }
 }
