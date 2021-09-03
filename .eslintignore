@@ -3,6 +3,7 @@ dist
 
 # config files
 *.config.ts
+*.config.js
 
 # test files
 *.test.ts
@@ -15,3 +16,4 @@ dist
 *.stories.ts
 *.stories.jsx
 *.stories.js
+*.mdx
