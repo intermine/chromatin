@@ -24,8 +24,8 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
     if (!isValidColorHex(`#${hexValue}`)) {
         if (isProdEnv()) {
             console.error(
-                'Expecting hex value only. Hex without "#"',
-                'Got: '.concat(hexValue)
+                '[Chromatin - hex2rgbArray]: Expecting hex value only.',
+                'Hex without "#". Got: '.concat(hexValue)
             )
         }
 
@@ -86,7 +86,7 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
 export const hex2rgba = (hex: string, alpha = 1): RGBA => {
     if (!isValidColorHex(hex)) {
         if (isProdEnv()) {
-            console.error('[hex2rgba]: Not a valid hex. Given', hex)
+            console.error('[Chromatin - hex2rgba]: Not a valid hex. Given', hex)
         }
 
         return new RGBA(0, 0, 0, 0, '', '', '')

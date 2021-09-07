@@ -30,8 +30,8 @@ export const getTintOrShade = (
     if (!isColorOrRGBA(color)) {
         if (isProdEnv()) {
             console.error(
-                '[getTintOrShade]: color should be a valid hex'.concat(
-                    'code or an instance of RGBA class. Got: ',
+                '[Chromatin - getTintOrShade]: color should be'.concat(
+                    ' a valid hex code or an instance of RGBA class. Got: ',
                     typeof color,
                     '-',
                     color
@@ -45,7 +45,7 @@ export const getTintOrShade = (
     if (factor > 1 || factor < 0) {
         if (isProdEnv()) {
             console.error(
-                '[getTintOrShade] Factor should be between 0 and 1',
+                '[Chromatin - getTintOrShade] Factor should be between 0 and 1',
                 'Got: '.concat(factor.toString())
             )
         }
@@ -110,8 +110,10 @@ export const createColor = (
     if (!isValidColorHex(baseColor)) {
         if (isProdEnv()) {
             console.error(
-                '[createColor]: Expecting baseColor as hex as string. Got',
-                baseColor
+                '[Chromatin - createColor]: Expecting baseColor as hex'.concat(
+                    ' as string. Got',
+                    baseColor
+                )
             )
         }
         return {
@@ -172,7 +174,9 @@ export const createColor = (
 export const getLuminous = (color: RGBA): number => {
     if (!(color instanceof RGBA)) {
         if (isProdEnv()) {
-            console.error('[getLuminous]: color is not an instance of RGBA')
+            console.error(
+                '[Chromatin - getLuminous]: color is not an instance of RGBA'
+            )
         }
         return 0
     }
@@ -205,7 +209,7 @@ export const getContrastRatio = (
     if (!isColorOrRGBA(color1)) {
         if (isProdEnv()) {
             console.error(
-                '[getContrastRatio]: color1 is not valid.'.concat(
+                '[Chromatin - getContrastRatio]: color1 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
                     ' Got: ',
                     color1
@@ -219,7 +223,7 @@ export const getContrastRatio = (
     if (!isColorOrRGBA(color2)) {
         if (isProdEnv()) {
             console.error(
-                '[getContrastRatio]: color2 is not valid.'.concat(
+                '[Chromatin - getContrastRatio]: color2 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
                     ' Got: ',
                     color2
