@@ -43,8 +43,8 @@ export const createStyle = <T, U>(
     }
 
     /**
-     * Currently, there is no way to add type which support extension
-     * current props, therefore type of props is 'any' here.
+     * Currently, there is no way to add type which supports extension
+     * of current props, therefore type of props is 'any' here.
      *
      * TODO: Need to fix type of props.
      */
