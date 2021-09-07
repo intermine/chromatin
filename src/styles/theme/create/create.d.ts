@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react'
+import { CSSObject } from 'styled-components'
 import { BasicColor, CreateColorOptions } from '../../colors'
 import { ThemeType } from '../../colors/color'
 
@@ -7,9 +7,10 @@ import { ThemeType } from '../../colors/color'
  * Theme Vars
  * -----------------------------
  */
-export type ThemeVariableFunction<T> = (theme: Theme, props: T) => CSSProperties
+export type ThemeVariableFunction<T> = (theme: Theme, props: T) => CSSObject
 export type ThemeVars = {
     button: ThemeVariableFunction<any>
+    buttonBase: ThemeVariableFunction<any>
 }
 export type CreateThemeVarsOptions = Partial<ThemeVars>
 
@@ -36,6 +37,7 @@ export type ThemePalette = {
         white: string
     }
     contrastThreshold: number
+    themeType: ThemeType
 }
 
 export type CreateThemePaletteOptionsColorType =
