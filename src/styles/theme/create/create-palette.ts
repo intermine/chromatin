@@ -1,3 +1,4 @@
+import { mergeDeep } from '../../../utils/misc'
 import {
     blue,
     common,
@@ -63,6 +64,7 @@ export const createPalette = (
         themeType = 'light',
         grey = greyColor,
         darkGrey = darkGreyColor,
+        hover: hoverInput = {},
     } = options
 
     const primary = createIndividualPalette(primaryProps, {
@@ -90,6 +92,10 @@ export const createPalette = (
         themeType,
     })
 
+    const hover = mergeDeep(
+        { opacity: 0.06, tintOrShadeFactor: 0.2 },
+        hoverInput
+    )
     return {
         primary,
         error,
@@ -101,5 +107,6 @@ export const createPalette = (
         themeType,
         grey,
         darkGrey,
+        hover,
     }
 }

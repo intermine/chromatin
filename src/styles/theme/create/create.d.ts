@@ -53,6 +53,10 @@ export type ThemePalette = {
     themeType: ThemeType
     grey: BasicColor
     darkGrey: BasicColor
+    hover: {
+        opacity: number
+        tintOrShadeFactor: number
+    }
 }
 
 export type CreateThemePaletteOptionsColorType =
@@ -70,6 +74,10 @@ export type CreateThemePaletteOptions = {
     darkGrey?: BasicColor
     themeType?: ThemeType
     contrastThreshold?: number
+    hover?: {
+        opacity?: number
+        tintOrShadeFactor?: number
+    }
 }
 
 /**
