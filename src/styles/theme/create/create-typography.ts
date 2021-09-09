@@ -32,13 +32,13 @@ export const createTypography = (
     const {
         documentFontSize = 16,
         fontFamily: fontFamilyInput = {},
-        scale: scaleInput = 'goldenRatio',
+        scale: scaleInput = 'perfectForth',
     } = options
 
     const scale =
         typeof scaleInput === 'number'
             ? scaleInput
-            : scales[scaleInput] ?? scales['goldenRatio']
+            : scales[scaleInput] ?? scales['perfectForth']
 
     const fontFamily = mergeDeep(fontFamilyInput, {
         bold: {
