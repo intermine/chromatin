@@ -1,4 +1,13 @@
-import { blue, common, green, purple, red, yellow } from '../../colors'
+import {
+    blue,
+    common,
+    green,
+    purple,
+    red,
+    yellow,
+    darkGrey as darkGreyColor,
+    grey as greyColor,
+} from '../../colors'
 import { createColor, getContrastRatio, ThemeType } from '../../colors/color'
 import {
     CreateThemePaletteOptions,
@@ -52,6 +61,8 @@ export const createPalette = (
         info: infoProps = blue[50],
         contrastThreshold = 3,
         themeType = 'light',
+        grey = greyColor,
+        darkGrey = darkGreyColor,
     } = options
 
     const primary = createIndividualPalette(primaryProps, {
@@ -87,5 +98,8 @@ export const createPalette = (
         warning,
         common,
         contrastThreshold,
+        themeType,
+        grey,
+        darkGrey,
     }
 }
