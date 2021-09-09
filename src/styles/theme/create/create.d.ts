@@ -124,10 +124,11 @@ export type ThemeElevation = {
     low: string
     medium: string
     high: string
+    themeType: ThemeType
 }
 
-export type CreateThemeElevationOptions = ThemeElevation & {
-    theme?: ThemeType
+export type CreateThemeElevationOptions = Partial<ThemeElevation> & {
+    themeType?: ThemeType
 }
 
 /**
@@ -146,4 +147,5 @@ export type CreateThemeOptions = {
     themeVars?: CreateThemeVarsOptions
     palette?: CreateThemePaletteOptions
     typography?: CreateThemeTypographyOptions
+    elevation?: CreateThemeElevationOptions
 }
