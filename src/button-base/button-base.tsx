@@ -1,5 +1,11 @@
 import React, { ButtonHTMLAttributes } from 'react'
 import { CSSObject } from 'styled-components'
+import {
+    getContrastRatio,
+    getTintOrShade,
+    hex2rgba,
+    isValidColorHex,
+} from '../styles/colors'
 import { createStyle } from '../styles/theme/create/create-style'
 import { isThemeColorName } from '../styles/theme/create/create-theme'
 
@@ -22,12 +28,28 @@ type ButtonBaseRootProps = ButtonBaseCommonProps & {
     states: ButtonBaseCommonProps
 }
 
+const boxShadowWithBorder = (
+    shadow: string,
+    border: string | undefined
+): string => {
+    if (border) return `${border}, ${shadow}`
+    return shadow
+}
+
 const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
     'button',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { palette, elevation } = themePropsForThemeVarFn
-        const { themeType, common, grey, darkGrey, ...themeColors } = palette
+        const {
+            themeType,
+            common,
+            grey,
+            darkGrey,
+            contrastThreshold,
+            hover,
+            ...themeColors
+        } = palette
 
         const { states } = props
         const {
@@ -80,31 +102,29 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             if (variant === 'outlined') {
                 const boxShadowBase = '0 0 0 1px'
                 if (!isThemeColorName(color)) {
-                    const borderColor =
-                        themeType === 'light' ? grey[50] : darkGrey[50]
-                    return `${boxShadowBase} ${borderColor}`
+                    return `${boxShadowBase} ${color}`
                 }
-
                 return `${boxShadowBase} ${themeColors[color].main}`
             }
         }
 
-        const getColor = (): string => {
+        const getColor = (): string | undefined => {
             if (disabled) {
                 return themeType === 'light' ? darkGrey[90] : grey[90]
             }
 
-            if (!isThemeColorName(color)) {
-                if (!color) themeType === 'light' ? common.black : common.white
-                /**
-                 * If color is unknown then button will try to get
-                 * color form it's parent
-                 */
-                return ''
+            if (variant === 'normal') {
+                if (isThemeColorName(color)) return themeColors[color].text
+                if (isValidColorHex(color))
+                    return getContrastRatio(color, common.white) >
+                        contrastThreshold
+                        ? common.white
+                        : common.black
+                return
             }
 
-            if (variant === 'normal') {
-                return themeColors[color].text
+            if (!isThemeColorName(color)) {
+                return color
             }
 
             return themeColors[color].mainDarkShade
@@ -112,30 +132,86 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
 
         const getFocusProperties = (): CSSObject => {
             const boxShadowBase = '0 0 0 3px'
-
-            if (!isThemeColorName(color)) {
-                const c = themeType === 'light' ? grey[20] : darkGrey[40]
-                return { boxShadow: `${boxShadowBase} ${c}` }
-            }
-
             const borderAsBoxShadow = getBoxShadow()
 
+            if (!isThemeColorName(color)) {
+                if (isValidColorHex(color)) {
+                    const c = hex2rgba(color, 0.2).rgba
+                    return {
+                        boxShadow: boxShadowWithBorder(
+                            `${boxShadowBase} ${c}`,
+                            borderAsBoxShadow
+                        ),
+                    }
+                }
+                return {}
+            }
+
             return {
-                boxShadow: `${
-                    borderAsBoxShadow ? borderAsBoxShadow + ',' : ''
-                } ${boxShadowBase} ${themeColors[color][10]}`,
+                boxShadow: boxShadowWithBorder(
+                    `${boxShadowBase} ${
+                        hex2rgba(themeColors[color].main, 0.2).rgba
+                    }`,
+                    borderAsBoxShadow
+                ),
             }
         }
 
         const getHoverProperties = (): CSSObject => {
-            if (!isThemeColorName(color)) {
-                const c = themeType === 'light' ? grey[40] : darkGrey[60]
-                return { background: c }
-            }
-
             if (variant === 'normal') {
+                if (!isThemeColorName(color)) {
+                    if (!isValidColorHex(color)) return {}
+                    return {
+                        background: getTintOrShade(
+                            color,
+                            themeType !== 'light',
+                            hover.tintOrShadeFactor
+                        ),
+                    }
+                }
+
                 return {
                     background: themeColors[color].mainDarkShade,
+                }
+            }
+
+            if (!isThemeColorName(color)) {
+                if (!isValidColorHex(color)) return {}
+                return { background: hex2rgba(color, hover.opacity).rgba }
+            }
+
+            return {
+                background: hex2rgba(themeColors[color].main, hover.opacity)
+                    .rgba,
+            }
+        }
+
+        const getActiveProperties = (): CSSObject => {
+            if (variant === 'normal') {
+                if (!isThemeColorName(color)) {
+                    if (!isValidColorHex(color)) return {}
+                    return {
+                        background: getTintOrShade(
+                            color,
+                            themeType === 'light',
+                            hover.tintOrShadeFactor
+                        ),
+                    }
+                }
+
+                return {
+                    background: themeColors[color].mainLightShade,
+                }
+            }
+
+            if (!isThemeColorName(color)) {
+                if (!isValidColorHex(color)) return {}
+                return {
+                    background: getTintOrShade(
+                        color,
+                        themeType === 'light',
+                        hover.tintOrShadeFactor * 4
+                    ),
                 }
             }
 
@@ -170,12 +246,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             },
 
             '&:hover': getHoverProperties(),
-            '&:active&:hover': {
-                background: isThemeColorName(color)
-                    ? themeColors[color].mainLightShade
-                    : undefined,
-            },
-
+            '&:active&:hover': getActiveProperties(),
             '&:focus': getFocusProperties(),
 
             '@media print': {
