@@ -40,23 +40,26 @@ export const createTypography = (
             ? scaleInput
             : scales[scaleInput] ?? scales['perfectForth']
 
-    const fontFamily = mergeDeep(fontFamilyInput, {
-        bold: {
-            name: defaultFontFamily,
-            weight: defaultBoldFontWeight,
-            lineHeight: defaultLineHeight,
+    const fontFamily = mergeDeep(
+        {
+            bold: {
+                name: defaultFontFamily,
+                weight: defaultBoldFontWeight,
+                lineHeight: defaultLineHeight,
+            },
+            regular: {
+                name: defaultFontFamily,
+                weight: defaultRegularFontWeight,
+                lineHeight: defaultLineHeight,
+            },
+            light: {
+                name: defaultFontFamily,
+                weight: defaultLightFontWeight,
+                lineHeight: defaultLineHeight,
+            },
         },
-        regular: {
-            name: defaultFontFamily,
-            weight: defaultRegularFontWeight,
-            lineHeight: defaultLineHeight,
-        },
-        light: {
-            name: defaultFontFamily,
-            weight: defaultLightFontWeight,
-            lineHeight: defaultLineHeight,
-        },
-    })
+        fontFamilyInput
+    )
 
     return {
         h1: fontMixin(
