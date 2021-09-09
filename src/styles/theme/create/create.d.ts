@@ -1,16 +1,22 @@
 import { CSSObject } from 'styled-components'
+import { ButtonBaseCommonProps } from '../../../button-base/button-base'
 import { BasicColor, CreateColorOptions } from '../../colors'
 import { ThemeType } from '../../colors/color'
+import { FontMixinReturn, namedTypographyScales } from '../../typography'
 
 /**
  * -----------------------------
  * Theme Vars
  * -----------------------------
  */
-export type ThemeVariableFunction<T> = (theme: Theme, props: T) => CSSObject
+export type ThemeVariableFunction<T> = (
+    theme: Omit<Theme, 'themeVars'>,
+    props: T
+) => CSSObject
+
 export type ThemeVars = {
     button: ThemeVariableFunction<any>
-    buttonBase: ThemeVariableFunction<any>
+    buttonBase: ThemeVariableFunction<ButtonBaseCommonProps>
 }
 export type CreateThemeVarsOptions = Partial<ThemeVars>
 
@@ -26,6 +32,13 @@ export type ThemePaletteColor = BasicColor & {
     mainDarkShade: string
 }
 
+export type ThemeColorName =
+    | 'primary'
+    | 'secondary'
+    | 'error'
+    | 'info'
+    | 'warning'
+
 export type ThemePalette = {
     primary: ThemePaletteColor
     secondary: ThemePaletteColor
@@ -38,6 +51,8 @@ export type ThemePalette = {
     }
     contrastThreshold: number
     themeType: ThemeType
+    grey: BasicColor
+    darkGrey: BasicColor
 }
 
 export type CreateThemePaletteOptionsColorType =
@@ -51,6 +66,8 @@ export type CreateThemePaletteOptions = {
     error?: CreateThemePaletteOptionsColorType
     warning?: CreateThemePaletteOptionsColorType
     info?: CreateThemePaletteOptionsColorType
+    grey?: BasicColor
+    darkGrey?: BasicColor
     themeType?: ThemeType
     contrastThreshold?: number
 }
@@ -60,12 +77,7 @@ export type CreateThemePaletteOptions = {
  * Typography
  * -----------------------------
  */
-export type ThemeTypographyTagsProperties = {
-    fontSize: string
-    fontFamily: string
-    fontWeight: string
-    lineHeight: string
-}
+export type ThemeTypographyTagsProperties = FontMixinReturn
 
 export type ThemeTypography = {
     h1: ThemeTypographyTagsProperties
@@ -79,10 +91,44 @@ export type ThemeTypography = {
     caption: ThemeTypographyTagsProperties
     title: ThemeTypographyTagsProperties
     small: ThemeTypographyTagsProperties
-    xs: ThemeTypographyTagsProperties
+    meta: {
+        // document font size in px.
+        documentFontSize: number
+    }
 }
 
-export type CreateThemeTypographyOptions = Partial<ThemeTypography>
+export type CreateThemeTypographyOptionsObject = {
+    scale?: number | keyof typeof namedTypographyScales
+    /**
+     * Document font size is in px. Only give the number value.
+     */
+    documentFontSize?: number
+    fontFamily?: {
+        bold?: { name?: string; weight?: number; lineHeight?: number }
+        regular?: { name?: string; weight?: number; lineHeight?: number }
+        medium?: { name?: string; weight?: number; lineHeight?: number }
+    }
+}
+
+export type CreateThemeTypographyOptions =
+    | CreateThemeTypographyOptionsObject
+    | (() => ThemeTypography)
+
+/**
+ * -----------------------------
+ * Elevation
+ * -----------------------------
+ */
+export type ThemeElevation = {
+    none: string
+    low: string
+    medium: string
+    high: string
+}
+
+export type CreateThemeElevationOptions = ThemeElevation & {
+    theme?: ThemeType
+}
 
 /**
  * -----------------------------
@@ -93,6 +139,7 @@ export type Theme = {
     themeVars: ThemeVars
     palette: ThemePalette
     typography: ThemeTypography
+    elevation: ThemeElevation
 }
 
 export type CreateThemeOptions = {
