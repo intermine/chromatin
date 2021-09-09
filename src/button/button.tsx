@@ -21,7 +21,7 @@ const ButtonRoot = createStyle<typeof ButtonBase, ButtonProps<'button'>>(
         return {
             borderRadius: 4,
             padding: getPadding(),
-            transition: '0.230s',
+            transition: '0.130s',
             ...(size === 'small' ? bodySm : body),
             ...themeVars.button(themePropsForThemeVarFn, props),
         }
