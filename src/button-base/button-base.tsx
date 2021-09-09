@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react'
+import { CSSObject } from 'styled-components'
 import { createStyle } from '../styles/theme/create/create-style'
 import { isThemeColorName } from '../styles/theme/create/create-theme'
 
@@ -48,9 +49,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                  * Ghost and outlined variant didn't have any background
                  * by default
                  */
-                if (disabled) {
-                }
-                return ''
+                return 'transparent'
             }
 
             if (isThemeColorName(color)) {
@@ -68,6 +67,26 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
              * based on theme type
              */
             return grey[40]
+        }
+
+        const getBoxShadow = (): string | undefined => {
+            if (variant === 'normal') {
+                if (elevationProps) {
+                    return elevation.low
+                }
+                return
+            }
+
+            if (variant === 'outlined') {
+                const boxShadowBase = '0 0 0 1px'
+                if (!isThemeColorName(color)) {
+                    const borderColor =
+                        themeType === 'light' ? grey[50] : darkGrey[50]
+                    return `${boxShadowBase} ${borderColor}`
+                }
+
+                return `${boxShadowBase} ${themeColors[color].main}`
+            }
         }
 
         const getColor = (): string => {
@@ -88,7 +107,41 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 return themeColors[color].text
             }
 
-            return themeColors[color].main
+            return themeColors[color].mainDarkShade
+        }
+
+        const getFocusProperties = (): CSSObject => {
+            const boxShadowBase = '0 0 0 3px'
+
+            if (!isThemeColorName(color)) {
+                const c = themeType === 'light' ? grey[20] : darkGrey[40]
+                return { boxShadow: `${boxShadowBase} ${c}` }
+            }
+
+            const borderAsBoxShadow = getBoxShadow()
+
+            return {
+                boxShadow: `${
+                    borderAsBoxShadow ? borderAsBoxShadow + ',' : ''
+                } ${boxShadowBase} ${themeColors[color][10]}`,
+            }
+        }
+
+        const getHoverProperties = (): CSSObject => {
+            if (!isThemeColorName(color)) {
+                const c = themeType === 'light' ? grey[40] : darkGrey[60]
+                return { background: c }
+            }
+
+            if (variant === 'normal') {
+                return {
+                    background: themeColors[color].mainDarkShade,
+                }
+            }
+
+            return {
+                background: themeColors[color][10],
+            }
         }
 
         return {
@@ -97,7 +150,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             border: 0,
             borderRadius: 0,
             boxSizing: 'border-box',
-            boxShadow: (elevationProps && elevation.low) || undefined,
+            boxShadow: getBoxShadow(),
             color: getColor(),
             cursor: 'pointer',
             display: 'inline-flex',
@@ -116,13 +169,14 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            // '&:active': {
-            //     boxShadow: elevation && elevation.high,
-            // },
+            '&:hover': getHoverProperties(),
+            '&:active&:hover': {
+                background: isThemeColorName(color)
+                    ? themeColors[color].mainLightShade
+                    : undefined,
+            },
 
-            // '&:focus': {
-            //     boxShadow: elevation && elevation.medium,
-            // },
+            '&:focus': getFocusProperties(),
 
             '@media print': {
                 colorAdjust: 'exact',
