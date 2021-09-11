@@ -10,14 +10,14 @@ import type { Theme } from './create'
 import { useTheme } from '../use-theme'
 
 export type CreateStyleObject = CSSObject
-export type IsStyleComponent<T> = T extends
+export type Component<T> = T extends
     | React.JSXElementConstructor<any>
     | keyof JSX.IntrinsicElements
     ? T
     : 'div'
 
 export type CreateStyleFunctionProps<T, U> = ThemedStyledProps<
-    StyledComponentPropsWithRef<IsStyleComponent<T>> & U,
+    StyledComponentPropsWithRef<Component<T>> & U,
     any
 >
 
@@ -31,9 +31,9 @@ export type CreateStyleObjectOrFunction<T, U> =
     | CreateStyleFunction<T, U>
 
 export const createStyle = <T, U>(
-    component: IsStyleComponent<T>,
+    component: Component<T>,
     objOrFn: CreateStyleObjectOrFunction<T, U>
-): StyledComponent<IsStyleComponent<T>, any> => {
+): StyledComponent<Component<T>, any> => {
     const themeStyledFunction = (
         props: CreateStyleFunctionProps<T, U>
     ): CSSObject => {
