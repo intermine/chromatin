@@ -48,6 +48,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             darkGrey,
             contrastThreshold,
             hover,
+            focus,
             ...themeColors
         } = palette
 
@@ -133,10 +134,10 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         const getFocusProperties = (): CSSObject => {
             const boxShadowBase = '0 0 0 3px'
             const borderAsBoxShadow = getBoxShadow()
-
+            // const colorOpacity =
             if (!isThemeColorName(color)) {
                 if (isValidColorHex(color)) {
-                    const c = hex2rgba(color, 0.2).rgba
+                    const c = hex2rgba(color, focus.borderOpacity).rgba
                     return {
                         boxShadow: boxShadowWithBorder(
                             `${boxShadowBase} ${c}`,
@@ -150,7 +151,8 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             return {
                 boxShadow: boxShadowWithBorder(
                     `${boxShadowBase} ${
-                        hex2rgba(themeColors[color].main, 0.2).rgba
+                        hex2rgba(themeColors[color].main, focus.borderOpacity)
+                            .rgba
                     }`,
                     borderAsBoxShadow
                 ),
