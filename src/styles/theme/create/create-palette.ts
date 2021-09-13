@@ -66,6 +66,7 @@ export const createPalette = (
         grey = greyColor,
         darkGrey = darkGreyColor,
         hover: hoverInput = {},
+        focus: focusInput = {},
     } = options
 
     const primary = createIndividualPalette(primaryProps, {
@@ -97,6 +98,12 @@ export const createPalette = (
         { opacity: 0.06, tintOrShadeFactor: 0.2 },
         hoverInput
     )
+
+    const focus = mergeDeep(
+        { borderOpacity: themeType === 'light' ? 0.2 : 0.4 },
+        focusInput
+    )
+
     return {
         primary,
         error,
@@ -109,5 +116,6 @@ export const createPalette = (
         grey,
         darkGrey,
         hover,
+        focus,
     }
 }

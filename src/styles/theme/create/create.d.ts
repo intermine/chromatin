@@ -57,6 +57,9 @@ export type ThemePalette = {
         opacity: number
         tintOrShadeFactor: number
     }
+    focus: {
+        borderOpacity: number
+    }
 }
 
 export type CreateThemePaletteOptionsColorType =
@@ -77,6 +80,9 @@ export type CreateThemePaletteOptions = {
     hover?: {
         opacity?: number
         tintOrShadeFactor?: number
+    }
+    focus?: {
+        borderOpacity?: number
     }
 }
 
