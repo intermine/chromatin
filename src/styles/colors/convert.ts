@@ -2,15 +2,30 @@ import { isProdEnv } from '../../utils/misc'
 import { isValidColorHex } from './check'
 
 export class RGBA {
+    public r: number
+    public g: number
+    public b: number
+    public alpha: number
+    public rgb: string
+    public rgba: string
+    public hex: string
     constructor(
-        public r: number,
-        public g: number,
-        public b: number,
-        public alpha: number,
-        public rgb: string,
-        public rgba: string,
-        public hex: string
-    ) {}
+        r: number,
+        g: number,
+        b: number,
+        alpha: number,
+        rgb: string,
+        rgba: string,
+        hex: string
+    ) {
+        this.r = r
+        this.g = g
+        this.b = b
+        this.alpha = alpha
+        this.rgb = rgb
+        this.rgba = rgba
+        this.hex = hex
+    }
 }
 
 /**
@@ -96,6 +111,18 @@ export const hex2rgba = (hex: string, alpha = 1): RGBA => {
     const alphaValue = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha
     const [r, g, b] = hex2rgbArray(value)
 
+    console.log(
+        'Neww',
+        new RGBA(
+            r,
+            g,
+            b,
+            alphaValue,
+            `rgb(${r}, ${g}, ${b})`,
+            `rgba(${r}, ${g}, ${b}, ${alphaValue})`,
+            hex
+        )
+    )
     return new RGBA(
         r,
         g,
