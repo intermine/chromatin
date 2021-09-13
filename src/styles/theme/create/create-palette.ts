@@ -54,6 +54,7 @@ const createIndividualPalette = (
 export const createPalette = (
     options = {} as CreateThemePaletteOptions
 ): ThemePalette => {
+    // TODO: Add condition default color based on theme.
     const {
         primary: primaryProps = green[50],
         secondary: secondaryProps = purple[50],
