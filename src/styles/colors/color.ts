@@ -207,7 +207,7 @@ export const getContrastRatio = (
     color2: string | RGBA
 ): number => {
     if (!isColorOrRGBA(color1)) {
-        if (isProdEnv()) {
+        if (!isProdEnv()) {
             console.error(
                 '[Chromatin - getContrastRatio]: color1 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
@@ -221,7 +221,7 @@ export const getContrastRatio = (
     }
 
     if (!isColorOrRGBA(color2)) {
-        if (isProdEnv()) {
+        if (!isProdEnv()) {
             console.error(
                 '[Chromatin - getContrastRatio]: color2 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
