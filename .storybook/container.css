@@ -1,0 +1,18 @@
+body {
+    padding: 0 !important;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.component-container {
+    padding: 1rem 2rem;
+}
+
+.with.dark {
+    background: #202020;
+    color: #fff;
+}
