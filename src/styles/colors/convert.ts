@@ -111,18 +111,6 @@ export const hex2rgba = (hex: string, alpha = 1): RGBA => {
     const alphaValue = alpha > 1 ? 1 : alpha < 0 ? 0 : alpha
     const [r, g, b] = hex2rgbArray(value)
 
-    console.log(
-        'Neww',
-        new RGBA(
-            r,
-            g,
-            b,
-            alphaValue,
-            `rgb(${r}, ${g}, ${b})`,
-            `rgba(${r}, ${g}, ${b}, ${alphaValue})`,
-            hex
-        )
-    )
     return new RGBA(
         r,
         g,
