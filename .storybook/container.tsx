@@ -17,9 +17,9 @@ export default ({ story, context }) => {
             })
         )
         if (themeContext === 'dark') {
-            document.querySelector('.with').classList.add('dark')
+            document.querySelector('.container').classList.add('dark')
         } else {
-            document.querySelector('.with').classList.remove('dark')
+            document.querySelector('.container').classList.remove('dark')
         }
     }, [themeContext])
 
