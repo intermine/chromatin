@@ -16,6 +16,7 @@ Default.args = {
     color: 'primary',
     Component: 'button',
     disabled: false,
+    noHighlightOnFocus: false,
 }
 
 export const LinkAsButton = Template.bind({})

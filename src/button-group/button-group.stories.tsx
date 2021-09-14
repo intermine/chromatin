@@ -109,4 +109,6 @@ ButtonGroupWithButtonHavingIcon.args = {
     variant: 'normal',
     Component: 'button',
     onClick: () => console.log('Main button clicked'),
+    elevation: false,
+    noHighlightOnFocus: false,
 }

@@ -15,6 +15,7 @@ export interface ButtonBaseCommonProps
     color?: string
     innerRef?: React.RefObject<any>
     elevation?: boolean
+    noHighlightOnFocus?: boolean
 }
 
 export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
@@ -26,14 +27,6 @@ export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
 
 type ButtonBaseRootProps = ButtonBaseCommonProps & {
     states: ButtonBaseCommonProps
-}
-
-const boxShadowWithBorder = (
-    shadow: string,
-    border: string | undefined
-): string => {
-    if (border) return `${border}, ${shadow}`
-    return shadow
 }
 
 const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
@@ -58,6 +51,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             color = '',
             disabled = false,
             elevation: elevationProps = true,
+            noHighlightOnFocus = false,
         } = states
 
         const getBackground = (): string => {
@@ -90,6 +84,16 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
              * based on theme type
              */
             return grey[40]
+        }
+
+        const boxShadowWithBorder = (
+            shadow: string,
+            border: string | undefined
+        ): string => {
+            if (noHighlightOnFocus && border) return border
+            if (noHighlightOnFocus) return ''
+            if (border) return `${border}, ${shadow}`
+            return shadow
         }
 
         const getBoxShadow = (): string | undefined => {
@@ -224,7 +228,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         }
 
         const calculatedColor = getColor()
-
+        const calculatedHoverProperties = getHoverProperties()
         return {
             alignItems: 'center',
             backgroundColor: getBackground(),
@@ -251,9 +255,12 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            '&:hover': getHoverProperties(),
+            '&:hover': calculatedHoverProperties,
             '&:active&:hover': getActiveProperties(),
-            '&:focus': getFocusProperties(),
+            '&:focus': {
+                ...getFocusProperties(),
+                ...calculatedHoverProperties,
+            },
 
             '@media print': {
                 colorAdjust: 'exact',
@@ -282,6 +289,7 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         variant,
         tabIndex = 0,
         elevation,
+        noHighlightOnFocus = false,
         ...rest
     } = props
 
@@ -290,7 +298,7 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
             as={Component}
             className={className}
             ref={innerRef}
-            states={{ color, variant, disabled, elevation }}
+            states={{ color, variant, disabled, elevation, noHighlightOnFocus }}
             disabled={disabled}
             tabIndex={tabIndex}
             {...rest}
