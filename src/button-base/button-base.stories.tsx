@@ -10,10 +10,26 @@ const Template: Story = ({ children, ...args }) => (
     <ButtonBase {...args}>{children}</ButtonBase>
 )
 
-export const Primary = Template.bind({})
-Primary.args = {
+export const Default = Template.bind({})
+Default.args = {
     children: 'Button Base',
     color: 'primary',
     Component: 'button',
+    disabled: false,
+}
+
+export const LinkAsButton = Template.bind({})
+LinkAsButton.args = {
+    children: 'Button Base',
+    color: 'primary',
+    Component: 'a',
+    disabled: false,
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+    children: 'Button Base',
+    color: 'primary',
+    Component: 'a',
     disabled: true,
 }
