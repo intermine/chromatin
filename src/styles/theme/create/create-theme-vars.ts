@@ -10,10 +10,12 @@ export const createThemeVars = (
     const {
         button = themeVarDefaultFunction,
         buttonBase = themeVarDefaultFunction,
+        iconButton = themeVarDefaultFunction,
     } = options
 
     return {
         button,
         buttonBase,
+        iconButton,
     }
 }
