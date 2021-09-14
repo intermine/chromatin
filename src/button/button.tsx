@@ -68,7 +68,7 @@ const ButtonRoot = createStyle<typeof ButtonBase, ButtonProps<'button'>>(
         }
 
         return {
-            borderRadius: 4,
+            borderRadius: '0.25rem',
             padding: getPadding(),
             width: (fullWidth && '100%') || undefined,
             transition: '0.130s',
