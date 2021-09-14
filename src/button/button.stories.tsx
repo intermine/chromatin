@@ -15,12 +15,13 @@ const Template: Story = ({ children, ...args }) => (
 export const Default = Template.bind({})
 Default.args = {
     children: 'Send Mail',
-    color: 'primary',
+    color: 'neutral',
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
     disabled: false,
-    fullWidth: true,
+    fullWidth: false,
+    elevation: true,
 }
 
 export const ButtonWithIcon = Template.bind({})
@@ -33,6 +34,7 @@ ButtonWithIcon.args = {
     disabled: false,
     RightIcon: <SendMail />,
     fullWidth: false,
+    elevation: true,
 }
 
 export const FullWidthButton = Template.bind({})
@@ -44,6 +46,7 @@ FullWidthButton.args = {
     onFocus: () => console.log('I am on focus'),
     disabled: false,
     fullWidth: true,
+    elevation: true,
 }
 
 export const Disabled = Template.bind({})
@@ -55,4 +58,5 @@ Disabled.args = {
     onFocus: () => console.log('I am on focus'),
     disabled: true,
     fullWidth: true,
+    elevation: true,
 }

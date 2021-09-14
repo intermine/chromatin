@@ -18,6 +18,7 @@ const ButtonGroupRoot = createStyle<'div', ButtonGroupProps>('div', () => {
             borderRightWidth: 0,
             marginRight: '0.0625rem',
             marginLeft: '0.0625rem',
+            position: 'relative',
         },
 
         '& .bg-child:first-child': {
@@ -25,6 +26,7 @@ const ButtonGroupRoot = createStyle<'div', ButtonGroupProps>('div', () => {
             borderTopLeftRadius: '0.25rem',
             marginLeft: 0,
         },
+
         '& .bg-child:last-child': {
             borderBottomRightRadius: '0.25rem',
             borderTopRightRadius: '0.25rem',
