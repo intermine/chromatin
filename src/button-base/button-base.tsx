@@ -134,7 +134,6 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         const getFocusProperties = (): CSSObject => {
             const boxShadowBase = '0 0 0 3px'
             const borderAsBoxShadow = getBoxShadow()
-            // const colorOpacity =
             if (!isThemeColorName(color)) {
                 if (isValidColorHex(color)) {
                     const c = hex2rgba(color, focus.borderOpacity).rgba
