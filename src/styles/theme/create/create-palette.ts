@@ -101,7 +101,7 @@ export const createPalette = (
     )
 
     const focus = mergeDeep(
-        { borderOpacity: themeType === 'light' ? 0.2 : 0.4 },
+        { borderOpacity: themeType === 'light' ? 0.5 : 0.8 },
         focusInput
     )
 

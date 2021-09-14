@@ -150,8 +150,10 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             return {
                 boxShadow: boxShadowWithBorder(
                     `${boxShadowBase} ${
-                        hex2rgba(themeColors[color].main, focus.borderOpacity)
-                            .rgba
+                        hex2rgba(
+                            themeColors[color].mainDarkShade,
+                            focus.borderOpacity
+                        ).rgba
                     }`,
                     borderAsBoxShadow
                 ),
