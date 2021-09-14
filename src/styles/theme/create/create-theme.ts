@@ -25,7 +25,8 @@ export const isThemeColorName = (
         colorName === 'secondary' ||
         colorName === 'error' ||
         colorName === 'warning' ||
-        colorName === 'info'
+        colorName === 'info' ||
+        colorName === 'neutral'
     )
         return true
     return false

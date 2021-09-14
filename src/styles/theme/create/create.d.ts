@@ -48,6 +48,7 @@ export type ThemePalette = {
     error: ThemePaletteColor
     warning: ThemePaletteColor
     info: ThemePaletteColor
+    neutral: ThemePaletteColor
     common: {
         black: string
         white: string
@@ -76,6 +77,7 @@ export type CreateThemePaletteOptions = {
     error?: CreateThemePaletteOptionsColorType
     warning?: CreateThemePaletteOptionsColorType
     info?: CreateThemePaletteOptionsColorType
+    neutral?: CreateThemePaletteOptionsColorType
     grey?: BasicColor
     darkGrey?: BasicColor
     themeType?: ThemeType

@@ -65,34 +65,35 @@ export const createPalette = (
         themeType = 'light',
         grey = greyColor,
         darkGrey = darkGreyColor,
+        neutral: neutralProps = themeType === 'light' ? grey[50] : darkGrey[50],
         hover: hoverInput = {},
         focus: focusInput = {},
     } = options
 
-    const primary = createIndividualPalette(primaryProps, {
-        contrastThreshold,
-        themeType,
-    })
+    const individualPaletteOptions = { contrastThreshold, themeType }
+    const primary = createIndividualPalette(
+        primaryProps,
+        individualPaletteOptions
+    )
 
-    const secondary = createIndividualPalette(secondaryProps, {
-        contrastThreshold,
-        themeType,
-    })
+    const secondary = createIndividualPalette(
+        secondaryProps,
+        individualPaletteOptions
+    )
 
-    const error = createIndividualPalette(errorProps, {
-        contrastThreshold,
-        themeType,
-    })
+    const error = createIndividualPalette(errorProps, individualPaletteOptions)
 
-    const warning = createIndividualPalette(warningProps, {
-        contrastThreshold,
-        themeType,
-    })
+    const warning = createIndividualPalette(
+        warningProps,
+        individualPaletteOptions
+    )
 
-    const info = createIndividualPalette(infoProps, {
-        contrastThreshold,
-        themeType,
-    })
+    const info = createIndividualPalette(infoProps, individualPaletteOptions)
+
+    const neutral = createIndividualPalette(
+        neutralProps,
+        individualPaletteOptions
+    )
 
     const hover = mergeDeep(
         { opacity: themeType === 'light' ? 0.06 : 0.1, tintOrShadeFactor: 0.2 },
@@ -117,5 +118,6 @@ export const createPalette = (
         darkGrey,
         hover,
         focus,
+        neutral,
     }
 }
