@@ -1,8 +1,10 @@
 import { CSSObject } from 'styled-components'
-import { ButtonBaseCommonProps } from '../../../button-base/button-base'
 import { BasicColor, CreateColorOptions } from '../../colors'
 import { ThemeType } from '../../colors/color'
 import { FontMixinReturn, namedTypographyScales } from '../../typography'
+
+// Component Props
+import { ButtonProps, ButtonBaseCommonProps, IconButtonProps } from '../../..'
 
 /**
  * -----------------------------
@@ -15,8 +17,9 @@ export type ThemeVariableFunction<T> = (
 ) => CSSObject
 
 export type ThemeVars = {
-    button: ThemeVariableFunction<any>
+    button: ThemeVariableFunction<ButtonProps<'button'>>
     buttonBase: ThemeVariableFunction<ButtonBaseCommonProps>
+    iconButton: ThemeVariableFunction<IconButtonProps<'button'>>
 }
 export type CreateThemeVarsOptions = Partial<ThemeVars>
 

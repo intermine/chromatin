@@ -3,12 +3,12 @@ import { createStyle } from '../styles'
 
 import type { ReactElement } from '../styles'
 
-export type ButtonProps<T> = ButtonBaseProps<T> & {
+export type IconButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
     Icon?: ReactElement
 }
 
-const ButtonRoot = createStyle<typeof ButtonBase, ButtonProps<'button'>>(
+const ButtonRoot = createStyle<typeof ButtonBase, IconButtonProps<'button'>>(
     ButtonBase,
     (theme, props) => {
         const { size = 'regular' } = props
@@ -33,12 +33,12 @@ const ButtonRoot = createStyle<typeof ButtonBase, ButtonProps<'button'>>(
             padding: getPadding(),
             transition: '0.130s',
             width: dim,
-            ...themeVars.button(themePropsForThemeVarFn, props),
+            ...themeVars.iconButton(themePropsForThemeVarFn, props),
         }
     }
 )
 
-export const IconButton = <T,>(props: ButtonProps<T>): JSX.Element => {
+export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
     const { Icon, variant = 'ghost', ...rest } = props
     return (
         <ButtonRoot variant={variant} {...rest}>
