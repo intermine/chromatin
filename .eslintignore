@@ -17,3 +17,6 @@ dist
 *.stories.jsx
 *.stories.js
 *.mdx
+
+# icons
+icons
