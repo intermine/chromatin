@@ -163,3 +163,11 @@ export type CreateThemeOptions = {
     typography?: CreateThemeTypographyOptions
     elevation?: CreateThemeElevationOptions
 }
+
+export type ReactElement =
+    | React.ReactNode
+    | Element
+    | React.ReactChildren
+    | undefined
+    | null
+    | ReactElement[]

@@ -7,6 +7,7 @@ export { useTheme } from './use-theme'
 
 export {
     createTheme,
+    isThemeColorName,
     createThemeVars,
     createStyle,
     createTypography,
@@ -36,4 +37,5 @@ export type {
     CreateStyleObject,
     CreateStyleFunctionProps,
     CreateStyleFunction,
+    ReactElement,
 } from './create'

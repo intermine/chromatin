@@ -1,4 +1,4 @@
-export { createTheme } from './create-theme'
+export { createTheme, isThemeColorName } from './create-theme'
 export { createThemeVars } from './create-theme-vars'
 export { createElevation } from './create-elevation'
 export { createPalette } from './create-palette'
@@ -30,4 +30,5 @@ export type {
     ThemeTypography,
     ThemeTypographyTagsProperties,
     ThemeVariableFunction,
+    ReactElement,
 } from './create'

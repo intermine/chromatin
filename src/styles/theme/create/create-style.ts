@@ -6,7 +6,7 @@ import styled, {
     CSSObject,
 } from 'styled-components'
 
-import type { Theme } from './create'
+import type { Theme, ReactElement } from './create'
 import { useTheme } from '../use-theme'
 
 export type CreateStyleObject = CSSObject
@@ -29,14 +29,6 @@ export type CreateStyleFunction<T, U> = (
 export type CreateStyleObjectOrFunction<T, U> =
     | CreateStyleObject
     | CreateStyleFunction<T, U>
-
-export type ReactElement =
-    | React.ReactNode
-    | Element
-    | React.ReactChildren
-    | undefined
-    | null
-    | ReactElement[]
 
 type AddAdditionProps<U> = U extends string
     ? { children?: ReactElement }

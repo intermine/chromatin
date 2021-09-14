@@ -11,6 +11,8 @@ export {
     createTypography,
     createPalette,
     createElevation,
+    isThemeColorName,
+    useTheme,
 } from './theme'
 
 // --------------------------
@@ -38,6 +40,7 @@ export type {
     CreateStyleObject,
     CreateStyleFunctionProps,
     CreateStyleFunction,
+    ReactElement,
 } from './theme'
 
 // --------------------------
