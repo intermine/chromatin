@@ -30,15 +30,15 @@ export type CreateStyleObjectOrFunction<T, U> =
     | CreateStyleObject
     | CreateStyleFunction<T, U>
 
-export type Children =
+export type ReactElement =
     | React.ReactNode
     | Element
     | React.ReactChildren
-    | Children[]
+    | ReactElement[]
 
 type AddAdditionProps<U> = U extends string
-    ? { children?: Children }
-    : U & { children?: Children }
+    ? { children?: ReactElement }
+    : U & { children?: ReactElement }
 
 export const createStyle = <T, U>(
     component: Component<T>,
