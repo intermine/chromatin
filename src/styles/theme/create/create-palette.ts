@@ -95,7 +95,7 @@ export const createPalette = (
     })
 
     const hover = mergeDeep(
-        { opacity: 0.06, tintOrShadeFactor: 0.2 },
+        { opacity: themeType === 'light' ? 0.06 : 0.1, tintOrShadeFactor: 0.2 },
         hoverInput
     )
 
