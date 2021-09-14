@@ -5,9 +5,9 @@ import {
     getTintOrShade,
     hex2rgba,
     isValidColorHex,
-} from '../styles/colors'
-import { createStyle } from '../styles/theme/create/create-style'
-import { isThemeColorName } from '../styles/theme/create/create-theme'
+    isThemeColorName,
+    createStyle,
+} from '../styles'
 
 export interface ButtonBaseCommonProps
     extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'as' | 'ref'> {
@@ -222,6 +222,8 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             }
         }
 
+        const calculatedColor = getColor()
+
         return {
             alignItems: 'center',
             backgroundColor: getBackground(),
@@ -229,9 +231,10 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             borderRadius: 0,
             boxSizing: 'border-box',
             boxShadow: getBoxShadow(),
-            color: getColor(),
+            color: calculatedColor,
             cursor: 'pointer',
             display: 'inline-flex',
+            fill: calculatedColor,
             justifyContent: 'center',
             margin: 0,
             outline: 0,
