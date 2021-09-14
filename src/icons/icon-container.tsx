@@ -1,9 +1,15 @@
-import { createStyle } from '../styles'
+import { createStyle, ReactElement } from '../styles'
 
-export type IconContainerProps = {}
+export type IconContainerProps = {
+    children?: ReactElement
+}
 
 const Span = createStyle('span', (theme, props) => {
-    return {}
+    return {
+        alignItems: 'center',
+        display: 'inline-flex',
+        justifyContent: 'center',
+    }
 })
 
 export const IconContainer = (props: IconContainerProps) => {
