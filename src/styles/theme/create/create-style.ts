@@ -30,10 +30,20 @@ export type CreateStyleObjectOrFunction<T, U> =
     | CreateStyleObject
     | CreateStyleFunction<T, U>
 
+export type Children =
+    | React.ReactNode
+    | Element
+    | React.ReactChildren
+    | Children[]
+
+type AddAdditionProps<U> = U extends string
+    ? { children?: Children }
+    : U & { children?: Children }
+
 export const createStyle = <T, U>(
     component: Component<T>,
     objOrFn: CreateStyleObjectOrFunction<T, U>
-): StyledComponent<Component<T>, any> => {
+): StyledComponent<Component<T>, any, AddAdditionProps<U>, never> => {
     const themeStyledFunction = (
         props: CreateStyleFunctionProps<T, U>
     ): CSSObject => {
@@ -48,5 +58,7 @@ export const createStyle = <T, U>(
      *
      * TODO: Need to fix type of props.
      */
-    return styled(component)((props: any) => themeStyledFunction(props))
+    return (styled(component)((props: any) =>
+        themeStyledFunction(props)
+    ) as unknown) as any
 }
