@@ -1,5 +1,7 @@
-import { Story, Meta } from '@storybook/react/types-6-0'
+import { Story } from '@storybook/react/types-6-0'
 import { Button } from './button'
+
+import HomeIcon from '../icons/Communication/video-chat-fill'
 
 export default {
     title: 'Button',
@@ -18,4 +20,5 @@ Primary.args = {
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
     disabled: false,
+    RightIcon: <HomeIcon />,
 }
