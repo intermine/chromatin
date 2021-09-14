@@ -60,7 +60,7 @@ async function readAndWrite(svgPath, output) {
     const file = await fs.readFile(svgPath, { encoding: 'utf8' })
     const fileName = path.basename(svgPath, '.svg') + '.tsx'
 
-    const template = `import { IconContainer, IconContainerProps } from '../'
+    const template = `import { IconContainer, IconContainerProps } from '../icon-container'
 
 export default (props: IconContainerProps): JSX.Element =>
         <IconContainer {...props}>${file}</IconContainer>
