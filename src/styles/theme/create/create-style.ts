@@ -34,6 +34,8 @@ export type ReactElement =
     | React.ReactNode
     | Element
     | React.ReactChildren
+    | undefined
+    | null
     | ReactElement[]
 
 type AddAdditionProps<U> = U extends string
