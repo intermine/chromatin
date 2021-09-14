@@ -1,17 +1,5 @@
 import { Story, Meta } from '@storybook/react/types-6-0'
-// import mdx from './button-base.mdx'
 import { Button } from './button'
-
-// export default {
-//     title: 'Component/Button',
-//     component: Button,
-//     parameters: {
-//         component: Button,
-//         // docs: {
-//         //     page: mdx,
-//         // },
-//     },
-// } as Meta
 
 export default {
     title: 'Button',
@@ -29,4 +17,5 @@ Primary.args = {
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
+    disabled: false,
 }
