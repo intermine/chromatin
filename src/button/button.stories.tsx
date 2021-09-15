@@ -14,7 +14,7 @@ const Template: Story = ({ children, ...args }) => (
 
 export const Default = Template.bind({})
 Default.args = {
-    children: 'Send Mail',
+    children: 'Neutral Button',
     color: 'neutral',
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
@@ -59,4 +59,11 @@ Disabled.args = {
     disabled: true,
     fullWidth: true,
     elevation: true,
+}
+
+export const ButtonWithCustomColor = Template.bind({})
+ButtonWithCustomColor.args = {
+    children: 'InterMine Green',
+    color: '#C0D848',
+    disabled: false,
 }
