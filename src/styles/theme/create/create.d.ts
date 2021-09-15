@@ -74,6 +74,7 @@ export type ThemePalette = {
     }
     focus: {
         borderOpacity: number
+        unknownColorBorderOpacity: number
     }
 }
 

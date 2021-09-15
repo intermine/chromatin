@@ -166,7 +166,17 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                         ),
                     }
                 }
-                return {}
+
+                const c = hex2rgba(
+                    tto(themeType, black, white),
+                    focus.unknownColorBorderOpacity
+                ).rgba
+                return {
+                    boxShadow: boxShadowWithBorder(
+                        `${boxShadowBase} ${c}`,
+                        borderAsBoxShadow
+                    ),
+                }
             }
 
             return {
@@ -260,7 +270,6 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         }
 
         const calculatedColor = getColor()
-        const calculatedHoverProperties = getHoverProperties()
 
         return {
             alignItems: 'center',
@@ -288,12 +297,9 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            '&:hover': calculatedHoverProperties,
+            '&:hover': getHoverProperties(),
             '&:active&:hover': getActiveProperties(),
-            '&:focus': {
-                ...getFocusProperties(),
-                ...calculatedHoverProperties,
-            },
+            '&:focus': getFocusProperties(),
 
             '@media print': {
                 colorAdjust: 'exact',
