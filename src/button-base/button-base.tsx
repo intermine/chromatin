@@ -270,6 +270,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         }
 
         const calculatedColor = getColor()
+        const calculatedHoverProperties = getHoverProperties()
 
         return {
             alignItems: 'center',
@@ -297,9 +298,12 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            '&:hover': getHoverProperties(),
+            '&:hover': calculatedHoverProperties,
             '&:active&:hover': getActiveProperties(),
-            '&:focus': getFocusProperties(),
+            '&:focus': {
+                ...getFocusProperties(),
+                ...calculatedHoverProperties,
+            },
 
             '@media print': {
                 colorAdjust: 'exact',
