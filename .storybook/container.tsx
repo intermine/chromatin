@@ -13,9 +13,7 @@ export default ({ story, context }) => {
     React.useEffect(() => {
         setTheme(
             createTheme({
-                palette: {
-                    themeType: themeContext,
-                },
+                themeType: themeContext,
             })
         )
         if (themeContext === 'dark') {
