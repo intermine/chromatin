@@ -7,6 +7,7 @@ import {
     isValidColorHex,
     isThemeColorName,
     createStyle,
+    themeTernaryOperator as tto,
 } from '../styles'
 
 export interface ButtonBaseCommonProps
@@ -36,12 +37,11 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         const { palette, elevation } = themePropsForThemeVarFn
         const {
             themeType,
-            common,
-            grey,
-            darkGrey,
+            common: { black, white },
             contrastThreshold,
             hover,
             focus,
+            active,
             ...themeColors
         } = palette
 
@@ -54,11 +54,22 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             noHighlightOnFocus = false,
         } = states
 
+        const getMainColor = (inverted = false): string => {
+            if (!isThemeColorName(color)) return ''
+            if (color !== 'neutral') return themeColors[color].main
+            if (!inverted) return tto(themeType, black, white)
+            return tto(themeType, white, black)
+        }
+
         const getBackground = (): string => {
             if (disabled) {
                 if (variant === 'ghost')
-                    return themeType === 'light' ? grey[20] : darkGrey[20]
-                return themeType === 'light' ? grey[50] : darkGrey[50]
+                    return tto(
+                        themeType,
+                        themeColors.disable[20],
+                        themeColors.disable[30]
+                    )
+                return themeColors.disable.main
             }
 
             if (variant !== 'normal') {
@@ -83,7 +94,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
              * If there is no value then returning default color
              * based on theme type
              */
-            return grey[40]
+            return themeColors.neutral.main
         }
 
         const boxShadowWithBorder = (
@@ -98,7 +109,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
 
         const getBoxShadow = (): string | undefined => {
             if (variant === 'normal') {
-                if (elevationProps) {
+                if (elevationProps && !disabled) {
                     return elevation.low
                 }
                 return
@@ -106,25 +117,30 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
 
             if (variant === 'outlined') {
                 const boxShadowBase = '0 0 0 1px'
+                if (disabled)
+                    return `${boxShadowBase} ${themeColors.disable[60]}`
+
                 if (!isThemeColorName(color)) {
+                    if (!color) return
                     return `${boxShadowBase} ${color}`
                 }
-                return `${boxShadowBase} ${themeColors[color].main}`
+
+                const shadowColor = getMainColor()
+                return `${boxShadowBase} ${shadowColor}`
             }
         }
 
         const getColor = (): string | undefined => {
             if (disabled) {
-                return themeType === 'light' ? darkGrey[90] : grey[90]
+                return themeColors.disable[70]
             }
 
             if (variant === 'normal') {
                 if (isThemeColorName(color)) return themeColors[color].text
                 if (isValidColorHex(color))
-                    return getContrastRatio(color, common.white) >
-                        contrastThreshold
-                        ? common.white
-                        : common.black
+                    return getContrastRatio(color, white) > contrastThreshold
+                        ? white
+                        : black
                 return
             }
 
@@ -132,10 +148,12 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 return color
             }
 
-            return themeColors[color].mainDarkShade
+            return getMainColor()
         }
 
         const getFocusProperties = (): CSSObject => {
+            if (!color || disabled) return {}
+
             const boxShadowBase = '0 0 0 3px'
             const borderAsBoxShadow = getBoxShadow()
             if (!isThemeColorName(color)) {
@@ -165,9 +183,12 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         }
 
         const getHoverProperties = (): CSSObject => {
+            if (!color || disabled) return {}
+
             if (variant === 'normal') {
                 if (!isThemeColorName(color)) {
-                    if (!isValidColorHex(color)) return {}
+                    if (!isValidColorHex(color))
+                        return { opacity: hover.unknownColorOpacity }
                     return {
                         background: getTintOrShade(
                             color,
@@ -183,25 +204,37 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             }
 
             if (!isThemeColorName(color)) {
-                if (!isValidColorHex(color)) return {}
-                return { background: hex2rgba(color, hover.opacity).rgba }
+                if (!isValidColorHex(color))
+                    return {
+                        opacity: hover.unknownColorOpacity,
+                    }
+                return {
+                    background: hex2rgba(
+                        color,
+                        hover.ghostElementBackgroundOpacity
+                    ).rgba,
+                }
             }
 
             return {
-                background: hex2rgba(themeColors[color].main, hover.opacity)
-                    .rgba,
+                background: hex2rgba(
+                    getMainColor(),
+                    hover.ghostElementBackgroundOpacity
+                ).rgba,
             }
         }
 
         const getActiveProperties = (): CSSObject => {
+            if (!color || disabled) return {}
+
             if (variant === 'normal') {
                 if (!isThemeColorName(color)) {
-                    if (!isValidColorHex(color)) return {}
+                    if (!isValidColorHex(color)) return { opacity: 1 }
                     return {
                         background: getTintOrShade(
                             color,
                             themeType === 'light',
-                            hover.tintOrShadeFactor
+                            active.tintOrShadeFactor
                         ),
                     }
                 }
@@ -212,13 +245,12 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             }
 
             if (!isThemeColorName(color)) {
-                if (!isValidColorHex(color)) return {}
+                if (!isValidColorHex(color)) return { opacity: 1 }
                 return {
-                    background: getTintOrShade(
+                    background: hex2rgba(
                         color,
-                        themeType === 'light',
-                        hover.tintOrShadeFactor * 4
-                    ),
+                        active.ghostElementBackgroundOpacity
+                    ).rgba,
                 }
             }
 
@@ -229,6 +261,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
 
         const calculatedColor = getColor()
         const calculatedHoverProperties = getHoverProperties()
+
         return {
             alignItems: 'center',
             backgroundColor: getBackground(),
@@ -246,7 +279,7 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             position: 'relative',
             textDecoration: 'none',
 
-            ':disabled': {
+            ':disabled, &[disabled]': {
                 pointerEvents: 'none',
                 cursor: 'default',
             },
