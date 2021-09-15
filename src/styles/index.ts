@@ -63,6 +63,7 @@ export {
     purple,
     red,
     yellow,
+    themeTernaryOperator,
 } from './colors'
 
 // --------------------------
