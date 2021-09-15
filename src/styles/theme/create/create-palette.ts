@@ -6,10 +6,13 @@ import {
     purple,
     red,
     yellow,
+    lightGreen,
     darkGrey as darkGreyColor,
     grey as greyColor,
+    orange,
+    themeTernaryOperator as tto,
 } from '../../colors'
-import { createColor, getContrastRatio, ThemeType } from '../../colors/color'
+import { createColor, getContrastRatio, ThemeType } from '../../colors'
 import {
     CreateThemePaletteOptions,
     CreateThemePaletteOptionsColorType,
@@ -22,6 +25,8 @@ type CreateIndividualPaletteOptions = {
     themeType: ThemeType
 }
 
+const { white, black } = common
+
 const createIndividualPalette = (
     color: CreateThemePaletteOptionsColorType,
     options: CreateIndividualPaletteOptions
@@ -30,17 +35,20 @@ const createIndividualPalette = (
         return color()
     }
 
-    const { contrastThreshold } = options
+    const { contrastThreshold, themeType } = options
 
     const basicColor =
         typeof color === 'string'
             ? createColor(color, options)
             : createColor(color.baseColor, color)
 
+    const textColorFirstPref = tto(themeType, white, black)
+    const textColorSecondPref = tto(themeType, black, white)
+
     const text =
-        getContrastRatio(basicColor[50], common.white) > contrastThreshold
-            ? common.white
-            : common.black
+        getContrastRatio(basicColor[50], textColorFirstPref) > contrastThreshold
+            ? textColorFirstPref
+            : textColorSecondPref
 
     return {
         ...basicColor,
@@ -54,20 +62,21 @@ const createIndividualPalette = (
 export const createPalette = (
     options = {} as CreateThemePaletteOptions
 ): ThemePalette => {
-    // TODO: Add condition default color based on theme.
     const {
-        primary: primaryProps = green[50],
-        secondary: secondaryProps = purple[50],
-        error: errorProps = red[50],
-        warning: warningProps = yellow[50],
-        info: infoProps = blue[50],
-        contrastThreshold = 3,
         themeType = 'light',
+        contrastThreshold = 3,
         grey = greyColor,
         darkGrey = darkGreyColor,
-        neutral: neutralProps = themeType === 'light' ? grey[50] : darkGrey[50],
+        primary: primaryProps = tto(themeType, green[50], lightGreen[50]),
+        secondary: secondaryProps = tto(themeType, purple[50], purple[30]),
+        error: errorProps = tto(themeType, red[60], red[40]),
+        warning: warningProps = tto(themeType, orange[50], yellow[50]),
+        info: infoProps = tto(themeType, blue[60], blue[40]),
+        neutral: neutralProps = tto(themeType, grey[20], darkGrey[30]),
+        disable: disableProps = tto(themeType, grey[50], darkGrey[50]),
         hover: hoverInput = {},
         focus: focusInput = {},
+        active: activeInput = {},
     } = options
 
     const individualPaletteOptions = { contrastThreshold, themeType }
@@ -95,13 +104,34 @@ export const createPalette = (
         individualPaletteOptions
     )
 
+    const disable = createIndividualPalette(
+        disableProps,
+        individualPaletteOptions
+    )
+
     const hover = mergeDeep(
-        { opacity: themeType === 'light' ? 0.06 : 0.1, tintOrShadeFactor: 0.2 },
+        {
+            ghostElementBackgroundOpacity: themeType === 'light' ? 0.06 : 0.1,
+            unknownColorOpacity: 0.7,
+            tintOrShadeFactor: 0.2,
+        },
         hoverInput
     )
 
+    const active = mergeDeep(
+        {
+            ghostElementBackgroundOpacity: themeType === 'light' ? 0.2 : 0.3,
+            tintOrShadeFactor: 0.2,
+            unknownColorOpacity: 1,
+        },
+        activeInput
+    )
+
     const focus = mergeDeep(
-        { borderOpacity: themeType === 'light' ? 0.5 : 0.8 },
+        {
+            borderOpacity: themeType === 'light' ? 0.5 : 0.8,
+            unknownColorBorderOpacity: 0.65,
+        },
         focusInput
     )
 
@@ -118,6 +148,12 @@ export const createPalette = (
         darkGrey,
         hover,
         focus,
+        active,
         neutral,
+        disable,
+        recommendedThemeBackground: {
+            light: '#ffffff',
+            dark: '#121212',
+        },
     }
 }

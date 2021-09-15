@@ -33,10 +33,11 @@ export const isThemeColorName = (
 }
 export const createTheme = (options = {} as CreateThemeOptions): Theme => {
     const {
-        palette: paletteOptions = {},
+        themeType = 'light',
+        palette: paletteOptions = { themeType },
         themeVars: themeVarsOptions = {},
         typography: typographyOptions = {},
-        elevation: elevationOptions = {},
+        elevation: elevationOptions = { themeType },
     } = options
 
     const themeVars = createThemeVars(themeVarsOptions)

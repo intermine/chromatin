@@ -41,14 +41,19 @@ export type ThemeColorName =
     | 'error'
     | 'info'
     | 'warning'
+    | 'neutral'
 
 export type ThemePalette = {
+    recommendedThemeBackground: {
+        [x in ThemeType]: string
+    }
     primary: ThemePaletteColor
     secondary: ThemePaletteColor
     error: ThemePaletteColor
     warning: ThemePaletteColor
     info: ThemePaletteColor
     neutral: ThemePaletteColor
+    disable: ThemePaletteColor
     common: {
         black: string
         white: string
@@ -58,8 +63,14 @@ export type ThemePalette = {
     grey: BasicColor
     darkGrey: BasicColor
     hover: {
-        opacity: number
+        ghostElementBackgroundOpacity: number
+        unknownColorOpacity: number
         tintOrShadeFactor: number
+    }
+    active: {
+        unknownColorOpacity: number
+        tintOrShadeFactor: number
+        ghostElementBackgroundOpacity: number
     }
     focus: {
         borderOpacity: number
@@ -78,16 +89,24 @@ export type CreateThemePaletteOptions = {
     warning?: CreateThemePaletteOptionsColorType
     info?: CreateThemePaletteOptionsColorType
     neutral?: CreateThemePaletteOptionsColorType
+    disable?: CreateThemePaletteOptionsColorType
     grey?: BasicColor
     darkGrey?: BasicColor
     themeType?: ThemeType
     contrastThreshold?: number
     hover?: {
-        opacity?: number
+        ghostElementBackgroundOpacity?: number
+        unknownColorOpacity?: number
         tintOrShadeFactor?: number
+    }
+    active?: {
+        tintOrShadeFactor?: number
+        unknownColorOpacity?: number
+        ghostElementBackgroundOpacity?: number
     }
     focus?: {
         borderOpacity?: number
+        unknownColorBorderOpacity?: number
     }
 }
 
@@ -163,6 +182,7 @@ export type Theme = {
 }
 
 export type CreateThemeOptions = {
+    themeType?: ThemeType
     themeVars?: CreateThemeVarsOptions
     palette?: CreateThemePaletteOptions
     typography?: CreateThemeTypographyOptions
