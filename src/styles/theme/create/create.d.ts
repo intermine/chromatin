@@ -4,7 +4,12 @@ import { ThemeType } from '../../colors/color'
 import { FontMixinReturn, namedTypographyScales } from '../../typography'
 
 // Component Props
-import { ButtonProps, ButtonBaseCommonProps, IconButtonProps } from '../../..'
+import {
+    ButtonProps,
+    ButtonBaseCommonProps,
+    IconButtonProps,
+    ButtonGroupProps,
+} from '../../..'
 
 /**
  * -----------------------------
@@ -20,6 +25,7 @@ export type ThemeVars = {
     button: ThemeVariableFunction<ButtonProps<'button'>>
     buttonBase: ThemeVariableFunction<ButtonBaseCommonProps>
     iconButton: ThemeVariableFunction<IconButtonProps<'button'>>
+    buttonGroup: ThemeVariableFunction<ButtonGroupProps>
 }
 export type CreateThemeVarsOptions = Partial<ThemeVars>
 

@@ -11,11 +11,13 @@ export const createThemeVars = (
         button = themeVarDefaultFunction,
         buttonBase = themeVarDefaultFunction,
         iconButton = themeVarDefaultFunction,
+        buttonGroup = themeVarDefaultFunction,
     } = options
 
     return {
         button,
         buttonBase,
         iconButton,
+        buttonGroup,
     }
 }
