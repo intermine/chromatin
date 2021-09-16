@@ -22,8 +22,8 @@ Default.args = {
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
     disabled: false,
-    fullWidth: false,
-    elevation: true,
+    hasFullWidth: false,
+    hasElevation: true,
 }
 
 export const ButtonWithIcon = Template.bind({})

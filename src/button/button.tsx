@@ -13,7 +13,6 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
 
 type IconContainerProps = {
     isRight?: boolean
-    color?: string
     /**
      * same as button sizes
      */
@@ -21,10 +20,10 @@ type IconContainerProps = {
     children: ReactElement
 }
 
-const IconSpan = createStyledComponent<'span', IconContainerProps>(
+const IconContainer = createStyledComponent<'span', IconContainerProps>(
     'span',
     (_, props) => {
-        const { isRight, size = 'regular' } = props
+        const { isRight, size = 'regular', children } = props
 
         const getIconProperties = (): CSSObject => {
             let dim = '1rem'
@@ -33,6 +32,12 @@ const IconSpan = createStyledComponent<'span', IconContainerProps>(
 
             dim = '0.75rem'
             return { height: dim, width: dim }
+        }
+
+        if (!children) {
+            return {
+                display: 'none',
+            }
         }
 
         return {
@@ -45,14 +50,6 @@ const IconSpan = createStyledComponent<'span', IconContainerProps>(
         }
     }
 )
-
-const IconContainer = (props: IconContainerProps) => {
-    const { children, ...rest } = props
-
-    if (!children) return <></>
-
-    return <IconSpan {...rest}>{children}</IconSpan>
-}
 
 const ButtonRoot = createStyledComponent<
     typeof ButtonBase,

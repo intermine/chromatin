@@ -47,9 +47,8 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
     'button',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { palette, elevation } = themePropsForThemeVarFn
+        const { palette, elevation, themeType } = themePropsForThemeVarFn
         const {
-            themeType,
             common: { black, white },
             contrastThreshold,
             hover,
@@ -77,12 +76,8 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
 
         const getBackground = (): string => {
             if (disabled) {
-                if (variant === 'ghost')
-                    return tto(
-                        themeType,
-                        themeColors.disable[20],
-                        themeColors.disable[30]
-                    )
+                if (variant === 'ghost') return themeColors.disable[20]
+
                 return themeColors.disable.main
             }
 
@@ -130,7 +125,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
             }
 
             if (variant === 'outlined') {
-                const boxShadowBase = '0 0 0 1px'
+                const boxShadowBase = 'inset 0 0 0 1px'
                 if (disabled)
                     return `${boxShadowBase} ${themeColors.disable[60]}`
 

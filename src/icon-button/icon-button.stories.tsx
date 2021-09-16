@@ -15,6 +15,8 @@ Default.args = {
     Icon: <SendMail />,
     color: 'primary',
     disabled: false,
+    hasHighlightOnFocus: true,
+    hasHoverEffectOnFocus: false,
 }
 
 export const Disabled = Template.bind({})
