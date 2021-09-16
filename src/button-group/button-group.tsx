@@ -1,6 +1,6 @@
 import React, { HTMLProps } from 'react'
 import { ButtonBaseCommonProps } from '..'
-import { createStyle } from '../styles'
+import { createStyledComponent } from '../styles'
 
 export interface ButtonGroupProps
     extends Omit<HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
@@ -9,7 +9,7 @@ export interface ButtonGroupProps
     innerRef?: React.RefObject<any>
 }
 
-const ButtonGroupRoot = createStyle<'div', ButtonGroupProps>(
+const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
     'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme

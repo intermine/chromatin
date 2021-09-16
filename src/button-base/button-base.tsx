@@ -6,7 +6,7 @@ import {
     hex2rgba,
     isValidColorHex,
     isThemeColorName,
-    createStyle,
+    createStyledComponent,
     themeTernaryOperator as tto,
 } from '../styles'
 
@@ -43,7 +43,7 @@ type ButtonBaseRootProps = ButtonBaseCommonProps & {
     states: ButtonBaseCommonProps
 }
 
-const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
+const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
     'button',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme

@@ -7,7 +7,7 @@ export {
     defaultTheme,
     createTheme,
     createThemeVars,
-    createStyle,
+    createStyledComponent,
     createTypography,
     createPalette,
     createElevation,
@@ -36,10 +36,10 @@ export type {
     CreateThemePaletteOptions,
     CreateThemeOptions,
     CreateThemeElevationOptions,
-    CreateStyleObjectOrFunction,
-    CreateStyleObject,
-    CreateStyleFunctionProps,
-    CreateStyleFunction,
+    CreateStyledComponentObjectOrFunction,
+    CreateStyledComponentObject,
+    CreateStyledComponentFunctionProps,
+    CreateStyledComponentFunction,
     ReactElement,
 } from './theme'
 

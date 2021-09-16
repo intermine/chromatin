@@ -1,9 +1,9 @@
 import { isProdEnv } from '../../../utils/misc'
 import { CreateThemeOptions, Theme, ThemeColorName } from './create'
-import { createPalette } from './create-palette'
-import { createThemeVars } from './create-theme-vars'
-import { createTypography } from './create-typography'
-import { createElevation } from './create-elevation'
+import { createPalette } from './palette'
+import { createThemeVars } from './theme-vars'
+import { createTypography } from './typography'
+import { createElevation } from './elevation'
 
 export const isThemeColorName = (
     colorName: string

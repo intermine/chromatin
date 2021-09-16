@@ -1,17 +1,17 @@
-export { createTheme, isThemeColorName } from './create-theme'
-export { createThemeVars } from './create-theme-vars'
-export { createElevation } from './create-elevation'
-export { createPalette } from './create-palette'
-export { createStyle } from './create-style'
-export { createTypography } from './create-typography'
+export { createTheme, isThemeColorName } from './theme'
+export { createThemeVars } from './theme-vars'
+export { createElevation } from './elevation'
+export { createPalette } from './palette'
+export { createStyledComponent } from './style'
+export { createTypography } from './typography'
 
 export type {
     Component as StyleComponent,
-    CreateStyleFunction,
-    CreateStyleFunctionProps,
-    CreateStyleObject,
-    CreateStyleObjectOrFunction,
-} from './create-style'
+    CreateStyledComponentFunction,
+    CreateStyledComponentFunctionProps,
+    CreateStyledComponentObject,
+    CreateStyledComponentObjectOrFunction,
+} from './style'
 
 export type {
     Theme,
