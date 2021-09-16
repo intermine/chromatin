@@ -12,6 +12,8 @@ export const createThemeVars = (
         buttonBase = themeVarDefaultFunction,
         iconButton = themeVarDefaultFunction,
         buttonGroup = themeVarDefaultFunction,
+        inputBase = themeVarDefaultFunction,
+        input = themeVarDefaultFunction,
     } = options
 
     return {
@@ -19,5 +21,7 @@ export const createThemeVars = (
         buttonBase,
         iconButton,
         buttonGroup,
+        inputBase,
+        input,
     }
 }
