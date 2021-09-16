@@ -40,7 +40,6 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
     const children = React.Children.map(childrenProps, (child: any) => {
         return React.cloneElement(child, {
             elevation: false,
-            noHighlightOnFocus: true,
             ...rest,
             ...child.props,
             className: 'bg-child ' + (child.props.className ?? ''),

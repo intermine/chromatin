@@ -15,8 +15,21 @@ export interface ButtonBaseCommonProps
     variant?: 'normal' | 'outlined' | 'ghost'
     color?: string
     innerRef?: React.RefObject<any>
+    /**
+     * This is not applicable for ghost and outlined variant
+     * @default true
+     */
     elevation?: boolean
-    noHighlightOnFocus?: boolean
+    /**
+     * @default true
+     */
+    highlightOnFocus?: boolean
+    /**
+     * Whether to have hover effect applicable
+     * when the element is focused.
+     * @default false
+     */
+    hoverEffectOnFocus?: boolean
 }
 
 export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
@@ -51,7 +64,8 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             color = '',
             disabled = false,
             elevation: elevationProps = true,
-            noHighlightOnFocus = false,
+            highlightOnFocus = true,
+            hoverEffectOnFocus = false,
         } = states
 
         const getMainColor = (inverted = false): string => {
@@ -101,8 +115,8 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             shadow: string,
             border: string | undefined
         ): string => {
-            if (noHighlightOnFocus && border) return border
-            if (noHighlightOnFocus) return ''
+            if (!highlightOnFocus && border) return border
+            if (!highlightOnFocus) return ''
             if (border) return `${border}, ${shadow}`
             return shadow
         }
@@ -151,47 +165,6 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             return getMainColor()
         }
 
-        const getFocusProperties = (): CSSObject => {
-            if (!color || disabled) return {}
-
-            const boxShadowBase = '0 0 0 3px'
-            const borderAsBoxShadow = getBoxShadow()
-            if (!isThemeColorName(color)) {
-                if (isValidColorHex(color)) {
-                    const c = hex2rgba(color, focus.borderOpacity).rgba
-                    return {
-                        boxShadow: boxShadowWithBorder(
-                            `${boxShadowBase} ${c}`,
-                            borderAsBoxShadow
-                        ),
-                    }
-                }
-
-                const c = hex2rgba(
-                    tto(themeType, black, white),
-                    focus.unknownColorBorderOpacity
-                ).rgba
-                return {
-                    boxShadow: boxShadowWithBorder(
-                        `${boxShadowBase} ${c}`,
-                        borderAsBoxShadow
-                    ),
-                }
-            }
-
-            return {
-                boxShadow: boxShadowWithBorder(
-                    `${boxShadowBase} ${
-                        hex2rgba(
-                            themeColors[color].mainDarkShade,
-                            focus.borderOpacity
-                        ).rgba
-                    }`,
-                    borderAsBoxShadow
-                ),
-            }
-        }
-
         const getHoverProperties = (): CSSObject => {
             if (!color || disabled) return {}
 
@@ -234,6 +207,57 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
             }
         }
 
+        const getFocusProperties = (): CSSObject => {
+            if (!color || disabled) return {}
+
+            const boxShadowBase = '0 0 0 3px'
+            const borderAsBoxShadow = getBoxShadow()
+            if (!isThemeColorName(color)) {
+                if (isValidColorHex(color)) {
+                    const c = hex2rgba(color, focus.borderOpacity).rgba
+                    return {
+                        ...(highlightOnFocus && {
+                            boxShadow: boxShadowWithBorder(
+                                `${boxShadowBase} ${c}`,
+                                borderAsBoxShadow
+                            ),
+                        }),
+
+                        ...(hoverEffectOnFocus && getHoverProperties()),
+                    }
+                }
+
+                const c = hex2rgba(
+                    tto(themeType, black, white),
+                    focus.unknownColorBorderOpacity
+                ).rgba
+                return {
+                    ...(highlightOnFocus && {
+                        boxShadow: boxShadowWithBorder(
+                            `${boxShadowBase} ${c}`,
+                            borderAsBoxShadow
+                        ),
+                    }),
+                    ...(hoverEffectOnFocus && getHoverProperties()),
+                }
+            }
+
+            return {
+                ...(highlightOnFocus && {
+                    boxShadow: boxShadowWithBorder(
+                        `${boxShadowBase} ${
+                            hex2rgba(
+                                themeColors[color].mainDarkShade,
+                                focus.borderOpacity
+                            ).rgba
+                        }`,
+                        borderAsBoxShadow
+                    ),
+                }),
+                ...(hoverEffectOnFocus && getHoverProperties()),
+            }
+        }
+
         const getActiveProperties = (): CSSObject => {
             if (!color || disabled) return {}
 
@@ -270,7 +294,6 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
         }
 
         const calculatedColor = getColor()
-        const calculatedHoverProperties = getHoverProperties()
 
         return {
             alignItems: 'center',
@@ -298,12 +321,9 @@ const ButtonBaseRoot = createStyle<'button', ButtonBaseRootProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            '&:hover': calculatedHoverProperties,
+            '&:hover': getHoverProperties(),
             '&:active&:hover': getActiveProperties(),
-            '&:focus': {
-                ...getFocusProperties(),
-                ...calculatedHoverProperties,
-            },
+            '&:focus': getFocusProperties(),
 
             '@media print': {
                 colorAdjust: 'exact',
@@ -332,7 +352,8 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         variant,
         tabIndex = 0,
         elevation,
-        noHighlightOnFocus = false,
+        highlightOnFocus,
+        hoverEffectOnFocus,
         ...rest
     } = props
 
@@ -341,7 +362,14 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
             as={Component}
             className={className}
             ref={innerRef}
-            states={{ color, variant, disabled, elevation, noHighlightOnFocus }}
+            states={{
+                color,
+                variant,
+                disabled,
+                elevation,
+                highlightOnFocus,
+                hoverEffectOnFocus,
+            }}
             disabled={disabled}
             tabIndex={tabIndex}
             {...rest}
