@@ -8,6 +8,7 @@ export {
     createTheme,
     createThemeVars,
     createStyledComponent,
+    createStyle,
     createTypography,
     createPalette,
     createElevation,

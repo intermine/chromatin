@@ -13,6 +13,7 @@ export {
     createTypography,
     createPalette,
     createElevation,
+    createStyle,
 } from './create'
 
 export type {

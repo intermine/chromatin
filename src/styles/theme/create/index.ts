@@ -2,7 +2,7 @@ export { createTheme, isThemeColorName } from './theme'
 export { createThemeVars } from './theme-vars'
 export { createElevation } from './elevation'
 export { createPalette } from './palette'
-export { createStyledComponent } from './style'
+export { createStyledComponent, createStyle } from './style'
 export { createTypography } from './typography'
 
 export type {

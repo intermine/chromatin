@@ -6,6 +6,9 @@ import styled, {
     CSSObject,
 } from 'styled-components'
 
+import { createUseStyles } from 'react-jss'
+import type { Classes, Styles } from 'jss'
+
 import type { Theme, ReactElement } from './create'
 import { useTheme } from '../use-theme'
 
@@ -34,6 +37,9 @@ type AddAdditionProps<U> = U extends string
     ? { children?: ReactElement }
     : U & { children?: ReactElement }
 
+/**
+ * To create new styled component
+ */
 export const createStyledComponent = <T, U>(
     component: Component<T>,
     objOrFn: CreateStyledComponentObjectOrFunction<T, U>
@@ -55,4 +61,26 @@ export const createStyledComponent = <T, U>(
     return (styled(component)((props: any) =>
         themeStyledFunction(props)
     ) as unknown) as any
+}
+
+/**
+ * To create new styles. It will return the classnames after
+ * creating new styles.
+ */
+export const createStyle = <C extends string = string, Props = unknown>(
+    styles:
+        | Styles<C, Props, Theme>
+        | ((theme: Theme) => Styles<C, Props, undefined>)
+): (() => Classes<C>) => {
+    if (typeof styles === 'object') {
+        return createUseStyles(styles)
+    }
+
+    // TODO: Add options for additional data.
+    const fn = () => {
+        const theme = useTheme()
+        return styles(theme)
+    }
+
+    return createUseStyles(fn)
 }

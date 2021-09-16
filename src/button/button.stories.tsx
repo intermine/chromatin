@@ -3,6 +3,8 @@ import { Button } from './button'
 
 import SendMail from '../icons/Business/mail-send-fill'
 
+import { createStyle } from '../styles'
+
 export default {
     title: 'Button',
     component: Button,
@@ -66,4 +68,25 @@ ButtonWithCustomColor.args = {
     children: 'InterMine Green',
     color: '#C0D848',
     disabled: false,
+}
+
+const useStyles = createStyle((theme) => ({
+    button: {
+        background: theme.palette.info.main,
+        color: theme.palette.info.text,
+        '&:hover': {
+            background: theme.palette.neutral[60],
+        },
+    },
+}))
+
+const Template2: Story = ({ children }) => {
+    const classes = useStyles()
+
+    return <Button className={classes.button}>{children}</Button>
+}
+
+export const CustomButton = Template2.bind({})
+CustomButton.args = {
+    children: 'Custom Button',
 }
