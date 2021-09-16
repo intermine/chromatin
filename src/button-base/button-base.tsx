@@ -19,17 +19,17 @@ export interface ButtonBaseCommonProps
      * This is not applicable for ghost and outlined variant
      * @default true
      */
-    elevation?: boolean
+    hasElevation?: boolean
     /**
      * @default true
      */
-    highlightOnFocus?: boolean
+    hasHighlightOnFocus?: boolean
     /**
      * Whether to have hover effect applicable
      * when the element is focused.
      * @default false
      */
-    hoverEffectOnFocus?: boolean
+    hasHoverEffectOnFocus?: boolean
 }
 
 export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
@@ -63,9 +63,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
             variant = 'normal',
             color = '',
             disabled = false,
-            elevation: elevationProps = true,
-            highlightOnFocus = true,
-            hoverEffectOnFocus = false,
+            hasElevation: hasElevationProps = true,
+            hasHighlightOnFocus = true,
+            hasHoverEffectOnFocus = false,
         } = states
 
         const getMainColor = (inverted = false): string => {
@@ -115,15 +115,15 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
             shadow: string,
             border: string | undefined
         ): string => {
-            if (!highlightOnFocus && border) return border
-            if (!highlightOnFocus) return ''
+            if (!hasHighlightOnFocus && border) return border
+            if (!hasHighlightOnFocus) return ''
             if (border) return `${border}, ${shadow}`
             return shadow
         }
 
         const getBoxShadow = (): string | undefined => {
             if (variant === 'normal') {
-                if (elevationProps && !disabled) {
+                if (hasElevationProps && !disabled) {
                     return elevation.low
                 }
                 return
@@ -216,14 +216,14 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
                 if (isValidColorHex(color)) {
                     const c = hex2rgba(color, focus.borderOpacity).rgba
                     return {
-                        ...(highlightOnFocus && {
+                        ...(hasHighlightOnFocus && {
                             boxShadow: boxShadowWithBorder(
                                 `${boxShadowBase} ${c}`,
                                 borderAsBoxShadow
                             ),
                         }),
 
-                        ...(hoverEffectOnFocus && getHoverProperties()),
+                        ...(hasHoverEffectOnFocus && getHoverProperties()),
                     }
                 }
 
@@ -232,18 +232,18 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
                     focus.unknownColorBorderOpacity
                 ).rgba
                 return {
-                    ...(highlightOnFocus && {
+                    ...(hasHighlightOnFocus && {
                         boxShadow: boxShadowWithBorder(
                             `${boxShadowBase} ${c}`,
                             borderAsBoxShadow
                         ),
                     }),
-                    ...(hoverEffectOnFocus && getHoverProperties()),
+                    ...(hasHoverEffectOnFocus && getHoverProperties()),
                 }
             }
 
             return {
-                ...(highlightOnFocus && {
+                ...(hasHighlightOnFocus && {
                     boxShadow: boxShadowWithBorder(
                         `${boxShadowBase} ${
                             hex2rgba(
@@ -254,7 +254,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
                         borderAsBoxShadow
                     ),
                 }),
-                ...(hoverEffectOnFocus && getHoverProperties()),
+                ...(hasHoverEffectOnFocus && getHoverProperties()),
             }
         }
 
@@ -351,9 +351,9 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         disabled,
         variant,
         tabIndex = 0,
-        elevation,
-        highlightOnFocus,
-        hoverEffectOnFocus,
+        hasElevation,
+        hasHighlightOnFocus,
+        hasHoverEffectOnFocus,
         ...rest
     } = props
 
@@ -366,9 +366,9 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
                 color,
                 variant,
                 disabled,
-                elevation,
-                highlightOnFocus,
-                hoverEffectOnFocus,
+                hasElevation,
+                hasHighlightOnFocus,
+                hasHoverEffectOnFocus,
             }}
             disabled={disabled}
             tabIndex={tabIndex}

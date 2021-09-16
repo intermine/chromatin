@@ -6,7 +6,7 @@ import type { ReactElement } from '../styles'
 
 export type ButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
-    fullWidth?: boolean
+    hasFullWidth?: boolean
     RightIcon?: ReactElement
     LeftIcon?: ReactElement
 }
@@ -23,7 +23,7 @@ type IconContainerProps = {
 
 const IconSpan = createStyledComponent<'span', IconContainerProps>(
     'span',
-    (theme, props) => {
+    (_, props) => {
         const { isRight, size = 'regular' } = props
 
         const getIconProperties = (): CSSObject => {
@@ -58,7 +58,7 @@ const ButtonRoot = createStyledComponent<
     typeof ButtonBase,
     ButtonProps<'button'>
 >(ButtonBase, (theme, props) => {
-    const { size = 'regular', fullWidth = false } = props
+    const { size = 'regular', hasFullWidth = false } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
     const { body, bodySm } = themePropsForThemeVarFn.typography
 
@@ -71,7 +71,7 @@ const ButtonRoot = createStyledComponent<
     return {
         borderRadius: '0.25rem',
         padding: getPadding(),
-        width: (fullWidth && '100%') || undefined,
+        width: (hasFullWidth && '100%') || undefined,
         transition: '0.130s',
         ...(size === 'small' ? bodySm : body),
         ...themeVars.button(themePropsForThemeVarFn, props),

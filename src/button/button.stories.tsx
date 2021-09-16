@@ -75,7 +75,7 @@ const useStyles = createStyle((theme) => ({
         background: theme.palette.info.main,
         color: theme.palette.info.text,
         '&:hover': {
-            background: theme.palette.neutral[60],
+            background: theme.palette.info[60],
         },
     },
 }))
