@@ -208,7 +208,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
         }
 
         const getFocusProperties = (): CSSObject => {
-            if (!color || disabled) return {}
+            if (disabled) return {}
 
             const boxShadowBase = '0 0 0 3px'
             const borderAsBoxShadow = getBoxShadow()
