@@ -46,6 +46,7 @@ export const createTheme = (options = {} as CreateThemeOptions): Theme => {
     const elevation = createElevation(elevationOptions)
 
     return {
+        themeType,
         themeVars,
         palette,
         typography,

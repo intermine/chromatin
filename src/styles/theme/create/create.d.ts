@@ -9,6 +9,8 @@ import {
     ButtonBaseCommonProps,
     IconButtonProps,
     ButtonGroupProps,
+    InputBaseProps,
+    InputProps,
 } from '../../..'
 
 /**
@@ -26,6 +28,8 @@ export type ThemeVars = {
     buttonBase: ThemeVariableFunction<ButtonBaseCommonProps>
     iconButton: ThemeVariableFunction<IconButtonProps<'button'>>
     buttonGroup: ThemeVariableFunction<ButtonGroupProps>
+    inputBase: ThemeVariableFunction<InputBaseProps>
+    input: ThemeVariableFunction<InputProps>
 }
 export type CreateThemeVarsOptions = Partial<ThemeVars>
 
@@ -182,6 +186,7 @@ export type CreateThemeElevationOptions = Partial<ThemeElevation> & {
  * -----------------------------
  */
 export type Theme = {
+    themeType: ThemeType
     themeVars: ThemeVars
     palette: ThemePalette
     typography: ThemeTypography
