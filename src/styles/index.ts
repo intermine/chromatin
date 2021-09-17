@@ -26,6 +26,7 @@ export type {
     ThemeTypography,
     ThemePaletteColor,
     ThemePalette,
+    ThemeColors,
     ThemeElevation,
     ThemeColorName,
     Theme,
@@ -70,7 +71,7 @@ export {
 // --------------------------
 // color
 // --------------------------
-export type { BasicColor, CreateColorOptions } from './colors'
+export type { BasicColor, CreateColorOptions, ThemeType } from './colors'
 
 // --------------------------
 // typography

@@ -23,6 +23,7 @@ export type {
     ThemeTypography,
     ThemePaletteColor,
     ThemePalette,
+    ThemeColors,
     ThemeElevation,
     ThemeColorName,
     Theme,

@@ -26,6 +26,7 @@ export type {
     ThemeColorName,
     ThemeElevation,
     ThemePalette,
+    ThemeColors,
     ThemePaletteColor,
     ThemeTypography,
     ThemeTypographyTagsProperties,

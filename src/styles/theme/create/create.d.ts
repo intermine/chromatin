@@ -88,6 +88,17 @@ export type ThemePalette = {
     }
 }
 
+export type ThemeColors = {
+    primary: ThemePalette['primary']
+    secondary: ThemePalette['secondary']
+    error: ThemePalette['error']
+    warning: ThemePalette['warning']
+    info: ThemePalette['info']
+    disable: ThemePalette['disable']
+    neutral: ThemePalette['neutral']
+    common: ThemePalette['common']
+}
+
 export type CreateThemePaletteOptionsColorType =
     | string
     | ({ baseColor: string } & CreateColorOptions)
