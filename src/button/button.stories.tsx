@@ -2,8 +2,10 @@ import { Story } from '@storybook/react/types-6-0'
 import { Button } from './button'
 
 import SendMail from '../icons/Business/mail-send-fill'
+import UploadFile from '../icons/System/upload-2-fill'
 
 import { createStyle } from '../styles'
+import { InputBase } from '..'
 
 export default {
     title: 'Button',
@@ -90,3 +92,25 @@ export const CustomButton = Template2.bind({})
 CustomButton.args = {
     children: 'Custom Button',
 }
+
+const Template3: Story = (props) => {
+    return (
+        <div>
+            <InputBase id="upload" type="file" isHidden />
+            <Button
+                onClick={() => console.log('Clicked')}
+                variant="normal"
+                color="secondary"
+                Component="label"
+                htmlFor="upload"
+                RightIcon={<UploadFile />}
+                {...props}
+            >
+                Upload File
+            </Button>
+        </div>
+    )
+}
+
+export const ButtonAsLabel = Template3.bind({})
+ButtonAsLabel.args = {}
