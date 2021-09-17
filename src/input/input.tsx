@@ -88,6 +88,7 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
         return {
             flex: 1,
             padding: getPadding(),
+            transition: '0.13s',
             ...getTypographyProperties(),
             ...getBorderRadius(),
             ...themeVars.input(themePropsForThemeVarFn, props),
@@ -208,6 +209,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             display: 'inline-flex',
             fill: getFillColor(),
             padding: getPadding(),
+            transition: '0.13s',
             ...getDimensions(),
             ...getBorderRadius(),
         }
