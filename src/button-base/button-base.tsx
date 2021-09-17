@@ -146,10 +146,16 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
 
             if (variant === 'normal') {
                 if (isThemeColorName(color)) return themeColors[color].text
-                if (isValidColorHex(color))
-                    return getContrastRatio(color, white) > contrastThreshold
-                        ? white
-                        : black
+
+                if (isValidColorHex(color)) {
+                    const textColorFirstPref = tto(themeType, white, black)
+                    const textColorSecondPref = tto(themeType, black, white)
+
+                    return getContrastRatio(color, textColorFirstPref) >
+                        contrastThreshold
+                        ? textColorFirstPref
+                        : textColorSecondPref
+                }
                 return
             }
 
