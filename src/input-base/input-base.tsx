@@ -16,6 +16,13 @@ export interface InputBaseProps
      */
     hasOutline?: boolean
     /**
+     * If hasOutline is true then setting it false has
+     * no effect.
+     *
+     * @default true
+     */
+    hasOutlineOnFocus?: boolean
+    /**
      * @default false
      */
     hasTransparentBackground?: boolean
@@ -33,6 +40,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
     (theme, props) => {
         const {
             hasOutline = true,
+            hasOutlineOnFocus = true,
             isHidden = false,
             hasTransparentBackground = false,
             isError = false,
@@ -59,9 +67,9 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             const base = 'inset 0 0 0 1px'
 
             if (isError) return `${base} ${palette.error.main}`
-            if (isWarning) return `${base} ${palette.warning.mainLightShade}`
+            if (isWarning) return `${base} ${palette.warning.main}`
 
-            return `${base} ${palette.neutral.mainLightShade}`
+            return `${base} ${palette.neutral.main}`
         }
 
         const getColor = (): string => {
@@ -88,6 +96,10 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
                 ...(hasOutline && {
                     boxShadow: `${shadowBase} ${shadowColor}`,
                 }),
+                ...(!hasOutline &&
+                    hasOutlineOnFocus && {
+                        boxShadow: `${shadowBase} ${shadowColor}`,
+                    }),
             }
         }
 
@@ -128,6 +140,11 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             '&:hover': getHoverProperties(),
             '&:focus': getFocusProperties(),
 
+            ':disabled, &[disabled]': {
+                pointerEvents: 'none',
+                cursor: 'default',
+            },
+
             ...themeVars.inputBase(theme, props),
         }
     }
@@ -136,6 +153,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
 export const InputBase = (props: InputBaseProps): JSX.Element => {
     const {
         hasOutline,
+        hasOutlineOnFocus,
         hasTransparentBackground,
         color,
         isHidden,
@@ -145,6 +163,7 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
     const styleProps = {
         hasOutline,
         hasTransparentBackground,
+        hasOutlineOnFocus,
         color,
         isHidden,
     }
