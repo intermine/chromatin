@@ -6,14 +6,25 @@ import type { ReactElement } from '../styles'
 export type IconButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
     Icon?: ReactElement
+    /**
+     * @default 'squircle'
+     */
+    borderStyle?: 'circle' | 'squircle' | 'square-circle'
 }
 
 const ButtonRoot = createStyledComponent<
     typeof ButtonBase,
     IconButtonProps<'button'>
 >(ButtonBase, (theme, props) => {
-    const { size = 'regular' } = props
+    const { size = 'regular', borderStyle = 'squircle' } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
+
+    const getBorderRadius = (): string => {
+        if (borderStyle === 'squircle' || borderStyle === 'square-circle') {
+            return '0.5rem'
+        }
+        return '10rem'
+    }
 
     const getPadding = (): string => {
         if (size === 'regular') return '0.75rem'
@@ -29,7 +40,7 @@ const ButtonRoot = createStyledComponent<
 
     const dim = getDimensions()
     return {
-        borderRadius: '50%',
+        borderRadius: getBorderRadius(),
         height: dim,
         padding: getPadding(),
         transition: '0.130s',
