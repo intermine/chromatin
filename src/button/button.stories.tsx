@@ -37,8 +37,8 @@ ButtonWithIcon.args = {
     onFocus: () => console.log('I am on focus'),
     disabled: false,
     RightIcon: <SendMail />,
-    fullWidth: false,
-    elevation: true,
+    hasFullWidth: false,
+    hasElevation: true,
 }
 
 export const FullWidthButton = Template.bind({})
@@ -49,8 +49,8 @@ FullWidthButton.args = {
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
     disabled: false,
-    fullWidth: true,
-    elevation: true,
+    hasFullWidth: true,
+    hasElevation: true,
 }
 
 export const Disabled = Template.bind({})
@@ -61,8 +61,8 @@ Disabled.args = {
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
     disabled: true,
-    fullWidth: true,
-    elevation: true,
+    hasFullWidth: true,
+    hasElevation: true,
 }
 
 export const ButtonWithCustomColor = Template.bind({})
@@ -72,26 +72,26 @@ ButtonWithCustomColor.args = {
     disabled: false,
 }
 
-const useStyles = createStyle((theme) => ({
-    button: {
-        background: theme.palette.info.main,
-        color: theme.palette.info.text,
-        '&:hover': {
-            background: theme.palette.info[60],
-        },
-    },
-}))
+// const useStyles = createStyle((theme) => ({
+//     button: {
+//         background: theme.palette.info.main,
+//         color: theme.palette.info.text,
+//         '&:hover': {
+//             background: theme.palette.info[60],
+//         },
+//     },
+// }))
 
-const Template2: Story = ({ children }) => {
-    const classes = useStyles()
+// const Template2: Story = ({ children }) => {
+//     const classes = useStyles()
 
-    return <Button className={classes.button}>{children}</Button>
-}
+//     return <Button className={classes.button}>{children}</Button>
+// }
 
-export const CustomButton = Template2.bind({})
-CustomButton.args = {
-    children: 'Custom Button',
-}
+// export const CustomButton = Template2.bind({})
+// CustomButton.args = {
+//     children: 'Custom Button',
+// }
 
 const Template3: Story = (props) => {
     return (
