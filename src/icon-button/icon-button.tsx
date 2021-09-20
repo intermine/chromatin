@@ -10,13 +10,21 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
      * @default 'squircle'
      */
     borderStyle?: 'circle' | 'squircle' | 'square-circle'
+    /**
+     * @default false
+     */
+    isDense?: boolean
 }
 
 const ButtonRoot = createStyledComponent<
     typeof ButtonBase,
     IconButtonProps<'button'>
 >(ButtonBase, (theme, props) => {
-    const { size = 'regular', borderStyle = 'squircle' } = props
+    const {
+        size = 'regular',
+        borderStyle = 'squircle',
+        isDense = false,
+    } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
 
     const getBorderRadius = (): string => {
@@ -27,14 +35,31 @@ const ButtonRoot = createStyledComponent<
     }
 
     const getPadding = (): string => {
-        if (size === 'regular') return '0.75rem'
-        if (size === 'small') return '0.4rem'
-        return '0.8rem'
+        if (size === 'regular') {
+            if (isDense) return '0.4rem'
+            return '0.75rem'
+        }
+
+        if (size === 'small') {
+            if (isDense) return '0.2rem'
+            return '0.4rem'
+        }
+
+        if (isDense) return '0.4rem'
+        return '1rem'
     }
 
     const getDimensions = (): string => {
-        if (size === 'regular') return '2.5rem'
-        if (size === 'small') return '1.5rem'
+        if (size === 'regular') {
+            if (isDense) return '1.8rem'
+            return '2.5rem'
+        }
+        if (size === 'small') {
+            if (isDense) return '1.1rem'
+            return '1.5rem'
+        }
+
+        if (isDense) return '2.3rem'
         return '3.5rem'
     }
 
