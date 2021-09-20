@@ -9,6 +9,10 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
     hasFullWidth?: boolean
     RightIcon?: ReactElement
     LeftIcon?: ReactElement
+    /**
+     * @default false
+     */
+    isDense?: boolean
 }
 
 type IconContainerProps = {
@@ -55,14 +59,29 @@ const ButtonRoot = createStyledComponent<
     typeof ButtonBase,
     ButtonProps<'button'>
 >(ButtonBase, (theme, props) => {
-    const { size = 'regular', hasFullWidth = false } = props
+    const { size = 'regular', hasFullWidth = false, isDense = false } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
-    const { body, bodySm } = themePropsForThemeVarFn.typography
+    const { body, bodySm, bodyLg } = themePropsForThemeVarFn.typography
 
     const getPadding = (): string => {
-        if (size === 'regular') return '0.7rem 1.4rem'
-        if (size === 'small') return '0.4rem 1.2rem'
+        if (size === 'regular') {
+            if (isDense) return '0.4rem 1.2rem'
+            return '0.7rem 1.4rem'
+        }
+
+        if (size === 'small') {
+            if (isDense) return '0.2rem 0.6rem'
+            return '0.4rem 1.2rem'
+        }
+
+        if (isDense) return '0.5rem 1rem'
         return '1rem 2rem'
+    }
+
+    const getFontProperties = (): CSSObject => {
+        if (size === 'regular') return body
+        if (size === 'small') return bodySm
+        return bodyLg
     }
 
     return {
@@ -70,7 +89,7 @@ const ButtonRoot = createStyledComponent<
         padding: getPadding(),
         width: (hasFullWidth && '100%') || undefined,
         transition: '0.130s',
-        ...(size === 'small' ? bodySm : body),
+        ...getFontProperties(),
         ...themeVars.button(themePropsForThemeVarFn, props),
     }
 })
@@ -81,11 +100,13 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         RightIcon: RightIconProps,
         LeftIcon: LeftIconProps,
         size,
+        isDense,
         ...rest
     } = props
 
     const styleProps = {
         size,
+        isDense,
     }
 
     return (
