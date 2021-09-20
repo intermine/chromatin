@@ -6,6 +6,7 @@ import UploadFile from '../icons/System/upload-2-fill'
 
 import { createStyle } from '../styles'
 import { InputBase } from '..'
+import { useEffect, useRef } from 'react'
 
 export default {
     title: 'Button',
@@ -94,10 +95,18 @@ ButtonWithCustomColor.args = {
 // }
 
 const Template3: Story = (props) => {
+    const br = useRef()
+
+    useEffect(() => {
+        if (br.current) {
+            console.log(br.current)
+        }
+    }, [br])
     return (
         <div>
             <InputBase id="upload" type="file" isHidden />
             <Button
+                innerRef={br}
                 onClick={() => console.log('Clicked')}
                 variant="normal"
                 color="secondary"
