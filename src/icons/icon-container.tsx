@@ -6,13 +6,12 @@ export type IconContainerProps = {
     size?: 'small' | 'regular' | 'large'
 }
 
-const Span = createStyledComponent<'span', IconContainerProps>(
-    'span',
+const IconContainerRoot = createStyledComponent<'div', IconContainerProps>(
+    'div',
     (_, props) => {
-        const { size } = props
+        const { size = 'regular' } = props
 
         const getDimension = (): CSSObject => {
-            if (!size) return {}
             if (size === 'regular') {
                 return {
                     height: '1rem',
@@ -44,5 +43,5 @@ const Span = createStyledComponent<'span', IconContainerProps>(
 
 export const IconContainer = (props: IconContainerProps) => {
     const { children, ...rest } = props
-    return <Span {...rest}>{props.children}</Span>
+    return <IconContainerRoot {...rest}>{props.children}</IconContainerRoot>
 }
