@@ -98,6 +98,12 @@ export const createTypography = (
             fontFamily.bold.weight,
             fontFamily.bold.lineHeight
         ),
+        bodyLg: fontMixin(
+            fontFamily.regular.name,
+            getFontSizeInRem(scale, 1),
+            fontFamily.regular.weight,
+            fontFamily.regular.lineHeight
+        ),
         body: fontMixin(
             fontFamily.regular.name,
             getFontSizeInRem(scale, 0),

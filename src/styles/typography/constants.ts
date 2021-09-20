@@ -72,6 +72,12 @@ export const defaultThemeTypography = {
         defaultBoldFontWeight,
         defaultLineHeight
     ),
+    bodyLg: fontMixin(
+        defaultFontFamily,
+        '1.618rem',
+        defaultRegularFontWeight,
+        defaultLineHeight
+    ),
     body: fontMixin(
         defaultFontFamily,
         '1rem',

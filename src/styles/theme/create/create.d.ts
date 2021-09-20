@@ -146,6 +146,7 @@ export type ThemeTypography = {
     h4: ThemeTypographyTagsProperties
     h5: ThemeTypographyTagsProperties
     h6: ThemeTypographyTagsProperties
+    bodyLg: ThemeTypographyTagsProperties
     body: ThemeTypographyTagsProperties
     bodySm: ThemeTypographyTagsProperties
     caption: ThemeTypographyTagsProperties
