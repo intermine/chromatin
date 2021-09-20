@@ -59,11 +59,10 @@ async function getIconsList() {
 async function readAndWrite(svgPath, output) {
     const file = await fs.readFile(svgPath, { encoding: 'utf8' })
     const fileName = path.basename(svgPath, '.svg') + '.tsx'
-
-    const template = `import { IconContainer, IconContainerProps } from '../icon-container'
-
-export default (props: IconContainerProps): JSX.Element =>
-        <IconContainer {...props}>${file}</IconContainer>
+    const template = `
+    export default (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
+        ${file.replace(/<svg/, '<svg {...props}')}
+    )
 `
 
     await fs.writeFile(path.join(output, fileName), template, (err) => {
