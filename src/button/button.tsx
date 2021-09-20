@@ -29,12 +29,14 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
     (_, props) => {
         const { isRight, size = 'regular', children } = props
 
-        const getIconProperties = (): CSSObject => {
+        const getDimProperties = (): CSSObject => {
             let dim = '1rem'
-            if (size === 'regular' || size === 'large')
-                return { height: dim, width: dim }
+            if (size === 'regular') return { height: dim, width: dim }
 
             dim = '0.75rem'
+            if (size === 'small') return { height: dim, width: dim }
+
+            dim = '1.5rem'
             return { height: dim, width: dim }
         }
 
@@ -45,12 +47,12 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
         }
 
         return {
-            '& svg': getIconProperties(),
             boxSizing: 'border-box',
             display: 'inline-flex',
             marginLeft: isRight ? undefined : '0.5rem',
             marginRight: isRight ? '0.5rem' : undefined,
             transition: '0.130s',
+            ...getDimProperties(),
         }
     }
 )
