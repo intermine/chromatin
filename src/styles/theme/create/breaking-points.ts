@@ -15,6 +15,14 @@ export const createBreakingPoints = (
     ) as CreateThemeBreakingPointsOptions
 
     const baseFont = bp.baseFontSize ?? 16
+    /**
+     * Currently we are only supporting em as
+     * the unit for screen width.
+     *
+     * Also, using em for media query is the best
+     * practice. ref: https://zellwk.com/blog/media-query-units/
+     *
+     */
     const unit = 'em'
 
     delete bp.baseFontSize
@@ -26,7 +34,7 @@ export const createBreakingPoints = (
         `@media (min-width: ${bp[screen] / baseFont}${unit})`
 
     const range = (start: string, end: string) =>
-        `@media (min-width: ${bp[start]}${unit}) and (max-width: ${
+        `@media (min-width: ${bp[start] / baseFont}${unit}) and (max-width: ${
             bp[end] / baseFont
         }${unit})`
 
