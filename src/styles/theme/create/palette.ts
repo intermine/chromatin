@@ -69,6 +69,7 @@ export const createPalette = (
         darkGrey = darkGreyColor,
         primary: primaryProps = tto(themeType, green[50], lightGreen[50]),
         secondary: secondaryProps = tto(themeType, purple[50], purple[30]),
+        success: successProps = tto(themeType, '#2e7d32', '#66bb6a'),
         error: errorProps = tto(themeType, red[60], red[40]),
         warning: warningProps = tto(themeType, orange[50], yellow[50]),
         info: infoProps = tto(themeType, blue[60], blue[40]),
@@ -87,6 +88,11 @@ export const createPalette = (
 
     const secondary = createIndividualPalette(
         secondaryProps,
+        individualPaletteOptions
+    )
+
+    const success = createIndividualPalette(
+        successProps,
         individualPaletteOptions
     )
 
@@ -137,9 +143,10 @@ export const createPalette = (
 
     return {
         primary,
+        secondary,
+        success,
         error,
         info,
-        secondary,
         warning,
         common,
         contrastThreshold,
