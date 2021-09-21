@@ -71,16 +71,15 @@ export const createStyle = <C extends string = string, Props = unknown>(
     styles:
         | Styles<C, Props, Theme>
         | ((theme: Theme) => Styles<C, Props, undefined>)
-): ((data?: Props) => Classes<C>) => {
+): ((props?: Props) => Classes<C>) => {
     if (typeof styles === 'object') {
         return createUseStyles(styles)
     }
 
-    // TODO: Add options for additional data.
-    const fn = () => {
-        const theme = useTheme()
-        return styles(theme)
-    }
+    const fn = createUseStyles(styles)
 
-    return createUseStyles(fn)
+    return (props = {} as Props) => {
+        const theme = useTheme()
+        return fn({ ...props, theme })
+    }
 }
