@@ -4,6 +4,8 @@ export { createElevation } from './elevation'
 export { createPalette } from './palette'
 export { createStyledComponent, createStyle } from './style'
 export { createTypography } from './typography'
+export { createBreakingPoints } from './breaking-points'
+export { createSpacing } from './spacing'
 
 export type {
     Component as StyleComponent,
@@ -15,14 +17,10 @@ export type {
 
 export type {
     Theme,
-    CreateThemeVarsOptions,
     ThemeVars,
-    CreateThemeElevationOptions,
-    CreateThemeOptions,
-    CreateThemePaletteOptions,
-    CreateThemePaletteOptionsColorType,
-    CreateThemeTypographyOptions,
-    CreateThemeTypographyOptionsObject,
+    ThemeBreakingPoints,
+    ThemeSpacing,
+    ThemeTransitions,
     ThemeColorName,
     ThemeElevation,
     ThemePalette,
@@ -31,5 +29,15 @@ export type {
     ThemeTypography,
     ThemeTypographyTagsProperties,
     ThemeVariableFunction,
+    CreateThemeVarsOptions,
+    CreateThemeElevationOptions,
+    CreateThemeOptions,
+    CreateThemePaletteOptions,
+    CreateThemePaletteOptionsColorType,
+    CreateThemeTypographyOptions,
+    CreateThemeTypographyOptionsObject,
+    CreateThemeBreakingPointsOptions,
+    CreateThemeSpacingOptions,
+    CreateThemeTransitionOptions,
     ReactElement,
 } from './create'

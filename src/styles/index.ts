@@ -11,6 +11,8 @@ export {
     createStyle,
     createTypography,
     createPalette,
+    createBreakingPoints,
+    createSpacing,
     createElevation,
     isThemeColorName,
     useTheme,

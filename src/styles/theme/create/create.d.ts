@@ -48,6 +48,7 @@ export type ThemePaletteColor = BasicColor & {
 export type ThemeColorName =
     | 'primary'
     | 'secondary'
+    | 'success'
     | 'error'
     | 'info'
     | 'warning'
@@ -59,6 +60,7 @@ export type ThemePalette = {
     }
     primary: ThemePaletteColor
     secondary: ThemePaletteColor
+    success: ThemePaletteColor
     error: ThemePaletteColor
     warning: ThemePaletteColor
     info: ThemePaletteColor
@@ -91,6 +93,7 @@ export type ThemePalette = {
 export type ThemeColors = {
     primary: ThemePalette['primary']
     secondary: ThemePalette['secondary']
+    success: ThemePalette['success']
     error: ThemePalette['error']
     warning: ThemePalette['warning']
     info: ThemePalette['info']
@@ -107,6 +110,7 @@ export type CreateThemePaletteOptionsColorType =
 export type CreateThemePaletteOptions = {
     primary?: CreateThemePaletteOptionsColorType
     secondary?: CreateThemePaletteOptionsColorType
+    success?: CreateThemePaletteOptionsColorType
     error?: CreateThemePaletteOptionsColorType
     warning?: CreateThemePaletteOptionsColorType
     info?: CreateThemePaletteOptionsColorType
@@ -177,6 +181,58 @@ export type CreateThemeTypographyOptions =
 
 /**
  * -----------------------------
+ * Spacing
+ * -----------------------------
+ */
+export type ThemeSpacing = (...args: (string | number)[]) => string
+export type CreateThemeSpacingOptions =
+    | ((...factor: (number | string)[]) => string)
+    | number
+    | string[]
+
+/**
+ * -----------------------------
+ * Breaking Points
+ * -----------------------------
+ */
+export type ThemeBreakingPoints = {
+    max: (screen: string) => string
+    min: (screen: string) => string
+    range: (startScreen: string, endScreen: string) => string
+    baseFontSize: number
+    keys: string[]
+    values: { [x: string]: number }
+    unit: string
+}
+
+export type CreateThemeBreakingPointsOptions = {
+    // In px
+    sm?: number
+    // In px
+    md?: number
+    // In px
+    lg?: number
+    // In px
+    xl?: number
+    /**
+     * This is used for the conversion from px to em.
+     * @default typography.meta.documentFontSize
+     */
+    baseFontSize?: number
+} & {
+    // If some extra breaking points are needed.
+    [x: string]: number
+}
+
+/**
+ * -----------------------------
+ * Transitions
+ * -----------------------------
+ */
+export type ThemeTransitions = (...args: (string | number)[]) => string
+export type CreateThemeTransitionOptions = any
+/**
+ * -----------------------------
  * Elevation
  * -----------------------------
  */
@@ -203,6 +259,8 @@ export type Theme = {
     palette: ThemePalette
     typography: ThemeTypography
     elevation: ThemeElevation
+    spacing: ThemeSpacing
+    breakingPoints: ThemeBreakingPoints
 }
 
 export type CreateThemeOptions = {
@@ -211,6 +269,8 @@ export type CreateThemeOptions = {
     palette?: CreateThemePaletteOptions
     typography?: CreateThemeTypographyOptions
     elevation?: CreateThemeElevationOptions
+    spacing?: CreateThemeSpacingOptions
+    breakingPoints?: CreateThemeBreakingPointsOptions
 }
 
 export type ReactElement =

@@ -71,7 +71,7 @@ export const createStyle = <C extends string = string, Props = unknown>(
     styles:
         | Styles<C, Props, Theme>
         | ((theme: Theme) => Styles<C, Props, undefined>)
-): ((data: Props) => Classes<C>) => {
+): ((data?: Props) => Classes<C>) => {
     if (typeof styles === 'object') {
         return createUseStyles(styles)
     }

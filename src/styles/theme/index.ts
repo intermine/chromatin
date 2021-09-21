@@ -14,6 +14,8 @@ export {
     createPalette,
     createElevation,
     createStyle,
+    createSpacing,
+    createBreakingPoints,
 } from './create'
 
 export type {
