@@ -28,9 +28,24 @@ describe('Testing Create', () => {
 
         bp = createBreakingPoints({ mobile: 656, sm: 569 })
 
-        expect(bp.range('sm', 'mobile')).toBe(
+        expect(bp.between('sm', 'mobile')).toBe(
             '@media (min-width: 35.5625em) and (max-width: 41em)'
         )
         expect(bp.min('lg')).toBe(`@media (min-width: 75em)`)
+
+        expect(
+            bp.mixin(
+                {
+                    sm: { fontSize: '200px' },
+                    md: { fontSize: '300px' },
+                    lg: { background: 'red' },
+                },
+                'max'
+            )
+        ).toEqual({
+            '@media (max-width: 35.5625em)': { fontSize: '200px' },
+            '@media (max-width: 56.25em)': { fontSize: '300px' },
+            '@media (max-width: 75em)': { background: 'red' },
+        })
     })
 })

@@ -195,10 +195,21 @@ export type CreateThemeSpacingOptions =
  * Breaking Points
  * -----------------------------
  */
+export type ThemeBPMixinObj = {
+    xs?: CSSObject
+    sm?: CSSObject
+    md?: CSSObject
+    lg?: CSSObject
+    xl?: CSSObject
+} & { [x: string]: CSSObject }
+
+export type ThemeBPMixinFnName = 'max' | 'min'
+
 export type ThemeBreakingPoints = {
     max: (screen: string) => string
     min: (screen: string) => string
     between: (startScreen: string, endScreen: string) => string
+    mixin: (obj: ThemeBPMixinObj, mixinFnName: ThemeBPMixinFnName) => CSSObject
     baseFontSize: number
     keys: string[]
     values: { [x: string]: number }
@@ -206,6 +217,8 @@ export type ThemeBreakingPoints = {
 }
 
 export type CreateThemeBreakingPointsOptions = {
+    // In px
+    xs?: number
     // In px
     sm?: number
     // In px

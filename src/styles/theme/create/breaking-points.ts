@@ -1,11 +1,17 @@
+import { CSSObject } from 'styled-components'
 import { mergeDeep } from '../../../utils/misc'
-import { CreateThemeBreakingPointsOptions, ThemeBreakingPoints } from './create'
+import {
+    CreateThemeBreakingPointsOptions,
+    ThemeBPMixinObj,
+    ThemeBreakingPoints,
+} from './create'
 
 export const createBreakingPoints = (
     options: CreateThemeBreakingPointsOptions
 ): ThemeBreakingPoints => {
     const bp = mergeDeep(
         {
+            xs: 0,
             sm: 600,
             md: 900,
             lg: 1200,
@@ -27,6 +33,10 @@ export const createBreakingPoints = (
 
     delete bp.baseFontSize
 
+    // TODO: Show error in all env except prod,
+    // TODO: if screen bp[screen] is undefined.
+    // TODO: This has to be done for all bp functions.
+
     const max = (screen: string) =>
         `@media (max-width: ${bp[screen] / baseFont}${unit})`
 
@@ -38,10 +48,28 @@ export const createBreakingPoints = (
             bp[end] / baseFont
         }${unit})`
 
+    const mixin = (
+        obj: ThemeBPMixinObj,
+        mixinFnName: 'min' | 'max' | 'between'
+    ): CSSObject => {
+        const screens = Object.keys(obj)
+        const mixinFn = mixinFnName === 'min' ? min : max
+
+        const cssObj = {} as CSSObject
+
+        for (const screen of screens) {
+            const key = mixinFn(screen)
+            cssObj[key] = obj[screen]
+        }
+
+        return cssObj
+    }
+
     return {
         max,
         min,
         between,
+        mixin,
         baseFontSize: baseFont,
         unit,
         keys: Object.keys(bp),
