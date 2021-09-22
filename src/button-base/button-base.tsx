@@ -39,11 +39,7 @@ export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
         | React.ForwardRefExoticComponent<T>
 } & T
 
-type ButtonBaseRootProps = ButtonBaseCommonProps & {
-    states: ButtonBaseCommonProps
-}
-
-const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
+const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
     'button',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -57,7 +53,6 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
             ...themeColors
         } = palette
 
-        const { states } = props
         const {
             variant = 'normal',
             color = '',
@@ -65,7 +60,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseRootProps>(
             hasElevation: hasElevationProps = true,
             hasHighlightOnFocus = true,
             hasHoverEffectOnFocus = false,
-        } = states
+        } = props
 
         const getMainColor = (inverted = false): string => {
             if (!isThemeColorName(color)) return ''
@@ -344,34 +339,17 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
      */
 
     const {
-        className,
         children,
         Component = 'button',
         innerRef,
-        color,
-        disabled,
-        variant,
         tabIndex = 0,
-        hasElevation,
-        hasHighlightOnFocus,
-        hasHoverEffectOnFocus,
         ...rest
     } = props
 
     return (
         <ButtonBaseRoot
             as={Component}
-            className={className}
             ref={innerRef}
-            states={{
-                color,
-                variant,
-                disabled,
-                hasElevation,
-                hasHighlightOnFocus,
-                hasHoverEffectOnFocus,
-            }}
-            disabled={disabled}
             tabIndex={tabIndex}
             {...rest}
         >
