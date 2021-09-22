@@ -98,7 +98,7 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
 
 const Container = createStyledComponent<'div', ContainerProps>(
     'div',
-    (theme, props) => {
+    (_, props) => {
         const { hasFullWidth = false } = props
 
         return {
