@@ -33,7 +33,7 @@ export const createBreakingPoints = (
     const min = (screen: string) =>
         `@media (min-width: ${bp[screen] / baseFont}${unit})`
 
-    const range = (start: string, end: string) =>
+    const between = (start: string, end: string) =>
         `@media (min-width: ${bp[start] / baseFont}${unit}) and (max-width: ${
             bp[end] / baseFont
         }${unit})`
@@ -41,7 +41,7 @@ export const createBreakingPoints = (
     return {
         max,
         min,
-        range,
+        between,
         baseFontSize: baseFont,
         unit,
         keys: Object.keys(bp),

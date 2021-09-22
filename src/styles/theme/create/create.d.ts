@@ -198,7 +198,7 @@ export type CreateThemeSpacingOptions =
 export type ThemeBreakingPoints = {
     max: (screen: string) => string
     min: (screen: string) => string
-    range: (startScreen: string, endScreen: string) => string
+    between: (startScreen: string, endScreen: string) => string
     baseFontSize: number
     keys: string[]
     values: { [x: string]: number }
