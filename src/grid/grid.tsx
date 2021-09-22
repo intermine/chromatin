@@ -1,5 +1,7 @@
+import cx from 'clsx'
 import { Children, cloneElement } from 'react'
 import { CSSObject } from 'styled-components'
+
 import { createStyle, createStyledComponent } from '../styles'
 
 export interface GridProps
@@ -47,9 +49,7 @@ export const Grid = (props: GridProps): JSX.Element => {
         : Children.map(childrenProps, (child: any) => {
               return cloneElement(child, {
                   ...child.props,
-                  className: `${classes.gridItem} ${
-                      child.props.className ?? ''
-                  }`,
+                  className: cx(classes.gridItem, child.props.className),
               })
           })
 

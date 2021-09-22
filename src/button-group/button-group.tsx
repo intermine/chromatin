@@ -1,4 +1,6 @@
 import React, { HTMLProps } from 'react'
+import cx from 'clsx'
+
 import { ButtonBaseCommonProps } from '..'
 import { createStyledComponent } from '../styles'
 
@@ -47,7 +49,7 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
             elevation: false,
             ...rest,
             ...child.props,
-            className: 'bg-child ' + (child.props.className ?? ''),
+            className: cx('bg-child', child.props.className),
         })
     })
 
