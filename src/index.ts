@@ -8,6 +8,9 @@ export { IconButton } from './icon-button'
 export { ButtonGroup } from './button-group'
 export { InputBase } from './input-base'
 export { Input } from './input'
+export { Grid } from './grid'
+export { GridItem } from './grid-item'
+export { Spinner } from './loading'
 
 // -------------------------
 // Types
@@ -19,3 +22,6 @@ export type { IconButtonProps } from './icon-button'
 export type { ButtonGroupProps } from './button-group'
 export type { InputBaseProps } from './input-base'
 export type { InputProps } from './input'
+export type { GridProps } from './grid'
+export type { GridItemProps, ColWidthValues } from './grid-item'
+export type { SpinnerProps } from './loading'
