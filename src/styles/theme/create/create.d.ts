@@ -53,6 +53,7 @@ export type ThemeColorName =
     | 'info'
     | 'warning'
     | 'neutral'
+    | 'disable'
 
 export type ThemePalette = {
     recommendedThemeBackground: {
@@ -161,6 +162,8 @@ export type ThemeTypography = {
         documentFontSize: number
     }
 }
+
+export type ThemeTypographyVariant = Exclude<keyof ThemeTypography, 'meta'>
 
 export type CreateThemeTypographyOptionsObject = {
     scale?: number | keyof typeof namedTypographyScales

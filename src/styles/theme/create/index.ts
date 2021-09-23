@@ -32,4 +32,7 @@ export type {
     ThemeTypographyTagsProperties,
     ThemeVariableFunction,
     ThemeVars,
+    ThemeBPMixinFnName,
+    ThemeBPMixinObj,
+    ThemeTypographyVariant,
 } from './create'
