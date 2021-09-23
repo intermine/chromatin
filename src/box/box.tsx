@@ -1,18 +1,22 @@
 import { createStyledComponent } from '../styles'
 
-export interface BoxProps
+export interface BoxProps<T>
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
     innerRef?: React.RefObject<any>
+    Component?:
+        | React.ElementType
+        | React.ComponentType<T>
+        | React.ForwardRefExoticComponent<T>
 }
 
 const BoxRoot = createStyledComponent('div', () => {
     return {}
 })
 
-export const Box = (props: BoxProps): JSX.Element => {
-    const { children, innerRef, ...rest } = props
+export const Box = <T,>(props: BoxProps<T>): JSX.Element => {
+    const { children, innerRef, Component = 'div', ...rest } = props
     return (
-        <BoxRoot ref={innerRef} {...rest}>
+        <BoxRoot as={Component} ref={innerRef} {...rest}>
             {children}
         </BoxRoot>
     )
