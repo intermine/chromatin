@@ -16,10 +16,9 @@ export interface SpinnerProps
      */
     color?: string
     /**
-     * Size of a dot. Include the unit as well.
-     * @example '1rem'
+     * Size of a dot. Value is equivalent to px.
      */
-    dotSize?: string
+    dotSize?: number
 }
 
 const mapSizeToRemValue = (
@@ -70,8 +69,8 @@ const useStyle = createStyle((theme) => ({
 
         const getDimension = (): CSSObject => {
             const dim =
-                dotSize !== undefined && dotSize !== ''
-                    ? dotSize
+                dotSize !== undefined
+                    ? `${dotSize / documentFontSize}rem`
                     : `${rem * 0.14}rem`
 
             return {
