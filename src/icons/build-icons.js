@@ -60,9 +60,13 @@ async function readAndWrite(svgPath, output) {
     const file = await fs.readFile(svgPath, { encoding: 'utf8' })
     const fileName = path.basename(svgPath, '.svg') + '.tsx'
     const template = `
-    export default (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
-        ${file.replace(/<svg/, '<svg {...props}')}
-    )
+    export default (props: React.SVGProps<SVGSVGElement> & { innerRef?: React.RefObject<any>}): JSX.Element => {
+        const { innerRef, ...rest } = props
+        return (
+            ${file.replace(/<svg/, '<svg ref={innerRef} {...rest}')}
+            )
+    }
+    
 `
 
     await fs.writeFile(path.join(output, fileName), template, (err) => {

@@ -43,7 +43,7 @@ const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
 )
 
 export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
-    const { children: childrenProps, ...rest } = props
+    const { children: childrenProps, innerRef, ...rest } = props
     const children = React.Children.map(childrenProps, (child: any) => {
         return React.cloneElement(child, {
             elevation: false,
@@ -53,5 +53,9 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
         })
     })
 
-    return <ButtonGroupRoot {...rest}>{children}</ButtonGroupRoot>
+    return (
+        <ButtonGroupRoot ref={innerRef} {...rest}>
+            {children}
+        </ButtonGroupRoot>
+    )
 }

@@ -1,10 +1,14 @@
 
-    export default (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
-        <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    export default (props: React.SVGProps<SVGSVGElement> & { innerRef?: React.RefObject<any>}): JSX.Element => {
+        const { innerRef, ...rest } = props
+        return (
+            <svg ref={innerRef} {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g>
         <path fill="none" d="M0 0h24v24H0z"/>
         <path d="M21 2v20h-2v-7h-4V8a6 6 0 0 1 6-6zm-2 2.53C18.17 5 17 6.17 17 8v5h2V4.53zM9 13.9V22H7v-8.1A5.002 5.002 0 0 1 3 9V3h2v7h2V3h2v7h2V3h2v6a5.002 5.002 0 0 1-4 4.9z"/>
     </g>
 </svg>
 
-    )
+            )
+    }
+    

@@ -19,6 +19,7 @@ export interface SpinnerProps
      * Size of a dot. Value is equivalent to px.
      */
     dotSize?: number
+    innerRef?: React.RefObject<any>
 }
 
 const mapSizeToRemValue = (
@@ -151,10 +152,11 @@ const Dots = ({ className = '' }): JSX.Element => (
 
 export const Spinner = (props: SpinnerProps): JSX.Element => {
     const classes = useStyle(props)
-    const { className, ...rest } = props
+    const { className, innerRef, ...rest } = props
 
     return (
         <SpinnerContainer
+            ref={innerRef}
             className={cx(classes.animation, className)}
             {...rest}
         >

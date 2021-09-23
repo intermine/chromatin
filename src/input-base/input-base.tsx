@@ -33,6 +33,7 @@ export interface InputBaseProps
      * @default false
      */
     isHidden?: boolean
+    innerRef?: React.RefObject<any>
 }
 
 const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
@@ -157,6 +158,7 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         hasTransparentBackground,
         color,
         isHidden,
+        innerRef,
         ...rest
     } = props
 
@@ -168,5 +170,5 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         isHidden,
     }
 
-    return <InputBaseRoot {...styleProps} {...rest} />
+    return <InputBaseRoot ref={innerRef} {...styleProps} {...rest} />
 }

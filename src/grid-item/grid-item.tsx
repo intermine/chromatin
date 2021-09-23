@@ -31,6 +31,7 @@ export interface GridItemProps
      * @default 'block'
      */
     display?: CSSObject['display']
+    innerRef?: React.RefObject<any>
 }
 
 const GridItemRoot = createStyledComponent<'div', GridItemProps>(
@@ -98,6 +99,10 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
 )
 
 export const GridItem = (props: GridItemProps): JSX.Element => {
-    const { children, ...rest } = props
-    return <GridItemRoot {...rest}>{children}</GridItemRoot>
+    const { children, innerRef, ...rest } = props
+    return (
+        <GridItemRoot ref={innerRef} {...rest}>
+            {children}
+        </GridItemRoot>
+    )
 }
