@@ -15,6 +15,11 @@ export interface SpinnerProps
      * color of dots.
      */
     color?: string
+    /**
+     * Size of a dot. Include the unit as well.
+     * @example '1rem'
+     */
+    dotSize?: string
 }
 
 const mapSizeToRemValue = (
@@ -42,7 +47,7 @@ const useStyle = createStyle((theme) => ({
         },
     },
     dots: (props: SpinnerProps) => {
-        const { size = 'regular', color } = props
+        const { size = 'regular', color, dotSize } = props
         const {
             typography: {
                 meta: { documentFontSize },
@@ -64,7 +69,11 @@ const useStyle = createStyle((theme) => ({
         }
 
         const getDimension = (): CSSObject => {
-            const dim = `${rem * 0.14}rem`
+            const dim =
+                dotSize !== undefined && dotSize !== ''
+                    ? dotSize
+                    : `${rem * 0.14}rem`
+
             return {
                 height: dim,
                 width: dim,
