@@ -1,8 +1,11 @@
 import { CSSObject } from 'styled-components'
+
 import { ButtonBase, ButtonBaseProps } from '../button-base/button-base'
-import { createStyledComponent } from '../styles'
+import { createStyledComponent, createStyle } from '../styles'
 
 import type { ReactElement } from '../styles'
+
+import { Spinner } from '../loading'
 
 export type ButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
@@ -13,6 +16,10 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
      * @default false
      */
     isDense?: boolean
+    /**
+     * @default false
+     */
+    isLoading?: boolean
 }
 
 type IconContainerProps = {
@@ -96,6 +103,20 @@ const ButtonRoot = createStyledComponent<
     }
 })
 
+const useStyle = createStyle({
+    buttonDefaultChildren: <T,>(props: ButtonProps<T>) => ({
+        visibility: props.isLoading ? 'hidden' : 'visible',
+    }),
+    buttonSpinnerContainer: {
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        left: 0,
+        position: 'absolute',
+        right: 0,
+    },
+})
+
 export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
     const {
         children,
@@ -103,6 +124,8 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         LeftIcon: LeftIconProps,
         size,
         isDense,
+        isLoading = false,
+        disabled = false,
         ...rest
     } = props
 
@@ -111,13 +134,22 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         isDense,
     }
 
+    const classes = useStyle(props)
+
     return (
-        <ButtonRoot {...styleProps} {...rest}>
-            <IconContainer isRight {...styleProps}>
-                {LeftIconProps}
-            </IconContainer>
-            {children}
-            <IconContainer {...styleProps}>{RightIconProps}</IconContainer>
+        <ButtonRoot disabled={isLoading || disabled} {...styleProps} {...rest}>
+            <div className={classes.buttonDefaultChildren}>
+                <IconContainer isRight {...styleProps}>
+                    {LeftIconProps}
+                </IconContainer>
+                {children}
+                <IconContainer {...styleProps}>{RightIconProps}</IconContainer>
+            </div>
+            {isLoading && (
+                <div className={classes.buttonSpinnerContainer}>
+                    <Spinner color="inherit" size={size} />
+                </div>
+            )}
         </ButtonRoot>
     )
 }
