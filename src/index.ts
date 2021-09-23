@@ -11,6 +11,7 @@ export { Input } from './input'
 export { Grid } from './grid'
 export { GridItem } from './grid-item'
 export { Spinner } from './loading'
+export { Box } from './box'
 
 // -------------------------
 // Types
@@ -25,3 +26,4 @@ export type { InputProps } from './input'
 export type { GridProps } from './grid'
 export type { GridItemProps, ColWidthValues } from './grid-item'
 export type { SpinnerProps } from './loading'
+export type { BoxProps } from './box'
