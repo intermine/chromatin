@@ -9,8 +9,11 @@ export interface BoxProps<T>
         | React.ForwardRefExoticComponent<T>
 }
 
-const BoxRoot = createStyledComponent('div', () => {
-    return {}
+const BoxRoot = createStyledComponent('div', (theme, props) => {
+    const { themeVars, ...themePropsForThemeVarFn } = theme
+    return {
+        ...themeVars.box(themePropsForThemeVarFn, props),
+    }
 })
 
 export const Box = <T,>(props: BoxProps<T>): JSX.Element => {

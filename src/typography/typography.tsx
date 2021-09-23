@@ -30,7 +30,8 @@ export interface TypographyProps<T>
 const TypographyRoot = createStyledComponent<'span', TypographyProps<'span'>>(
     'span',
     (theme, props) => {
-        const { typography, palette, themeType } = theme
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { typography, palette, themeType } = themePropsForThemeVarFn
         const {
             variant = 'body',
             color = tto(themeType, palette.common.black, palette.common.white),
@@ -51,6 +52,7 @@ const TypographyRoot = createStyledComponent<'span', TypographyProps<'span'>>(
         return {
             color: getColor(),
             ...getFontProperties(),
+            ...themeVars.typography(themePropsForThemeVarFn, props),
         }
     }
 )

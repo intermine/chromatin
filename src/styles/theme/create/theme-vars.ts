@@ -14,6 +14,11 @@ export const createThemeVars = (
         buttonGroup = themeVarDefaultFunction,
         inputBase = themeVarDefaultFunction,
         input = themeVarDefaultFunction,
+        box = themeVarDefaultFunction,
+        grid = themeVarDefaultFunction,
+        gridItem = themeVarDefaultFunction,
+        spinner = themeVarDefaultFunction,
+        typography = themeVarDefaultFunction,
     } = options
 
     return {
@@ -23,5 +28,10 @@ export const createThemeVars = (
         buttonGroup,
         inputBase,
         input,
+        box,
+        grid,
+        gridItem,
+        spinner,
+        typography,
     }
 }

@@ -11,6 +11,11 @@ import {
     ButtonGroupProps,
     InputBaseProps,
     InputProps,
+    GridItemProps,
+    GridProps,
+    SpinnerProps,
+    TypographyProps,
+    BoxProps,
 } from '../../..'
 
 /**
@@ -30,7 +35,13 @@ export type ThemeVars = {
     buttonGroup: ThemeVariableFunction<ButtonGroupProps>
     inputBase: ThemeVariableFunction<InputBaseProps>
     input: ThemeVariableFunction<InputProps>
+    grid: ThemeVariableFunction<GridProps>
+    gridItem: ThemeVariableFunction<GridItemProps>
+    spinner: ThemeVariableFunction<SpinnerProps>
+    box: ThemeVariableFunction<BoxProps<'div'>>
+    typography: ThemeVariableFunction<TypographyProps<'div'>>
 }
+
 export type CreateThemeVarsOptions = Partial<ThemeVars>
 
 /**

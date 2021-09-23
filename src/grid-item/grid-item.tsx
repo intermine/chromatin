@@ -38,7 +38,8 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
     'div',
     (theme, props) => {
         const { xs, sm, md, lg, xl, display = 'block' } = props
-        const { mixin } = theme.breakingPoints
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { mixin } = themePropsForThemeVarFn.breakingPoints
 
         const colMixin = (width?: ColWidthValues): CSSObject => {
             if (width === undefined) return {}
@@ -94,6 +95,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                 },
                 'min'
             ),
+            ...themeVars.gridItem(themePropsForThemeVarFn, props),
         }
     }
 )

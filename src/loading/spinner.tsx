@@ -121,7 +121,8 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
     'div',
     (theme, props) => {
         const { size = 'regular' } = props
-        const { documentFontSize } = theme.typography.meta
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { documentFontSize } = themePropsForThemeVarFn.typography.meta
 
         const getDimension = (): CSSObject => {
             const dimension = `${mapSizeToRemValue(size, documentFontSize)}rem`
@@ -136,6 +137,7 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
             position: 'relative',
             transform: 'rotate(90deg)',
             ...getDimension(),
+            ...themeVars.spinner(themePropsForThemeVarFn, props),
         }
     }
 )

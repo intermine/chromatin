@@ -24,15 +24,21 @@ export interface GridProps
     innerRef?: React.RefObject<any>
 }
 
-const GridRoot = createStyledComponent<'div', GridProps>('div', (_, props) => {
-    const { isInline = false, direction = 'row' } = props
-    return {
-        boxSizing: 'border-box',
-        display: isInline ? 'inline-flex' : 'flex',
-        flexDirection: direction,
-        flexWrap: 'wrap',
+const GridRoot = createStyledComponent<'div', GridProps>(
+    'div',
+    (theme, props) => {
+        const { isInline = false, direction = 'row' } = props
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+
+        return {
+            boxSizing: 'border-box',
+            display: isInline ? 'inline-flex' : 'flex',
+            flexDirection: direction,
+            flexWrap: 'wrap',
+            ...themeVars.grid(themePropsForThemeVarFn, props),
+        }
     }
-})
+)
 
 const useStyle = createStyle((theme) => ({
     gridItem: (props: GridProps) => ({
