@@ -4,7 +4,7 @@ import { createPalette } from './palette'
 import { createThemeVars } from './theme-vars'
 import { createTypography } from './typography'
 import { createElevation } from './elevation'
-import { createBreakingPoints, createSpacing } from '.'
+import { createBreakingPoints, createSpacing, ThemeTypographyVariant } from '.'
 
 export const isThemeColorName = (
     colorName: string
@@ -28,11 +28,46 @@ export const isThemeColorName = (
         colorName === 'error' ||
         colorName === 'warning' ||
         colorName === 'info' ||
-        colorName === 'neutral'
+        colorName === 'neutral' ||
+        colorName === 'disable'
     )
         return true
     return false
 }
+
+export const isThemeFontVariant = (
+    name: string
+): name is ThemeTypographyVariant => {
+    if (typeof name !== 'string') {
+        if (!isProdEnv()) {
+            console.error(
+                '[Chromatin - isThemeFontVariant]: Expecting '.concat(
+                    'name as string. Got: ',
+                    typeof name
+                )
+            )
+        }
+        return false
+    }
+
+    if (
+        name === 'h1' ||
+        name === 'h2' ||
+        name === 'h3' ||
+        name === 'h4' ||
+        name === 'h5' ||
+        name === 'h6' ||
+        name === 'body' ||
+        name === 'bodyLg' ||
+        name === 'body Sm' ||
+        name === 'caption' ||
+        name === 'title' ||
+        name === 'small'
+    )
+        return true
+    return false
+}
+
 export const createTheme = (options = {} as CreateThemeOptions): Theme => {
     const {
         themeType = 'light',
