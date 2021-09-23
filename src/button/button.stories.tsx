@@ -4,8 +4,7 @@ import { Button } from './button'
 import SendMail from '../icons/Business/mail-send-fill'
 import UploadFile from '../icons/System/upload-2-fill'
 
-import { createStyle } from '../styles'
-import { InputBase } from '..'
+import { InputBase } from '../input-base'
 import { useEffect, useRef } from 'react'
 
 export default {
@@ -72,27 +71,6 @@ ButtonWithCustomColor.args = {
     color: '#C0D848',
     disabled: false,
 }
-
-// const useStyles = createStyle((theme) => ({
-//     button: {
-//         background: theme.palette.info.main,
-//         color: theme.palette.info.text,
-//         '&:hover': {
-//             background: theme.palette.info[60],
-//         },
-//     },
-// }))
-
-// const Template2: Story = ({ children }) => {
-//     const classes = useStyles()
-
-//     return <Button className={classes.button}>{children}</Button>
-// }
-
-// export const CustomButton = Template2.bind({})
-// CustomButton.args = {
-//     children: 'Custom Button',
-// }
 
 const Template3: Story = (props) => {
     const br = useRef()
