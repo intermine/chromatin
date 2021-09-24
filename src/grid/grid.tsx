@@ -2,7 +2,12 @@ import cx from 'clsx'
 import { Children, cloneElement } from 'react'
 import { CSSObject } from 'styled-components'
 
-import { createStyle, createStyledComponent } from '../styles'
+import {
+    createStyle,
+    createStyledComponent,
+    getThemeCSSObject,
+    ThemeCSSStyles,
+} from '../styles'
 
 export interface GridProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
@@ -35,12 +40,25 @@ export interface GridProps
          */
         gridItem?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        gridRoot?: ThemeCSSStyles
+        /**
+         * Applied to grid child
+         */
+        gridItem?: ThemeCSSStyles
+    }
 }
 
 const GridRoot = createStyledComponent<'div', GridProps>(
     'div',
     (theme, props) => {
-        const { isInline = false, direction = 'row' } = props
+        const { isInline = false, direction = 'row', csx = {} } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
         return {
@@ -49,6 +67,7 @@ const GridRoot = createStyledComponent<'div', GridProps>(
             flexDirection: direction,
             flexWrap: 'wrap',
             ...themeVars.grid(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.gridRoot, theme),
         }
     }
 )
@@ -57,6 +76,7 @@ const useStyle = createStyle((theme) => ({
     gridItem: (props: GridProps) => ({
         paddingLeft: theme.spacing(props.spacing ?? 0),
         paddingTop: theme.spacing(props.spacing ?? 0),
+        ...(props.csx && getThemeCSSObject(props.csx.gridItem, theme)),
     }),
 }))
 

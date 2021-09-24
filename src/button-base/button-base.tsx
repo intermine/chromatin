@@ -9,6 +9,8 @@ import {
     isThemeColorName,
     createStyledComponent,
     themeTernaryOperator as tto,
+    ThemeCSSStyles,
+    getThemeCSSObject,
 } from '../styles'
 
 export interface ButtonBaseCommonProps
@@ -40,6 +42,15 @@ export interface ButtonBaseCommonProps
          */
         buttonBaseRoot?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        buttonBaseRoot?: ThemeCSSStyles
+    }
 }
 
 export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
@@ -70,6 +81,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             hasElevation: hasElevationProps = true,
             hasHighlightOnFocus = true,
             hasHoverEffectOnFocus = false,
+            csx = {},
         } = props
 
         const getMainColor = (inverted = false): string => {
@@ -335,6 +347,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 colorAdjust: 'exact',
             },
             ...themeVars.buttonBase(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.buttonBaseRoot, theme),
         }
     }
 )

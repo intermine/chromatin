@@ -1,7 +1,10 @@
-import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
-import { createStyledComponent } from '../styles'
+import {
+    createStyledComponent,
+    getThemeCSSObject,
+    ThemeCSSStyles,
+} from '../styles'
 
 export interface BoxProps<T>
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
@@ -20,14 +23,29 @@ export interface BoxProps<T>
          */
         boxRoot?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        boxRoot?: ThemeCSSStyles
+    }
 }
 
-const BoxRoot = createStyledComponent('div', (theme, props) => {
-    const { themeVars, ...themePropsForThemeVarFn } = theme
-    return {
-        ...themeVars.box(themePropsForThemeVarFn, props),
+const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
+    'div',
+    (theme, props) => {
+        const { csx = {} } = props
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+
+        return {
+            ...themeVars.box(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.boxRoot, theme),
+        }
     }
-})
+)
 
 export const Box = <T,>(props: BoxProps<T>): JSX.Element => {
     const {

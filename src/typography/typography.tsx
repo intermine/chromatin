@@ -7,6 +7,8 @@ import {
     isThemeFontVariant,
     ThemeTypographyVariant,
     themeTernaryOperator as tto,
+    ThemeCSSStyles,
+    getThemeCSSObject,
 } from '../styles'
 
 export interface TypographyProps<T>
@@ -36,6 +38,15 @@ export interface TypographyProps<T>
          */
         typographyRoot?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        typographyRoot?: ThemeCSSStyles
+    }
 }
 
 const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
@@ -46,6 +57,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
         const {
             variant = 'body',
             color = tto(themeType, palette.common.black, palette.common.white),
+            csx = {},
         } = props
 
         const getColor = (): string | undefined => {
@@ -64,6 +76,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
             color: getColor(),
             ...getFontProperties(),
             ...themeVars.typography(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.typographyRoot, theme),
         }
     }
 )

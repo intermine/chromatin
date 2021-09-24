@@ -1,7 +1,13 @@
 import cx from 'clsx'
 
 import { CSSObject } from 'styled-components'
-import { createStyledComponent, createStyle, isThemeColorName } from '../styles'
+import {
+    createStyledComponent,
+    createStyle,
+    isThemeColorName,
+    ThemeCSSStyles,
+    getThemeCSSObject,
+} from '../styles'
 
 export interface SpinnerProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
@@ -33,6 +39,19 @@ export interface SpinnerProps
          */
         dots?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        spinnerContainer?: ThemeCSSStyles
+        /**
+         * Applied to dots
+         */
+        dots?: ThemeCSSStyles
+    }
 }
 
 const mapSizeToRemValue = (
@@ -60,7 +79,7 @@ const useStyle = createStyle((theme) => ({
         },
     },
     dots: (props: SpinnerProps) => {
-        const { size = 'regular', color, dotSize } = props
+        const { size = 'regular', color, dotSize, csx = {} } = props
         const {
             typography: {
                 meta: { documentFontSize },
@@ -99,6 +118,7 @@ const useStyle = createStyle((theme) => ({
             transformOrigin: getTransformOrigin(),
             transform: `translateX(-${rem / 20})`,
             ...getDimension(),
+            ...getThemeCSSObject(csx.dots, theme),
         }
     },
 
@@ -133,7 +153,7 @@ const useStyle = createStyle((theme) => ({
 const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
     'div',
     (theme, props) => {
-        const { size = 'regular' } = props
+        const { size = 'regular', csx = {} } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { documentFontSize } = themePropsForThemeVarFn.typography.meta
 
@@ -151,6 +171,7 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
             transform: 'rotate(90deg)',
             ...getDimension(),
             ...themeVars.spinner(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.spinnerContainer, theme),
         }
     }
 )

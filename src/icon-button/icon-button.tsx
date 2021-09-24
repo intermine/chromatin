@@ -1,7 +1,11 @@
 import cx from 'clsx'
 
 import { ButtonBase, ButtonBaseProps } from '../button-base/button-base'
-import { createStyledComponent } from '../styles'
+import {
+    createStyledComponent,
+    getThemeCSSObject,
+    ThemeCSSStyles,
+} from '../styles'
 
 import type { ReactElement } from '../styles'
 
@@ -25,6 +29,15 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
          */
         iconButtonRoot?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        iconButtonRoot?: ThemeCSSStyles
+    }
 }
 
 const IconButtonRoot = createStyledComponent<
@@ -35,6 +48,7 @@ const IconButtonRoot = createStyledComponent<
         size = 'regular',
         borderStyle = 'squircle',
         isDense = false,
+        csx = {},
     } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
 
@@ -82,6 +96,7 @@ const IconButtonRoot = createStyledComponent<
         transition: '0.130s',
         width: dim,
         ...themeVars.iconButton(themePropsForThemeVarFn, props),
+        ...getThemeCSSObject(csx.iconButtonRoot, theme),
     }
 })
 

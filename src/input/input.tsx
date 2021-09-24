@@ -6,9 +6,11 @@ import { InputBase, InputBaseProps } from '../input-base'
 import {
     createStyledComponent,
     getContrastRatio,
+    getThemeCSSObject,
     isThemeColorName,
     isValidColorHex,
     ReactElement,
+    ThemeCSSStyles,
     themeTernaryOperator as tto,
 } from '../styles'
 
@@ -48,10 +50,44 @@ export type InputProps = InputBaseProps & {
          */
         iconContainer?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to the root container
+         */
+        container?: ThemeCSSStyles
+        /**
+         * Applied to input component
+         */
+        inputRoot?: ThemeCSSStyles
+        /**
+         * Applied to right icon container
+         */
+        iconContainerRight?: ThemeCSSStyles
+        /**
+         * Applied to left icon container
+         */
+        iconContainerLeft?: ThemeCSSStyles
+        /**
+         * Applied to both icon container
+         */
+        iconContainer?: ThemeCSSStyles
+    }
 }
 
 interface ContainerProps {
     hasFullWidth?: InputProps['hasFullWidth']
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to the root container
+         */
+        container?: ThemeCSSStyles
+    }
 }
 
 interface IconContainerProps {
@@ -62,13 +98,30 @@ interface IconContainerProps {
     isError?: boolean
     isWarning?: boolean
     isFocus?: boolean
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to right icon container
+         */
+        iconContainerRight?: ThemeCSSStyles
+        /**
+         * Applied to left icon container
+         */
+        iconContainerLeft?: ThemeCSSStyles
+        /**
+         * Applied to both icon container
+         */
+        iconContainer?: ThemeCSSStyles
+    }
 }
 
 const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
     InputBase,
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { size = 'regular', LeftIcon, RightIcon } = props
+        const { size = 'regular', LeftIcon, RightIcon, csx = {} } = props
         const { body, bodySm, h3 } = themePropsForThemeVarFn.typography
 
         const getPadding = (): string => {
@@ -118,19 +171,21 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             ...getTypographyProperties(),
             ...getBorderRadius(),
             ...themeVars.input(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.inputRoot, theme),
         }
     }
 )
 
 const Container = createStyledComponent<'div', ContainerProps>(
     'div',
-    (_, props) => {
-        const { hasFullWidth = false } = props
+    (theme, props) => {
+        const { hasFullWidth = false, csx = {} } = props
 
         return {
             boxSizing: 'border-box',
             display: 'inline-flex',
             width: (hasFullWidth && '100%') || undefined,
+            ...getThemeCSSObject(csx.container, theme),
         }
     }
 )
@@ -147,6 +202,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             isRight = false,
             isFocus,
             color = 'neutral',
+            csx = {},
         } = props
         const { palette } = theme
 
@@ -238,6 +294,9 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             transition: '0.13s',
             ...getDimensions(),
             ...getBorderRadius(),
+            ...getThemeCSSObject(csx.iconContainer, theme),
+            ...(isRight && getThemeCSSObject(csx.iconContainerRight, theme)),
+            ...(!isRight && getThemeCSSObject(csx.iconContainerLeft, theme)),
         }
     }
 )
@@ -257,6 +316,7 @@ export const Input = (props: InputProps): JSX.Element => {
         onBlur: onBlurProps,
         className,
         classes = {},
+        csx,
         ...rest
     } = props
 
@@ -267,6 +327,7 @@ export const Input = (props: InputProps): JSX.Element => {
         isWarning,
         disabled,
         hasTransparentBackground,
+        csx,
     }
 
     const {
@@ -275,7 +336,7 @@ export const Input = (props: InputProps): JSX.Element => {
         iconContainer,
         iconContainerRight,
         iconContainerLeft,
-        ...classessForBase
+        ...classesForBase
     } = classes
 
     const [isInputFocused, setIsInputFocused] = useState(false)
@@ -304,7 +365,7 @@ export const Input = (props: InputProps): JSX.Element => {
                 {LeftIcon}
             </IconContainer>
             <InputRoot
-                className={cx(inputRoot, classessForBase)}
+                className={cx(inputRoot, classesForBase)}
                 LeftIcon={LeftIcon}
                 RightIcon={RightIcon}
                 onFocus={onFocus}

@@ -6,6 +6,8 @@ import {
     themeTernaryOperator as tto,
     createStyledComponent,
     isThemeColorName,
+    ThemeCSSStyles,
+    getThemeCSSObject,
 } from '../styles'
 
 export interface InputBaseProps
@@ -45,6 +47,15 @@ export interface InputBaseProps
          */
         inputBaseRoot?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        inputBaseRoot?: ThemeCSSStyles
+    }
 }
 
 const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
@@ -59,6 +70,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             isWarning = false,
             color = 'neutral',
             disabled,
+            csx = {},
         } = props
 
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -158,6 +170,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             },
 
             ...themeVars.inputBase(theme, props),
+            ...getThemeCSSObject(csx.inputBaseRoot, theme),
         }
     }
 )

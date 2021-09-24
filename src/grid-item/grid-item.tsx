@@ -1,6 +1,10 @@
 import cx from 'clsx'
 import { CSSObject } from 'styled-components'
-import { createStyledComponent } from '../styles'
+import {
+    createStyledComponent,
+    getThemeCSSObject,
+    ThemeCSSStyles,
+} from '../styles'
 
 export type ColWidthValues =
     | 0
@@ -42,12 +46,21 @@ export interface GridItemProps
          */
         gridItemRoot?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        gridItemRoot?: ThemeCSSStyles
+    }
 }
 
 const GridItemRoot = createStyledComponent<'div', GridItemProps>(
     'div',
     (theme, props) => {
-        const { xs, sm, md, lg, xl, display = 'block' } = props
+        const { xs, sm, md, lg, xl, display = 'block', csx = {} } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { mixin } = themePropsForThemeVarFn.breakingPoints
 
@@ -106,6 +119,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                 'min'
             ),
             ...themeVars.gridItem(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.gridItemRoot, theme),
         }
     }
 )

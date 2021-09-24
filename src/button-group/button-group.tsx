@@ -2,7 +2,11 @@ import React, { HTMLProps } from 'react'
 import cx from 'clsx'
 
 import { ButtonBaseCommonProps } from '..'
-import { createStyledComponent } from '../styles'
+import {
+    createStyledComponent,
+    getThemeCSSObject,
+    ThemeCSSStyles,
+} from '../styles'
 
 export interface ButtonGroupProps
     extends Omit<HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
@@ -22,12 +26,27 @@ export interface ButtonGroupProps
          */
         buttonGroupChild?: string
     }
+    /**
+     * To override the applied styles.
+     */
+    csx?: {
+        /**
+         * Applied to root component
+         */
+        buttonGroupRoot?: ThemeCSSStyles
+        /**
+         * Applied to child component
+         */
+        buttonGroupChild?: ThemeCSSStyles
+    }
 }
 
 const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
     'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { csx = {} } = props
+
         return {
             boxSizing: 'border-box',
             display: 'inline-flex',
@@ -51,6 +70,7 @@ const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
                 marginRight: 0,
             },
             ...themeVars.buttonGroup(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.buttonGroupRoot, theme),
         }
     }
 )
@@ -61,6 +81,7 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
         innerRef,
         className,
         classes = {},
+        csx = {},
         ...rest
     } = props
 
@@ -72,6 +93,7 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
             ...rest,
             ...child.props,
             className: cx('bg-child', child.props.className, buttonGroupChild),
+            csx: { buttonRoot: csx.buttonGroupChild },
         })
     })
 
@@ -79,6 +101,7 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
         <ButtonGroupRoot
             className={cx(className, buttonGroupRoot)}
             ref={innerRef}
+            csx={csx}
             {...rest}
         >
             {children}
