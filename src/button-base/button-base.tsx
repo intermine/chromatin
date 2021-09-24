@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react'
+import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 import {
     getContrastRatio,
@@ -30,6 +31,15 @@ export interface ButtonBaseCommonProps
      * @default false
      */
     hasHoverEffectOnFocus?: boolean
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        buttonBaseRoot?: string
+    }
 }
 
 export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
@@ -342,6 +352,8 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         children,
         Component = 'button',
         innerRef,
+        classes = {},
+        className,
         tabIndex = 0,
         ...rest
     } = props
@@ -349,6 +361,7 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
     return (
         <ButtonBaseRoot
             as={Component}
+            className={cx(className, classes.buttonBaseRoot)}
             ref={innerRef}
             tabIndex={tabIndex}
             {...rest}

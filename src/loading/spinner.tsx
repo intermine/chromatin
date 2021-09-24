@@ -20,6 +20,19 @@ export interface SpinnerProps
      */
     dotSize?: number
     innerRef?: React.RefObject<any>
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        spinnerContainer?: string
+        /**
+         * Applied to dots
+         */
+        dots?: string
+    }
 }
 
 const mapSizeToRemValue = (
@@ -154,21 +167,26 @@ const Dots = ({ className = '' }): JSX.Element => (
 
 export const Spinner = (props: SpinnerProps): JSX.Element => {
     const classes = useStyle(props)
-    const { className, innerRef, ...rest } = props
+    const { className, classes: classesProps = {}, innerRef, ...rest } = props
+    const dotsClassName = cx(classes.dots, classesProps.dots)
 
     return (
         <SpinnerContainer
             ref={innerRef}
-            className={cx(classes.animation, className)}
+            className={cx(
+                classes.animation,
+                className,
+                classesProps.spinnerContainer
+            )}
             {...rest}
         >
-            <Dots className={classes.dots} />
-            <Dots className={classes.dots} />
-            <Dots className={classes.dots} />
-            <Dots className={classes.dots} />
-            <Dots className={classes.dots} />
-            <Dots className={classes.dots} />
-            <Dots className={classes.dots} />
+            <Dots className={dotsClassName} />
+            <Dots className={dotsClassName} />
+            <Dots className={dotsClassName} />
+            <Dots className={dotsClassName} />
+            <Dots className={dotsClassName} />
+            <Dots className={dotsClassName} />
+            <Dots className={dotsClassName} />
         </SpinnerContainer>
     )
 }

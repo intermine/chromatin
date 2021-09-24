@@ -9,6 +9,19 @@ export interface ButtonGroupProps
     variant?: ButtonBaseCommonProps['variant']
     size?: 'small' | 'regular' | 'large'
     innerRef?: React.RefObject<any>
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        buttonGroupRoot?: string
+        /**
+         * Applied to child component
+         */
+        buttonGroupChild?: string
+    }
 }
 
 const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
@@ -43,18 +56,31 @@ const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
 )
 
 export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
-    const { children: childrenProps, innerRef, ...rest } = props
+    const {
+        children: childrenProps,
+        innerRef,
+        className,
+        classes = {},
+        ...rest
+    } = props
+
+    const { buttonGroupChild, buttonGroupRoot } = classes
+
     const children = React.Children.map(childrenProps, (child: any) => {
         return React.cloneElement(child, {
             elevation: false,
             ...rest,
             ...child.props,
-            className: cx('bg-child', child.props.className),
+            className: cx('bg-child', child.props.className, buttonGroupChild),
         })
     })
 
     return (
-        <ButtonGroupRoot ref={innerRef} {...rest}>
+        <ButtonGroupRoot
+            className={cx(className, buttonGroupRoot)}
+            ref={innerRef}
+            {...rest}
+        >
             {children}
         </ButtonGroupRoot>
     )

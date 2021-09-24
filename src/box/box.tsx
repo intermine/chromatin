@@ -1,3 +1,6 @@
+import { CSSObject } from 'styled-components'
+import cx from 'clsx'
+
 import { createStyledComponent } from '../styles'
 
 export interface BoxProps<T>
@@ -7,6 +10,16 @@ export interface BoxProps<T>
         | React.ElementType
         | React.ComponentType<T>
         | React.ForwardRefExoticComponent<T>
+
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        boxRoot?: string
+    }
 }
 
 const BoxRoot = createStyledComponent('div', (theme, props) => {
@@ -17,9 +30,21 @@ const BoxRoot = createStyledComponent('div', (theme, props) => {
 })
 
 export const Box = <T,>(props: BoxProps<T>): JSX.Element => {
-    const { children, innerRef, Component = 'div', ...rest } = props
+    const {
+        children,
+        className,
+        classes = {},
+        innerRef,
+        Component = 'div',
+        ...rest
+    } = props
     return (
-        <BoxRoot as={Component} ref={innerRef} {...rest}>
+        <BoxRoot
+            className={cx(className, classes.boxRoot)}
+            as={Component}
+            ref={innerRef}
+            {...rest}
+        >
             {children}
         </BoxRoot>
     )

@@ -1,4 +1,5 @@
 import { CSSObject } from 'styled-components'
+import cx from 'clsx'
 
 import { ButtonBase, ButtonBaseProps } from '../button-base/button-base'
 import { createStyledComponent, createStyle } from '../styles'
@@ -20,6 +21,40 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
      * @default false
      */
     isLoading?: boolean
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        buttonRoot?: string
+        /**
+         * Applied to right icon container
+         */
+        iconContainerRight?: string
+        /**
+         * Applied to left icon container
+         */
+        iconContainerLeft?: string
+        /**
+         * Applied to both icon container
+         */
+        iconContainer?: string
+        /**
+         * Applied to button's spinner container
+         */
+        buttonSpinnerContainer?: string
+        /**
+         * Applied to spinner
+         */
+        buttonSpinner?: string
+        /**
+         * Applied to button children container. It is not applied to
+         * the component containing spinner
+         */
+        buttonChildrenContainer?: string
+    }
 }
 
 type IconContainerProps = {
@@ -104,7 +139,7 @@ const ButtonRoot = createStyledComponent<
 })
 
 const useStyle = createStyle({
-    buttonDefaultChildren: <T,>(props: ButtonProps<T>) => ({
+    buttonChildrenContainer: <T,>(props: ButtonProps<T>) => ({
         visibility: props.isLoading ? 'hidden' : 'visible',
     }),
     buttonSpinnerContainer: {
@@ -126,6 +161,8 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         isDense,
         isLoading = false,
         disabled = false,
+        className,
+        classes: classesProps = {},
         ...rest
     } = props
 
@@ -135,19 +172,59 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
     }
 
     const classes = useStyle(props)
+    const { buttonChildrenContainer, buttonSpinnerContainer } = classes
+    const {
+        buttonChildrenContainer: buttonChildrenContainerProps,
+        buttonRoot: buttonRootProps,
+        buttonSpinner: buttonSpinnerProps,
+        buttonSpinnerContainer: buttonSpinnerContainerProps,
+        iconContainer: iconContainerProps,
+        iconContainerLeft: iconContainerLeftProps,
+        iconContainerRight: iconContainerRightProps,
+        ...classesForBase
+    } = classesProps
 
     return (
-        <ButtonRoot disabled={isLoading || disabled} {...styleProps} {...rest}>
-            <div className={classes.buttonDefaultChildren}>
-                <IconContainer isRight {...styleProps}>
+        <ButtonRoot
+            className={cx(className, buttonRootProps)}
+            disabled={isLoading || disabled}
+            classes={classesForBase}
+            {...styleProps}
+            {...rest}
+        >
+            <div
+                className={cx(
+                    buttonChildrenContainer,
+                    buttonChildrenContainerProps
+                )}
+            >
+                <IconContainer
+                    className={cx(iconContainerProps, iconContainerLeftProps)}
+                    isRight
+                    {...styleProps}
+                >
                     {LeftIconProps}
                 </IconContainer>
                 {children}
-                <IconContainer {...styleProps}>{RightIconProps}</IconContainer>
+                <IconContainer
+                    className={cx(iconContainerProps, iconContainerRightProps)}
+                    {...styleProps}
+                >
+                    {RightIconProps}
+                </IconContainer>
             </div>
             {isLoading && (
-                <div className={classes.buttonSpinnerContainer}>
-                    <Spinner color="inherit" size={size} />
+                <div
+                    className={cx(
+                        buttonSpinnerContainer,
+                        buttonSpinnerContainerProps
+                    )}
+                >
+                    <Spinner
+                        className={cx(buttonSpinnerProps)}
+                        color="inherit"
+                        size={size}
+                    />
                 </div>
             )}
         </ButtonRoot>

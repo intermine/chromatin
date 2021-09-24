@@ -1,5 +1,7 @@
 import { InputHTMLAttributes } from 'react'
 import { CSSObject } from 'styled-components'
+import cx from 'clsx'
+
 import {
     themeTernaryOperator as tto,
     createStyledComponent,
@@ -34,6 +36,15 @@ export interface InputBaseProps
      */
     isHidden?: boolean
     innerRef?: React.RefObject<any>
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        inputBaseRoot?: string
+    }
 }
 
 const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
@@ -159,6 +170,8 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         color,
         isHidden,
         innerRef,
+        classes = {},
+        className,
         ...rest
     } = props
 
@@ -170,5 +183,12 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         isHidden,
     }
 
-    return <InputBaseRoot ref={innerRef} {...styleProps} {...rest} />
+    return (
+        <InputBaseRoot
+            className={cx(className, classes.inputBaseRoot)}
+            ref={innerRef}
+            {...styleProps}
+            {...rest}
+        />
+    )
 }

@@ -22,6 +22,19 @@ export interface GridProps
      */
     spacing?: number
     innerRef?: React.RefObject<any>
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        gridRoot?: string
+        /**
+         * Applied to grid child
+         */
+        gridItem?: string
+    }
 }
 
 const GridRoot = createStyledComponent<'div', GridProps>(
@@ -48,7 +61,15 @@ const useStyle = createStyle((theme) => ({
 }))
 
 export const Grid = (props: GridProps): JSX.Element => {
-    const { children: childrenProps, spacing, innerRef, ...rest } = props
+    const {
+        children: childrenProps,
+        spacing,
+        innerRef,
+        className,
+        classes: classesProps = {},
+        ...rest
+    } = props
+
     const classes = useStyle(props)
 
     const children = !spacing
@@ -56,12 +77,21 @@ export const Grid = (props: GridProps): JSX.Element => {
         : Children.map(childrenProps, (child: any) => {
               return cloneElement(child, {
                   ...child.props,
-                  className: cx(classes.gridItem, child.props.className),
+                  className: cx(
+                      classes.gridItem,
+                      child.props.className,
+                      classesProps.gridItem
+                  ),
               })
           })
 
     return (
-        <GridRoot ref={innerRef} spacing={spacing} {...rest}>
+        <GridRoot
+            className={cx(className, classesProps.gridRoot)}
+            ref={innerRef}
+            spacing={spacing}
+            {...rest}
+        >
             {children}
         </GridRoot>
     )

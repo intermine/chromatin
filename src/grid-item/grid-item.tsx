@@ -1,3 +1,4 @@
+import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 import { createStyledComponent } from '../styles'
 
@@ -32,6 +33,15 @@ export interface GridItemProps
      */
     display?: CSSObject['display']
     innerRef?: React.RefObject<any>
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        gridItemRoot?: string
+    }
 }
 
 const GridItemRoot = createStyledComponent<'div', GridItemProps>(
@@ -101,9 +111,13 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
 )
 
 export const GridItem = (props: GridItemProps): JSX.Element => {
-    const { children, innerRef, ...rest } = props
+    const { children, innerRef, className, classes = {}, ...rest } = props
     return (
-        <GridItemRoot ref={innerRef} {...rest}>
+        <GridItemRoot
+            className={cx(className, classes.gridItemRoot)}
+            ref={innerRef}
+            {...rest}
+        >
             {children}
         </GridItemRoot>
     )

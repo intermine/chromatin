@@ -1,3 +1,5 @@
+import cx from 'clsx'
+
 import { ButtonBase, ButtonBaseProps } from '../button-base/button-base'
 import { createStyledComponent } from '../styles'
 
@@ -14,9 +16,18 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
      * @default false
      */
     isDense?: boolean
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        iconButtonRoot?: string
+    }
 }
 
-const ButtonRoot = createStyledComponent<
+const IconButtonRoot = createStyledComponent<
     typeof ButtonBase,
     IconButtonProps<'button'>
 >(ButtonBase, (theme, props) => {
@@ -75,10 +86,16 @@ const ButtonRoot = createStyledComponent<
 })
 
 export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
-    const { Icon, variant = 'ghost', ...rest } = props
+    const { Icon, variant = 'ghost', className, classes = {}, ...rest } = props
+    const { iconButtonRoot, ...classesForBase } = classes
     return (
-        <ButtonRoot variant={variant} {...rest}>
+        <IconButtonRoot
+            className={cx(className, iconButtonRoot)}
+            variant={variant}
+            classes={classesForBase}
+            {...rest}
+        >
             {Icon}
-        </ButtonRoot>
+        </IconButtonRoot>
     )
 }

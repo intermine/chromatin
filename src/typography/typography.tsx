@@ -1,4 +1,6 @@
 import { CSSObject } from 'styled-components'
+import cx from 'clsx'
+
 import {
     createStyledComponent,
     isThemeColorName,
@@ -25,6 +27,15 @@ export interface TypographyProps<T>
 
     variant?: ThemeTypographyVariant
     color?: string
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to root component
+         */
+        typographyRoot?: string
+    }
 }
 
 const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
@@ -58,7 +69,15 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
 )
 
 export const Typography = <T,>(props: TypographyProps<T>): JSX.Element => {
-    const { children, innerRef, variant, Component, ...rest } = props
+    const {
+        children,
+        innerRef,
+        variant,
+        className,
+        classes = {},
+        Component,
+        ...rest
+    } = props
 
     const getComponent = (): TypographyProps<T>['Component'] => {
         if (Component) return Component
@@ -75,11 +94,13 @@ export const Typography = <T,>(props: TypographyProps<T>): JSX.Element => {
                 return 'div'
         }
     }
+
     return (
         <TypographyRoot
             as={getComponent()}
             ref={innerRef}
             variant={variant}
+            className={cx(className, classes.typographyRoot)}
             {...rest}
         >
             {children}

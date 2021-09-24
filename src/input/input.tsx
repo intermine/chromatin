@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CSSObject } from 'styled-components'
+import cx from 'clsx'
 
 import { InputBase, InputBaseProps } from '../input-base'
 import {
@@ -11,7 +12,7 @@ import {
     themeTernaryOperator as tto,
 } from '../styles'
 
-export interface InputProps extends InputBaseProps {
+export type InputProps = InputBaseProps & {
     /**
      * @default false
      */
@@ -22,6 +23,31 @@ export interface InputProps extends InputBaseProps {
     size?: 'small' | 'regular' | 'large'
     LeftIcon?: ReactElement
     RightIcon?: ReactElement
+    /**
+     * To extend the styles applied to the components
+     */
+    classes?: {
+        /**
+         * Applied to the root container
+         */
+        container?: string
+        /**
+         * Applied to input component
+         */
+        inputRoot?: string
+        /**
+         * Applied to right icon container
+         */
+        iconContainerRight?: string
+        /**
+         * Applied to left icon container
+         */
+        iconContainerLeft?: string
+        /**
+         * Applied to both icon container
+         */
+        iconContainer?: string
+    }
 }
 
 interface ContainerProps {
@@ -229,6 +255,8 @@ export const Input = (props: InputProps): JSX.Element => {
         hasTransparentBackground,
         onFocus: onFocusProps,
         onBlur: onBlurProps,
+        className,
+        classes = {},
         ...rest
     } = props
 
@@ -240,6 +268,15 @@ export const Input = (props: InputProps): JSX.Element => {
         disabled,
         hasTransparentBackground,
     }
+
+    const {
+        container,
+        inputRoot,
+        iconContainer,
+        iconContainerRight,
+        iconContainerLeft,
+        ...classessForBase
+    } = classes
 
     const [isInputFocused, setIsInputFocused] = useState(false)
 
@@ -254,11 +291,20 @@ export const Input = (props: InputProps): JSX.Element => {
     }
 
     return (
-        <Container hasFullWidth={hasFullWidth} {...styleProps}>
-            <IconContainer isFocus={isInputFocused} {...styleProps}>
+        <Container
+            className={cx(className, container)}
+            hasFullWidth={hasFullWidth}
+            {...styleProps}
+        >
+            <IconContainer
+                className={cx(iconContainer, iconContainerLeft)}
+                isFocus={isInputFocused}
+                {...styleProps}
+            >
                 {LeftIcon}
             </IconContainer>
             <InputRoot
+                className={cx(inputRoot, classessForBase)}
                 LeftIcon={LeftIcon}
                 RightIcon={RightIcon}
                 onFocus={onFocus}
@@ -266,7 +312,12 @@ export const Input = (props: InputProps): JSX.Element => {
                 {...styleProps}
                 {...rest}
             />
-            <IconContainer isFocus={isInputFocused} isRight {...styleProps}>
+            <IconContainer
+                className={cx(iconContainer, iconContainerRight)}
+                isFocus={isInputFocused}
+                isRight
+                {...styleProps}
+            >
                 {RightIcon}
             </IconContainer>
         </Container>
