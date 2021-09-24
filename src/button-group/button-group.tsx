@@ -20,7 +20,7 @@ export interface ButtonGroupProps
         /**
          * Applied to root component
          */
-        buttonGroupRoot?: string
+        root?: string
         /**
          * Applied to child component
          */
@@ -33,7 +33,7 @@ export interface ButtonGroupProps
         /**
          * Applied to root component
          */
-        buttonGroupRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
         /**
          * Applied to child component
          */
@@ -70,7 +70,7 @@ const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
                 marginRight: 0,
             },
             ...themeVars.buttonGroup(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.buttonGroupRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -85,7 +85,7 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
         ...rest
     } = props
 
-    const { buttonGroupChild, buttonGroupRoot } = classes
+    const { buttonGroupChild, root } = classes
 
     const children = React.Children.map(childrenProps, (child: any) => {
         return React.cloneElement(child, {
@@ -93,13 +93,13 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
             ...rest,
             ...child.props,
             className: cx('bg-child', child.props.className, buttonGroupChild),
-            csx: { buttonRoot: csx.buttonGroupChild },
+            csx: { root: csx.buttonGroupChild },
         })
     })
 
     return (
         <ButtonGroupRoot
-            className={cx(className, buttonGroupRoot)}
+            className={cx(className, root)}
             ref={innerRef}
             csx={csx}
             {...rest}

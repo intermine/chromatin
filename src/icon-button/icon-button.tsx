@@ -27,7 +27,7 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
         /**
          * Applied to root component
          */
-        iconButtonRoot?: string
+        root?: string
     }
     /**
      * To override the applied styles.
@@ -36,7 +36,7 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
         /**
          * Applied to root component
          */
-        iconButtonRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -96,16 +96,16 @@ const IconButtonRoot = createStyledComponent<
         transition: '0.130s',
         width: dim,
         ...themeVars.iconButton(themePropsForThemeVarFn, props),
-        ...getThemeCSSObject(csx.iconButtonRoot, theme),
+        ...getThemeCSSObject(csx.root, theme),
     }
 })
 
 export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
     const { Icon, variant = 'ghost', className, classes = {}, ...rest } = props
-    const { iconButtonRoot, ...classesForBase } = classes
+    const { root, ...classesForBase } = classes
     return (
         <IconButtonRoot
-            className={cx(className, iconButtonRoot)}
+            className={cx(className, root)}
             variant={variant}
             classes={classesForBase}
             {...rest}

@@ -21,7 +21,7 @@ export interface BoxProps<T>
         /**
          * Applied to root component
          */
-        boxRoot?: string
+        root?: string
     }
     /**
      * To override the applied styles.
@@ -30,7 +30,7 @@ export interface BoxProps<T>
         /**
          * Applied to root component
          */
-        boxRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -42,7 +42,7 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
 
         return {
             ...themeVars.box(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.boxRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -58,7 +58,7 @@ export const Box = <T,>(props: BoxProps<T>): JSX.Element => {
     } = props
     return (
         <BoxRoot
-            className={cx(className, classes.boxRoot)}
+            className={cx(className, classes.root)}
             as={Component}
             ref={innerRef}
             {...rest}

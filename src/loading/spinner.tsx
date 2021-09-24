@@ -33,7 +33,7 @@ export interface SpinnerProps
         /**
          * Applied to root component
          */
-        spinnerContainer?: string
+        root?: string
         /**
          * Applied to dots
          */
@@ -46,7 +46,7 @@ export interface SpinnerProps
         /**
          * Applied to root component
          */
-        spinnerContainer?: ThemeCSSStyles
+        root?: ThemeCSSStyles
         /**
          * Applied to dots
          */
@@ -171,7 +171,7 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
             transform: 'rotate(90deg)',
             ...getDimension(),
             ...themeVars.spinner(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.spinnerContainer, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -194,11 +194,7 @@ export const Spinner = (props: SpinnerProps): JSX.Element => {
     return (
         <SpinnerContainer
             ref={innerRef}
-            className={cx(
-                classes.animation,
-                className,
-                classesProps.spinnerContainer
-            )}
+            className={cx(classes.animation, className, classesProps.root)}
             {...rest}
         >
             <Dots className={dotsClassName} />

@@ -32,7 +32,7 @@ export type InputProps = InputBaseProps & {
         /**
          * Applied to the root container
          */
-        container?: string
+        root?: string
         /**
          * Applied to input component
          */
@@ -57,7 +57,7 @@ export type InputProps = InputBaseProps & {
         /**
          * Applied to the root container
          */
-        container?: ThemeCSSStyles
+        root?: ThemeCSSStyles
         /**
          * Applied to input component
          */
@@ -86,7 +86,7 @@ interface ContainerProps {
         /**
          * Applied to the root container
          */
-        container?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -185,7 +185,7 @@ const Container = createStyledComponent<'div', ContainerProps>(
             boxSizing: 'border-box',
             display: 'inline-flex',
             width: (hasFullWidth && '100%') || undefined,
-            ...getThemeCSSObject(csx.container, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -331,7 +331,7 @@ export const Input = (props: InputProps): JSX.Element => {
     }
 
     const {
-        container,
+        root,
         inputRoot,
         iconContainer,
         iconContainerRight,
@@ -353,7 +353,7 @@ export const Input = (props: InputProps): JSX.Element => {
 
     return (
         <Container
-            className={cx(className, container)}
+            className={cx(className, root)}
             hasFullWidth={hasFullWidth}
             {...styleProps}
         >

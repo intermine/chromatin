@@ -40,7 +40,7 @@ export interface ButtonBaseCommonProps
         /**
          * Applied to root component
          */
-        buttonBaseRoot?: string
+        root?: string
     }
     /**
      * To override the applied styles.
@@ -49,7 +49,7 @@ export interface ButtonBaseCommonProps
         /**
          * Applied to root component
          */
-        buttonBaseRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -347,7 +347,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 colorAdjust: 'exact',
             },
             ...themeVars.buttonBase(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.buttonBaseRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -374,7 +374,7 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
     return (
         <ButtonBaseRoot
             as={Component}
-            className={cx(className, classes.buttonBaseRoot)}
+            className={cx(className, classes.root)}
             ref={innerRef}
             tabIndex={tabIndex}
             {...rest}

@@ -33,7 +33,7 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
         /**
          * Applied to root component
          */
-        buttonRoot?: string
+        root?: string
         /**
          * Applied to right icon container
          */
@@ -68,7 +68,7 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
         /**
          * Applied to root component
          */
-        buttonRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
         /**
          * Applied to right icon container
          */
@@ -197,7 +197,7 @@ const ButtonRoot = createStyledComponent<
         transition: '0.130s',
         ...getFontProperties(),
         ...themeVars.button(themePropsForThemeVarFn, props),
-        ...getThemeCSSObject(csx.buttonRoot, theme),
+        ...getThemeCSSObject(csx.root, theme),
     }
 })
 
@@ -242,7 +242,7 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
     const { buttonChildrenContainer, buttonSpinnerContainer } = classes
     const {
         buttonChildrenContainer: buttonChildrenContainerProps,
-        buttonRoot: buttonRootProps,
+        root: rootProps,
         buttonSpinner: buttonSpinnerProps,
         buttonSpinnerContainer: buttonSpinnerContainerProps,
         iconContainer: iconContainerProps,
@@ -253,7 +253,7 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
 
     return (
         <ButtonRoot
-            className={cx(className, buttonRootProps)}
+            className={cx(className, rootProps)}
             disabled={isLoading || disabled}
             classes={classesForBase}
             {...styleProps}
@@ -289,7 +289,7 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
                 >
                     <Spinner
                         className={cx(buttonSpinnerProps)}
-                        csx={{ spinnerContainer: csx?.buttonSpinner }}
+                        csx={{ root: csx?.buttonSpinner }}
                         color="inherit"
                         size={size}
                     />

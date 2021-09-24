@@ -34,7 +34,7 @@ export interface GridProps
         /**
          * Applied to root component
          */
-        gridRoot?: string
+        root?: string
         /**
          * Applied to grid child
          */
@@ -47,7 +47,7 @@ export interface GridProps
         /**
          * Applied to root component
          */
-        gridRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
         /**
          * Applied to grid child
          */
@@ -67,7 +67,7 @@ const GridRoot = createStyledComponent<'div', GridProps>(
             flexDirection: direction,
             flexWrap: 'wrap',
             ...themeVars.grid(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.gridRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -107,7 +107,7 @@ export const Grid = (props: GridProps): JSX.Element => {
 
     return (
         <GridRoot
-            className={cx(className, classesProps.gridRoot)}
+            className={cx(className, classesProps.root)}
             ref={innerRef}
             spacing={spacing}
             {...rest}

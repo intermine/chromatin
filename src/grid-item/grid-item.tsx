@@ -44,7 +44,7 @@ export interface GridItemProps
         /**
          * Applied to root component
          */
-        gridItemRoot?: string
+        root?: string
     }
     /**
      * To override the applied styles.
@@ -53,7 +53,7 @@ export interface GridItemProps
         /**
          * Applied to root component
          */
-        gridItemRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -119,7 +119,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                 'min'
             ),
             ...themeVars.gridItem(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.gridItemRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -128,7 +128,7 @@ export const GridItem = (props: GridItemProps): JSX.Element => {
     const { children, innerRef, className, classes = {}, ...rest } = props
     return (
         <GridItemRoot
-            className={cx(className, classes.gridItemRoot)}
+            className={cx(className, classes.root)}
             ref={innerRef}
             {...rest}
         >

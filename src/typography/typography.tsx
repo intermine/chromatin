@@ -36,7 +36,7 @@ export interface TypographyProps<T>
         /**
          * Applied to root component
          */
-        typographyRoot?: string
+        root?: string
     }
     /**
      * To override the applied styles.
@@ -45,7 +45,7 @@ export interface TypographyProps<T>
         /**
          * Applied to root component
          */
-        typographyRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -76,7 +76,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
             color: getColor(),
             ...getFontProperties(),
             ...themeVars.typography(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.typographyRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -113,7 +113,7 @@ export const Typography = <T,>(props: TypographyProps<T>): JSX.Element => {
             as={getComponent()}
             ref={innerRef}
             variant={variant}
-            className={cx(className, classes.typographyRoot)}
+            className={cx(className, classes.root)}
             {...rest}
         >
             {children}

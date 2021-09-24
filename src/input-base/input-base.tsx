@@ -45,7 +45,7 @@ export interface InputBaseProps
         /**
          * Applied to root component
          */
-        inputBaseRoot?: string
+        root?: string
     }
     /**
      * To override the applied styles.
@@ -54,7 +54,7 @@ export interface InputBaseProps
         /**
          * Applied to root component
          */
-        inputBaseRoot?: ThemeCSSStyles
+        root?: ThemeCSSStyles
     }
 }
 
@@ -170,7 +170,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             },
 
             ...themeVars.inputBase(theme, props),
-            ...getThemeCSSObject(csx.inputBaseRoot, theme),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )
@@ -198,7 +198,7 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
 
     return (
         <InputBaseRoot
-            className={cx(className, classes.inputBaseRoot)}
+            className={cx(className, classes.root)}
             ref={innerRef}
             {...styleProps}
             {...rest}
