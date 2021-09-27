@@ -9,6 +9,8 @@ import {
     getThemeCSSObject,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface SpinnerProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
     /**
@@ -25,7 +27,7 @@ export interface SpinnerProps
      * Size of a dot. Value is equivalent to px.
      */
     dotSize?: number
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */

@@ -27,7 +27,6 @@ export interface GridProps extends BoxProps<'div'> {
      * @default 0
      */
     spacing?: number
-    innerRef?: React.RefObject<any>
     /**
      * To extend the styles applied to the components
      */

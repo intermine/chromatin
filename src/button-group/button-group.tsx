@@ -8,11 +8,13 @@ import {
     ThemeCSSStyles,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface ButtonGroupProps
     extends Omit<HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
     variant?: ButtonBaseCommonProps['variant']
     size?: 'small' | 'regular' | 'large'
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */

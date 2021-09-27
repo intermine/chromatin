@@ -9,6 +9,8 @@ import {
     getThemeCSSObject,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface InputBaseProps
     extends Omit<
         React.HTMLProps<HTMLInputElement | HTMLTextAreaElement>,
@@ -37,7 +39,7 @@ export interface InputBaseProps
      * @default false
      */
     isHidden?: boolean
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */

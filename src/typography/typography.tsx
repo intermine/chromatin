@@ -11,6 +11,8 @@ import {
     getThemeCSSObject,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface TypographyProps<T>
     extends Omit<
         React.HTMLProps<
@@ -21,7 +23,7 @@ export interface TypographyProps<T>
         >,
         'as' | 'ref'
     > {
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref<T>
     Component?:
         | React.ElementType
         | React.ComponentType<T>

@@ -7,9 +7,11 @@ import {
     ThemeCSSStyles,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface BoxProps<T>
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref<T>
     Component?:
         | React.ElementType
         | React.ComponentType<T>

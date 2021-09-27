@@ -6,9 +6,11 @@ import {
     ThemeCSSStyles,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface LabelProps
     extends Omit<React.HTMLProps<HTMLLabelElement>, 'as' | 'ref'> {
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref<HTMLLabelElement>
     color?: string
     /**
      * To extend the styles applied to the components

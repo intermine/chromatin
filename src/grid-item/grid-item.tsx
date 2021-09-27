@@ -6,6 +6,8 @@ import {
     ThemeCSSStyles,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export type ColWidthValues =
     | 0
     | 1
@@ -36,7 +38,7 @@ export interface GridItemProps
      * @default 'block'
      */
     display?: CSSObject['display']
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */

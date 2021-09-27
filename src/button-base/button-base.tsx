@@ -13,11 +13,13 @@ import {
     getThemeCSSObject,
 } from '../styles'
 
+import type { Ref } from '../utils'
+
 export interface ButtonBaseCommonProps
     extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'as' | 'ref'> {
     variant?: 'normal' | 'outlined' | 'ghost'
     color?: string
-    innerRef?: React.RefObject<any>
+    innerRef?: Ref
     /**
      * This is not applicable for ghost and outlined variant
      * @default true
