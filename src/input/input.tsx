@@ -25,6 +25,13 @@ export type InputProps = InputBaseProps & {
     size?: 'small' | 'regular' | 'large'
     LeftIcon?: ReactElement
     RightIcon?: ReactElement
+    Component?: 'input' | 'textarea'
+
+    /**
+     * To specify resize property
+     * Only works if Component is textarea.
+     */
+    resize?: CSSObject['resize']
     /**
      * To extend the styles applied to the components
      */
@@ -79,6 +86,7 @@ export type InputProps = InputBaseProps & {
 
 interface ContainerProps {
     hasFullWidth?: InputProps['hasFullWidth']
+    Component?: InputProps['Component']
     /**
      * To override the applied styles.
      */
@@ -98,6 +106,7 @@ interface IconContainerProps {
     isError?: boolean
     isWarning?: boolean
     isFocus?: boolean
+    Component?: InputProps['Component']
     /**
      * To override the applied styles.
      */
@@ -121,7 +130,13 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
     InputBase,
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { size = 'regular', LeftIcon, RightIcon, csx = {} } = props
+        const {
+            size = 'regular',
+            LeftIcon,
+            RightIcon,
+            csx = {},
+            resize = 'none',
+        } = props
         const { body, bodySm, h3 } = themePropsForThemeVarFn.typography
 
         const getPadding = (): string => {
@@ -167,7 +182,9 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
         return {
             flex: 1,
             padding: getPadding(),
+            margin: 0,
             transition: '0.13s',
+            resize,
             ...getTypographyProperties(),
             ...getBorderRadius(),
             ...themeVars.input(themePropsForThemeVarFn, props),
@@ -184,6 +201,7 @@ const Container = createStyledComponent<'div', ContainerProps>(
         return {
             boxSizing: 'border-box',
             display: 'inline-flex',
+
             width: (hasFullWidth && '100%') || undefined,
             ...getThemeCSSObject(csx.root, theme),
         }
@@ -261,8 +279,13 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
         }
 
         const getDimensions = (): CSSObject => {
-            if (size === 'regular' || size === 'large') return { width: '2rem' }
-            return { width: '0.8rem' }
+            if (size === 'regular' || size === 'large')
+                return {
+                    width: '2rem',
+                }
+            return {
+                width: '2rem',
+            }
         }
 
         const getBorderRadius = (): CSSObject => {
@@ -290,6 +313,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             boxSizing: 'border-box',
             display: 'inline-flex',
             fill: getFillColor(),
+            justifyContent: 'center',
             padding: getPadding(),
             transition: '0.13s',
             ...getDimensions(),
@@ -317,6 +341,7 @@ export const Input = (props: InputProps): JSX.Element => {
         className,
         classes = {},
         csx,
+        Component = 'input',
         ...rest
     } = props
 
@@ -328,6 +353,7 @@ export const Input = (props: InputProps): JSX.Element => {
         disabled,
         hasTransparentBackground,
         csx,
+        Component,
     }
 
     const {

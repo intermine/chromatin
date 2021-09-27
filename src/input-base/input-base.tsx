@@ -1,4 +1,3 @@
-import { InputHTMLAttributes } from 'react'
 import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
@@ -12,9 +11,10 @@ import {
 
 export interface InputBaseProps
     extends Omit<
-        InputHTMLAttributes<HTMLInputElement>,
+        React.HTMLProps<HTMLInputElement | HTMLTextAreaElement>,
         'as' | 'ref' | 'color' | 'size'
     > {
+    Component?: 'input' | 'textarea'
     /**
      * @default true
      */
@@ -185,6 +185,7 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         innerRef,
         classes = {},
         className,
+        Component = 'input',
         ...rest
     } = props
 
@@ -194,10 +195,12 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         hasOutlineOnFocus,
         color,
         isHidden,
+        Component,
     }
 
     return (
         <InputBaseRoot
+            as={Component}
             className={cx(className, classes.root)}
             ref={innerRef}
             {...styleProps}
