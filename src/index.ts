@@ -13,6 +13,7 @@ export { GridItem } from './grid-item'
 export { Spinner } from './loading'
 export { Box } from './box'
 export { Typography } from './typography'
+export { Label } from './label'
 
 // -------------------------
 // Types
@@ -29,3 +30,4 @@ export type { GridItemProps, ColWidthValues } from './grid-item'
 export type { SpinnerProps } from './loading'
 export type { BoxProps } from './box'
 export type { TypographyProps } from './typography'
+export type { LabelProps } from './label'

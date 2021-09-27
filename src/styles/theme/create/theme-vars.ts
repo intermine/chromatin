@@ -19,6 +19,7 @@ export const createThemeVars = (
         gridItem = themeVarDefaultFunction,
         spinner = themeVarDefaultFunction,
         typography = themeVarDefaultFunction,
+        label = themeVarDefaultFunction,
     } = options
 
     return {
@@ -33,5 +34,6 @@ export const createThemeVars = (
         gridItem,
         spinner,
         typography,
+        label,
     }
 }

@@ -16,6 +16,7 @@ import {
     SpinnerProps,
     TypographyProps,
     BoxProps,
+    LabelProps,
 } from '../../..'
 
 /**
@@ -40,6 +41,7 @@ export type ThemeVars = {
     spinner: ThemeVariableFunction<SpinnerProps>
     box: ThemeVariableFunction<BoxProps<'div'>>
     typography: ThemeVariableFunction<TypographyProps<'div'>>
+    label: ThemeVariableFunction<LabelProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
