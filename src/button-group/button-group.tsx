@@ -90,8 +90,8 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
     const { buttonGroupChild, root } = classes
 
     const children = React.Children.map(childrenProps, (child: any) => {
+        console.log(child.displayName)
         return React.cloneElement(child, {
-            elevation: false,
             ...rest,
             ...child.props,
             className: cx('bg-child', child.props.className, buttonGroupChild),
