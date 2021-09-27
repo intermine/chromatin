@@ -9,8 +9,9 @@ import {
     ThemeCSSStyles,
 } from '../styles'
 
-export interface GridProps
-    extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
+import { Box, BoxProps } from '../box'
+
+export interface GridProps extends BoxProps<'div'> {
     /**
      * @default false
      */
@@ -55,8 +56,8 @@ export interface GridProps
     }
 }
 
-const GridRoot = createStyledComponent<'div', GridProps>(
-    'div',
+const GridRoot = createStyledComponent<typeof Box, GridProps>(
+    Box,
     (theme, props) => {
         const { isInline = false, direction = 'row', csx = {} } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -66,6 +67,7 @@ const GridRoot = createStyledComponent<'div', GridProps>(
             display: isInline ? 'inline-flex' : 'flex',
             flexDirection: direction,
             flexWrap: 'wrap',
+
             ...themeVars.grid(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
         }
@@ -84,9 +86,10 @@ export const Grid = (props: GridProps): JSX.Element => {
     const {
         children: childrenProps,
         spacing,
-        innerRef,
         className,
         classes: classesProps = {},
+        // Omitting Component
+        Component: _,
         ...rest
     } = props
 
@@ -108,7 +111,6 @@ export const Grid = (props: GridProps): JSX.Element => {
     return (
         <GridRoot
             className={cx(className, classesProps.root)}
-            ref={innerRef}
             spacing={spacing}
             {...rest}
         >
