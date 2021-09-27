@@ -14,6 +14,8 @@ export { Spinner } from './loading'
 export { Box } from './box'
 export { Typography } from './typography'
 export { Label } from './label'
+export { Portal } from './portal'
+export { Popper } from './popper'
 
 // -------------------------
 // Types
@@ -31,3 +33,5 @@ export type { SpinnerProps } from './loading'
 export type { BoxProps } from './box'
 export type { TypographyProps } from './typography'
 export type { LabelProps } from './label'
+export type { PortalProps } from './portal'
+export type { PopperProp } from './popper'
