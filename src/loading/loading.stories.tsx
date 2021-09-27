@@ -29,7 +29,7 @@ const Template2: Story = () => {
         setTimeout(() => {
             setIsLoading(false)
             setButtonTitle('Upload File')
-        }, 3000)
+        }, 6000)
     }
 
     return (
@@ -46,5 +46,6 @@ const Template2: Story = () => {
         </div>
     )
 }
+
 export const CustomButtonLoading = Template2.bind({})
 CustomButtonLoading.args = {}
