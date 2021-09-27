@@ -8,6 +8,7 @@ import {
 } from '../styles'
 
 import type { ReactElement } from '../styles'
+import { Spinner } from '..'
 
 export type IconButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
@@ -21,6 +22,10 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
      */
     isDense?: boolean
     /**
+     * @default false
+     */
+    isLoading?: boolean
+    /**
      * To extend the styles applied to the components
      */
     classes?: {
@@ -28,6 +33,10 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
          * Applied to root component
          */
         root?: string
+        /**
+         * Applied to spinner
+         */
+        spinner?: string
     }
     /**
      * To override the applied styles.
@@ -37,6 +46,10 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
          * Applied to root component
          */
         root?: ThemeCSSStyles
+        /**
+         * Applied to spinner
+         */
+        spinner?: ThemeCSSStyles
     }
 }
 
@@ -101,16 +114,37 @@ const IconButtonRoot = createStyledComponent<
 })
 
 export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
-    const { Icon, variant = 'ghost', className, classes = {}, ...rest } = props
-    const { root, ...classesForBase } = classes
+    const {
+        Icon,
+        variant = 'ghost',
+        className,
+        isLoading = false,
+        classes = {},
+        csx = {},
+        disabled = false,
+        size = 'regular',
+        ...rest
+    } = props
+    const { root, spinner, ...classesForBase } = classes
     return (
         <IconButtonRoot
             className={cx(className, root)}
             variant={variant}
             classes={classesForBase}
+            size={size}
+            csx={csx}
+            disabled={isLoading || disabled}
             {...rest}
         >
-            {Icon}
+            {!isLoading && Icon}
+            {isLoading && (
+                <Spinner
+                    className={cx(spinner)}
+                    csx={{ root: csx.spinner }}
+                    size={size}
+                    color="inherit"
+                />
+            )}
         </IconButtonRoot>
     )
 }
