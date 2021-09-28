@@ -42,3 +42,13 @@ export const isValidAnchorElement = (
 
     return true
 }
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const isChromatinElement = (Component: any): boolean => {
+    if (!Component) return false
+
+    if (Component.isChromatinElement) return true
+    if (Component.type?.isChromatinElement) return true
+
+    return false
+}
