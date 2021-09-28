@@ -26,7 +26,10 @@ export const Radio = (props: RadioProps): JSX.Element => {
     }
 
     const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
-        context?.onChange(event)
+        if (context?.onChange) {
+            context?.onChange(event)
+        }
+
         if (onChange) {
             onChange(event)
         }
