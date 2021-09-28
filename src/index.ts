@@ -16,6 +16,7 @@ export { Typography } from './typography'
 export { Label } from './label'
 export { Portal } from './portal'
 export { Popper } from './popper'
+export { Checkbox } from './checkbox'
 
 // -------------------------
 // Types
@@ -35,3 +36,4 @@ export type { TypographyProps } from './typography'
 export type { LabelProps } from './label'
 export type { PortalProps } from './portal'
 export type { PopperProp } from './popper'
+export type { CheckboxProps } from './checkbox'

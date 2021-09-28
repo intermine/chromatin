@@ -17,6 +17,7 @@ import {
     TypographyProps,
     BoxProps,
     LabelProps,
+    CheckboxProps,
 } from '../../..'
 
 /**
@@ -42,6 +43,7 @@ export type ThemeVars = {
     box: ThemeVariableFunction<BoxProps<'div'>>
     typography: ThemeVariableFunction<TypographyProps<'div'>>
     label: ThemeVariableFunction<LabelProps>
+    checkbox: ThemeVariableFunction<CheckboxProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

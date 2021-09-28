@@ -20,6 +20,7 @@ export const createThemeVars = (
         spinner = themeVarDefaultFunction,
         typography = themeVarDefaultFunction,
         label = themeVarDefaultFunction,
+        checkbox = themeVarDefaultFunction,
     } = options
 
     return {
@@ -35,5 +36,6 @@ export const createThemeVars = (
         spinner,
         typography,
         label,
+        checkbox,
     }
 }
