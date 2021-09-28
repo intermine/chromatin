@@ -56,11 +56,6 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
          * Applied to spinner
          */
         buttonSpinner?: string
-        /**
-         * Applied to button children container. It is not applied to
-         * the component containing spinner
-         */
-        buttonChildrenContainer?: string
     }
 
     /**
@@ -91,11 +86,6 @@ export type ButtonProps<T> = ButtonBaseProps<T> & {
          * Applied to spinner
          */
         buttonSpinner?: ThemeCSSStyles
-        /**
-         * Applied to button children container. It is not applied to
-         * the component containing spinner
-         */
-        buttonChildrenContainer?: ThemeCSSStyles
     }
 }
 
@@ -106,6 +96,7 @@ type IconContainerProps = {
      */
     size?: 'small' | 'regular' | 'large'
     children: ReactElement
+    isLoading?: boolean
     csx?: {
         /**
          * Applied to right icon container
@@ -125,7 +116,13 @@ type IconContainerProps = {
 const IconContainer = createStyledComponent<'span', IconContainerProps>(
     'span',
     (theme, props) => {
-        const { isRight, size = 'regular', children, csx = {} } = props
+        const {
+            isRight,
+            size = 'regular',
+            children,
+            csx = {},
+            isLoading,
+        } = props
 
         const getDimProperties = (): CSSObject => {
             let dim = '1rem'
@@ -147,6 +144,12 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
         return {
             boxSizing: 'border-box',
             display: 'inline-flex',
+            /**
+             * This is only used to set fill transparent if isLoading
+             * is true. It is not here to handle actual fill property,
+             * button-base is responsible for this.
+             * */
+            fill: isLoading ? 'transparent' : undefined,
             marginLeft: isRight ? undefined : '0.5rem',
             marginRight: isRight ? '0.5rem' : undefined,
             transition: '0.130s',
@@ -167,6 +170,7 @@ const ButtonRoot = createStyledComponent<
         hasFullWidth = false,
         isDense = false,
         csx = {},
+        isLoading,
     } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
     const { body, bodySm, bodyLg } = themePropsForThemeVarFn.typography
@@ -192,11 +196,25 @@ const ButtonRoot = createStyledComponent<
         return bodyLg
     }
 
+    /**
+     * This is only used to set color transparent if isLoading
+     * is true. It is not here to handle actual color,
+     * button-base is responsible for handle color.
+     */
+    const getColor = (): CSSObject => {
+        if (!isLoading) return {}
+
+        return {
+            color: 'transparent',
+        }
+    }
+
     return {
         borderRadius: '0.25rem',
         padding: getPadding(),
         width: (hasFullWidth && '100%') || undefined,
         transition: '0.130s',
+        ...getColor(),
         ...getFontProperties(),
         ...themeVars.button(themePropsForThemeVarFn, props),
         ...getThemeCSSObject(csx.root, theme),
@@ -204,10 +222,6 @@ const ButtonRoot = createStyledComponent<
 })
 
 const useStyle = createStyle({
-    buttonChildrenContainer: <T,>(props: ButtonProps<T>) => ({
-        visibility: props.isLoading ? 'hidden' : 'visible',
-        ...getThemeCSSObject(props.csx?.buttonSpinnerContainer),
-    }),
     buttonSpinnerContainer: <T,>(props: ButtonProps<T>) => ({
         alignItems: 'center',
         display: 'flex',
@@ -215,6 +229,7 @@ const useStyle = createStyle({
         left: 0,
         position: 'absolute',
         right: 0,
+        visibility: props.isLoading ? 'visible' : 'hidden',
         ...getThemeCSSObject(props.csx?.buttonSpinnerContainer),
     }),
 })
@@ -238,12 +253,12 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         size,
         isDense,
         csx,
+        isLoading,
     }
 
     const classes = useStyle(props)
-    const { buttonChildrenContainer, buttonSpinnerContainer } = classes
+    const { buttonSpinnerContainer } = classes
     const {
-        buttonChildrenContainer: buttonChildrenContainerProps,
         root: rootProps,
         buttonSpinner: buttonSpinnerProps,
         buttonSpinnerContainer: buttonSpinnerContainerProps,
@@ -261,42 +276,33 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
             {...styleProps}
             {...rest}
         >
+            <IconContainer
+                className={cx(iconContainerProps, iconContainerLeftProps)}
+                isRight
+                {...styleProps}
+            >
+                {LeftIconProps}
+            </IconContainer>
+            {children}
+            <IconContainer
+                className={cx(iconContainerProps, iconContainerRightProps)}
+                {...styleProps}
+            >
+                {RightIconProps}
+            </IconContainer>
             <div
                 className={cx(
-                    buttonChildrenContainer,
-                    buttonChildrenContainerProps
+                    buttonSpinnerContainer,
+                    buttonSpinnerContainerProps
                 )}
             >
-                <IconContainer
-                    className={cx(iconContainerProps, iconContainerLeftProps)}
-                    isRight
-                    {...styleProps}
-                >
-                    {LeftIconProps}
-                </IconContainer>
-                {children}
-                <IconContainer
-                    className={cx(iconContainerProps, iconContainerRightProps)}
-                    {...styleProps}
-                >
-                    {RightIconProps}
-                </IconContainer>
+                <Spinner
+                    className={cx(buttonSpinnerProps)}
+                    csx={{ root: csx?.buttonSpinner }}
+                    color="inherit"
+                    size={size}
+                />
             </div>
-            {isLoading && (
-                <div
-                    className={cx(
-                        buttonSpinnerContainer,
-                        buttonSpinnerContainerProps
-                    )}
-                >
-                    <Spinner
-                        className={cx(buttonSpinnerProps)}
-                        csx={{ root: csx?.buttonSpinner }}
-                        color="inherit"
-                        size={size}
-                    />
-                </div>
-            )}
         </ButtonRoot>
     )
 }
