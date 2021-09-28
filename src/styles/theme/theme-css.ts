@@ -1,5 +1,5 @@
 import { CSSObject } from 'styled-components'
-import { isProdEnv } from '../../utils/misc'
+import { isProdEnv } from '../../utils'
 import { Theme } from './create'
 
 export type ThemeCSSStyles = CSSObject | ((theme: Theme) => CSSObject)

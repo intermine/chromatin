@@ -1,4 +1,4 @@
-import { isProdEnv } from '../../utils/misc'
+import { isProdEnv } from '../../utils'
 import { isValidColorHex } from './check'
 
 export class RGBA {

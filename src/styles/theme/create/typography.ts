@@ -1,4 +1,4 @@
-import { isProdEnv, mergeDeep } from '../../../utils/misc'
+import { isProdEnv, mergeDeep } from '../../../utils'
 import {
     namedTypographyScales as scales,
     defaultThemeTypography,

@@ -1,4 +1,4 @@
-import { isProdEnv } from './misc'
+import { isProdEnv } from './validate'
 
 export const attachSignatureToComponent = <T>(
     Component: T,

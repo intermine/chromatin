@@ -1,4 +1,4 @@
-import { isProdEnv } from '../../../utils/misc'
+import { isProdEnv } from '../../../utils'
 import { CreateThemeOptions, Theme, ThemeColorName } from './create'
 import { createPalette } from './palette'
 import { createThemeVars } from './theme-vars'
