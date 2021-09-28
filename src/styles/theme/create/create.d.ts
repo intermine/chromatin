@@ -18,6 +18,8 @@ import {
     BoxProps,
     LabelProps,
     CheckboxProps,
+    RadioGroupProps,
+    RadioProps,
 } from '../../..'
 
 /**
@@ -44,6 +46,8 @@ export type ThemeVars = {
     typography: ThemeVariableFunction<TypographyProps<'div'>>
     label: ThemeVariableFunction<LabelProps>
     checkbox: ThemeVariableFunction<CheckboxProps>
+    radio: ThemeVariableFunction<RadioProps>
+    radioGroup: ThemeVariableFunction<RadioGroupProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

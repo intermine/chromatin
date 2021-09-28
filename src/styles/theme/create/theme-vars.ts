@@ -21,6 +21,8 @@ export const createThemeVars = (
         typography = themeVarDefaultFunction,
         label = themeVarDefaultFunction,
         checkbox = themeVarDefaultFunction,
+        radio = themeVarDefaultFunction,
+        radioGroup = themeVarDefaultFunction,
     } = options
 
     return {
@@ -37,5 +39,7 @@ export const createThemeVars = (
         typography,
         label,
         checkbox,
+        radio,
+        radioGroup,
     }
 }
