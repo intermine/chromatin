@@ -77,31 +77,31 @@ const IconButtonRoot = createStyledComponent<
 
     const getPadding = (): string => {
         if (size === 'regular') {
-            if (isDense) return '0.4rem'
-            return '0.75rem'
+            if (isDense) return '0.3125rem'
+            return '0.5625rem'
         }
 
         if (size === 'small') {
-            if (isDense) return '0.2rem'
-            return '0.4rem'
+            if (isDense) return '0.25rem'
+            return '0.4375rem'
         }
 
-        if (isDense) return '0.4rem'
-        return '1rem'
+        if (isDense) return '0.625rem'
+        return '0.75rem'
     }
 
     const getDimensions = (): string => {
         if (size === 'regular') {
-            if (isDense) return '1.8rem'
-            return '2.5rem'
+            if (isDense) return '1.75rem'
+            return '2.25rem'
         }
         if (size === 'small') {
-            if (isDense) return '1.1rem'
-            return '1.5rem'
+            if (isDense) return '1.375rem'
+            return '1.75rem'
         }
 
-        if (isDense) return '2.3rem'
-        return '3.5rem'
+        if (isDense) return '2.75rem'
+        return '3rem'
     }
 
     const dim = getDimensions()
