@@ -126,5 +126,3 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
 }
 
 attachSignatureToComponent(ButtonGroup, BUTTON_GROUP)
-
-console.log('Button Group', getChromatinElementId(ButtonGroup))
