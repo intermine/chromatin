@@ -43,6 +43,12 @@ export interface CheckboxProps
      * @default 'right'
      */
     labelPlacement?: 'top' | 'bottom' | 'left' | 'right'
+    /**
+     * Color applied to icon. This will not set the color
+     * of the label.
+     * @default 'primary'
+     */
+    color?: string
     type?: 'checkbox' | 'radio'
     /**
      * To extend the styles applied to the components
@@ -115,6 +121,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         label,
         labelPlacement = 'right',
         type = 'checkbox',
+        color = 'primary',
         ...rest
     } = props
 
@@ -163,7 +170,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
                     }),
                 }}
                 Component="span"
-                color="primary"
+                color={color}
                 Icon={getIconToRender()}
             />
             {label}
