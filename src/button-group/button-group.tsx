@@ -7,8 +7,13 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles,
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
-import { BUTTON_GROUP } from '../constants/component-ids'
+import { attachSignatureToComponent, getChromatinElementId } from '../utils'
+import {
+    BUTTON_GROUP,
+    BUTTON,
+    ICON_BUTTON,
+    BUTTON_BASE,
+} from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -92,12 +97,20 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
     const { buttonGroupChild, root } = classes
 
     const children = React.Children.map(childrenProps, (child: any) => {
-        return React.cloneElement(child, {
-            ...rest,
-            ...child.props,
-            className: cx('bg-child', child.props.className, buttonGroupChild),
-            csx: { root: csx.buttonGroupChild },
-        })
+        const id = getChromatinElementId(child)
+        if (id === BUTTON || id === ICON_BUTTON || id === BUTTON_BASE) {
+            return React.cloneElement(child, {
+                ...rest,
+                ...child.props,
+                className: cx(
+                    'bg-child',
+                    child.props.className,
+                    buttonGroupChild
+                ),
+                csx: { root: csx.buttonGroupChild },
+            })
+        }
+        return child
     })
 
     return (
@@ -113,3 +126,5 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
 }
 
 attachSignatureToComponent(ButtonGroup, BUTTON_GROUP)
+
+console.log('Button Group', getChromatinElementId(ButtonGroup))
