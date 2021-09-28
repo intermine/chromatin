@@ -1,12 +1,14 @@
 import React, { HTMLProps } from 'react'
 import cx from 'clsx'
 
-import { ButtonBaseCommonProps } from '..'
+import { ButtonBaseCommonProps } from '../button-base'
 import {
     createStyledComponent,
     getThemeCSSObject,
     ThemeCSSStyles,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { BUTTON_GROUP } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -90,7 +92,6 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
     const { buttonGroupChild, root } = classes
 
     const children = React.Children.map(childrenProps, (child: any) => {
-        console.log(child.displayName)
         return React.cloneElement(child, {
             ...rest,
             ...child.props,
@@ -110,3 +111,5 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
         </ButtonGroupRoot>
     )
 }
+
+attachSignatureToComponent(ButtonGroup, BUTTON_GROUP)

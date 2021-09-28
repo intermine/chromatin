@@ -12,6 +12,8 @@ import {
 import type { ReactElement } from '../styles'
 
 import { Spinner } from '../loading'
+import { attachSignatureToComponent } from '../utils'
+import { BUTTON } from '../constants/component-ids'
 
 export type ButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
@@ -298,3 +300,5 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         </ButtonRoot>
     )
 }
+
+attachSignatureToComponent(Button, BUTTON)

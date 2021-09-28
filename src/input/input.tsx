@@ -13,6 +13,8 @@ import {
     ThemeCSSStyles,
     themeTernaryOperator as tto,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { INPUT } from '../constants/component-ids'
 
 export type InputProps = InputBaseProps & {
     /**
@@ -410,3 +412,5 @@ export const Input = (props: InputProps): JSX.Element => {
         </Container>
     )
 }
+
+attachSignatureToComponent(Input, INPUT)

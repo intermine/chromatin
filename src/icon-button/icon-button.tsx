@@ -8,7 +8,10 @@ import {
 } from '../styles'
 
 import type { ReactElement } from '../styles'
-import { Spinner } from '..'
+import { Spinner } from '../loading'
+
+import { attachSignatureToComponent } from '../utils'
+import { ICON_BUTTON } from '../constants/component-ids'
 
 export type IconButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
@@ -148,3 +151,5 @@ export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
         </IconButtonRoot>
     )
 }
+
+attachSignatureToComponent(IconButton, ICON_BUTTON)

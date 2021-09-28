@@ -5,6 +5,8 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { GRID_ITEM } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -138,3 +140,5 @@ export const GridItem = (props: GridItemProps): JSX.Element => {
         </GridItemRoot>
     )
 }
+
+attachSignatureToComponent(GridItem, GRID_ITEM)

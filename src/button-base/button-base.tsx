@@ -12,6 +12,8 @@ import {
     ThemeCSSStyles,
     getThemeCSSObject,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { BUTTON_BASE } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -385,3 +387,5 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         </ButtonBaseRoot>
     )
 }
+
+attachSignatureToComponent(ButtonBase, BUTTON_BASE)

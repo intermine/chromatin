@@ -8,6 +8,8 @@ import {
     ThemeCSSStyles,
     getThemeCSSObject,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { SPINNER } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -209,3 +211,5 @@ export const Spinner = (props: SpinnerProps): JSX.Element => {
         </SpinnerContainer>
     )
 }
+
+attachSignatureToComponent(Spinner, SPINNER)

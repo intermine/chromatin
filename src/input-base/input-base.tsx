@@ -8,6 +8,8 @@ import {
     ThemeCSSStyles,
     getThemeCSSObject,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { INPUT_BASE } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -210,3 +212,5 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         />
     )
 }
+
+attachSignatureToComponent(InputBase, INPUT_BASE)

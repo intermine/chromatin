@@ -5,6 +5,8 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { LABEL } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -57,3 +59,5 @@ export const Label = (props: LabelProps): JSX.Element => {
         </LabelRoot>
     )
 }
+
+attachSignatureToComponent(Label, LABEL)

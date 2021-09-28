@@ -12,6 +12,8 @@ import {
 import { Box, BoxProps } from '../box'
 import { isValidAnchorElement, useForkRef } from '../utils'
 import { Portal } from '../portal'
+import { attachSignatureToComponent } from '../utils'
+import { POPPER } from '../constants/component-ids'
 
 export interface PopperProp extends BoxProps<'div'> {
     /**
@@ -93,3 +95,5 @@ export const Popper = (props: PopperProp): JSX.Element => {
         </Portal>
     )
 }
+
+attachSignatureToComponent(Popper, POPPER)

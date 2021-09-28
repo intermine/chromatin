@@ -6,6 +6,8 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { BOX } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -119,3 +121,5 @@ export const Box = <T,>(props: BoxProps<T>): JSX.Element => {
         </BoxRoot>
     )
 }
+
+attachSignatureToComponent(Box, BOX)

@@ -10,6 +10,8 @@ import {
     ThemeCSSStyles,
     getThemeCSSObject,
 } from '../styles'
+import { attachSignatureToComponent } from '../utils'
+import { TYPOGRAPHY } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 
@@ -122,3 +124,5 @@ export const Typography = <T,>(props: TypographyProps<T>): JSX.Element => {
         </TypographyRoot>
     )
 }
+
+attachSignatureToComponent(Typography, TYPOGRAPHY)

@@ -10,6 +10,8 @@ import {
 } from '../styles'
 
 import { Box, BoxProps } from '../box'
+import { attachSignatureToComponent } from '../utils'
+import { GRID } from '../constants/component-ids'
 
 export interface GridProps extends BoxProps<'div'> {
     /**
@@ -89,6 +91,7 @@ export const Grid = (props: GridProps): JSX.Element => {
         classes: classesProps = {},
         // Omitting Component
         Component: _,
+        innerRef,
         ...rest
     } = props
 
@@ -111,9 +114,12 @@ export const Grid = (props: GridProps): JSX.Element => {
         <GridRoot
             className={cx(className, classesProps.root)}
             spacing={spacing}
+            innerRef={innerRef as any}
             {...rest}
         >
             {children}
         </GridRoot>
     )
 }
+
+attachSignatureToComponent(Grid, GRID)
