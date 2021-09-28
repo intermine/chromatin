@@ -38,6 +38,19 @@ export interface ButtonBaseCommonProps
      */
     hasHoverEffectOnFocus?: boolean
     /**
+     * To activate hover style
+     */
+    isHovered?: boolean
+    /**
+     * To activate focus style
+     */
+    isFocused?: boolean
+    /**
+     * To activate active style
+     */
+    isActive?: boolean
+
+    /**
      * To extend the styles applied to the components
      */
     classes?: {
@@ -86,6 +99,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             hasHighlightOnFocus = true,
             hasHoverEffectOnFocus = false,
             csx = {},
+            isActive = false,
+            isFocused = false,
+            isHovered = false,
         } = props
 
         const getMainColor = (inverted = false): string => {
@@ -316,6 +332,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         }
 
         const calculatedColor = getColor()
+        const hoverProperties = getHoverProperties()
+        const focusProperties = getFocusProperties()
+        const activeProperties = getActiveProperties()
 
         return {
             alignItems: 'center',
@@ -343,13 +362,16 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            '&:hover': getHoverProperties(),
-            '&:active&:hover': getActiveProperties(),
-            '&:focus': getFocusProperties(),
+            '&:hover': hoverProperties,
+            '&:active&:hover': activeProperties,
+            '&:focus': focusProperties,
 
             '@media print': {
                 colorAdjust: 'exact',
             },
+            ...(isHovered && hoverProperties),
+            ...(isActive && activeProperties),
+            ...(isFocused && focusProperties),
             ...themeVars.buttonBase(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
         }
