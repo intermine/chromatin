@@ -17,8 +17,9 @@ import {
 } from '../styles'
 import { CHECKBOX } from '../constants/component-ids'
 
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, Ref } from '../utils'
 import { CSSObject } from 'styled-components'
+import { useState } from 'react'
 
 export interface CheckboxProps
     extends Omit<
@@ -50,6 +51,14 @@ export interface CheckboxProps
      */
     color?: string
     type?: 'checkbox' | 'radio'
+    /**
+     * Ref to container
+     */
+    innerRef?: Ref
+    /**
+     * Ref to input base
+     */
+    inputRef?: Ref
     /**
      * To extend the styles applied to the components
      */
@@ -122,8 +131,14 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         labelPlacement = 'right',
         type = 'checkbox',
         color = 'primary',
+        innerRef,
+        inputRef,
+        onMouseOver,
+        onMouseLeave,
         ...rest
     } = props
+
+    const [isHovered, setIsHovered] = useState(false)
 
     const getIconToRender = (): ReactElement => {
         if (isIndeterminate) return IndeterminateIcon
@@ -131,22 +146,43 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         return UncheckedIcon
     }
 
+    // TODO: Fix event
+    const handleMouseOver = (event: React.MouseEvent<any>) => {
+        setIsHovered(true)
+        if (onMouseOver) {
+            onMouseOver(event)
+        }
+    }
+
+    // TODO: Fix event
+    const handleMouseLeave = (event: React.MouseEvent<any>) => {
+        setIsHovered(false)
+        if (onMouseLeave) {
+            onMouseLeave(event)
+        }
+    }
+
     return (
         <Container
             labelPlacement={labelPlacement}
             csx={csx}
             className={cx(className, classes.root)}
+            onMouseOver={handleMouseOver}
+            onMouseLeave={handleMouseLeave}
+            innerRef={innerRef}
         >
             <InputBase
                 onChange={onChange}
                 type={type}
                 checked={isIndeterminate ? false : checked}
                 isHidden={true}
+                innerRef={inputRef}
                 {...rest}
             />
             <IconButton
                 size="regular"
                 className={cx(classes.root)}
+                isHovered={isHovered}
                 csx={{
                     root: (theme) => ({
                         marginRight:
