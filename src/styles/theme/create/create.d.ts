@@ -21,6 +21,7 @@ import {
     RadioGroupProps,
     RadioProps,
     FormControlLabelProps,
+    ToggleProps,
 } from '../../..'
 
 /**
@@ -50,6 +51,7 @@ export type ThemeVars = {
     radio: ThemeVariableFunction<RadioProps>
     radioGroup: ThemeVariableFunction<RadioGroupProps>
     formControlLabel: ThemeVariableFunction<FormControlLabelProps>
+    toggle: ThemeVariableFunction<ToggleProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

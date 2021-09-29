@@ -20,6 +20,7 @@ export { Checkbox } from './checkbox'
 export { Radio } from './radio'
 export { RadioGroup, useRadioGroup } from './radio-group'
 export { FormControlLabel } from './form-control-label'
+export { Toggle } from './toggle'
 
 // -------------------------
 // Types
@@ -43,3 +44,4 @@ export type { CheckboxProps } from './checkbox'
 export type { RadioProps } from './radio'
 export type { RadioGroupContextProps, RadioGroupProps } from './radio-group'
 export type { FormControlLabelProps } from './form-control-label'
+export type { ToggleProps } from './toggle'

@@ -24,6 +24,7 @@ export const createThemeVars = (
         radio = themeVarDefaultFunction,
         radioGroup = themeVarDefaultFunction,
         formControlLabel = themeVarDefaultFunction,
+        toggle = themeVarDefaultFunction,
     } = options
 
     return {
@@ -43,5 +44,6 @@ export const createThemeVars = (
         radio,
         radioGroup,
         formControlLabel,
+        toggle,
     }
 }

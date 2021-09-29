@@ -9,7 +9,12 @@ import {
     getThemeCSSObject,
     ReactElement,
 } from '../styles'
-import { CHECKBOX, FORM_CONTROL_LABEL, RADIO } from '../constants/component-ids'
+import {
+    CHECKBOX,
+    FORM_CONTROL_LABEL,
+    RADIO,
+    TOGGLE,
+} from '../constants/component-ids'
 
 import {
     attachSignatureToComponent,
@@ -119,7 +124,7 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
 
         const id = getChromatinElementId(control)
 
-        if (id === CHECKBOX || id === RADIO) {
+        if (id === CHECKBOX || id === RADIO || id === TOGGLE) {
             return cloneElement(control, { ...control.props, isHovered })
         }
 
