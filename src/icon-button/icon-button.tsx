@@ -78,7 +78,7 @@ const IconButtonRoot = createStyledComponent<
     const getPadding = (): string => {
         if (size === 'regular') {
             if (isDense) return '0.3125rem'
-            return '0.5625rem'
+            return '0.625rem'
         }
 
         if (size === 'small') {
@@ -86,27 +86,25 @@ const IconButtonRoot = createStyledComponent<
             return '0.4375rem'
         }
 
-        if (isDense) return '0.625rem'
-        return '0.75rem'
+        if (isDense) return '0.3125rem'
+        return '0.625rem'
     }
 
     const getDimensions = (): string => {
         if (size === 'regular') {
-            if (isDense) return '1.75rem'
-            return '2.25rem'
+            return '1.125rem'
         }
         if (size === 'small') {
-            if (isDense) return '1.375rem'
-            return '1.75rem'
+            return '0.875rem'
         }
 
-        if (isDense) return '2.75rem'
-        return '3rem'
+        return '1.5rem'
     }
 
     const dim = getDimensions()
     return {
         borderRadius: getBorderRadius(),
+        boxSizing: 'content-box',
         height: dim,
         padding: getPadding(),
         transition: '0.130s',
