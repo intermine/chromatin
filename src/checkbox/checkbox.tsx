@@ -120,6 +120,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         innerRef,
         inputRef,
         id: idProps,
+        disabled,
         ...rest
     } = props
 
@@ -147,6 +148,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     } = rest
 
     const iconButtonProps = {
+        disabled,
         size,
         borderStyle,
         isDense,
@@ -167,6 +169,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     return (
         <>
             <InputBase
+                disabled={disabled}
                 type={type}
                 id={id}
                 checked={isIndeterminate ? false : checked}
