@@ -35,7 +35,7 @@ export interface FormControlLabelProps extends LabelProps {
      * Spacing between label and control.
      * This will use theme.spacing to calculate spacing.
      * No negative spacing is supported.
-     * If childrenSpacing = 'all' theme control is
+     * If childrenSpacing = 'all' then control is
      * at one end and label is at other
      */
     childrenSpacing?: number | 'all'
