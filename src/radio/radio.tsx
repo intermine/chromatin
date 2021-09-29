@@ -3,7 +3,8 @@ import { createStyledComponent } from '../styles'
 import { useRadioGroup } from '../radio-group'
 import RadioUnchecked from '../icons/System/checkbox-blank-circle-line'
 import RadioChecked from '../icons/System/radio-button-line'
-import contrastLine from '../icons/Design/contrast-line'
+import { attachSignatureToComponent } from '../utils'
+import { RADIO } from '../constants/component-ids'
 
 export type RadioProps = CheckboxProps
 
@@ -48,3 +49,5 @@ export const Radio = (props: RadioProps): JSX.Element => {
         />
     )
 }
+
+attachSignatureToComponent(Radio, RADIO)
