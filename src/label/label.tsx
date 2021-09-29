@@ -12,7 +12,7 @@ import { LABEL } from '../constants/component-ids'
 import type { Ref } from '../utils'
 
 export interface LabelProps
-    extends Omit<React.HTMLProps<HTMLLabelElement>, 'as' | 'ref'> {
+    extends Omit<React.HTMLProps<HTMLLabelElement>, 'as' | 'ref' | 'label'> {
     innerRef?: Ref<HTMLLabelElement>
     color?: string
     /**
