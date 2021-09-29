@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid'
+
 import { isChromatinElement } from './validate'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -11,4 +13,8 @@ export const getChromatinElementId = (Component: any): string | undefined => {
     }
 
     return Component.componentId as string
+}
+
+export const getId = (size = 7): string => {
+    return nanoid(size)
 }
