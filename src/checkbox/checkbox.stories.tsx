@@ -1,6 +1,5 @@
 import { Story } from '@storybook/react/types-6-0'
 import { useState } from 'react'
-import { Typography } from '..'
 
 import { Checkbox } from './checkbox'
 
@@ -19,29 +18,11 @@ export default {
 }
 
 const Template: Story = (args) => {
-    const [checked, setChecked] = useState(false)
-
-    const onChange = () => {
-        setChecked(!checked)
-    }
-
-    return (
-        <div style={{ width: '300px' }}>
-            <Checkbox onChange={onChange} checked={checked} {...args} />
-        </div>
-    )
-}
-
-export const Default = Template.bind({})
-Default.args = {
-    label: <Typography>Checkbox Label</Typography>,
-}
-
-const Template2: Story = (args) => {
     const [checked, setChecked] = useState({
         thumb: false,
         star: false,
         heart: false,
+        default: false,
     })
 
     const onChange = (event) => {
@@ -53,6 +34,12 @@ const Template2: Story = (args) => {
 
     return (
         <div style={{ width: '300px', display: 'flex' }}>
+            <Checkbox
+                name="default"
+                onChange={onChange}
+                checked={checked.default}
+                {...args}
+            />
             <Checkbox
                 name="thumb"
                 CheckedIcon={<ThumbsChecked />}
@@ -81,5 +68,5 @@ const Template2: Story = (args) => {
     )
 }
 
-export const CheckboxWithCustomIcon = Template2.bind({})
-CheckboxWithCustomIcon.args = {}
+export const Checkboxes = Template.bind({})
+Checkboxes.args = {}
