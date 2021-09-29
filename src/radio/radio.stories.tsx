@@ -1,6 +1,6 @@
 import { Story } from '@storybook/react/types-6-0'
 import { useState } from 'react'
-import { Typography } from '..'
+import { FormControlLabel, Typography } from '..'
 
 import { Radio } from './radio'
 import { RadioGroup } from '../radio-group'
@@ -13,13 +13,21 @@ export default {
 const Template: Story = (args) => {
     return (
         <RadioGroup name="gender">
-            <Radio label="Male" value="male" {...args} />
-            <Radio label="Female" value="female" {...args} />
-            <Radio label="Other" value="other" {...args} />
-            <Radio
+            <FormControlLabel
+                control={<Radio value="male" {...args} />}
+                label="Male"
+            />
+            <FormControlLabel
+                control={<Radio value="female" {...args} />}
+                label="Female"
+            />
+            <FormControlLabel
+                control={<Radio value="other" {...args} />}
+                label="Other"
+            />
+            <FormControlLabel
+                control={<Radio value="prefer-not-to-say" {...args} />}
                 label="Prefer not to say"
-                value="prefer-not-to-say"
-                {...args}
             />
         </RadioGroup>
     )

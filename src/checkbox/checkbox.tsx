@@ -45,7 +45,6 @@ export interface CheckboxProps
 
     // Icon Button Props
     size?: 'small' | 'regular' | 'large'
-    Icon?: ReactElement
     /**
      * @default 'squircle'
      */
@@ -131,6 +130,8 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     }
 
     const {
+        size,
+        borderStyle,
         isDense,
         isLoading,
         variant = 'ghost',
@@ -146,6 +147,8 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     } = rest
 
     const iconButtonProps = {
+        size,
+        borderStyle,
         isDense,
         isLoading,
         variant,
@@ -172,7 +175,6 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
                 {...inputProps}
             />
             <IconButton
-                size="regular"
                 htmlFor={id}
                 className={cx(className, classes.root)}
                 Component="label"
