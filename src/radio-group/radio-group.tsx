@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { RadioGroupContextProps } from '.'
 import { Box, BoxProps } from '../box'
 import { createStyledComponent } from '../styles'
+import { getId } from '../utils'
 import { RadioGroupContext } from './radio-group-context'
 
 export type RadioGroupProps = Omit<BoxProps<'div'>, 'Component'> &
@@ -37,7 +38,7 @@ export const RadioGroup = (props: RadioGroupProps): JSX.Element => {
         }
     }
 
-    const name = nameProps ?? `${(Math.random() * 10_000_000).toFixed(0)}`
+    const name = nameProps ?? getId()
 
     return (
         <RadioGroupContext.Provider
