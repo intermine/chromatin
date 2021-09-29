@@ -19,6 +19,7 @@ export { Popper } from './popper'
 export { Checkbox } from './checkbox'
 export { Radio } from './radio'
 export { RadioGroup, useRadioGroup } from './radio-group'
+export { FormControlLabel } from './form-control-label'
 
 // -------------------------
 // Types
@@ -41,3 +42,4 @@ export type { PopperProp } from './popper'
 export type { CheckboxProps } from './checkbox'
 export type { RadioProps } from './radio'
 export type { RadioGroupContextProps, RadioGroupProps } from './radio-group'
+export type { FormControlLabelProps } from './form-control-label'

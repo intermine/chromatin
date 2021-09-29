@@ -23,6 +23,7 @@ export const createThemeVars = (
         checkbox = themeVarDefaultFunction,
         radio = themeVarDefaultFunction,
         radioGroup = themeVarDefaultFunction,
+        formControlLabel = themeVarDefaultFunction,
     } = options
 
     return {
@@ -41,5 +42,6 @@ export const createThemeVars = (
         checkbox,
         radio,
         radioGroup,
+        formControlLabel,
     }
 }

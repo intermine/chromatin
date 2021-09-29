@@ -20,6 +20,7 @@ import {
     CheckboxProps,
     RadioGroupProps,
     RadioProps,
+    FormControlLabelProps,
 } from '../../..'
 
 /**
@@ -48,6 +49,7 @@ export type ThemeVars = {
     checkbox: ThemeVariableFunction<CheckboxProps>
     radio: ThemeVariableFunction<RadioProps>
     radioGroup: ThemeVariableFunction<RadioGroupProps>
+    formControlLabel: ThemeVariableFunction<FormControlLabelProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
