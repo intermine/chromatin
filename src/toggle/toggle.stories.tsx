@@ -9,8 +9,6 @@ export default {
     component: Toggle,
 }
 
-type toggleType = 'off' | 'on'
-
 const Row = ({ children }) => {
     return (
         <Box
@@ -30,17 +28,16 @@ const Row = ({ children }) => {
 }
 
 const Template2: Story = (args) => {
-    const [state, setState] = useState<{ [x: string]: toggleType }>({
-        magnifier: 'off',
-        narrator: 'off',
-        filter: 'off',
+    const [state, setState] = useState({
+        magnifier: false,
+        narrator: false,
+        filter: false,
     })
 
     const handleOnChange = (event) => {
         setState((prev) => ({
             ...prev,
-            [event.target.name]:
-                prev[event.target.name] === 'on' ? 'off' : 'on',
+            [event.target.name]: !prev[event.target.name],
         }))
     }
 
@@ -52,12 +49,12 @@ const Template2: Story = (args) => {
                     control={
                         <Toggle
                             name="magnifier"
-                            state={state.magnifier}
+                            checked={state.magnifier}
                             onChange={handleOnChange}
                             {...args}
                         />
                     }
-                    label={state.magnifier === 'off' ? 'Off' : 'On'}
+                    label={!state.magnifier ? 'Off' : 'On'}
                     labelPlacement="left"
                 />
             </Row>
@@ -67,12 +64,12 @@ const Template2: Story = (args) => {
                     control={
                         <Toggle
                             name="narrator"
-                            state={state.narrator}
+                            checked={state.narrator}
                             onChange={handleOnChange}
                             {...args}
                         />
                     }
-                    label={state.narrator === 'off' ? 'Off' : 'On'}
+                    label={!state.narrator ? 'Off' : 'On'}
                     labelPlacement="left"
                 />
             </Row>
@@ -82,12 +79,12 @@ const Template2: Story = (args) => {
                     control={
                         <Toggle
                             name="filter"
-                            state={state.filter}
+                            checked={state.filter}
                             onChange={handleOnChange}
                             {...args}
                         />
                     }
-                    label={state.filter === 'off' ? 'Off' : 'On'}
+                    label={!state.filter ? 'Off' : 'On'}
                     labelPlacement="left"
                 />
             </Row>
@@ -101,13 +98,13 @@ TogglerInAction.args = {
 }
 
 const Template: Story = (args) => {
-    const [state, setState] = useState<toggleType>('off')
+    const [state, setState] = useState(false)
 
     const handleOnChange = () => {
-        setState(state === 'on' ? 'off' : 'on')
+        setState(!state)
     }
 
-    return <Toggle onChange={handleOnChange} state={state} {...args} />
+    return <Toggle onChange={handleOnChange} checked={state} {...args} />
 }
 
 export const Default = Template.bind({})
