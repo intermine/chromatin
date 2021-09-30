@@ -8,10 +8,12 @@ import {
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { DIVIDER } from '../constants/component-ids'
-import React from 'react'
+
+import type { Ref } from '../utils'
 
 export interface DividerProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
+    innerRef?: Ref
     /**
      * Alignment of the divider.
      * hr - horizontal, vt - vertical
@@ -123,8 +125,14 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
 )
 
 export const Divider = (props: DividerProps): JSX.Element => {
-    const { className, classes = {}, ...rest } = props
-    return <DividerRoot className={cx(className, classes.root)} {...rest} />
+    const { className, classes = {}, innerRef, ...rest } = props
+    return (
+        <DividerRoot
+            ref={innerRef}
+            className={cx(className, classes.root)}
+            {...rest}
+        />
+    )
 }
 
 attachSignatureToComponent(Divider, DIVIDER)

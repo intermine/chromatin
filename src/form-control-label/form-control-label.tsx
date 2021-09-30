@@ -40,10 +40,10 @@ export interface FormControlLabelProps extends LabelProps {
      * Spacing between label and control.
      * This will use theme.spacing to calculate spacing.
      * No negative spacing is supported.
-     * If childrenSpacing = 'all' then control is
+     * If spaceBetween = 'all' then control is
      * at one end and label is at other
      */
-    childrenSpacing?: number | 'all'
+    spaceBetween?: number | 'all'
     /**
      * Spacing from surrounding
      * This will use theme.spacing to calculate spacing.
@@ -96,7 +96,7 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
         labelPlacement = 'right',
         onMouseOver,
         onMouseLeave,
-        childrenSpacing = 1,
+        spaceBetween = 1,
         ...rest
     } = props
 
@@ -143,17 +143,17 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
             <Box
                 csx={{
                     root: ({ spacing }) => ({
-                        flex: childrenSpacing === 'all' ? 1 : undefined,
-                        ...(childrenSpacing !== 'all' && {
+                        flex: spaceBetween === 'all' ? 1 : undefined,
+                        ...(spaceBetween !== 'all' && {
                             width:
                                 labelPlacement === 'right' ||
                                 labelPlacement === 'left'
-                                    ? spacing(childrenSpacing)
+                                    ? spacing(spaceBetween)
                                     : 0,
                             height:
                                 labelPlacement === 'top' ||
                                 labelPlacement === 'bottom'
-                                    ? spacing(childrenSpacing)
+                                    ? spacing(spaceBetween)
                                     : 0,
                         }),
                     }),
