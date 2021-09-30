@@ -3,7 +3,6 @@ import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 import {
     getContrastRatio,
-    getTintOrShade,
     hex2rgba,
     isValidColorHex,
     isThemeColorName,
@@ -16,6 +15,7 @@ import { attachSignatureToComponent } from '../utils'
 import { BUTTON_BASE } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
+import { getActiveProperties, getHoverProperties } from './utils'
 
 export interface ButtonBaseCommonProps
     extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'as' | 'ref'> {
@@ -85,9 +85,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         const {
             common: { black, white },
             contrastThreshold,
-            hover,
             focus,
-            active,
             ...themeColors
         } = palette
 
@@ -203,48 +201,22 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             return getMainColor()
         }
 
-        const getHoverProperties = (): CSSObject => {
-            if (!color || disabled) return {}
+        const calculatedColor = getColor()
+        const hoverProperties = getHoverProperties({
+            color,
+            disabled,
+            mainColor: getMainColor(),
+            theme,
+            variant,
+        })
+        const activeProperties = getActiveProperties({
+            color,
+            disabled,
+            variant,
+            theme,
+        })
 
-            if (variant === 'normal') {
-                if (!isThemeColorName(color)) {
-                    if (!isValidColorHex(color))
-                        return { opacity: hover.unknownColorOpacity }
-                    return {
-                        background: getTintOrShade(
-                            color,
-                            themeType !== 'light',
-                            hover.tintOrShadeFactor
-                        ),
-                    }
-                }
-
-                return {
-                    background: themeColors[color].mainDarkShade,
-                }
-            }
-
-            if (!isThemeColorName(color)) {
-                if (!isValidColorHex(color))
-                    return {
-                        opacity: hover.unknownColorOpacity,
-                    }
-                return {
-                    background: hex2rgba(
-                        color,
-                        hover.ghostElementBackgroundOpacity
-                    ).rgba,
-                }
-            }
-
-            return {
-                background: hex2rgba(
-                    getMainColor(),
-                    hover.ghostElementBackgroundOpacity
-                ).rgba,
-            }
-        }
-
+        // TODO: Move getFocusProperties to ./utils
         const getFocusProperties = (): CSSObject => {
             if (disabled) return {}
 
@@ -261,7 +233,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                             ),
                         }),
 
-                        ...(hasHoverEffectOnFocus && getHoverProperties()),
+                        ...(hasHoverEffectOnFocus && hoverProperties),
                     }
                 }
 
@@ -276,7 +248,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                             borderAsBoxShadow
                         ),
                     }),
-                    ...(hasHoverEffectOnFocus && getHoverProperties()),
+                    ...(hasHoverEffectOnFocus && hoverProperties),
                 }
             }
 
@@ -292,49 +264,11 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                         borderAsBoxShadow
                     ),
                 }),
-                ...(hasHoverEffectOnFocus && getHoverProperties()),
+                ...(hasHoverEffectOnFocus && hoverProperties),
             }
         }
 
-        const getActiveProperties = (): CSSObject => {
-            if (!color || disabled) return {}
-
-            if (variant === 'normal') {
-                if (!isThemeColorName(color)) {
-                    if (!isValidColorHex(color)) return { opacity: 1 }
-                    return {
-                        background: getTintOrShade(
-                            color,
-                            themeType === 'light',
-                            active.tintOrShadeFactor
-                        ),
-                    }
-                }
-
-                return {
-                    background: themeColors[color].mainLightShade,
-                }
-            }
-
-            if (!isThemeColorName(color)) {
-                if (!isValidColorHex(color)) return { opacity: 1 }
-                return {
-                    background: hex2rgba(
-                        color,
-                        active.ghostElementBackgroundOpacity
-                    ).rgba,
-                }
-            }
-
-            return {
-                background: themeColors[color][10],
-            }
-        }
-
-        const calculatedColor = getColor()
-        const hoverProperties = getHoverProperties()
         const focusProperties = getFocusProperties()
-        const activeProperties = getActiveProperties()
 
         return {
             alignItems: 'center',
