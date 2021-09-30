@@ -21,7 +21,7 @@ const Template: Story = (args) => {
     const [checked, setChecked] = useState({
         thumb: false,
         star: false,
-        heart: false,
+        heart: true,
         default: false,
     })
 

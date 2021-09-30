@@ -40,7 +40,7 @@ const LabelRoot = createStyledComponent<'label', LabelProps>(
     (theme, props) => {
         const { csx = {} } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { common, themeType } = theme.palette
+        const { common, themeType } = themePropsForThemeVarFn.palette
         const { body } = themePropsForThemeVarFn.typography
 
         return {

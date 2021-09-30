@@ -38,6 +38,7 @@ export interface BoxProps<T>
      * @default false
      */
     hasFullWidth?: boolean
+    display?: string
     /**
      * To extend the styles applied to the components
      */
@@ -67,6 +68,7 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
             isContentAlignCenter,
             isContentJustifyCenter,
             isContentCenter,
+            display,
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
@@ -92,6 +94,7 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
         }
 
         return {
+            display,
             width: hasFullWidth ? '100%' : undefined,
             ...getContentProperties(),
             ...themeVars.box(themePropsForThemeVarFn, props),

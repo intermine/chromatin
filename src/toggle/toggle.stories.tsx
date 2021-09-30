@@ -30,7 +30,7 @@ const Row = ({ children }) => {
 const Template2: Story = (args) => {
     const [state, setState] = useState({
         magnifier: false,
-        narrator: false,
+        narrator: true,
         filter: false,
     })
 

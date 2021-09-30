@@ -2,7 +2,6 @@ import { Story } from '@storybook/react/types-6-0'
 import { useState } from 'react'
 
 import { Checkbox } from '../checkbox'
-import { Typography } from '../typography'
 import { Box } from '../box'
 import { FormControlLabel } from './form-control-label'
 
