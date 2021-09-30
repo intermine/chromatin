@@ -22,6 +22,7 @@ import {
     RadioProps,
     FormControlLabelProps,
     ToggleProps,
+    DividerProps,
 } from '../../..'
 
 /**
@@ -52,6 +53,7 @@ export type ThemeVars = {
     radioGroup: ThemeVariableFunction<RadioGroupProps>
     formControlLabel: ThemeVariableFunction<FormControlLabelProps>
     toggle: ThemeVariableFunction<ToggleProps>
+    divider: ThemeVariableFunction<DividerProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
