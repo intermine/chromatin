@@ -13,6 +13,14 @@ import type { Ref } from '../utils'
 
 export interface DividerProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
+    /**
+     * @default 'div'
+     */
+    Component?:
+        | React.ElementType
+        | React.ComponentType<any>
+        | React.ForwardRefExoticComponent<any>
+
     innerRef?: Ref
     /**
      * Alignment of the divider.
@@ -77,7 +85,7 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
 
         const getMargin = (): string => {
             if (alignment === 'hr') {
-                return `${spacing(2)} 0`
+                return `${spacing(1)} 0`
             }
 
             return `0 ${spacing(1)}`
@@ -96,7 +104,9 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
 
         return {
             border: getBorder(),
+            boxSizing: 'border-box',
             display: 'inline-block',
+            padding: 0,
             margin: getMargin(),
             ...(alignment === 'hr' && {
                 height: 0,
@@ -125,9 +135,16 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
 )
 
 export const Divider = (props: DividerProps): JSX.Element => {
-    const { className, classes = {}, innerRef, ...rest } = props
+    const {
+        className,
+        classes = {},
+        innerRef,
+        Component = 'div',
+        ...rest
+    } = props
     return (
         <DividerRoot
+            as={Component}
             ref={innerRef}
             className={cx(className, classes.root)}
             {...rest}

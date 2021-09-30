@@ -38,7 +38,9 @@ const Template: Story = (args) => {
 }
 
 export const VerticalDivider = Template.bind({})
-VerticalDivider.args = {}
+VerticalDivider.args = {
+    Component: 'div'
+}
 
 const Template2: Story = (args) => {
     return (

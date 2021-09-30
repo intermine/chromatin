@@ -100,7 +100,7 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  */
 export const hex2rgba = (hex: string, alpha = 1): RGBA => {
     if (!isValidColorHex(hex)) {
-        if (isProdEnv()) {
+        if (!isProdEnv()) {
             console.error('[Chromatin - hex2rgba]: Not a valid hex. Given', hex)
         }
 

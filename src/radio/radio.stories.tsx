@@ -1,6 +1,5 @@
 import { Story } from '@storybook/react/types-6-0'
-import { useState } from 'react'
-import { FormControlLabel, Typography } from '..'
+import { FormControlLabel } from '../form-control-label'
 
 import { Radio } from './radio'
 import { RadioGroup } from '../radio-group'
@@ -8,6 +7,7 @@ import { RadioGroup } from '../radio-group'
 export default {
     title: 'Radio',
     component: Radio,
+    subcomponents: { RadioGroup },
 }
 
 const Template: Story = (args) => {

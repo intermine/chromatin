@@ -14,7 +14,7 @@ import type { Ref } from '../utils'
 export interface CollapsibleProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
     /**
-     * Is collapsible is open or closed.
+     * To open or close collapsible.
      */
     isOpen?: boolean
     /**

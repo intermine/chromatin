@@ -17,11 +17,15 @@ import {
 
 import type { Ref } from '../utils'
 
-export interface ButtonGroupProps
+import { ButtonProps } from '../button'
+import { IconButtonProps } from '../icon-button'
+
+export interface ButtonGroupProps<T>
     extends Omit<HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
     variant?: ButtonBaseCommonProps['variant']
     size?: 'small' | 'regular' | 'large'
     innerRef?: Ref
+    childButtonProps?: ButtonProps<T> | IconButtonProps<T>
     /**
      * To extend the styles applied to the components
      */
@@ -50,47 +54,48 @@ export interface ButtonGroupProps
     }
 }
 
-const ButtonGroupRoot = createStyledComponent<'div', ButtonGroupProps>(
+const ButtonGroupRoot = createStyledComponent<
     'div',
-    (theme, props) => {
-        const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { csx = {} } = props
+    ButtonGroupProps<'button'>
+>('div', (theme, props) => {
+    const { themeVars, ...themePropsForThemeVarFn } = theme
+    const { csx = {} } = props
 
-        return {
-            boxSizing: 'border-box',
-            display: 'inline-flex',
-            '& .bg-child': {
-                borderRadius: 0,
-                borderRightWidth: 0,
-                marginRight: '0.0625rem',
-                marginLeft: '0.0625rem',
-                position: 'relative',
-            },
+    return {
+        boxSizing: 'border-box',
+        display: 'inline-flex',
+        '& .bg-child': {
+            borderRadius: 0,
+            borderRightWidth: 0,
+            marginRight: '0.0625rem',
+            marginLeft: '0.0625rem',
+            position: 'relative',
+        },
 
-            '& .bg-child:first-child': {
-                borderBottomLeftRadius: '0.25rem',
-                borderTopLeftRadius: '0.25rem',
-                marginLeft: 0,
-            },
+        '& .bg-child:first-child': {
+            borderBottomLeftRadius: '0.25rem',
+            borderTopLeftRadius: '0.25rem',
+            marginLeft: 0,
+        },
 
-            '& .bg-child:last-child': {
-                borderBottomRightRadius: '0.25rem',
-                borderTopRightRadius: '0.25rem',
-                marginRight: 0,
-            },
-            ...themeVars.buttonGroup(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.root, theme),
-        }
+        '& .bg-child:last-child': {
+            borderBottomRightRadius: '0.25rem',
+            borderTopRightRadius: '0.25rem',
+            marginRight: 0,
+        },
+        ...themeVars.buttonGroup(themePropsForThemeVarFn, props),
+        ...getThemeCSSObject(csx.root, theme),
     }
-)
+})
 
-export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
+export const ButtonGroup = <T,>(props: ButtonGroupProps<T>): JSX.Element => {
     const {
         children: childrenProps,
         innerRef,
         className,
         classes = {},
         csx = {},
+        childButtonProps = {},
         ...rest
     } = props
 
@@ -101,6 +106,7 @@ export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
         if (id === BUTTON || id === ICON_BUTTON || id === BUTTON_BASE) {
             return React.cloneElement(child, {
                 ...rest,
+                ...childButtonProps,
                 ...child.props,
                 className: cx(
                     'bg-child',

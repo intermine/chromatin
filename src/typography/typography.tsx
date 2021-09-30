@@ -6,7 +6,6 @@ import {
     isThemeColorName,
     isThemeFontVariant,
     ThemeTypographyVariant,
-    themeTernaryOperator as tto,
     ThemeCSSStyles,
     getThemeCSSObject,
 } from '../styles'
@@ -57,14 +56,11 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
     'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { typography, palette, themeType } = themePropsForThemeVarFn
-        const {
-            variant = 'body',
-            color = tto(themeType, palette.common.black, palette.common.white),
-            csx = {},
-        } = props
+        const { typography, palette } = themePropsForThemeVarFn
+        const { variant = 'body', color, csx = {} } = props
 
         const getColor = (): string | undefined => {
+            if (!color) return palette.neutral[90]
             if (isThemeColorName(color)) return palette[color].main
             return color
         }
