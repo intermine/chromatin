@@ -23,6 +23,7 @@ import {
     FormControlLabelProps,
     ToggleProps,
     DividerProps,
+    CollapsibleProps,
 } from '../../..'
 
 /**
@@ -54,6 +55,7 @@ export type ThemeVars = {
     formControlLabel: ThemeVariableFunction<FormControlLabelProps>
     toggle: ThemeVariableFunction<ToggleProps>
     divider: ThemeVariableFunction<DividerProps>
+    collapsible: ThemeVariableFunction<CollapsibleProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

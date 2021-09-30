@@ -26,6 +26,7 @@ export const createThemeVars = (
         formControlLabel = themeVarDefaultFunction,
         toggle = themeVarDefaultFunction,
         divider = themeVarDefaultFunction,
+        collapsible = themeVarDefaultFunction,
     } = options
 
     return {
@@ -47,5 +48,6 @@ export const createThemeVars = (
         formControlLabel,
         toggle,
         divider,
+        collapsible,
     }
 }

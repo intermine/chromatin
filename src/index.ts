@@ -22,6 +22,7 @@ export { RadioGroup, useRadioGroup } from './radio-group'
 export { FormControlLabel } from './form-control-label'
 export { Toggle } from './toggle'
 export { Divider } from './divider'
+export { Collapsible } from './collapsible'
 
 // -------------------------
 // Types
@@ -47,3 +48,4 @@ export type { RadioGroupContextProps, RadioGroupProps } from './radio-group'
 export type { FormControlLabelProps } from './form-control-label'
 export type { ToggleProps } from './toggle'
 export type { DividerProps } from './divider'
+export type { CollapsibleProps } from './collapsible'
