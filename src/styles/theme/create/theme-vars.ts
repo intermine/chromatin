@@ -27,6 +27,9 @@ export const createThemeVars = (
         toggle = themeVarDefaultFunction,
         divider = themeVarDefaultFunction,
         collapsible = themeVarDefaultFunction,
+        list = themeVarDefaultFunction,
+        listItem = themeVarDefaultFunction,
+        listHeading = themeVarDefaultFunction,
     } = options
 
     return {
@@ -49,5 +52,8 @@ export const createThemeVars = (
         toggle,
         divider,
         collapsible,
+        list,
+        listItem,
+        listHeading,
     }
 }

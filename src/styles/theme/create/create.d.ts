@@ -24,6 +24,9 @@ import {
     ToggleProps,
     DividerProps,
     CollapsibleProps,
+    ListProps,
+    ListItemProps,
+    ListHeadingProps,
 } from '../../..'
 
 /**
@@ -56,6 +59,9 @@ export type ThemeVars = {
     toggle: ThemeVariableFunction<ToggleProps>
     divider: ThemeVariableFunction<DividerProps>
     collapsible: ThemeVariableFunction<CollapsibleProps>
+    list: ThemeVariableFunction<ListProps>
+    listItem: ThemeVariableFunction<ListItemProps>
+    listHeading: ThemeVariableFunction<ListHeadingProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

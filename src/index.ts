@@ -23,6 +23,9 @@ export { FormControlLabel } from './form-control-label'
 export { Toggle } from './toggle'
 export { Divider } from './divider'
 export { Collapsible } from './collapsible'
+export { List } from './list'
+export { ListItem } from './list-item'
+export { ListHeading } from './list-heading'
 
 // -------------------------
 // Types
@@ -49,3 +52,6 @@ export type { FormControlLabelProps } from './form-control-label'
 export type { ToggleProps } from './toggle'
 export type { DividerProps } from './divider'
 export type { CollapsibleProps } from './collapsible'
+export type { ListProps } from './list'
+export type { ListItemProps } from './list-item'
+export type { ListHeadingProps } from './list-heading'
