@@ -8,11 +8,12 @@ import {
     themeTernaryOperator as tto,
 } from '../styles'
 import { attachSignatureToComponent, getChromatinElementId } from '../utils'
-import { LIST, LIST_ITEM } from '../constants/component-ids'
+import { LIST, LIST_HEADING, LIST_ITEM } from '../constants/component-ids'
 import { CSSObject } from 'styled-components'
 
-import { Ref } from '../utils'
-import { ListItemProps } from '..'
+import type { Ref } from '../utils'
+import type { ListHeadingProps } from '../list-heading'
+import type { ListItemProps } from '../list-item'
 
 export interface ListProps
     extends Omit<
@@ -26,9 +27,16 @@ export interface ListProps
     innerRef?: Ref
     listStyle?: CSSObject['listStyle']
     /**
-     * To extend the styles applied to the components
+     * To pass the props to the list items
      */
     listItemProps?: ListItemProps
+    /**
+     * To pass the props to the list headers
+     */
+    listHeadingProps?: ListHeadingProps
+    /**
+     * To extend the styles applied to the components
+     */
     classes?: {
         /**
          * Applied to root component
@@ -76,6 +84,7 @@ export const List = (props: ListProps): JSX.Element => {
         classes = {},
         innerRef,
         listItemProps = {},
+        listHeadingProps = {},
         ...rest
     } = props
 
@@ -87,6 +96,15 @@ export const List = (props: ListProps): JSX.Element => {
                 ...child.props,
             })
         }
+
+        if (id === LIST_HEADING) {
+            return cloneElement(child, {
+                ...listHeadingProps,
+                ...child.props,
+            })
+        }
+
+        return child
     })
     return (
         <ListRoot

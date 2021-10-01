@@ -16,7 +16,20 @@ export default {
 }
 
 const Template: Story = ({ children, ...args }) => (
-    <ButtonGroup {...args}>
+    <ButtonGroup
+        csx={{
+            buttonGroupChild: {
+                borderRadius: 0,
+            },
+        }}
+        buttonProps={{
+            color: 'primary',
+            variant: 'normal',
+            ...args.buttonProps,
+            csx: { root: { borderRadius: '0' } },
+        }}
+        {...args}
+    >
         <Button
             className="test"
             onClick={() => console.log('Button 1 Clicked')}
@@ -36,7 +49,13 @@ const Template: Story = ({ children, ...args }) => (
 )
 
 const Template2: Story = ({ children, ...args }) => (
-    <ButtonGroup {...args}>
+    <ButtonGroup
+        buttonProps={{
+            color: 'primary',
+            ...args.buttonProps,
+        }}
+        {...args}
+    >
         <IconButton
             className="test"
             onClick={() => console.log('Button 1 Clicked')}
@@ -58,7 +77,14 @@ const Template2: Story = ({ children, ...args }) => (
 )
 
 const Template3: Story = ({ children, ...args }) => (
-    <ButtonGroup {...args}>
+    <ButtonGroup
+        buttonProps={{
+            color: 'primary',
+            variant: 'normal',
+            ...args.buttonProps,
+        }}
+        {...args}
+    >
         <Button
             className="test"
             onClick={() => console.log('Button 1 Clicked')}

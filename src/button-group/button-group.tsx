@@ -19,13 +19,21 @@ import type { Ref } from '../utils'
 
 import { ButtonProps } from '../button'
 import { IconButtonProps } from '../icon-button'
+import { CSSObject } from 'styled-components'
 
 export interface ButtonGroupProps<T>
     extends Omit<HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
     variant?: ButtonBaseCommonProps['variant']
     size?: 'small' | 'regular' | 'large'
     innerRef?: Ref
-    childButtonProps?: ButtonProps<T> | IconButtonProps<T>
+    /**
+     * Only applied to button, button-base or icon-button
+     */
+    buttonProps?: ButtonProps<T> | IconButtonProps<T>
+    /**
+     * @default 'inline-flex'
+     */
+    display?: CSSObject['display']
     /**
      * To extend the styles applied to the components
      */
@@ -35,7 +43,7 @@ export interface ButtonGroupProps<T>
          */
         root?: string
         /**
-         * Applied to child component
+         * Only applied to button, button-base or icon-button
          */
         buttonGroupChild?: string
     }
@@ -48,7 +56,7 @@ export interface ButtonGroupProps<T>
          */
         root?: ThemeCSSStyles
         /**
-         * Applied to child component
+         * Only applied to button, button-base or icon-button
          */
         buttonGroupChild?: ThemeCSSStyles
     }
@@ -59,11 +67,12 @@ const ButtonGroupRoot = createStyledComponent<
     ButtonGroupProps<'button'>
 >('div', (theme, props) => {
     const { themeVars, ...themePropsForThemeVarFn } = theme
-    const { csx = {} } = props
+    const { csx = {}, display = 'inline-flex' } = props
 
+    console.log('CSX', csx)
     return {
         boxSizing: 'border-box',
-        display: 'inline-flex',
+        display,
         '& .bg-child': {
             borderRadius: 0,
             borderRightWidth: 0,
@@ -95,7 +104,7 @@ export const ButtonGroup = <T,>(props: ButtonGroupProps<T>): JSX.Element => {
         className,
         classes = {},
         csx = {},
-        childButtonProps = {},
+        buttonProps = {},
         ...rest
     } = props
 
@@ -105,15 +114,13 @@ export const ButtonGroup = <T,>(props: ButtonGroupProps<T>): JSX.Element => {
         const id = getChromatinElementId(child)
         if (id === BUTTON || id === ICON_BUTTON || id === BUTTON_BASE) {
             return React.cloneElement(child, {
-                ...rest,
-                ...childButtonProps,
+                ...buttonProps,
                 ...child.props,
                 className: cx(
                     'bg-child',
                     child.props.className,
                     buttonGroupChild
                 ),
-                csx: { root: csx.buttonGroupChild },
             })
         }
         return child

@@ -37,12 +37,12 @@ Default.args = {}
 
 const Template2: Story = (args) => {
     return (
-        <List {...args}>
-            <ListItem hoverColor="primary">List Item 1</ListItem>
-            <ListItem hoverColor="primary">List Item 2</ListItem>
-            <ListItem hoverColor="primary">List Item 3</ListItem>
-            <ListItem hoverColor="primary">List Item 4</ListItem>
-            <ListItem hoverColor="primary">List Item 5</ListItem>
+        <List listItemProps={{ hoverColor: 'primary' }} {...args}>
+            <ListItem>List Item 1</ListItem>
+            <ListItem>List Item 2</ListItem>
+            <ListItem>List Item 3</ListItem>
+            <ListItem>List Item 4</ListItem>
+            <ListItem>List Item 5</ListItem>
         </List>
     )
 }
@@ -52,16 +52,16 @@ ListWithHoverEffect.args = {}
 
 const Template3: Story = (args) => {
     return (
-        <List {...args}>
-            <ListItem hasPadding={false}>List Item 1</ListItem>
+        <List listItemProps={{ hasPadding: false }} {...args}>
+            <ListItem>List Item 1</ListItem>
             <Divider Component="li" />
-            <ListItem hasPadding={false}>List Item 2</ListItem>
+            <ListItem>List Item 2</ListItem>
             <Divider Component="li" />
-            <ListItem hasPadding={false}>List Item 3</ListItem>
+            <ListItem>List Item 3</ListItem>
             <Divider Component="li" />
-            <ListItem hasPadding={false}>List Item 4</ListItem>
+            <ListItem>List Item 4</ListItem>
             <Divider Component="li" />
-            <ListItem hasPadding={false}>List Item 5</ListItem>
+            <ListItem>List Item 5</ListItem>
         </List>
     )
 }
@@ -134,6 +134,8 @@ const Sidebar: Story = (args) => {
                 >
                     Sidebar Item 1
                 </SidebarItem>
+            </ListItem>
+            <ListItem>
                 <SidebarItem
                     Icon={
                         <Icon2
@@ -147,6 +149,8 @@ const Sidebar: Story = (args) => {
                 >
                     Sidebar Item 2
                 </SidebarItem>
+            </ListItem>
+            <ListItem>
                 <SidebarItem
                     Icon={
                         <Icon3
@@ -160,6 +164,8 @@ const Sidebar: Story = (args) => {
                 >
                     Sidebar Item 3
                 </SidebarItem>
+            </ListItem>
+            <ListItem>
                 <SidebarItem
                     Icon={
                         <Icon4
@@ -173,6 +179,8 @@ const Sidebar: Story = (args) => {
                 >
                     Sidebar Item 4
                 </SidebarItem>
+            </ListItem>
+            <ListItem>
                 <SidebarItem
                     Icon={
                         <Icon5
