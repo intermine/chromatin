@@ -54,10 +54,6 @@ export const getHoverProperties = (
         }
     }
 
-    console.log(
-        'Theme color',
-        hex2rgba(mainColor, hover.ghostElementBackgroundOpacity).rgba
-    )
     return {
         background: hex2rgba(mainColor, hover.ghostElementBackgroundOpacity)
             .rgba,

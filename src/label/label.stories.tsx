@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react/types-6-0'
-import { Grid, GridItem, Input, Typography } from '..'
+import { Grid, GridItem, Input } from '..'
 
 import { Label } from './label'
 
