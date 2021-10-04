@@ -58,7 +58,7 @@ export interface AlertProps
      * @default true
      */
     hasClose?: boolean
-    onClose?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    onClose?: () => void
     closeButtonProps?: IconButtonProps<'button'>
     /**
      * Alert is open or close.
@@ -75,6 +75,14 @@ export interface AlertProps
      * @default true
      */
     hasAnimation?: boolean
+    /**
+     * For how long alert should be visible.
+     * If nothing is passed then alert is visible as long as
+     * close button is not pressed.
+     *
+     * It should be in milliseconds
+     */
+    duration?: number
     /**
      * To extend the styles applied to the components
      */
@@ -273,6 +281,7 @@ export const Alert = (props: AlertProps): JSX.Element => {
         isOpen = false,
         portalProps = {},
         onClose,
+        duration,
         hasAnimation = true,
         ...rest
     } = props
@@ -357,7 +366,7 @@ export const Alert = (props: AlertProps): JSX.Element => {
             onClick(event)
         }
         if (typeof onClose === 'function') {
-            onClose(event)
+            onClose()
         }
     }
 
@@ -378,6 +387,21 @@ export const Alert = (props: AlertProps): JSX.Element => {
             }
         }
     }, [isOpen])
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null
+        if (
+            typeof duration === 'number' &&
+            typeof onClose === 'function' &&
+            isOpen
+        ) {
+            interval = setTimeout(() => onClose(), duration)
+        }
+
+        return () => {
+            if (interval) clearInterval(interval)
+        }
+    }, [duration, isOpen])
 
     if (!isMounted) return <></>
     return (
