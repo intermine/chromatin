@@ -9,6 +9,21 @@ export default {
     component: Toggle,
 }
 
+const Template: Story = (args) => {
+    const [state, setState] = useState(false)
+
+    const handleOnChange = () => {
+        setState(!state)
+    }
+
+    return <Toggle onChange={handleOnChange} checked={state} {...args} />
+}
+
+export const Default = Template.bind({})
+Default.args = {
+    disabled: false,
+}
+
 const Row = ({ children }) => {
     return (
         <Box
@@ -94,20 +109,5 @@ const Template2: Story = (args) => {
 
 export const TogglerInAction = Template2.bind({})
 TogglerInAction.args = {
-    disabled: false,
-}
-
-const Template: Story = (args) => {
-    const [state, setState] = useState(false)
-
-    const handleOnChange = () => {
-        setState(!state)
-    }
-
-    return <Toggle onChange={handleOnChange} checked={state} {...args} />
-}
-
-export const Default = Template.bind({})
-Default.args = {
     disabled: false,
 }

@@ -8,6 +8,8 @@ import ReactSelect, {
 } from 'react-select'
 import cx from 'clsx'
 import type { StylesProps } from 'react-select/dist/declarations/src/styles'
+import { attachSignatureToComponent } from '../utils'
+import { SELECT } from '../constants/component-ids'
 
 import {
     createColor,
@@ -178,3 +180,5 @@ export const Select = <
         />
     )
 }
+
+attachSignatureToComponent(Select, SELECT)
