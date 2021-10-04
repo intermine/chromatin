@@ -27,6 +27,7 @@ export { List } from './list'
 export { ListItem } from './list-item'
 export { ListHeading } from './list-heading'
 export { Select } from './select'
+export { Alert } from './alert'
 
 // -------------------------
 // Types
@@ -57,3 +58,4 @@ export type { ListProps } from './list'
 export type { ListItemProps } from './list-item'
 export type { ListHeadingProps } from './list-heading'
 export type { SelectCSXType, SelectProps } from './select'
+export type { AlertProps } from './alert'

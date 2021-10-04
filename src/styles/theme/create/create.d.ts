@@ -27,6 +27,7 @@ import {
     ListProps,
     ListItemProps,
     ListHeadingProps,
+    AlertProps,
 } from '../../..'
 
 /**
@@ -43,7 +44,7 @@ export type ThemeVars = {
     button: ThemeVariableFunction<ButtonProps<'button'>>
     buttonBase: ThemeVariableFunction<ButtonBaseCommonProps>
     iconButton: ThemeVariableFunction<IconButtonProps<'button'>>
-    buttonGroup: ThemeVariableFunction<ButtonGroupProps>
+    buttonGroup: ThemeVariableFunction<ButtonGroupProps<'button'>>
     inputBase: ThemeVariableFunction<InputBaseProps>
     input: ThemeVariableFunction<InputProps>
     grid: ThemeVariableFunction<GridProps>
@@ -62,6 +63,7 @@ export type ThemeVars = {
     list: ThemeVariableFunction<ListProps>
     listItem: ThemeVariableFunction<ListItemProps>
     listHeading: ThemeVariableFunction<ListHeadingProps>
+    alert: ThemeVariableFunction<AlertProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
