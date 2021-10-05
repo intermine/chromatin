@@ -21,7 +21,6 @@ import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonProps } from '../icon-button'
 import { Typography } from '../typography'
 import { Portal, PortalProps } from '../portal'
-import { Collapsible } from '../collapsible'
 
 import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
@@ -149,8 +148,8 @@ type MainSectionProps = {
     }
 }
 
-const AlertRoot = createStyledComponent<typeof Collapsible, AlertProps>(
-    Collapsible,
+const AlertRoot = createStyledComponent<'div', AlertProps>(
+    'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {

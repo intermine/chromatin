@@ -58,6 +58,7 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
         return {
+            height: 0,
             opacity: isOpen ? 1 : 0,
             overflow: 'hidden',
             transition: `${animationDuration}ms`,
@@ -86,6 +87,8 @@ export const Collapsible = (props: CollapsibleProps): JSX.Element => {
         animationDuration: animationDurationProp,
         ...rest
     } = props
+
+    console.log('IsCoo', isOpen)
 
     const [animationDuration, setAnimationDuration] = useState(0)
 

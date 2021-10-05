@@ -1,4 +1,4 @@
-import React, { Children, cloneElement } from 'react'
+import React, { Children, cloneElement, useEffect, useRef } from 'react'
 import cx from 'clsx'
 
 import {
@@ -9,12 +9,17 @@ import {
     ThemeCSSStyles,
 } from '../styles'
 import { AlertProps } from '../alert'
-import { attachSignatureToComponent, getChromatinElementId } from '../utils'
+import {
+    attachSignatureToComponent,
+    getChromatinElementId,
+    useForkRef,
+} from '../utils'
 import { ALERT_GROUP, ALERT } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
 import { Portal, PortalProps } from '../portal'
 import { CSSObject } from 'styled-components'
+import { Collapsible } from '../collapsible'
 
 export interface AlertGroupProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
@@ -91,10 +96,10 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
             flexWrap: 'wrap',
             justifyContent: 'flex-end',
             overflowY: 'auto',
-            padding: '0 1rem',
             position: 'fixed',
-            width: '27rem',
+            scrollBehavior: 'smooth',
             top: 0,
+            width: '27rem',
             ...getOrigin(),
             ...themeVars.alertGroup(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
@@ -114,8 +119,13 @@ const useStyles = createStyle((theme) => ({
             display: 'flex',
             flexDirection: getFlexDirection(),
             paddingBottom: theme.spacing(3),
+            width: '25rem',
             ...getThemeCSSObject(csx.wrapper, theme),
         }
+    },
+    collapsible: {
+        boxSizing: 'border-box',
+        padding: '0.5rem',
     },
 }))
 
@@ -130,11 +140,13 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
         ...rest
     } = props
     const classes = useStyles(props)
+    const alertGroupRef = useRef<HTMLDivElement | null>(null)
+    const ref = useForkRef(alertGroupRef, innerRef)
 
     const children = Children.map(childrenProps, (child: any) => {
         const id = getChromatinElementId(child)
         if (id === ALERT) {
-            const el = cloneElement(child, {
+            const alert = cloneElement(child, {
                 ...child.props,
                 portalProps: { isPortalDisabled: true },
                 csx: {
@@ -145,26 +157,40 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
                             getThemeCSSObject(child.csx.root, theme)),
                         left: 'unset',
                         position: 'relative',
-                        margin: child.props.isOpen
-                            ? `${theme.spacing(3)} 0 0 0`
-                            : 0,
                         right: 'unset',
                         top: 'unset',
                         bottom: 'unset',
                     }),
                 },
             })
-            return el
+            const isChildOpen = alert.props.isOpen
+            return (
+                <Collapsible
+                    className={cx({ [classes.collapsible]: isChildOpen })}
+                    isOpen={isChildOpen}
+                >
+                    {alert}
+                </Collapsible>
+            )
         }
         return child
     })
+
+    useEffect(() => {
+        if (alertGroupRef.current) {
+            alertGroupRef.current.scrollTo(
+                0,
+                alertGroupRef.current.scrollHeight
+            )
+        }
+    }, [children?.length])
 
     if (!isOpen) return <></>
     return (
         <Portal {...portalProps}>
             <AlertGroupRoot
                 className={cx(className, classesProps.root)}
-                ref={innerRef}
+                ref={ref}
                 {...rest}
             >
                 <div className={classes.wrapper}>{children}</div>
