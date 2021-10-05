@@ -27,6 +27,13 @@ export interface AlertGroupProps
      * @default false
      **/
     isOpen?: boolean
+    /**
+     * If origin is top-* then only this is applicable.
+     *
+     * Scroll to bottom on addition of new alert.
+     * @default true
+     */
+    isScrollToBottom?: boolean
     innerRef?: Ref
     portalProps?: PortalProps
     alertChildProps?: Omit<
@@ -51,6 +58,11 @@ export interface AlertGroupProps
          * Applied to wrapper component
          */
         wrapper?: string
+
+        /**
+         * Applied to collapsible component
+         */
+        collapsible?: string
     }
     /**
      * To override the applied styles.
@@ -64,6 +76,10 @@ export interface AlertGroupProps
          * Applied to wrapper component
          */
         wrapper?: ThemeCSSStyles
+        /**
+         * Applied to collapsible component
+         */
+        collapsible?: ThemeCSSStyles
     }
 }
 
@@ -72,6 +88,9 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { csx = {}, origin = 'top-right' } = props
+        const {
+            breakingPoints: { mixin },
+        } = themePropsForThemeVarFn
 
         const getOrigin = (): CSSObject => {
             if (origin === 'top-right' || origin === 'bottom-right') {
@@ -100,6 +119,19 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
             scrollBehavior: 'smooth',
             top: 0,
             width: '27rem',
+            ...mixin(
+                {
+                    sm: {
+                        bottom: 'unset',
+                        height: '10rem',
+                        justifyContent: 'center',
+                        left: 0,
+                        right: 0,
+                        width: 'auto',
+                    },
+                },
+                'max'
+            ),
             ...getOrigin(),
             ...themeVars.alertGroup(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
@@ -120,12 +152,18 @@ const useStyles = createStyle((theme) => ({
             flexDirection: getFlexDirection(),
             paddingBottom: theme.spacing(3),
             width: '25rem',
+            ...theme.breakingPoints.mixin({ sm: { width: '100%' } }, 'max'),
             ...getThemeCSSObject(csx.wrapper, theme),
         }
     },
-    collapsible: {
-        boxSizing: 'border-box',
-        padding: '0.5rem',
+    collapsible: (props: AlertGroupProps) => {
+        const { csx = {} } = props
+        return {
+            boxSizing: 'border-box',
+            padding: '0.5rem',
+            ...theme.breakingPoints.mixin({ sm: { padding: 1 } }, 'max'),
+            ...getThemeCSSObject(csx.collapsible, theme),
+        }
     },
 }))
 
@@ -137,6 +175,8 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
         className,
         portalProps = {},
         isOpen = false,
+        isScrollToBottom = true,
+        origin = 'top-right',
         ...rest
     } = props
     const classes = useStyles(props)
@@ -164,9 +204,13 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
                 },
             })
             const isChildOpen = alert.props.isOpen
+
             return (
                 <Collapsible
-                    className={cx({ [classes.collapsible]: isChildOpen })}
+                    className={cx(
+                        { [classes.collapsible]: isChildOpen },
+                        classes.collapsible
+                    )}
                     isOpen={isChildOpen}
                 >
                     {alert}
@@ -177,7 +221,11 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
     })
 
     useEffect(() => {
-        if (alertGroupRef.current) {
+        if (
+            alertGroupRef.current &&
+            isScrollToBottom &&
+            (origin === 'top-right' || origin === 'top-left')
+        ) {
             alertGroupRef.current.scrollTo(
                 0,
                 alertGroupRef.current.scrollHeight
@@ -191,6 +239,7 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
             <AlertGroupRoot
                 className={cx(className, classesProps.root)}
                 ref={ref}
+                origin={origin}
                 {...rest}
             >
                 <div className={classes.wrapper}>{children}</div>

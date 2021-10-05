@@ -88,8 +88,6 @@ export const Collapsible = (props: CollapsibleProps): JSX.Element => {
         ...rest
     } = props
 
-    console.log('IsCoo', isOpen)
-
     const [animationDuration, setAnimationDuration] = useState(0)
 
     const ref = useRef<HTMLDivElement | null>(null)

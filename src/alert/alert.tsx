@@ -166,33 +166,29 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
                 return {
                     top: offset,
                     right: offset,
-                    ...mixin({ sm: { top: 0, right: 0, left: 0 } }, 'max'),
                 }
+
             if (origin === 'bottom-right') {
                 return {
                     bottom: offset,
                     right: offset,
-                    ...mixin({ sm: { bottom: 0, right: 0, left: 0 } }, 'max'),
                 }
             }
             if (origin === 'top-left') {
                 return {
                     top: offset,
                     left: offset,
-                    ...mixin({ sm: { top: 0, right: 0, left: 0 } }, 'max'),
                 }
             }
             if (origin === 'bottom-left') {
                 return {
                     bottom: offset,
                     left: offset,
-                    ...mixin({ sm: { bottom: 0, right: 0, left: 0 } }, 'max'),
                 }
             }
             return {
                 top: offset,
                 right: offset,
-                ...mixin({ sm: { top: 0, right: 0, left: 0 } }, 'max'),
             }
         }
 
@@ -209,7 +205,26 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
             padding: isOpen ? '0.5rem' : 0,
             position: 'fixed',
             width: '100%',
-            ...mixin({ sm: { width: 'auto' } }, 'max'),
+            ...mixin(
+                {
+                    sm: {
+                        bottom:
+                            origin === 'bottom-right' ||
+                            origin === 'bottom-left'
+                                ? 0
+                                : undefined,
+                        left: 0,
+                        maxWidth: '100%',
+                        right: 0,
+                        top:
+                            origin === 'top-right' || origin === 'top-left'
+                                ? 0
+                                : undefined,
+                        width: 'auto',
+                    },
+                },
+                'max'
+            ),
             ...getOrigin(),
             ...themeVars.alert(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
