@@ -119,14 +119,23 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
             scrollBehavior: 'smooth',
             top: 0,
             width: '27rem',
+            zIndex: 10,
             ...mixin(
                 {
                     sm: {
-                        bottom: 'unset',
+                        bottom:
+                            origin === 'bottom-right' ||
+                            origin === 'bottom-left'
+                                ? 0
+                                : 'auto',
                         height: '10rem',
                         justifyContent: 'center',
                         left: 0,
                         right: 0,
+                        top:
+                            origin === 'top-right' || origin === 'top-left'
+                                ? 0
+                                : 'auto',
                         width: 'auto',
                     },
                 },
@@ -152,7 +161,10 @@ const useStyles = createStyle((theme) => ({
             flexDirection: getFlexDirection(),
             paddingBottom: theme.spacing(3),
             width: '25rem',
-            ...theme.breakingPoints.mixin({ sm: { width: '100%' } }, 'max'),
+            ...theme.breakingPoints.mixin(
+                { sm: { width: '100%', padding: 0, alignItems: 'flex-end' } },
+                'max'
+            ),
             ...getThemeCSSObject(csx.wrapper, theme),
         }
     },
@@ -161,7 +173,10 @@ const useStyles = createStyle((theme) => ({
         return {
             boxSizing: 'border-box',
             padding: '0.5rem',
-            ...theme.breakingPoints.mixin({ sm: { padding: 1 } }, 'max'),
+            ...theme.breakingPoints.mixin(
+                { sm: { padding: '0.2rem 0' } },
+                'max'
+            ),
             ...getThemeCSSObject(csx.collapsible, theme),
         }
     },
@@ -174,6 +189,7 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
         classes: classesProps = {},
         className,
         portalProps = {},
+        alertChildProps = {},
         isOpen = false,
         isScrollToBottom = true,
         origin = 'top-right',
@@ -189,17 +205,19 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
             const alert = cloneElement(child, {
                 ...child.props,
                 portalProps: { isPortalDisabled: true },
+                ...alertChildProps,
                 csx: {
                     ...child.csx,
                     root: (theme: Theme) => ({
-                        ...(child.csx &&
-                            child.csx.root &&
-                            getThemeCSSObject(child.csx.root, theme)),
                         left: 'unset',
                         position: 'relative',
                         right: 'unset',
                         top: 'unset',
                         bottom: 'unset',
+                        ...alertChildProps.csx?.root,
+                        ...(child.csx &&
+                            child.csx.root &&
+                            getThemeCSSObject(child.csx.root, theme)),
                     }),
                 },
             })
@@ -209,7 +227,7 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
                 <Collapsible
                     className={cx(
                         { [classes.collapsible]: isChildOpen },
-                        classes.collapsible
+                        classesProps.collapsible
                     )}
                     isOpen={isChildOpen}
                 >

@@ -205,6 +205,7 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
             padding: isOpen ? '0.5rem' : 0,
             position: 'fixed',
             width: '100%',
+            zIndex: 10,
             ...mixin(
                 {
                     sm: {
