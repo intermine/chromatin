@@ -28,6 +28,7 @@ import {
     ListItemProps,
     ListHeadingProps,
     AlertProps,
+    AlertGroupProps,
 } from '../../..'
 
 /**
@@ -64,6 +65,7 @@ export type ThemeVars = {
     listItem: ThemeVariableFunction<ListItemProps>
     listHeading: ThemeVariableFunction<ListHeadingProps>
     alert: ThemeVariableFunction<AlertProps>
+    alertGroup: ThemeVariableFunction<AlertGroupProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
