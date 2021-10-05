@@ -1,9 +1,5 @@
-/**
- * !! Unstable.
- * !! USE react-transition-group.
- * !! Sometime height is not calculated correctly.
- */
 import { useRef, useState, useLayoutEffect } from 'react'
+import { Transition } from 'react-transition-group'
 import cx from 'clsx'
 
 import {
@@ -58,6 +54,7 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
         return {
+            boxSizing: 'border-box',
             height: 0,
             opacity: isOpen ? 1 : 0,
             overflow: 'hidden',
@@ -116,18 +113,20 @@ export const Collapsible = (props: CollapsibleProps): JSX.Element => {
 
     useLayoutEffect(() => {
         onIsOpenChange()
-    }, [isOpen])
+    }, [isOpen, ref])
 
     return (
-        <CollapsibleRoot
-            ref={collapsibleRef}
-            className={cx(className, classes.root)}
-            animationDuration={animationDuration}
-            isOpen={isOpen}
-            {...rest}
-        >
-            {children}
-        </CollapsibleRoot>
+        <Transition in={isOpen} timeout={animationDuration}>
+            <CollapsibleRoot
+                ref={collapsibleRef}
+                className={cx(className, classes.root)}
+                animationDuration={animationDuration}
+                isOpen={isOpen}
+                {...rest}
+            >
+                {children}
+            </CollapsibleRoot>
+        </Transition>
     )
 }
 
