@@ -2,7 +2,6 @@ import { useState, cloneElement } from 'react'
 import cx from 'clsx'
 
 import { Label, LabelProps } from '../label'
-import { Box } from '../box'
 
 import {
     createStyledComponent,
@@ -86,6 +85,31 @@ const Container = createStyledComponent<typeof Label, FormControlLabelProps>(
     }
 )
 
+const Spacer = createStyledComponent<
+    'div',
+    {
+        spaceBetween: FormControlLabelProps['spaceBetween']
+        labelPlacement: FormControlLabelProps['labelPlacement']
+    }
+>('div', (theme, props) => {
+    const { labelPlacement, spaceBetween = 1 } = props
+    const { spacing } = theme
+
+    return {
+        flex: spaceBetween === 'all' ? 1 : undefined,
+        ...(spaceBetween !== 'all' && {
+            width:
+                labelPlacement === 'right' || labelPlacement === 'left'
+                    ? spacing(spaceBetween)
+                    : 0,
+            height:
+                labelPlacement === 'top' || labelPlacement === 'bottom'
+                    ? spacing(spaceBetween)
+                    : 0,
+        }),
+    }
+})
+
 export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
     const {
         classes = {},
@@ -140,24 +164,9 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
             {...rest}
         >
             {getControlElement()}
-            <Box
-                csx={{
-                    root: ({ spacing }) => ({
-                        flex: spaceBetween === 'all' ? 1 : undefined,
-                        ...(spaceBetween !== 'all' && {
-                            width:
-                                labelPlacement === 'right' ||
-                                labelPlacement === 'left'
-                                    ? spacing(spaceBetween)
-                                    : 0,
-                            height:
-                                labelPlacement === 'top' ||
-                                labelPlacement === 'bottom'
-                                    ? spacing(spaceBetween)
-                                    : 0,
-                        }),
-                    }),
-                }}
+            <Spacer
+                spaceBetween={spaceBetween}
+                labelPlacement={labelPlacement}
             />
             {label}
         </Container>

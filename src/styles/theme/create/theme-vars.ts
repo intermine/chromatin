@@ -31,6 +31,7 @@ export const createThemeVars = (
         listItem = themeVarDefaultFunction,
         listHeading = themeVarDefaultFunction,
         alert = themeVarDefaultFunction,
+        alertGroup = themeVarDefaultFunction,
     } = options
 
     return {
@@ -57,5 +58,6 @@ export const createThemeVars = (
         listItem,
         listHeading,
         alert,
+        alertGroup,
     }
 }

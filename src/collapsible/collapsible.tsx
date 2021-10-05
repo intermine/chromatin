@@ -1,3 +1,8 @@
+/**
+ * !! Unstable.
+ * !! USE react-transition-group.
+ * !! Sometime height is not calculated correctly.
+ */
 import { useRef, useState, useLayoutEffect } from 'react'
 import cx from 'clsx'
 

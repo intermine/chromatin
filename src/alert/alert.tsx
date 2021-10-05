@@ -21,6 +21,7 @@ import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonProps } from '../icon-button'
 import { Typography } from '../typography'
 import { Portal, PortalProps } from '../portal'
+import { Collapsible } from '../collapsible'
 
 import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
@@ -55,9 +56,13 @@ export interface AlertProps
     title?: ReactElement
     message?: ReactElement
     /**
+     * To give margin
+     */
+    margin?: string
+    /**
      * @default true
      */
-    hasClose?: boolean
+    hasCloseButton?: boolean
     onClose?: () => void
     closeButtonProps?: IconButtonProps<'button'>
     /**
@@ -68,7 +73,7 @@ export interface AlertProps
     isOpen?: boolean
     /**
      * Alert origin.
-     * @default 'top'
+     * @default 'top-right'
      */
     origin?: 'top-right' | 'bottom-right' | 'top-left' | 'bottom-left'
     /**
@@ -144,8 +149,8 @@ type MainSectionProps = {
     }
 }
 
-const AlertRoot = createStyledComponent<'div', AlertProps>(
-    'div',
+const AlertRoot = createStyledComponent<typeof Collapsible, AlertProps>(
+    Collapsible,
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
@@ -154,53 +159,59 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
             themeType,
             breakingPoints: { mixin },
         } = themePropsForThemeVarFn
-        const { csx = {}, origin = 'top-right' } = props
+        const { csx = {}, origin = 'top-right', margin, isOpen } = props
 
-        const getAlertPosition = (): CSSObject => {
-            const margin = '1rem'
+        const getOrigin = (): CSSObject => {
+            const offset = '1rem'
             if (origin === 'top-right')
                 return {
-                    top: margin,
-                    right: margin,
+                    top: offset,
+                    right: offset,
                     ...mixin({ sm: { top: 0, right: 0, left: 0 } }, 'max'),
                 }
             if (origin === 'bottom-right') {
                 return {
-                    bottom: margin,
-                    right: margin,
+                    bottom: offset,
+                    right: offset,
                     ...mixin({ sm: { bottom: 0, right: 0, left: 0 } }, 'max'),
                 }
             }
             if (origin === 'top-left') {
                 return {
-                    top: margin,
-                    left: margin,
+                    top: offset,
+                    left: offset,
                     ...mixin({ sm: { top: 0, right: 0, left: 0 } }, 'max'),
                 }
             }
             if (origin === 'bottom-left') {
                 return {
-                    bottom: margin,
-                    left: margin,
+                    bottom: offset,
+                    left: offset,
                     ...mixin({ sm: { bottom: 0, right: 0, left: 0 } }, 'max'),
                 }
             }
             return {
-                top: margin,
-                right: margin,
+                top: offset,
+                right: offset,
                 ...mixin({ sm: { top: 0, right: 0, left: 0 } }, 'max'),
             }
         }
 
         return {
+            alignSelf: 'flex-start',
             background: tto(themeType, rtb.light, neutral[40]),
             borderRadius: '0.25rem',
+            boxSizing: 'border-box',
             boxShadow: elevation.low,
             display: 'flex',
+            margin: isOpen ? margin : 0,
             maxWidth: '25rem',
-            padding: '0.5rem',
+            overflow: 'hidden',
+            padding: isOpen ? '0.5rem' : 0,
             position: 'fixed',
-            ...getAlertPosition(),
+            width: '100%',
+            ...mixin({ sm: { width: 'auto' } }, 'max'),
+            ...getOrigin(),
             ...themeVars.alert(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
         }
@@ -232,6 +243,7 @@ const MainSection = createStyledComponent<'div', MainSectionProps>(
             display: 'flex',
             flex: '1',
             flexDirection: 'column',
+            height: '100%',
             padding: '0.3125rem 1rem',
             ...body,
             ...getThemeCSSObject(csx.root, theme),
@@ -273,10 +285,10 @@ export const Alert = (props: AlertProps): JSX.Element => {
         csx = {},
         className,
         children,
-        hasClose = true,
+        hasCloseButton = true,
         hasMainIcon = true,
         iconColor,
-        Icon = <DefaultSuccessIcon />,
+        Icon,
         type = 'success',
         isOpen = false,
         portalProps = {},
@@ -306,9 +318,16 @@ export const Alert = (props: AlertProps): JSX.Element => {
                 ? palette[type].main
                 : tto(themeType, black, white))
         const iconProps = {
-            height: '1.5rem',
-            width: '1.5rem',
+            height: '24',
+            width: '24',
             fill: fillColor,
+        }
+
+        if (Icon) {
+            return cloneElement(Icon as any, {
+                ...(Icon as any).props,
+                ...iconProps,
+            })
         }
 
         if (type === 'success') {
@@ -323,10 +342,8 @@ export const Alert = (props: AlertProps): JSX.Element => {
         if (type === 'info') {
             return <DefaultInfoIcon {...iconProps} />
         }
-        return cloneElement(Icon as any, {
-            ...(Icon as any).props,
-            ...iconProps,
-        })
+
+        return <></>
     }
 
     const getMessage = (): ReactElement => {
@@ -375,7 +392,7 @@ export const Alert = (props: AlertProps): JSX.Element => {
         if (!isOpen) {
             interval = setTimeout(
                 () => setIsMounted(false),
-                hasAnimation ? 1000 : 0
+                hasAnimation ? 300 : 0
             )
         } else {
             setIsMounted(true)
@@ -407,6 +424,7 @@ export const Alert = (props: AlertProps): JSX.Element => {
     return (
         <Portal {...portalProps}>
             <AlertRoot
+                isOpen={isOpen}
                 className={cx(className, classesProps.root, {
                     [classesProps.entryAnimation ?? classes.entryAnimation]:
                         isOpen && hasAnimation,
@@ -433,7 +451,7 @@ export const Alert = (props: AlertProps): JSX.Element => {
                     {getMessage()}
                     {children}
                 </MainSection>
-                {hasClose && (
+                {hasCloseButton && (
                     <IconContainer
                         className={cx(classesProps.closeIconContainer)}
                         csx={{ root: csx.closeIconContainer }}
