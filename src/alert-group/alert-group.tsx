@@ -255,6 +255,8 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
     return (
         <Portal {...portalProps}>
             <AlertGroupRoot
+                aria-live="polite"
+                role="alert-group"
                 className={cx(className, classesProps.root)}
                 ref={ref}
                 origin={origin}
