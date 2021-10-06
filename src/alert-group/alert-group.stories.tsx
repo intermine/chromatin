@@ -30,7 +30,7 @@ const Template: Story = (args) => {
 
     const handleAddAlert = () => {
         const message = alertMessage.substr(rand(40))
-        const idx = Number.parseInt(rand(4).toFixed(0), 10)
+        const idx = Number.parseInt(rand(3).toFixed(0), 10)
         const type = alertType[idx]
         const title = alertTitle[idx]
         const id = `${rand(1000)}`

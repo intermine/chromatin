@@ -11,11 +11,14 @@ import {
     themeTernaryOperator as tto,
     createStyle,
 } from '../styles'
-import DefaultSuccessIcon from '../icons/System/checkbox-circle-fill'
-import DefaultErrorIcon from '../icons/System/error-warning-fill'
-import DefaultWarningIcon from '../icons/System/alert-fill'
-import DefaultInfoIcon from '../icons/System/information-fill'
-import DefaultCloseIcon from '../icons/System/close-fill'
+import {
+    DefaultSuccessIcon,
+    DefaultErrorIcon,
+    DefaultWarningIcon,
+    DefaultInfoIcon,
+    DefaultCloseIcon,
+} from '../constants/default-icons'
+
 import { attachSignatureToComponent } from '../utils'
 import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonProps } from '../icon-button'
@@ -45,7 +48,7 @@ export interface AlertProps
     /**
      * @default 'other'
      */
-    type?: 'success' | 'error' | 'info' | 'warning' | 'other'
+    type?: 'success' | 'error' | 'info' | 'warning' | 'neutral' | 'other'
     /**
      * This will only update the color of main icon. If not passed,
      * then the color of icon is calculated using type.
@@ -109,6 +112,16 @@ export interface AlertProps
          * Applied to closeIconContainer
          */
         closeIconContainer?: string
+        /**
+         * Applied to title component if
+         * title is string.
+         */
+        title?: string
+        /**
+         * Applied to message component if
+         * message is string.
+         */
+        message?: string
     }
     /**
      * To override the applied styles.
@@ -132,6 +145,16 @@ export interface AlertProps
          * Applied to closeIconContainer
          */
         closeIconContainer?: ThemeCSSStyles
+        /**
+         * Applied to title component if
+         * title is string.
+         */
+        title?: ThemeCSSStyles
+        /**
+         * Applied to message component if
+         * message is string.
+         */
+        message?: ThemeCSSStyles
     }
 }
 
@@ -358,6 +381,7 @@ export const Alert = (props: AlertProps): JSX.Element => {
             return <DefaultInfoIcon {...iconProps} />
         }
 
+        // No icon for neutral and other
         return <></>
     }
 
@@ -366,10 +390,17 @@ export const Alert = (props: AlertProps): JSX.Element => {
             return (
                 <Typography
                     variant="body"
+                    className={cx(classesProps.message)}
                     csx={{
-                        root: ({ palette: { neutral } }) => ({
-                            color: neutral[80],
-                        }),
+                        root: (theme) => {
+                            const {
+                                palette: { neutral },
+                            } = theme
+                            return {
+                                color: neutral[80],
+                                ...getThemeCSSObject(csx.message, theme),
+                            }
+                        },
                     }}
                 >
                     {message}
@@ -384,7 +415,13 @@ export const Alert = (props: AlertProps): JSX.Element => {
             return (
                 <Typography
                     variant="title"
-                    csx={{ root: { marginBottom: '0.5rem' } }}
+                    className={cx(classesProps.title)}
+                    csx={{
+                        root: (theme) => ({
+                            marginBottom: '0.5rem',
+                            ...getThemeCSSObject(csx.title, theme),
+                        }),
+                    }}
                 >
                     {title}
                 </Typography>

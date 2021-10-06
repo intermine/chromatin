@@ -2,10 +2,11 @@ import cx from 'clsx'
 
 import { IconButton } from '../icon-button'
 import { InputBase } from '../input-base'
-import DefaultCheckedIcon from '../icons/System/checkbox-fill'
-import DefaultUncheckedIcon from '../icons/System/checkbox-blank-line'
-// eslint-disable-next-line max-len
-import DefaultIndeterminateIcon from '../icons/System/checkbox-indeterminate-fill'
+import {
+    DefaultCheckedIcon,
+    DefaultIndeterminateIcon,
+    DefaultUncheckedIcon,
+} from '../constants/default-icons'
 
 import { ReactElement, ThemeCSSStyles } from '../styles'
 import { CHECKBOX } from '../constants/component-ids'

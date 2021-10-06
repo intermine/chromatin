@@ -29,7 +29,7 @@ const Template: Story = (args) => {
 export const Default = Template.bind({})
 Default.args = {
     title: 'Success',
-    type: 'success',
+    type: 'neutral',
     message:
         'This is a very very long success message. This is here to see how a very long message appears.',
 }
