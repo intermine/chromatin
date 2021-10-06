@@ -29,6 +29,7 @@ import {
     ListHeadingProps,
     AlertProps,
     AlertGroupProps,
+    InlineAlertProps,
 } from '../../..'
 
 /**
@@ -66,6 +67,7 @@ export type ThemeVars = {
     listHeading: ThemeVariableFunction<ListHeadingProps>
     alert: ThemeVariableFunction<AlertProps>
     alertGroup: ThemeVariableFunction<AlertGroupProps>
+    inlineAlert: ThemeVariableFunction<InlineAlertProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

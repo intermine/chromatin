@@ -29,6 +29,7 @@ export { ListHeading } from './list-heading'
 export { Select } from './select'
 export { Alert } from './alert'
 export { AlertGroup } from './alert-group'
+export { InlineAlert } from './inline-alert'
 
 // -------------------------
 // Types
@@ -61,3 +62,4 @@ export type { ListHeadingProps } from './list-heading'
 export type { SelectCSXType, SelectProps } from './select'
 export type { AlertProps } from './alert'
 export type { AlertGroupProps } from './alert-group'
+export type { InlineAlertProps } from './inline-alert'
