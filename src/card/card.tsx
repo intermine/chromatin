@@ -10,6 +10,7 @@ import { attachSignatureToComponent } from '../utils'
 import { CARD } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
+import { CSSObject } from 'styled-components'
 
 export interface CardProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
@@ -17,12 +18,12 @@ export interface CardProps
     /**
      * @default 'shadow'
      */
-    variant?: 'outlined' | 'shadow'
+    variant?: 'outlined' | 'shadow' | 'none'
     /**
      * default value is based on variant. If variant is outlined then
      * it is outlined other wise shadow.
      */
-    hoverVariant?: 'outlined' | 'shadow'
+    hoverVariant?: 'outlined' | 'shadow' | 'none'
     /**
      * To extend the styles applied to the components
      */
@@ -58,21 +59,36 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             },
         } = themePropsForThemeVarFn
 
+        const getBoxShadow = (): string | undefined => {
+            if (variant === 'none') {
+                return
+            }
+            if (variant === 'shadow') {
+                return elevation.low
+            }
+            return `inset 0 0 0 1px ${neutral[60]}`
+        }
+
+        const getHoverProperties = (): CSSObject => {
+            if (hoverVariant === 'none') return {}
+            if (hoverVariant === 'shadow') {
+                return {
+                    boxShadow: elevation.medium,
+                }
+            }
+
+            return {
+                boxShadow: `inset 0 0 0 2px ${neutral[60]}`,
+            }
+        }
+
         return {
             background: tto(themeType, white, neutral[40]),
             borderRadius: '0.25rem',
-            boxShadow:
-                variant === 'shadow'
-                    ? elevation.low
-                    : `inset 0 0 0 1px ${neutral[60]}`,
+            boxShadow: getBoxShadow(),
             display: 'flex',
             flexDirection: 'column',
-            '&:hover': {
-                boxShadow:
-                    hoverVariant === 'shadow'
-                        ? elevation.medium
-                        : `inset 0 0 0 2px ${neutral[60]}`,
-            },
+            '&:hover': getHoverProperties(),
             ...body,
             ...themeVars.card(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
