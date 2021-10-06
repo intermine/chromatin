@@ -30,6 +30,10 @@ import {
     AlertProps,
     AlertGroupProps,
     InlineAlertProps,
+    CardProps,
+    CardActionProps,
+    CardContentProps,
+    CardHeaderProps,
 } from '../../..'
 
 /**
@@ -68,6 +72,10 @@ export type ThemeVars = {
     alert: ThemeVariableFunction<AlertProps>
     alertGroup: ThemeVariableFunction<AlertGroupProps>
     inlineAlert: ThemeVariableFunction<InlineAlertProps>
+    card: ThemeVariableFunction<CardProps>
+    cardAction: ThemeVariableFunction<CardActionProps>
+    cardContent: ThemeVariableFunction<CardContentProps>
+    cardHeader: ThemeVariableFunction<CardHeaderProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

@@ -33,6 +33,10 @@ export const createThemeVars = (
         alert = themeVarDefaultFunction,
         alertGroup = themeVarDefaultFunction,
         inlineAlert = themeVarDefaultFunction,
+        card = themeVarDefaultFunction,
+        cardAction = themeVarDefaultFunction,
+        cardHeader = themeVarDefaultFunction,
+        cardContent = themeVarDefaultFunction,
     } = options
 
     return {
@@ -61,5 +65,9 @@ export const createThemeVars = (
         alert,
         alertGroup,
         inlineAlert,
+        card,
+        cardAction,
+        cardContent,
+        cardHeader,
     }
 }
