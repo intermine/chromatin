@@ -68,7 +68,6 @@ const GridRoot = createStyledComponent<typeof Box, GridProps>(
             display: isInline ? 'inline-flex' : 'flex',
             flexDirection: direction,
             flexWrap: 'wrap',
-
             ...themeVars.grid(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
         }

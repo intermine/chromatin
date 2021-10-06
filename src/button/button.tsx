@@ -177,7 +177,7 @@ const ButtonRoot = createStyledComponent<
 
     const getPadding = (): string => {
         if (size === 'regular') {
-            if (isDense) return '0.4rem 1.2rem'
+            if (isDense) return '0.4rem 0.7rem'
             return '0.7rem 1.4rem'
         }
 

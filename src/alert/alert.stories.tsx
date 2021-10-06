@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react/types-6-0'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Box } from '../box'
 import { Button } from '../button'
 import { Alert } from './alert'

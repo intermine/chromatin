@@ -71,6 +71,9 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
             display,
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
+        const {
+            typography: { body },
+        } = themePropsForThemeVarFn
 
         const getContentProperties = (): CSSObject => {
             const contentProps: CSSObject = {}
@@ -96,6 +99,7 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
         return {
             display,
             width: hasFullWidth ? '100%' : undefined,
+            ...body,
             ...getContentProperties(),
             ...themeVars.box(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),

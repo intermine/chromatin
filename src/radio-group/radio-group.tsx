@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { RadioGroupContextProps } from '.'
 import { Box, BoxProps } from '../box'
-import { createStyledComponent } from '../styles'
+import { createStyledComponent, getThemeCSSObject } from '../styles'
 import { getId } from '../utils'
 import { RadioGroupContext } from './radio-group-context'
 
@@ -12,9 +12,11 @@ const RadioGroupRoot = createStyledComponent<typeof Box, RadioGroupProps>(
     Box,
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { csx = {} } = props
 
         return {
             ...themeVars.radioGroup(themePropsForThemeVarFn, props),
+            ...getThemeCSSObject(csx.root, theme),
         }
     }
 )

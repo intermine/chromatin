@@ -1,5 +1,5 @@
 import { Checkbox, CheckboxProps } from '../checkbox'
-import { createStyledComponent } from '../styles'
+import { createStyledComponent, getThemeCSSObject } from '../styles'
 import { useRadioGroup } from '../radio-group'
 import RadioUnchecked from '../icons/System/checkbox-blank-circle-line'
 import RadioChecked from '../icons/System/radio-button-line'
@@ -10,9 +10,10 @@ export type RadioProps = CheckboxProps
 
 const CheckboxRoot = createStyledComponent(Checkbox, (theme, props) => {
     const { themeVars, ...themePropsForThemeVarFn } = theme
-
+    const { csx = {} } = props
     return {
         ...themeVars.radio(themePropsForThemeVarFn, props),
+        ...getThemeCSSObject(csx.root, theme),
     }
 })
 
