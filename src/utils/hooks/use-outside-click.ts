@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { getElementUsingEvent } from '../get'
+
 type ReturnType = boolean | undefined
 
 export type UseOutsideClickOptions = {
@@ -47,16 +49,6 @@ export type UseOutsideClickOptions = {
     keyboardEventListener?: (event: KeyboardEvent) => boolean | undefined
 }
 
-const getClickedElementUsingEvent = (
-    event: MouseEvent | KeyboardEvent
-): EventTarget => {
-    if (event.composed && typeof event.composedPath === 'function') {
-        return event.composedPath()[0]
-    }
-
-    return event.target ?? document.body
-}
-
 /**
  * Hook to check whether the click/keyup happen on
  * the target element or outside target element.
@@ -82,7 +74,7 @@ export const useOutsideClick = (
     ): ReturnType => {
         if (!anchorElement) return
 
-        const clickedElement = getClickedElementUsingEvent(event)
+        const clickedElement = getElementUsingEvent(event)
 
         return !anchorElement.contains(clickedElement as HTMLElement)
     }

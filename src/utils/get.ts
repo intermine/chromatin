@@ -18,3 +18,11 @@ export const getChromatinElementId = (Component: any): string | undefined => {
 export const getId = (size = 7): string => {
     return nanoid(size)
 }
+
+export const getElementUsingEvent = (event: Event): EventTarget => {
+    if (event.composed && typeof event.composedPath === 'function') {
+        return event.composedPath()[0]
+    }
+
+    return event.target ?? document.body
+}
