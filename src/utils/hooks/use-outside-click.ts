@@ -47,6 +47,14 @@ export type UseOutsideClickOptions = {
      * nothing happened yet.
      */
     keyboardEventListener?: (event: KeyboardEvent) => boolean | undefined
+    /**
+     * Triggered when clicked outside
+     */
+    onClickedOutside?: (event: Event) => void
+    /**
+     * Triggered when clicked inside
+     */
+    onClickedInside?: (event: Event) => void
 }
 
 /**
@@ -63,6 +71,8 @@ export const useOutsideClick = (
         isDisabled = false,
         clickEventListener: _clickEventListener,
         keyboardEventListener: _keyboardEventListener,
+        onClickedInside,
+        onClickedOutside,
     } = options
 
     const [isClickedOutside, setIsClickedOutside] = useState<
@@ -91,6 +101,11 @@ export const useOutsideClick = (
         }
 
         const _isClickedOutside = isEventOccurredOutside(event)
+        if (_isClickedOutside && typeof onClickedOutside === 'function')
+            onClickedOutside(event)
+        else if (!isClickedOutside && typeof onClickedInside === 'function')
+            onClickedInside(event)
+
         setIsClickedOutside(_isClickedOutside)
     }
 
@@ -105,7 +120,13 @@ export const useOutsideClick = (
             return
         }
 
-        setIsClickedOutside(isEventOccurredOutside(event))
+        const _isClickedOutside = isEventOccurredOutside(event)
+        if (_isClickedOutside && typeof onClickedOutside === 'function')
+            onClickedOutside(event)
+        else if (!isClickedOutside && typeof onClickedInside === 'function')
+            onClickedInside(event)
+
+        setIsClickedOutside(_isClickedOutside)
     }
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react/types-6-0'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 import { Box } from '../../box'
 import { useOutsideClick } from './use-outside-click'
@@ -9,10 +9,14 @@ export default {
 }
 
 const Template: Story = (args) => {
+    const [message, setMessage] = useState('Waiting...')
+
     const ref = useRef<HTMLElement | null>(null)
     const isClickedOutside = useOutsideClick({
         anchorElement: ref.current,
         triggerOnKeyboardEvent: true,
+        onClickedInside: () => setMessage('Inside'),
+        onClickedOutside: () => setMessage('Outside'),
     })
 
     return (
@@ -30,12 +34,7 @@ const Template: Story = (args) => {
                 }}
                 {...args}
             >
-                You clicked :{' '}
-                {typeof isClickedOutside !== 'undefined'
-                    ? isClickedOutside
-                        ? 'Outside'
-                        : 'Inside'
-                    : 'Not clicked yet!'}
+                You clicked :{message}
             </Box>
             <Box tabIndex={1} />
         </>
