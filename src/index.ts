@@ -34,6 +34,7 @@ export { Card } from './card'
 export { CardAction } from './card-action'
 export { CardContent } from './card-content'
 export { CardHeader } from './card-header'
+export { Tooltip } from './tooltip'
 
 // -------------------------
 // Types
@@ -71,3 +72,4 @@ export type { CardProps } from './card'
 export type { CardActionProps } from './card-action'
 export type { CardContentProps } from './card-content'
 export type { CardHeaderProps } from './card-header'
+export type { TooltipProps } from './tooltip'

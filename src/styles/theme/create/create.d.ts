@@ -34,6 +34,7 @@ import {
     CardActionProps,
     CardContentProps,
     CardHeaderProps,
+    TooltipProps,
 } from '../../..'
 
 /**
@@ -76,6 +77,7 @@ export type ThemeVars = {
     cardAction: ThemeVariableFunction<CardActionProps>
     cardContent: ThemeVariableFunction<CardContentProps>
     cardHeader: ThemeVariableFunction<CardHeaderProps>
+    tooltip: ThemeVariableFunction<TooltipProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
