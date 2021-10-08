@@ -38,7 +38,11 @@ const Template: Story = (args) => {
                 IsMouseOver: {isMouseOver ? 'Yes' : 'No'}
             </Box>
             {isMouseOver && (
-                <Popper placement="bottom-start" anchorElement={ref1.current}>
+                <Popper
+                    isOpen
+                    placement="bottom-start"
+                    anchorElement={ref1.current}
+                >
                     <Box
                         innerRef={(el: any) => setEl(el)}
                         csx={{

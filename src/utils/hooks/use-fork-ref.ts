@@ -1,16 +1,7 @@
 import { useMemo } from 'react'
+import { setRef } from '../set'
 
-import type { CallableRef, Ref } from './types'
-
-const updateRef = (ref?: Ref, el?: HTMLElement) => {
-    if (typeof ref === 'undefined') return
-
-    if (typeof ref === 'function') {
-        ref(el)
-    } else if (ref) {
-        ref.current = el
-    }
-}
+import type { CallableRef, Ref } from '../types'
 
 const useForkRef = (
     refA: Ref | undefined,
@@ -22,8 +13,8 @@ const useForkRef = (
         }
 
         return (refValue?: HTMLElement) => {
-            updateRef(refA, refValue)
-            updateRef(refB, refValue)
+            setRef(refA, refValue)
+            setRef(refB, refValue)
         }
     }, [refA, refB])
 }

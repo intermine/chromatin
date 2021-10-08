@@ -37,7 +37,7 @@ export interface PopperProp extends BoxProps<'div'> {
     /**
      * @default false
      */
-    isPopperClose?: boolean
+    isOpen?: boolean
 }
 
 export const Popper = (props: PopperProp): JSX.Element => {
@@ -49,7 +49,7 @@ export const Popper = (props: PopperProp): JSX.Element => {
         modifiers = [],
         strategy = 'absolute',
         onFirstUpdate = () => ({}),
-        isPopperClose = false,
+        isOpen = false,
         isRenderNullIfNoAnchorElement = true,
         ...rest
     } = props
@@ -77,14 +77,14 @@ export const Popper = (props: PopperProp): JSX.Element => {
     }, [
         anchorElement,
         placement,
-        isPopperClose,
+        isOpen,
         isRenderNullIfNoAnchorElement,
         modifiers,
         strategy,
         onFirstUpdate,
     ])
 
-    if ((!anchorElement && isRenderNullIfNoAnchorElement) || isPopperClose)
+    if ((!anchorElement && isRenderNullIfNoAnchorElement) || !isOpen)
         return <></>
 
     return (
