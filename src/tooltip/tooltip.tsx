@@ -167,7 +167,7 @@ const TooltipRoot = createStyledComponent<
         }
 
         const colorFirstPref = tto(themeType, white, black)
-        const colorSecondPref = tto(themeType, white, black)
+        const colorSecondPref = tto(themeType, black, white)
 
         return getContrastRatio(color, colorFirstPref) > contrastThreshold
             ? colorFirstPref
