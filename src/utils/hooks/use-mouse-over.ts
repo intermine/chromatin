@@ -200,7 +200,7 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
             return
         }
 
-        if (otherElement.isEqualNode(target)) {
+        if (otherElement.isEqualNode(target) || otherElement.contains(target)) {
             setIsMouseOver(true)
             return
         }

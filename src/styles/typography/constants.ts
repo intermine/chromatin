@@ -33,7 +33,7 @@ export const defaultFontFamily = 'Arial'
 export const defaultBoldFontWeight = 700
 export const defaultRegularFontWeight = 500
 export const defaultLightFontWeight = 100
-export const defaultLineHeight = 1
+export const defaultLineHeight = 1.2
 
 export const defaultThemeTypography = {
     h1: fontMixin(
