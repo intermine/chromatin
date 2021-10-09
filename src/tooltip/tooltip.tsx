@@ -87,6 +87,12 @@ export interface TooltipProps
      */
     onTooltipClose?: () => void
     /**
+     * If true then use can interact with the tooltip.
+     * Otherwise, tooltip will go away when mouse leaves
+     * the anchor element.
+     */
+    isInteractiveTooltip?: boolean
+    /**
      * To extend the styles applied to the components
      */
     classes?: {
@@ -286,6 +292,9 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
         modifiers: _modifiers = [],
         placement = 'top',
         csx = {},
+        onTooltipClose,
+        onTooltipOpen,
+        isInteractiveTooltip = true,
         ...rest
     } = props
 
@@ -306,7 +315,9 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
 
     const isMouseOver = useMouseOver({
         anchorElement: childRef.current,
-        otherElement: tooltipElement,
+        otherElement: isInteractiveTooltip ? tooltipElement : undefined,
+        onHoverEnd: onTooltipClose,
+        onHoverStart: onTooltipOpen,
         isDisabled,
     })
 

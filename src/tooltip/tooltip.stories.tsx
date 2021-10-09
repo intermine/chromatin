@@ -28,4 +28,6 @@ export const Default = Template.bind({})
 Default.args = {
     title: 'Simple Heading!',
     message: 'Tooltip message. This is a very short tooltip message.',
+    onTooltipOpen: () => console.log('Tooltip is open'),
+    onTooltipClose: () => console.log('Tooltip is closed'),
 }
