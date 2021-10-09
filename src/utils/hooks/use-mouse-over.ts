@@ -26,11 +26,11 @@ export type UseMouseOverOptions = {
     /**
      * Triggered when hover starts
      */
-    onHoverStart?: (event: Event) => void
+    onHoverStart?: () => void
     /**
      * Triggered when hover ends
      */
-    onHoverEnd?: (event: Event) => void
+    onHoverEnd?: () => void
     /**
      * @default false
      */
@@ -221,18 +221,11 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
         setIsMouseOver(false)
     }
 
-    const onMouseEnter = (event: Event) => {
-        if (typeof onHoverStart === 'function') {
-            onHoverStart(event)
-        }
-
+    const onMouseEnter = () => {
         setIsMouseOver(true)
     }
 
-    const onMouseLeave = (event: Event) => {
-        if (typeof onHoverEnd === 'function') {
-            onHoverEnd(event)
-        }
+    const onMouseLeave = () => {
         setIsMouseOver(false)
     }
 
@@ -309,6 +302,16 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
     }
 
     useEffect(() => {
+        if (isMouseOver === undefined) return
+        if (isMouseOver && typeof onHoverStart === 'function') {
+            onHoverStart()
+        }
+        if (!isMouseOver && typeof onHoverEnd === 'function') {
+            onHoverEnd()
+        }
+    }, [isMouseOver])
+
+    useEffect(() => {
         /**
          * Popper element takes some time to settle itself.
          * Therefore updating hover polygon points after 100ms.
@@ -324,6 +327,7 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
             }
         } else {
             document.removeEventListener('mousemove', followCursor)
+
             if (isHoverPolygonVisible) {
                 svg.remove()
             }
