@@ -22,7 +22,9 @@ export type Component<T> = T extends
 export type CreateStyledComponentFunctionProps<T, U> = ThemedStyledProps<
     StyledComponentPropsWithRef<Component<T>> & U,
     any
->
+> & {
+    isExtendStyleFromThemeVars?: boolean
+}
 
 export type CreateStyledComponentFunction<T, U> = (
     theme: Theme,
@@ -42,7 +44,8 @@ type AddAdditionProps<U> = U extends string
  */
 export const createStyledComponent = <T, U>(
     component: Component<T>,
-    objOrFn: CreateStyledComponentObjectOrFunction<T, U>
+    objOrFn: CreateStyledComponentObjectOrFunction<T, U>,
+    attrs = {} as { isExtendStyleFromThemeVars?: boolean }
 ): StyledComponent<Component<T>, any, AddAdditionProps<U>, never> => {
     const themeStyledFunction = (
         props: CreateStyledComponentFunctionProps<T, U>
@@ -58,7 +61,7 @@ export const createStyledComponent = <T, U>(
      *
      * TODO: Need to fix type of props.
      */
-    return (styled(component)((props: any) =>
+    return (styled(component).attrs(attrs as any)((props: any) =>
         themeStyledFunction(props)
     ) as unknown) as any
 }

@@ -71,6 +71,9 @@ const GridRoot = createStyledComponent<typeof Box, GridProps>(
             ...themeVars.grid(themePropsForThemeVarFn, props),
             ...getThemeCSSObject(csx.root, theme),
         }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
 )
 
