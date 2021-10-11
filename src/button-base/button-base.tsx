@@ -31,6 +31,7 @@ export interface ButtonBaseCommonProps
      * @default true
      */
     hasHighlightOnFocus?: boolean
+    isDisabled?: boolean
     /**
      * Whether to have hover effect applicable
      * when the element is focused.
@@ -49,7 +50,6 @@ export interface ButtonBaseCommonProps
      * To activate active style
      */
     isActive?: boolean
-
     /**
      * To extend the styles applied to the components
      */
@@ -92,7 +92,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         const {
             variant = 'normal',
             color = '',
-            disabled = false,
+            isDisabled = false,
             hasElevation: hasElevationProps = true,
             hasHighlightOnFocus = true,
             hasHoverEffectOnFocus = false,
@@ -110,7 +110,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         }
 
         const getBackground = (): string => {
-            if (disabled) {
+            if (isDisabled) {
                 if (variant === 'ghost') return themeColors.disable[20]
 
                 return themeColors.disable.main
@@ -153,7 +153,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
 
         const getBoxShadow = (): string | undefined => {
             if (variant === 'normal') {
-                if (hasElevationProps && !disabled) {
+                if (hasElevationProps && !isDisabled) {
                     return elevation.low
                 }
                 return
@@ -161,7 +161,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
 
             if (variant === 'outlined') {
                 const boxShadowBase = 'inset 0 0 0 1px'
-                if (disabled)
+                if (isDisabled)
                     return `${boxShadowBase} ${themeColors.disable[60]}`
 
                 if (!isThemeColorName(color)) {
@@ -175,7 +175,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         }
 
         const getColor = (): string | undefined => {
-            if (disabled) {
+            if (isDisabled) {
                 return themeColors.disable[70]
             }
 
@@ -204,21 +204,21 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         const calculatedColor = getColor()
         const hoverProperties = getHoverProperties({
             color,
-            disabled,
+            isDisabled,
             mainColor: getMainColor(),
             theme,
             variant,
         })
         const activeProperties = getActiveProperties({
             color,
-            disabled,
+            isDisabled,
             variant,
             theme,
         })
 
         // TODO: Move getFocusProperties to ./utils
         const getFocusProperties = (): CSSObject => {
-            if (disabled) return {}
+            if (isDisabled) return {}
 
             const boxShadowBase = '0 0 0 3px'
             const borderAsBoxShadow = getBoxShadow()
@@ -328,6 +328,7 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         classes = {},
         className,
         tabIndex = 0,
+        isDisabled,
         ...rest
     } = props
 
@@ -337,6 +338,8 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
             className={cx(className, classes.root)}
             ref={innerRef}
             tabIndex={tabIndex}
+            disabled={isDisabled}
+            isDisabled={isDisabled}
             {...rest}
         >
             {children}

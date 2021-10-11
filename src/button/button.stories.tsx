@@ -23,7 +23,7 @@ Default.args = {
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
-    disabled: false,
+    isDisabled: false,
     hasFullWidth: false,
     hasElevation: true,
 }
@@ -35,7 +35,7 @@ ButtonWithIcon.args = {
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
-    disabled: false,
+    isDisabled: false,
     RightIcon: <SendMail />,
     hasFullWidth: false,
     hasElevation: true,
@@ -48,7 +48,7 @@ FullWidthButton.args = {
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
-    disabled: false,
+    isDisabled: false,
     hasFullWidth: true,
     hasElevation: true,
 }
@@ -60,7 +60,7 @@ Disabled.args = {
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),
-    disabled: true,
+    isDisabled: true,
     hasFullWidth: true,
     hasElevation: true,
 }
@@ -69,7 +69,7 @@ export const ButtonWithCustomColor = Template.bind({})
 ButtonWithCustomColor.args = {
     children: 'InterMine Green',
     color: '#C0D848',
-    disabled: false,
+    isDisabled: false,
 }
 
 const Template3: Story = (props) => {

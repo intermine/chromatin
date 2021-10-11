@@ -122,7 +122,7 @@ export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
         isLoading = false,
         classes = {},
         csx = {},
-        disabled = false,
+        isDisabled = false,
         size = 'regular',
         ...rest
     } = props
@@ -134,7 +134,7 @@ export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
             classes={classesForBase}
             size={size}
             csx={csx}
-            disabled={isLoading || disabled}
+            isDisabled={isLoading || isDisabled}
             {...rest}
         >
             {!isLoading && Icon}

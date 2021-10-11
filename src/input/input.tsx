@@ -104,7 +104,7 @@ interface IconContainerProps {
     isRight?: boolean
     color?: string
     size?: 'small' | 'regular' | 'large'
-    disabled?: boolean
+    isDisabled?: boolean
     isError?: boolean
     isWarning?: boolean
     isFocus?: boolean
@@ -216,7 +216,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
         const {
             children,
             size = 'regular',
-            disabled,
+            isDisabled,
             isError,
             isWarning,
             isRight = false,
@@ -233,7 +233,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
         }
 
         const getBackground = (): string => {
-            if (disabled) return palette.disable.main
+            if (isDisabled) return palette.disable.main
 
             if (isFocus) {
                 if (isThemeColorName(color)) {
@@ -249,7 +249,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
         }
 
         const getFillColor = (): string => {
-            if (disabled) return palette.neutral[80]
+            if (isDisabled) return palette.neutral[80]
             if (isFocus) {
                 if (isThemeColorName(color)) {
                     return palette[color].text
@@ -336,7 +336,7 @@ export const Input = (props: InputProps): JSX.Element => {
         color,
         isError,
         isWarning,
-        disabled,
+        isDisabled,
         hasTransparentBackground,
         onFocus: onFocusProps,
         onBlur: onBlurProps,
@@ -352,7 +352,7 @@ export const Input = (props: InputProps): JSX.Element => {
         color,
         isError,
         isWarning,
-        disabled,
+        isDisabled,
         hasTransparentBackground,
         csx,
         Component,

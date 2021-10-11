@@ -13,7 +13,7 @@ const Template: Story = (args) => <Input {...args} />
 export const Default = Template.bind({})
 Default.args = {
     color: 'primary',
-    disabled: false,
+    isDisabled: false,
     isError: false,
     isWarning: false,
     placeholder: 'Username',
@@ -24,7 +24,7 @@ Default.args = {
 export const InputWithIcon = Template.bind({})
 InputWithIcon.args = {
     color: 'primary',
-    disabled: false,
+    isDisabled: false,
     isError: false,
     isWarning: false,
     placeholder: 'Email',
@@ -35,7 +35,7 @@ InputWithIcon.args = {
 export const Disabled = Template.bind({})
 Disabled.args = {
     color: 'primary',
-    disabled: true,
+    isDisabled: true,
     placeholder: 'Disabled',
     RightIcon: <EmailIcon />,
 }

@@ -9,7 +9,7 @@ import {
 
 export type GetHoverPropertiesOptions = {
     color: string
-    disabled: boolean
+    isDisabled: boolean
     variant: string
     mainColor: string
     theme: Theme
@@ -18,9 +18,9 @@ export type GetHoverPropertiesOptions = {
 export const getHoverProperties = (
     options = {} as GetHoverPropertiesOptions
 ): CSSObject => {
-    const { color, disabled, mainColor, theme, variant } = options
+    const { color, isDisabled, mainColor, theme, variant } = options
 
-    if (!color || disabled) return {}
+    if (!color || isDisabled) return {}
 
     const { themeType, palette } = theme
     const { hover } = palette
@@ -68,11 +68,11 @@ export type GetActivePropertiesOptions = Omit<
 export const getActiveProperties = (
     options = {} as GetActivePropertiesOptions
 ): CSSObject => {
-    const { color, disabled, theme, variant } = options
+    const { color, isDisabled, theme, variant } = options
     const { palette, themeType } = theme
     const { active } = palette
 
-    if (!color || disabled) return {}
+    if (!color || isDisabled) return {}
 
     if (variant === 'normal') {
         if (!isThemeColorName(color)) {

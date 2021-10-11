@@ -103,7 +103,7 @@ const ListItemRoot = createStyledComponent<'li', ListItemProps>(
             return {
                 ...getHoverProperties({
                     color,
-                    disabled: false,
+                    isDisabled: false,
                     variant: 'ghost',
                     theme,
                     mainColor: color,

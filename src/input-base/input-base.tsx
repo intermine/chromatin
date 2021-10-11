@@ -42,6 +42,7 @@ export interface InputBaseProps
      */
     isHidden?: boolean
     innerRef?: Ref
+    isDisabled?: boolean
     /**
      * To extend the styles applied to the components
      */
@@ -73,7 +74,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             isError = false,
             isWarning = false,
             color = 'neutral',
-            disabled,
+            isDisabled,
             csx = {},
         } = props
 
@@ -81,7 +82,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
         const { palette, themeType } = themePropsForThemeVarFn
 
         const getBackground = (): string => {
-            if (disabled) return palette.disable.main
+            if (isDisabled) return palette.disable.main
 
             if (hasTransparentBackground || isError || isWarning)
                 return 'transparent'
@@ -90,7 +91,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
 
         const getBoxShadow = (): string => {
             if (!hasOutline) return 'none'
-            if (disabled) return palette.disable.mainDarkShade
+            if (isDisabled) return palette.disable.mainDarkShade
 
             const base = 'inset 0 0 0 1px'
 
@@ -105,14 +106,14 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
         }
 
         const getHoverProperties = (): CSSObject => {
-            if (disabled) return {}
+            if (isDisabled) return {}
             return {
                 background: palette.neutral[30],
             }
         }
 
         const getFocusProperties = (): CSSObject => {
-            if (disabled) return {}
+            if (isDisabled) return {}
 
             const shadowBase = 'inset 0 0 0 2px'
             const shadowColor = isThemeColorName(color)
@@ -132,7 +133,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
         }
 
         const getPlaceholderProperties = (): CSSObject => {
-            if (disabled) {
+            if (isDisabled) {
                 return {
                     color: tto(
                         themeType,
@@ -190,6 +191,7 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
         classes = {},
         className,
         Component = 'input',
+        isDisabled = false,
         ...rest
     } = props
 
@@ -207,6 +209,8 @@ export const InputBase = (props: InputBaseProps): JSX.Element => {
             as={Component}
             className={cx(className, classes.root)}
             ref={innerRef}
+            disabled={isDisabled}
+            isDisabled={isDisabled}
             {...styleProps}
             {...rest}
         />

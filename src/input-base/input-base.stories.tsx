@@ -12,7 +12,7 @@ const Template: Story = (args) => <InputBase {...args} />
 export const Default = Template.bind({})
 Default.args = {
     color: 'neutral',
-    disabled: false,
+    isDisabled: false,
     isError: false,
     isWarning: false,
     placeholder: 'Test placeholder',
@@ -21,6 +21,6 @@ Default.args = {
 export const Disabled = Template.bind({})
 Disabled.args = {
     color: 'primary',
-    disabled: true,
+    isDisabled: true,
     placeholder: 'Disabled',
 }

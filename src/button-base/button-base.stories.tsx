@@ -15,7 +15,7 @@ Default.args = {
     children: 'Button Base',
     color: 'primary',
     Component: 'button',
-    disabled: false,
+    isDisabled: false,
     hasHoverEffectOnFocus: false,
     hasHighlightOnFocus: true,
 }
@@ -25,7 +25,7 @@ LinkAsButton.args = {
     children: 'Button Base',
     color: 'primary',
     Component: 'a',
-    disabled: false,
+    isDisabled: false,
 }
 
 export const Disabled = Template.bind({})
@@ -33,5 +33,5 @@ Disabled.args = {
     children: 'Button Base',
     color: 'primary',
     Component: 'a',
-    disabled: true,
+    isDisabled: true,
 }

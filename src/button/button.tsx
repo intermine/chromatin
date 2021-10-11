@@ -242,7 +242,7 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
         size,
         isDense,
         isLoading = false,
-        disabled = false,
+        isDisabled = false,
         className,
         csx,
         classes: classesProps = {},
@@ -271,7 +271,7 @@ export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
     return (
         <ButtonRoot
             className={cx(className, rootProps)}
-            disabled={isLoading || disabled}
+            isDisabled={isLoading || isDisabled}
             classes={classesForBase}
             {...styleProps}
             {...rest}
