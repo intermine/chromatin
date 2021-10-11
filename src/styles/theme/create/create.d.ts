@@ -35,6 +35,7 @@ import {
     CardContentProps,
     CardHeaderProps,
     TooltipProps,
+    PopperProps,
 } from '../../..'
 
 /**
@@ -60,6 +61,7 @@ export type ThemeVars = {
     box: ThemeVariableFunction<BoxProps<'div'>>
     typography: ThemeVariableFunction<TypographyProps<'div'>>
     label: ThemeVariableFunction<LabelProps>
+    popper: ThemeVariableFunction<PopperProps>
     checkbox: ThemeVariableFunction<CheckboxProps>
     radio: ThemeVariableFunction<RadioProps>
     radioGroup: ThemeVariableFunction<RadioGroupProps>
