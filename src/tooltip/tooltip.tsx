@@ -21,7 +21,7 @@ import {
 } from '../utils'
 import { TOOLTIP } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
+import type { CallableRef } from '../utils'
 import { CSSObject } from 'styled-components'
 import { Typography } from '../typography'
 
@@ -30,7 +30,13 @@ export interface TooltipProps
         React.HTMLProps<HTMLDivElement>,
         'as' | 'ref' | 'title' | 'children'
     > {
-    innerRef?: Ref
+    /**
+     * Normal ref is not supported. The tooltip
+     * component is not always mounted to the ui
+     * therefore using ref object is pointless.
+     * Use callable ref instead.
+     */
+    innerRef?: CallableRef
     /**
      * Color of tooltip
      */
