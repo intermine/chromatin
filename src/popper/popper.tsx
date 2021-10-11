@@ -59,7 +59,6 @@ export const Popper = (props: PopperProp): JSX.Element => {
 
     useLayoutEffect(() => {
         let popper: PopperInstance | null = null
-
         if (isValidAnchorElement(anchorElement) && ref.current) {
             popper = createPopper(anchorElement, ref.current, {
                 placement,

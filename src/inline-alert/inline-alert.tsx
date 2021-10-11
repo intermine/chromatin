@@ -46,7 +46,7 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
 
             return getHoverProperties({
                 color,
-                disabled: false,
+                isDisabled: false,
                 variant: 'ghost',
                 theme,
                 mainColor: color,
@@ -111,7 +111,7 @@ export const InlineAlert = (props: InlineAlertProps): JSX.Element => {
                         ...getThemeCSSObject(csx.message, theme),
                     }),
                 }}
-                portalProps={{ isPortalDisabled: true }}
+                portalProps={{ hasUseReactPortal: false }}
                 {...rest}
             />
         </Collapsible>

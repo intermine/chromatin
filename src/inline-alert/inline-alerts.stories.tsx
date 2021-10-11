@@ -22,7 +22,7 @@ const Template: Story = (args) => {
             <Button
                 variant="outlined"
                 color={args.type}
-                disabled={isOpen}
+                isDisabled={isOpen}
                 onClick={() => setIsOpen(true)}
                 csx={{ root: { margin: '1rem 0' } }}
             >

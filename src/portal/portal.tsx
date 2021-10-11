@@ -8,21 +8,21 @@ import { PORTAL } from '../constants/component-ids'
 export type PortalProps = {
     children?: ReactElement
     /**
-     * There are some requirement where a portal element should
+     * There are some use cases where a portal element should
      * behave like none portal element, i.e., it should mount
      * according to render tree. For those condition pass false
      * here.
      *
      * @default true
      */
-    isPortalDisabled?: boolean
+    hasUseReactPortal?: boolean
 }
 
 export const Portal = (props: PortalProps): JSX.Element => {
-    const { children, isPortalDisabled = false } = props
+    const { children, hasUseReactPortal = true } = props
     const [node] = useState(document.body)
 
-    if (isPortalDisabled) return <>{children}</>
+    if (!hasUseReactPortal) return <>{children}</>
 
     return createPortal(children, node)
 }

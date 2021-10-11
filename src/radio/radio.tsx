@@ -20,10 +20,10 @@ const CheckboxRoot = createStyledComponent(Checkbox, (theme, props) => {
 export const Radio = (props: RadioProps): JSX.Element => {
     const context = useRadioGroup()
 
-    const { checked, name, value, onChange, ...rest } = props
+    const { isChecked, name, value, onChange, ...rest } = props
 
     const getCheckedStatus = (): boolean => {
-        if (typeof checked !== 'undefined') return checked
+        if (typeof isChecked !== 'undefined') return isChecked
         return value === context?.value
     }
 
@@ -41,7 +41,7 @@ export const Radio = (props: RadioProps): JSX.Element => {
         <CheckboxRoot
             type="radio"
             onChange={handleOnChange}
-            checked={getCheckedStatus()}
+            isChecked={getCheckedStatus()}
             name={name ?? context?.name}
             value={value}
             CheckedIcon={<RadioChecked />}

@@ -37,7 +37,7 @@ const Template: Story = (args) => {
             <Checkbox
                 name="default"
                 onChange={onChange}
-                checked={checked.default}
+                isChecked={checked.default}
                 {...args}
             />
             <Checkbox
@@ -45,7 +45,7 @@ const Template: Story = (args) => {
                 CheckedIcon={<ThumbsChecked />}
                 UncheckedIcon={<ThumbsUnchecked />}
                 onChange={onChange}
-                checked={checked.thumb}
+                isChecked={checked.thumb}
                 {...args}
             />
             <Checkbox
@@ -53,7 +53,7 @@ const Template: Story = (args) => {
                 CheckedIcon={<StarChecked />}
                 UncheckedIcon={<StarUnchecked />}
                 onChange={onChange}
-                checked={checked.star}
+                isChecked={checked.star}
                 {...args}
             />
             <Checkbox
@@ -61,7 +61,7 @@ const Template: Story = (args) => {
                 CheckedIcon={<HeartChecked />}
                 UncheckedIcon={<HeartUnchecked />}
                 onChange={onChange}
-                checked={checked.heart}
+                isChecked={checked.heart}
                 {...args}
             />
         </div>

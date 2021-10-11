@@ -16,12 +16,12 @@ const Template: Story = (args) => {
         setState(!state)
     }
 
-    return <Toggle onChange={handleOnChange} checked={state} {...args} />
+    return <Toggle onChange={handleOnChange} isChecked={state} {...args} />
 }
 
 export const Default = Template.bind({})
 Default.args = {
-    disabled: false,
+    isDisabled: false,
 }
 
 const Row = ({ children }) => {
@@ -64,7 +64,7 @@ const Template2: Story = (args) => {
                     control={
                         <Toggle
                             name="magnifier"
-                            checked={state.magnifier}
+                            isChecked={state.magnifier}
                             onChange={handleOnChange}
                             {...args}
                         />
@@ -79,7 +79,7 @@ const Template2: Story = (args) => {
                     control={
                         <Toggle
                             name="narrator"
-                            checked={state.narrator}
+                            isChecked={state.narrator}
                             onChange={handleOnChange}
                             {...args}
                         />
@@ -94,7 +94,7 @@ const Template2: Story = (args) => {
                     control={
                         <Toggle
                             name="filter"
-                            checked={state.filter}
+                            isChecked={state.filter}
                             onChange={handleOnChange}
                             {...args}
                         />

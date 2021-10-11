@@ -15,7 +15,7 @@ import { Checkbox, CheckboxProps } from '../checkbox'
 export type ToggleProps = CheckboxProps
 
 export type ToggleIconProps = {
-    checked: boolean
+    isChecked: boolean
 }
 
 const useStyles = createStyle((theme) => ({
@@ -30,7 +30,7 @@ const useStyles = createStyle((theme) => ({
             theme.palette.common.white,
             theme.palette.common.black
         ),
-        transform: props.checked ? 'translateX(16px)' : undefined,
+        transform: props.isChecked ? 'translateX(16px)' : undefined,
     }),
 }))
 
@@ -59,7 +59,7 @@ const CheckboxRoot = createStyledComponent(Checkbox, (theme, props) => {
 
 export const Toggle = (props: ToggleProps): JSX.Element => {
     const {
-        checked = false,
+        isChecked = false,
         size = 'regular',
         csx = {},
         color = 'primary',
@@ -91,9 +91,9 @@ export const Toggle = (props: ToggleProps): JSX.Element => {
         <CheckboxRoot
             type="checkbox"
             borderStyle={borderStyle}
-            color={checked ? color : 'neutral'}
-            CheckedIcon={<ToggleSVG checked={checked} />}
-            UncheckedIcon={<ToggleSVG checked={checked} />}
+            color={isChecked ? color : 'neutral'}
+            CheckedIcon={<ToggleSVG isChecked={isChecked} />}
+            UncheckedIcon={<ToggleSVG isChecked={isChecked} />}
             csx={{
                 root: (theme) => ({
                     ...getDimension(),

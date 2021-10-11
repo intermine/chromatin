@@ -303,7 +303,6 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
     )
 
     const [actualPlacement, setActualPlacement] = useState(placement)
-
     const childRefName = isChromatinElement(children)
         ? 'innerRef'
         : _refPropsName

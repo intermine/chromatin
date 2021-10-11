@@ -23,7 +23,7 @@ export interface CheckboxProps
      *
      * @default false
      */
-    checked?: boolean
+    isChecked?: boolean
     /**
      * Whether checkbox is in indeterminate state
      * or not. If true then it will override checked
@@ -87,7 +87,7 @@ export interface CheckboxProps
      * To activate active style
      */
     isActive?: boolean
-
+    isDisabled?: boolean
     classes?: {
         /**
          * Applied to root component
@@ -112,7 +112,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     const {
         classes = {},
         className,
-        checked = false,
+        isChecked = false,
         isIndeterminate = false,
         CheckedIcon = <DefaultCheckedIcon />,
         UncheckedIcon = <DefaultUncheckedIcon />,
@@ -121,13 +121,13 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         innerRef,
         inputRef,
         id: idProps,
-        disabled,
+        isDisabled,
         ...rest
     } = props
 
     const getIconToRender = (): ReactElement => {
         if (isIndeterminate) return IndeterminateIcon
-        if (checked) return CheckedIcon
+        if (isChecked) return CheckedIcon
         return UncheckedIcon
     }
 
@@ -149,7 +149,7 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     } = rest
 
     const iconButtonProps = {
-        disabled,
+        isDisabled,
         size,
         borderStyle,
         isDense,
@@ -170,10 +170,10 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
     return (
         <>
             <InputBase
-                disabled={disabled}
+                isDisabled={isDisabled}
                 type={type}
                 id={id}
-                checked={isIndeterminate ? false : checked}
+                checked={isIndeterminate ? false : isChecked}
                 isHidden={true}
                 innerRef={inputRef}
                 {...inputProps}

@@ -204,7 +204,7 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
         if (id === ALERT) {
             const alert = cloneElement(child, {
                 ...child.props,
-                portalProps: { isPortalDisabled: true },
+                portalProps: { hasUseReactPortal: false },
                 ...alertChildProps,
                 csx: {
                     ...child.csx,

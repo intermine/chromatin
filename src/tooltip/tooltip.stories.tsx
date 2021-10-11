@@ -1,8 +1,7 @@
 import { Story } from '@storybook/react/types-6-0'
-import React, { useState } from 'react'
 
 import { Button } from '../button'
-import { Box } from '../box'
+
 import { Tooltip } from './tooltip'
 
 export default {

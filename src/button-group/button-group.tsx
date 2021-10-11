@@ -69,7 +69,6 @@ const ButtonGroupRoot = createStyledComponent<
     const { themeVars, ...themePropsForThemeVarFn } = theme
     const { csx = {}, display = 'inline-flex' } = props
 
-    console.log('CSX', csx)
     return {
         boxSizing: 'border-box',
         display,

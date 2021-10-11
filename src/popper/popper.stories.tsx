@@ -41,6 +41,7 @@ const Template: Story = (props) => {
                     },
                 ]}
                 anchorElement={anchorElement}
+                isOpen={Boolean(anchorElement)}
                 {...args}
             >
                 <Box

@@ -32,7 +32,7 @@ const Template: Story = (args) => {
                     <Checkbox
                         name="cricket"
                         onChange={onChange}
-                        checked={checked.cricket}
+                        isChecked={checked.cricket}
                     />
                 }
                 label="Cricket"
@@ -43,7 +43,7 @@ const Template: Story = (args) => {
                     <Checkbox
                         name="hockey"
                         onChange={onChange}
-                        checked={checked.hockey}
+                        isChecked={checked.hockey}
                     />
                 }
                 label="Hockey"
@@ -54,7 +54,7 @@ const Template: Story = (args) => {
                     <Checkbox
                         name="football"
                         onChange={onChange}
-                        checked={checked.football}
+                        isChecked={checked.football}
                     />
                 }
                 label="Football"
@@ -65,7 +65,7 @@ const Template: Story = (args) => {
                     <Checkbox
                         name="swimming"
                         onChange={onChange}
-                        checked={checked.swimming}
+                        isChecked={checked.swimming}
                     />
                 }
                 label="Swimming"
