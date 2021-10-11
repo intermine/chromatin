@@ -51,6 +51,12 @@ export interface ButtonBaseCommonProps
      */
     isActive?: boolean
     /**
+     * If to trigger click event when user
+     * press 'Enter' or 'Space'.
+     * @default true
+     */
+    isTriggerClickOnKeyup?: boolean
+    /**
      * To extend the styles applied to the components
      */
     classes?: {
@@ -329,11 +335,28 @@ export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
         className,
         tabIndex = 0,
         isDisabled,
+        onKeyUp,
+        isTriggerClickOnKeyup = true,
         ...rest
     } = props
 
+    const triggerClickOnKeyUp = (event: React.KeyboardEvent<any>) => {
+        if (onKeyUp) {
+            onKeyUp(event)
+        }
+
+        if (isTriggerClickOnKeyup && event.currentTarget) {
+            const keycode = event.code ?? event.key
+
+            if (keycode === 'Enter' || keycode === 'Space') {
+                event.currentTarget.click()
+            }
+        }
+    }
+
     return (
         <ButtonBaseRoot
+            onKeyUp={triggerClickOnKeyUp}
             as={Component}
             className={cx(className, classes.root)}
             ref={innerRef}
