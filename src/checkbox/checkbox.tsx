@@ -8,10 +8,15 @@ import {
     DefaultUncheckedIcon,
 } from '../constants/default-icons'
 
-import { ReactElement, ThemeCSSStyles } from '../styles'
+import {
+    ReactElement,
+    ThemeCSSStyles,
+    createStyledComponent,
+    getThemeCSSObject,
+} from '../styles'
 import { CHECKBOX } from '../constants/component-ids'
 
-import { attachSignatureToComponent, getId, Ref } from '../utils'
+import { attachSignatureToComponent, Ref } from '../utils'
 
 export interface CheckboxProps
     extends Omit<
@@ -88,15 +93,15 @@ export interface CheckboxProps
      */
     isActive?: boolean
     isDisabled?: boolean
+    CheckedIcon?: ReactElement
+    UncheckedIcon?: ReactElement
+    IndeterminateIcon?: ReactElement
     classes?: {
         /**
          * Applied to root component
          */
         root?: string
     }
-    CheckedIcon?: ReactElement
-    UncheckedIcon?: ReactElement
-    IndeterminateIcon?: ReactElement
     /**
      * To override the applied styles.
      */
@@ -107,6 +112,27 @@ export interface CheckboxProps
         root?: ThemeCSSStyles
     }
 }
+
+const InputBaseRoot = createStyledComponent(
+    InputBase,
+    {},
+    { isExtendStyleFromThemeVars: false }
+)
+
+const IconButtonRoot = createStyledComponent(
+    IconButton,
+    (theme, props) => {
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+
+        return {
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.checkbox(themePropsForThemeVarFn, props)),
+            ...getThemeCSSObject(csx.root, theme),
+        }
+    },
+    { isExtendStyleFromThemeVars: false }
+)
 
 export const Checkbox = (props: CheckboxProps): JSX.Element => {
     const {
@@ -165,28 +191,23 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         csx,
     }
 
-    const id = idProps ?? getId()
-
     return (
-        <>
-            <InputBase
+        <IconButtonRoot
+            className={cx(className, classes.root)}
+            Component="label"
+            Icon={getIconToRender()}
+            innerRef={innerRef}
+            {...iconButtonProps}
+        >
+            <InputBaseRoot
                 isDisabled={isDisabled}
                 type={type}
-                id={id}
                 checked={isIndeterminate ? false : isChecked}
                 isHidden={true}
                 innerRef={inputRef}
                 {...inputProps}
             />
-            <IconButton
-                htmlFor={id}
-                className={cx(className, classes.root)}
-                Component="label"
-                Icon={getIconToRender()}
-                innerRef={innerRef}
-                {...iconButtonProps}
-            />
-        </>
+        </IconButtonRoot>
     )
 }
 

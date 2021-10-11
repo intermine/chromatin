@@ -9,13 +9,14 @@ import {
     State as PopperState,
 } from '@popperjs/core'
 
+import { createStyledComponent, getThemeCSSObject } from '../styles'
 import { Box, BoxProps } from '../box'
 import { isValidAnchorElement, useForkRef } from '../utils'
 import { Portal } from '../portal'
 import { attachSignatureToComponent } from '../utils'
 import { POPPER } from '../constants/component-ids'
 
-export interface PopperProp extends BoxProps<'div'> {
+export interface PopperProps extends Omit<BoxProps<'div'>, 'Component'> {
     /**
      * @default 'auto'
      */
@@ -40,7 +41,21 @@ export interface PopperProp extends BoxProps<'div'> {
     isOpen?: boolean
 }
 
-export const Popper = (props: PopperProp): JSX.Element => {
+const PopperRoot = createStyledComponent<typeof Box, PopperProps>(
+    Box,
+    (theme, props) => {
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+
+        return {
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.popper(themePropsForThemeVarFn, props)),
+            ...getThemeCSSObject(csx.root, theme),
+        }
+    }
+)
+
+export const Popper = (props: PopperProps): JSX.Element => {
     const {
         anchorElement,
         children,
@@ -88,9 +103,9 @@ export const Popper = (props: PopperProp): JSX.Element => {
 
     return (
         <Portal>
-            <Box innerRef={popperContainerRef} {...rest}>
+            <PopperRoot innerRef={popperContainerRef} {...rest}>
                 {children}
-            </Box>
+            </PopperRoot>
         </Portal>
     )
 }

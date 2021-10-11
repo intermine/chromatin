@@ -119,7 +119,6 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
     const {
         classes = {},
         className,
-        children: _,
         control,
         label,
         labelPlacement = 'right',

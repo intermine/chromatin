@@ -59,62 +59,66 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
 const IconButtonRoot = createStyledComponent<
     typeof ButtonBase,
     IconButtonProps<'button'>
->(ButtonBase, (theme, props) => {
-    const {
-        size = 'regular',
-        borderStyle = 'squircle',
-        isDense = false,
-        csx = {},
-        isExtendStyleFromThemeVars = true,
-    } = props
-    const { themeVars, ...themePropsForThemeVarFn } = theme
+>(
+    ButtonBase,
+    (theme, props) => {
+        const {
+            size = 'regular',
+            borderStyle = 'squircle',
+            isDense = false,
+            csx = {},
+            isExtendStyleFromThemeVars = true,
+        } = props
+        const { themeVars, ...themePropsForThemeVarFn } = theme
 
-    const getBorderRadius = (): string => {
-        if (borderStyle === 'squircle' || borderStyle === 'square-circle') {
-            return '0.5rem'
+        const getBorderRadius = (): string => {
+            if (borderStyle === 'squircle' || borderStyle === 'square-circle') {
+                return '0.5rem'
+            }
+            return '10rem'
         }
-        return '10rem'
-    }
 
-    const getPadding = (): string => {
-        if (size === 'regular') {
+        const getPadding = (): string => {
+            if (size === 'regular') {
+                if (isDense) return '0.3125rem'
+                return '0.625rem'
+            }
+
+            if (size === 'small') {
+                if (isDense) return '0.25rem'
+                return '0.4375rem'
+            }
+
             if (isDense) return '0.3125rem'
             return '0.625rem'
         }
 
-        if (size === 'small') {
-            if (isDense) return '0.25rem'
-            return '0.4375rem'
+        const getDimensions = (): string => {
+            if (size === 'regular') {
+                return '1.125rem'
+            }
+            if (size === 'small') {
+                return '0.875rem'
+            }
+
+            return '1.5rem'
         }
 
-        if (isDense) return '0.3125rem'
-        return '0.625rem'
-    }
-
-    const getDimensions = (): string => {
-        if (size === 'regular') {
-            return '1.125rem'
+        const dim = getDimensions()
+        return {
+            borderRadius: getBorderRadius(),
+            boxSizing: 'content-box',
+            height: dim,
+            padding: getPadding(),
+            transition: '0.130s',
+            width: dim,
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.iconButton(themePropsForThemeVarFn, props)),
+            ...getThemeCSSObject(csx.root, theme),
         }
-        if (size === 'small') {
-            return '0.875rem'
-        }
-
-        return '1.5rem'
-    }
-
-    const dim = getDimensions()
-    return {
-        borderRadius: getBorderRadius(),
-        boxSizing: 'content-box',
-        height: dim,
-        padding: getPadding(),
-        transition: '0.130s',
-        width: dim,
-        ...(isExtendStyleFromThemeVars &&
-            themeVars.iconButton(themePropsForThemeVarFn, props)),
-        ...getThemeCSSObject(csx.root, theme),
-    }
-})
+    },
+    { isExtendStyleFromThemeVars: false }
+)
 
 export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
     const {
@@ -126,6 +130,7 @@ export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
         csx = {},
         isDisabled = false,
         size = 'regular',
+        children,
         ...rest
     } = props
     const { root, spinner, ...classesForBase } = classes
@@ -148,6 +153,7 @@ export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
                     color="inherit"
                 />
             )}
+            {children}
         </IconButtonRoot>
     )
 }
