@@ -65,6 +65,7 @@ const IconButtonRoot = createStyledComponent<
         borderStyle = 'squircle',
         isDense = false,
         csx = {},
+        isExtendStyleFromThemeVars = true,
     } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
 
@@ -109,7 +110,8 @@ const IconButtonRoot = createStyledComponent<
         padding: getPadding(),
         transition: '0.130s',
         width: dim,
-        ...themeVars.iconButton(themePropsForThemeVarFn, props),
+        ...(isExtendStyleFromThemeVars &&
+            themeVars.iconButton(themePropsForThemeVarFn, props)),
         ...getThemeCSSObject(csx.root, theme),
     }
 })

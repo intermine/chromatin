@@ -36,7 +36,7 @@ export interface CardActionProps
 const CardActionRoot = createStyledComponent<'div', CardActionProps>(
     'div',
     (theme, props) => {
-        const { csx = {} } = props
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             typography: { body },
@@ -45,7 +45,8 @@ const CardActionRoot = createStyledComponent<'div', CardActionProps>(
         return {
             padding: '1rem 0.5rem',
             ...body,
-            ...themeVars.cardAction(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.cardAction(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

@@ -57,7 +57,12 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { typography, palette } = themePropsForThemeVarFn
-        const { variant = 'body', color, csx = {} } = props
+        const {
+            variant = 'body',
+            color,
+            csx = {},
+            isExtendStyleFromThemeVars = true,
+        } = props
 
         const getColor = (): string | undefined => {
             if (!color) return palette.neutral[90]
@@ -75,7 +80,8 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
         return {
             color: getColor(),
             ...getFontProperties(),
-            ...themeVars.typography(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.typography(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

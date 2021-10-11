@@ -76,6 +76,7 @@ const ListItemRoot = createStyledComponent<'li', ListItemProps>(
             display = 'flex',
             alignItems = 'center',
             justifyContent,
+            isExtendStyleFromThemeVars = true,
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
@@ -123,7 +124,8 @@ const ListItemRoot = createStyledComponent<'li', ListItemProps>(
                 '&: hover': hoverProperties(),
             }),
             ...body,
-            ...themeVars.listItem(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.listItem(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

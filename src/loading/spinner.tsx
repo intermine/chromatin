@@ -157,7 +157,7 @@ const useStyle = createStyle((theme) => ({
 const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
     'div',
     (theme, props) => {
-        const { size = 'regular', csx = {} } = props
+        const { size = 'regular', csx = {}, isExtendStyleFromThemeVars } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { documentFontSize } = themePropsForThemeVarFn.typography.meta
 
@@ -174,7 +174,8 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
             position: 'relative',
             transform: 'rotate(90deg)',
             ...getDimension(),
-            ...themeVars.spinner(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.spinner(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

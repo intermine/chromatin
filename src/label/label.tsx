@@ -37,7 +37,7 @@ export interface LabelProps
 const LabelRoot = createStyledComponent<'label', LabelProps>(
     'label',
     (theme, props) => {
-        const { csx = {} } = props
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { neutral } = themePropsForThemeVarFn.palette
         const { body } = themePropsForThemeVarFn.typography
@@ -47,7 +47,8 @@ const LabelRoot = createStyledComponent<'label', LabelProps>(
             color,
             fill: color,
             ...body,
-            ...themeVars.label(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.label(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

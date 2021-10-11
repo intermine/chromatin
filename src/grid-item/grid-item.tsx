@@ -64,7 +64,16 @@ export interface GridItemProps
 const GridItemRoot = createStyledComponent<'div', GridItemProps>(
     'div',
     (theme, props) => {
-        const { xs, sm, md, lg, xl, display = 'block', csx = {} } = props
+        const {
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+            display = 'block',
+            csx = {},
+            isExtendStyleFromThemeVars = true,
+        } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { mixin } = themePropsForThemeVarFn.breakingPoints
 
@@ -122,7 +131,8 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                 },
                 'min'
             ),
-            ...themeVars.gridItem(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.gridItem(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

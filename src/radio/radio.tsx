@@ -8,14 +8,21 @@ import { RADIO } from '../constants/component-ids'
 
 export type RadioProps = CheckboxProps
 
-const CheckboxRoot = createStyledComponent(Checkbox, (theme, props) => {
-    const { themeVars, ...themePropsForThemeVarFn } = theme
-    const { csx = {} } = props
-    return {
-        ...themeVars.radio(themePropsForThemeVarFn, props),
-        ...getThemeCSSObject(csx.root, theme),
+const CheckboxRoot = createStyledComponent(
+    Checkbox,
+    (theme, props) => {
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
+        return {
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.radio(themePropsForThemeVarFn, props)),
+            ...getThemeCSSObject(csx.root, theme),
+        }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
-})
+)
 
 export const Radio = (props: RadioProps): JSX.Element => {
     const context = useRadioGroup()

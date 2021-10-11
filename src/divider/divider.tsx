@@ -81,6 +81,7 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
             alignment = 'hr',
             color = 'neutral',
             borderWidth = 1,
+            isExtendStyleFromThemeVars = true,
         } = props
 
         const getMargin = (): string => {
@@ -128,7 +129,8 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
                     alignSelf: 'stretch',
                     height: 'auto',
                 }),
-            ...themeVars.divider(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.divider(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

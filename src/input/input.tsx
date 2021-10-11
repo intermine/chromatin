@@ -138,6 +138,7 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             RightIcon,
             csx = {},
             resize = 'none',
+            isExtendStyleFromThemeVars = true,
         } = props
         const { body, bodySm, h3 } = themePropsForThemeVarFn.typography
 
@@ -189,9 +190,13 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             resize,
             ...getTypographyProperties(),
             ...getBorderRadius(),
-            ...themeVars.input(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.input(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.inputRoot, theme),
         }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
 )
 

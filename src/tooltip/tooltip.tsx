@@ -160,6 +160,7 @@ const TooltipRoot = createStyledComponent<
         hasElevation = true,
         hasArrow = true,
         actualPlacement: placement = 'top',
+        isExtendStyleFromThemeVars = true,
     } = props
 
     const getBackground = (): string => {
@@ -280,7 +281,8 @@ const TooltipRoot = createStyledComponent<
         position: 'relative',
         maxWidth: '15rem',
         ...getArrow(),
-        ...themeVars.tooltip(themePropsForThemeVarFn, props),
+        ...(isExtendStyleFromThemeVars &&
+            themeVars.tooltip(themePropsForThemeVarFn, props)),
         ...getThemeCSSObject(csx.root, theme),
     }
 })

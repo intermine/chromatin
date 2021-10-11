@@ -36,7 +36,7 @@ export interface CardHeaderProps
 const CardHeaderRoot = createStyledComponent<'div', CardHeaderProps>(
     'div',
     (theme, props) => {
-        const { csx = {} } = props
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             typography: { h4 },
@@ -49,7 +49,8 @@ const CardHeaderRoot = createStyledComponent<'div', CardHeaderProps>(
             display: 'flex',
             padding: '1rem 1.2rem',
             ...h4,
-            ...themeVars.cardHeader(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.cardHeader(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

@@ -76,6 +76,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             color = 'neutral',
             isDisabled,
             csx = {},
+            isExtendStyleFromThemeVars = true,
         } = props
 
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -174,7 +175,8 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
                 cursor: 'default',
             },
 
-            ...themeVars.inputBase(theme, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.inputBase(theme, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

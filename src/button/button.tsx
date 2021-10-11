@@ -171,6 +171,7 @@ const ButtonRoot = createStyledComponent<
         isDense = false,
         csx = {},
         isLoading,
+        isExtendStyleFromThemeVars = true,
     } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
     const { body, bodySm, bodyLg } = themePropsForThemeVarFn.typography
@@ -216,7 +217,8 @@ const ButtonRoot = createStyledComponent<
         transition: '0.130s',
         ...getColor(),
         ...getFontProperties(),
-        ...themeVars.button(themePropsForThemeVarFn, props),
+        ...(isExtendStyleFromThemeVars &&
+            themeVars.button(themePropsForThemeVarFn, props)),
         ...getThemeCSSObject(csx.root, theme),
     }
 })

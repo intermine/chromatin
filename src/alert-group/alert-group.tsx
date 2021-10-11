@@ -87,7 +87,11 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
     'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { csx = {}, origin = 'top-right' } = props
+        const {
+            csx = {},
+            origin = 'top-right',
+            isExtendStyleFromThemeVars = true,
+        } = props
         const {
             breakingPoints: { mixin },
         } = themePropsForThemeVarFn
@@ -142,7 +146,8 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
                 'max'
             ),
             ...getOrigin(),
-            ...themeVars.alertGroup(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.alertGroup(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

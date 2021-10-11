@@ -50,7 +50,12 @@ export interface CollapsibleProps
 const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
     'div',
     (theme, props) => {
-        const { csx = {}, isOpen = false, animationDuration } = props
+        const {
+            csx = {},
+            isOpen = false,
+            animationDuration,
+            isExtendStyleFromThemeVars = true,
+        } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
         return {
@@ -59,7 +64,8 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
             opacity: isOpen ? 1 : 0,
             overflow: 'hidden',
             transition: `${animationDuration}ms`,
-            ...themeVars.collapsible(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.collapsible(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

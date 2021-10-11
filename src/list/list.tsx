@@ -57,7 +57,11 @@ export interface ListProps
 const ListRoot = createStyledComponent<'ul', ListProps>(
     'ul',
     (theme, props) => {
-        const { csx = {}, listStyle = 'none' } = props
+        const {
+            csx = {},
+            listStyle = 'none',
+            isExtendStyleFromThemeVars = true,
+        } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             themeType,
@@ -71,7 +75,8 @@ const ListRoot = createStyledComponent<'ul', ListProps>(
             padding: 0,
             position: 'relative',
             margin: 0,
-            ...themeVars.list(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.list(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

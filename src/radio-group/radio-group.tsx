@@ -12,12 +12,16 @@ const RadioGroupRoot = createStyledComponent<typeof Box, RadioGroupProps>(
     Box,
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { csx = {} } = props
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
 
         return {
-            ...themeVars.radioGroup(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.radioGroup(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
 )
 

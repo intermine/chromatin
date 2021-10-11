@@ -106,6 +106,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             isActive = false,
             isFocused = false,
             isHovered = false,
+            isExtendStyleFromThemeVars = true,
         } = props
 
         const getMainColor = (inverted = false): string => {
@@ -312,7 +313,8 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             ...(isHovered && hoverProperties),
             ...(isActive && activeProperties),
             ...(isFocused && focusProperties),
-            ...themeVars.buttonBase(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.buttonBase(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

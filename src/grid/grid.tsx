@@ -60,7 +60,12 @@ export interface GridProps extends BoxProps<'div'> {
 const GridRoot = createStyledComponent<typeof Box, GridProps>(
     Box,
     (theme, props) => {
-        const { isInline = false, direction = 'row', csx = {} } = props
+        const {
+            isInline = false,
+            direction = 'row',
+            csx = {},
+            isExtendStyleFromThemeVars = true,
+        } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
         return {
@@ -68,7 +73,8 @@ const GridRoot = createStyledComponent<typeof Box, GridProps>(
             display: isInline ? 'inline-flex' : 'flex',
             flexDirection: direction,
             flexWrap: 'wrap',
-            ...themeVars.grid(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.grid(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     },

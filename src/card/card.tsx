@@ -47,7 +47,12 @@ export interface CardProps
 const CardRoot = createStyledComponent<'div', CardProps>(
     'div',
     (theme, props) => {
-        const { csx = {}, variant = 'shadow', hoverVariant = variant } = props
+        const {
+            csx = {},
+            variant = 'shadow',
+            hoverVariant = variant,
+            isExtendStyleFromThemeVars = true,
+        } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             typography: { body },
@@ -90,7 +95,8 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             flexDirection: 'column',
             '&:hover': getHoverProperties(),
             ...body,
-            ...themeVars.card(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.card(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

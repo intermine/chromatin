@@ -67,7 +67,11 @@ const ButtonGroupRoot = createStyledComponent<
     ButtonGroupProps<'button'>
 >('div', (theme, props) => {
     const { themeVars, ...themePropsForThemeVarFn } = theme
-    const { csx = {}, display = 'inline-flex' } = props
+    const {
+        csx = {},
+        display = 'inline-flex',
+        isExtendStyleFromThemeVars = true,
+    } = props
 
     return {
         boxSizing: 'border-box',
@@ -91,7 +95,8 @@ const ButtonGroupRoot = createStyledComponent<
             borderTopRightRadius: '0.25rem',
             marginRight: 0,
         },
-        ...themeVars.buttonGroup(themePropsForThemeVarFn, props),
+        ...(isExtendStyleFromThemeVars &&
+            themeVars.buttonGroup(themePropsForThemeVarFn, props)),
         ...getThemeCSSObject(csx.root, theme),
     }
 })

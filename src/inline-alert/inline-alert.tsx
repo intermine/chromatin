@@ -28,7 +28,12 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { palette } = themePropsForThemeVarFn
-        const { csx = {}, hasFullWidth = true, type = 'neutral' } = props
+        const {
+            csx = {},
+            hasFullWidth = true,
+            type = 'neutral',
+            isExtendStyleFromThemeVars,
+        } = props
 
         /**
          * Currently background is calculated assuming variant is
@@ -64,9 +69,13 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
             top: 'unset',
             width: hasFullWidth ? '100%' : 'auto',
             ...getBackgroundColor(),
-            ...themeVars.inlineAlert(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.inlineAlert(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
 )
 

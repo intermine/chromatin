@@ -181,7 +181,13 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
             themeType,
             breakingPoints: { mixin },
         } = themePropsForThemeVarFn
-        const { csx = {}, origin = 'top-right', margin, isOpen } = props
+        const {
+            csx = {},
+            origin = 'top-right',
+            margin,
+            isOpen,
+            isExtendStyleFromThemeVars = true,
+        } = props
 
         const getOrigin = (): CSSObject => {
             const offset = '1rem'
@@ -250,7 +256,8 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
                 'max'
             ),
             ...getOrigin(),
-            ...themeVars.alert(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.alert(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
     }

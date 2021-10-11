@@ -58,6 +58,7 @@ const Container = createStyledComponent<typeof Label, FormControlLabelProps>(
             csx = {},
             labelPlacement = 'right',
             spacing: spacingProps = 1,
+            isExtendStyleFromThemeVars = true,
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { spacing } = themePropsForThemeVarFn
@@ -79,9 +80,13 @@ const Container = createStyledComponent<typeof Label, FormControlLabelProps>(
             display: 'flex',
             flexDirection: getFlexDirection(),
             margin: getMargin(),
-            ...themeVars.formControlLabel(themePropsForThemeVarFn, props),
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.formControlLabel(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),
         }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
 )
 

@@ -49,13 +49,22 @@ const ToggleSVG = (props: ToggleIconProps) => {
     )
 }
 
-const CheckboxRoot = createStyledComponent(Checkbox, (theme, props) => {
-    const { themeVars, ...themePropsForThemeVarFn } = theme
+const CheckboxRoot = createStyledComponent(
+    Checkbox,
+    (theme, props) => {
+        const { themeVars, ...themePropsForThemeVarFn } = theme
+        const { csx = {}, isExtendStyleFromThemeVars = true } = props
 
-    return {
-        ...themeVars.toggle(themePropsForThemeVarFn, props),
+        return {
+            ...(isExtendStyleFromThemeVars &&
+                themeVars.toggle(themePropsForThemeVarFn, props)),
+            ...getThemeCSSObject(csx.root, theme),
+        }
+    },
+    {
+        isExtendStyleFromThemeVars: false,
     }
-})
+)
 
 export const Toggle = (props: ToggleProps): JSX.Element => {
     const {
