@@ -17,6 +17,7 @@ const Template: Story = (args) => {
         anchorElement: ref1.current,
         otherElement: el,
         isHoverPolygonVisible: true,
+        isCheckMouseInsidePolygon: true,
     })
 
     return (
@@ -37,28 +38,26 @@ const Template: Story = (args) => {
             >
                 IsMouseOver: {isMouseOver ? 'Yes' : 'No'}
             </Box>
-            {isMouseOver && (
-                <Popper
-                    isOpen
-                    placement="bottom-start"
-                    anchorElement={ref1.current}
+            <Popper
+                csx={{ root: { display: isMouseOver ? 'block' : 'none' } }}
+                placement="bottom-start"
+                anchorElement={ref1.current}
+            >
+                <Box
+                    innerRef={(el: any) => setEl(el)}
+                    csx={{
+                        root: {
+                            margin: '5rem',
+                            width: '30rem',
+                            height: '10rem',
+                            border: '1px solid #005bff',
+                        },
+                    }}
+                    tabIndex={1}
                 >
-                    <Box
-                        innerRef={(el: any) => setEl(el)}
-                        csx={{
-                            root: {
-                                margin: '5rem',
-                                width: '30rem',
-                                height: '10rem',
-                                border: '1px solid #005bff',
-                            },
-                        }}
-                        tabIndex={1}
-                    >
-                        Element 2
-                    </Box>
-                </Popper>
-            )}
+                    Element 2
+                </Box>
+            </Popper>
         </>
     )
 }

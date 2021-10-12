@@ -24,6 +24,17 @@ export type UseMouseOverOptions = {
      */
     isDisabled?: boolean
     /**
+     * @default false
+     */
+    isCheckMouseInsidePolygon?: boolean
+    /**
+     * By default it waits for 50ms. If there is any animation
+     * then its better to calculate polygon after animation is completed.
+     *
+     * @default 50
+     */
+    waitForDurationBeforeCalculatingPolygon?: number
+    /**
      * Triggered when hover starts
      */
     onHoverStart?: () => void
@@ -172,6 +183,8 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
         onHoverEnd,
         onHoverStart,
         isHoverPolygonVisible = false,
+        isCheckMouseInsidePolygon = false,
+        waitForDurationBeforeCalculatingPolygon = 50,
     } = options
 
     const [isMouseOver, setIsMouseOver] = useState<ReturnType>()
@@ -205,6 +218,11 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
             return
         }
 
+        if (!isCheckMouseInsidePolygon) {
+            setIsMouseOver(false)
+            return
+        }
+
         if (
             isPointInsidePolygon(hoverPolygonPoints.points, [
                 {
@@ -223,6 +241,17 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
 
     const onMouseEnter = () => {
         setIsMouseOver(true)
+        if (isCheckMouseInsidePolygon) {
+            setTimeout(
+                () => updateHoverPolygonPoints(),
+                waitForDurationBeforeCalculatingPolygon
+            )
+        } else {
+            setHoverPolygonPoints({
+                ...hoverPolygonDefaultPoints,
+                isValueSet: true,
+            })
+        }
     }
 
     const onMouseLeave = () => {
@@ -312,23 +341,15 @@ export const useMouseOver = (options: UseMouseOverOptions): ReturnType => {
     }, [isMouseOver])
 
     useEffect(() => {
-        /**
-         * Popper element takes some time to settle itself.
-         * Therefore updating hover polygon points after 100ms.
-         */
-        setTimeout(() => updateHoverPolygonPoints(), 100)
-    }, [otherElement, anchorElement])
-
-    useEffect(() => {
         if (hoverPolygonPoints.isValueSet && isMouseOver) {
             document.addEventListener('mousemove', followCursor)
-            if (isHoverPolygonVisible) {
+            if (isHoverPolygonVisible && isCheckMouseInsidePolygon) {
                 svg.append(hoverPolygonPoints.points)
             }
         } else {
             document.removeEventListener('mousemove', followCursor)
 
-            if (isHoverPolygonVisible) {
+            if (isHoverPolygonVisible && isCheckMouseInsidePolygon) {
                 svg.remove()
             }
         }
