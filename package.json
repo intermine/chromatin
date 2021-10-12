@@ -94,6 +94,7 @@
         "react-jss": "^10.7.1",
         "react-select": "^5.0.0",
         "react-transition-group": "^4.4.2",
-        "styled-components": "^5.3.1"
+        "styled-components": "^5.3.1",
+        "use-debounce": "^7.0.0"
     }
 }
