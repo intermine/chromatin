@@ -26,7 +26,7 @@ const Template: Story = (args) => {
             <IconButton color="info" Icon={<StarChecked />} />
             <IconButton color="info" Icon={<HeartChecked />} />
             <Divider
-                csx={{ root: { margin: '4px' } }}
+                csx={{ root: { margin: '4px 6px' } }}
                 alignment="vt"
                 {...args}
             />
@@ -39,7 +39,7 @@ const Template: Story = (args) => {
 
 export const VerticalDivider = Template.bind({})
 VerticalDivider.args = {
-    Component: 'div'
+    Component: 'div',
 }
 
 const Template2: Story = (args) => {

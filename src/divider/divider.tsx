@@ -84,12 +84,12 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
             isExtendStyleFromThemeVars = true,
         } = props
 
-        const getMargin = (): string => {
+        const getMargin = (): string | undefined => {
             if (alignment === 'hr') {
-                return `${spacing(1)} 0`
+                return `${spacing(2)} 0`
             }
 
-            return `0 ${spacing(1)}`
+            return `0 ${spacing(2)}`
         }
 
         const getBorder = (): string => {
@@ -107,17 +107,19 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
             borderBottom: getBorder(),
             borderLeft: getBorder(),
             boxSizing: 'border-box',
-            display: 'inline-block',
-            padding: 0,
             margin: getMargin(),
+            padding: 0,
+            lineHeight: 0,
             ...(alignment === 'hr' && {
                 height: 0,
+                display: 'block',
                 flex: hasFlexParent ? 1 : undefined,
                 width: hasFlexParent ? undefined : '100%',
             }),
             ...(alignment === 'vt' && {
                 bottom: 0,
                 top: 0,
+                display: 'inline-block',
             }),
             ...(!hasFlexParent &&
                 alignment === 'vt' && {
