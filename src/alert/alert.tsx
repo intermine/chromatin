@@ -19,13 +19,12 @@ import {
     DefaultCloseIcon,
 } from '../constants/default-icons'
 
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, CallableRef } from '../utils'
 import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonProps } from '../icon-button'
 import { Typography } from '../typography'
 import { Portal, PortalProps } from '../portal'
 
-import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
 
 type IconType = ReactElement
@@ -33,7 +32,7 @@ type IconType = ReactElement
 export interface AlertProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'title'> {
     portalProps?: PortalProps
-    innerRef?: Ref
+    innerRef?: CallableRef
     /**
      * Pass false if you don't want to render main icon
      * @default true
@@ -131,8 +130,6 @@ export interface AlertProps
          * Applied to root component
          */
         root?: ThemeCSSStyles
-        entryAnimation?: ThemeCSSStyles
-        exitAnimation?: ThemeCSSStyles
         /**
          * Applied to main section
          */
