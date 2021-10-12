@@ -31,14 +31,6 @@ export interface PopperProps extends Omit<BoxProps<'div'>, 'Component'> {
     strategy?: PositioningStrategy
     onFirstUpdate?: ((arg0: Partial<PopperState>) => void) | undefined
     anchorElement?: Element
-    /**
-     * @default true
-     */
-    isRenderNullIfNoAnchorElement?: boolean
-    /**
-     * @default false
-     */
-    isOpen?: boolean
 }
 
 const PopperRoot = createStyledComponent<typeof Box, PopperProps>(
@@ -64,8 +56,6 @@ export const Popper = (props: PopperProps): JSX.Element => {
         modifiers = [],
         strategy = 'absolute',
         onFirstUpdate = () => ({}),
-        isOpen = false,
-        isRenderNullIfNoAnchorElement = true,
         ...rest
     } = props
 
@@ -88,18 +78,7 @@ export const Popper = (props: PopperProps): JSX.Element => {
                 popper.destroy()
             }
         }
-    }, [
-        anchorElement,
-        placement,
-        isOpen,
-        isRenderNullIfNoAnchorElement,
-        modifiers,
-        strategy,
-        onFirstUpdate,
-    ])
-
-    if ((!anchorElement && isRenderNullIfNoAnchorElement) || !isOpen)
-        return <></>
+    }, [anchorElement, placement, modifiers, strategy, onFirstUpdate])
 
     return (
         <Portal>
