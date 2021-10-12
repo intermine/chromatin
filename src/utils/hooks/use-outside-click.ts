@@ -10,6 +10,10 @@ export type UseOutsideClickOptions = {
      */
     anchorElement?: Node | HTMLElement | null
     /**
+     * Element which are also part of anchor element
+     */
+    otherElements?: (Node | HTMLElement | null)[]
+    /**
      * Listen to keyboard event
      * @default false
      */
@@ -50,11 +54,11 @@ export type UseOutsideClickOptions = {
     /**
      * Triggered when clicked outside
      */
-    onClickedOutside?: (event: Event) => void
+    onInsideClicked?: (event: Event) => void
     /**
      * Triggered when clicked inside
      */
-    onClickedInside?: (event: Event) => void
+    onOutsideClicked?: (event: Event) => void
 }
 
 /**
@@ -71,8 +75,9 @@ export const useOutsideClick = (
         isDisabled = false,
         clickEventListener: _clickEventListener,
         keyboardEventListener: _keyboardEventListener,
-        onClickedInside,
-        onClickedOutside,
+        onOutsideClicked,
+        onInsideClicked,
+        otherElements = [],
     } = options
 
     const [isClickedOutside, setIsClickedOutside] = useState<
@@ -86,7 +91,19 @@ export const useOutsideClick = (
 
         const clickedElement = getElementUsingEvent(event)
 
-        return !anchorElement.contains(clickedElement as HTMLElement)
+        const isOtherElements = (): boolean => {
+            for (const element of otherElements) {
+                if (element?.contains(clickedElement as HTMLElement)) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        return (
+            !anchorElement.contains(clickedElement as HTMLElement) &&
+            !isOtherElements()
+        )
     }
 
     const clickEventListener = (event: MouseEvent) => {
@@ -96,15 +113,16 @@ export const useOutsideClick = (
         }
 
         if (!anchorElement) {
-            setIsClickedOutside(false)
+            setIsClickedOutside(true)
             return
         }
 
         const _isClickedOutside = isEventOccurredOutside(event)
-        if (_isClickedOutside && typeof onClickedOutside === 'function')
-            onClickedOutside(event)
-        else if (!isClickedOutside && typeof onClickedInside === 'function')
-            onClickedInside(event)
+
+        if (!_isClickedOutside && typeof onInsideClicked === 'function')
+            onInsideClicked(event)
+        else if (_isClickedOutside && typeof onOutsideClicked === 'function')
+            onOutsideClicked(event)
 
         setIsClickedOutside(_isClickedOutside)
     }
@@ -116,15 +134,15 @@ export const useOutsideClick = (
         }
 
         if (!anchorElement) {
-            setIsClickedOutside(false)
+            setIsClickedOutside(true)
             return
         }
 
         const _isClickedOutside = isEventOccurredOutside(event)
-        if (_isClickedOutside && typeof onClickedOutside === 'function')
-            onClickedOutside(event)
-        else if (!isClickedOutside && typeof onClickedInside === 'function')
-            onClickedInside(event)
+        if (!_isClickedOutside && typeof onInsideClicked === 'function')
+            onInsideClicked(event)
+        else if (_isClickedOutside && typeof onOutsideClicked === 'function')
+            onOutsideClicked(event)
 
         setIsClickedOutside(_isClickedOutside)
     }

@@ -12,11 +12,11 @@ const Template: Story = (args) => {
     const [message, setMessage] = useState('Waiting...')
 
     const ref = useRef<HTMLElement | null>(null)
-    const isClickedOutside = useOutsideClick({
+    useOutsideClick({
         anchorElement: ref.current,
         triggerOnKeyboardEvent: true,
-        onClickedInside: () => setMessage('Inside'),
-        onClickedOutside: () => setMessage('Outside'),
+        onInsideClicked: () => setMessage('Inside'),
+        onOutsideClicked: () => setMessage('Outside'),
     })
 
     return (
