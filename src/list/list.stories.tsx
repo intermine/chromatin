@@ -17,7 +17,7 @@ import Icon5 from '../icons/Business/line-chart-fill'
 export default {
     title: 'List',
     component: List,
-    subcomponents: { ListItem },
+    subcomponents: { ListItem, ListHeading },
 }
 
 const Template: Story = (args) => {

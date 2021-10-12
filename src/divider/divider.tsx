@@ -104,7 +104,8 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
         }
 
         return {
-            border: getBorder(),
+            borderBottom: getBorder(),
+            borderLeft: getBorder(),
             boxSizing: 'border-box',
             display: 'inline-block',
             padding: 0,

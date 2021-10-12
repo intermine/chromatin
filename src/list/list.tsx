@@ -1,5 +1,6 @@
 import { Children, cloneElement } from 'react'
 import cx from 'clsx'
+import { CSSObject } from 'styled-components'
 
 import {
     createStyledComponent,
@@ -9,7 +10,6 @@ import {
 } from '../styles'
 import { attachSignatureToComponent, getChromatinElementId } from '../utils'
 import { LIST, LIST_HEADING, LIST_ITEM } from '../constants/component-ids'
-import { CSSObject } from 'styled-components'
 
 import type { Ref } from '../utils'
 import type { ListHeadingProps } from '../list-heading'
