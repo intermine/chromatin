@@ -16,8 +16,8 @@ export const isValidAnchorElement = (
         if (!isProdEnv()) {
             console.error(
                 [
-                    '[Chromatin - Popper]: Anchor Element is not defined.',
-                    'Expecting anchorElement as HTML Element, ',
+                    '[Chromatin - isValidAnchorElement]: Anchor Element is not',
+                    ' defined. Expecting anchorElement as HTML Element, ',
                     `Got: ${typeof anchorElement}`,
                 ].join(' ')
             )
@@ -36,12 +36,16 @@ export const isValidAnchorElement = (
         element.bottom === 0
     ) {
         if (!isProdEnv()) {
-            console.error(
+            console.warn(
                 [
-                    '[Chromatin - Popper]: anchorElement is not the',
-                    'part of the layout. Make sure that anchorElement',
-                    'is the part of the layout.',
-                ].join(' ')
+                    '[Chromatin - isValidAnchorElement]: Anchor Element',
+                    'is not the part of the layout. Make sure that',
+                    'Anchor Element is the part of the layout.',
+                ].join(' '),
+                'Element:',
+                anchorElement,
+                'Rect:',
+                anchorElement.getBoundingClientRect()
             )
         }
         return false

@@ -1,7 +1,7 @@
 import { cloneElement, useRef, useState } from 'react'
 import cx from 'clsx'
 
-import { Popper, PopperProp } from '../popper'
+import { Popper, PopperProps } from '../popper'
 import {
     createStyledComponent,
     getContrastRatio,
@@ -21,7 +21,7 @@ import {
 } from '../utils'
 import { TOOLTIP } from '../constants/component-ids'
 
-import type { CallableRef } from '../utils'
+import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
 import { Typography } from '../typography'
 
@@ -30,13 +30,7 @@ export interface TooltipProps
         React.HTMLProps<HTMLDivElement>,
         'as' | 'ref' | 'title' | 'children'
     > {
-    /**
-     * Normal ref is not supported. The tooltip
-     * component is not always mounted to the ui
-     * therefore using ref object is pointless.
-     * Use callable ref instead.
-     */
-    innerRef?: CallableRef
+    innerRef?: Ref
     /**
      * Color of tooltip
      */
@@ -44,15 +38,11 @@ export interface TooltipProps
     /**
      * Tooltip placement
      */
-    placement?: PopperProp['placement']
+    placement?: PopperProps['placement']
     /**
      * Tooltip modifier, same as popper modifier
      */
-    modifiers?: PopperProp['modifiers']
-    /**
-     * @default true
-     */
-    isRenderNullIfNoAnchorElement?: PopperProp['isRenderNullIfNoAnchorElement']
+    modifiers?: PopperProps['modifiers']
     /**
      * @default true
      */
@@ -142,7 +132,8 @@ const TooltipRoot = createStyledComponent<
     typeof Popper,
     Omit<TooltipProps, 'children'> & {
         children: any
-        actualPlacement: PopperProp['placement']
+        actualPlacement: PopperProps['placement']
+        isOpen: boolean
     }
 >(Popper, (theme, props) => {
     const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -161,6 +152,7 @@ const TooltipRoot = createStyledComponent<
         hasArrow = true,
         actualPlacement: placement = 'top',
         isExtendStyleFromThemeVars = true,
+        isOpen,
     } = props
 
     const getBackground = (): string => {
@@ -273,13 +265,17 @@ const TooltipRoot = createStyledComponent<
     return {
         borderRadius: '0.25rem',
         background: getBackground(),
+        color: getColor(),
+        visibility: isOpen ? 'visible' : 'hidden',
+
+        maxWidth: '15rem',
+        opacity: isOpen ? 1 : 0,
+        padding: '0.8rem 1rem',
+        position: 'relative',
+        transition: 'all 0.3s',
         ...(hasElevation && {
             boxShadow: elevation.low,
         }),
-        color: getColor(),
-        padding: '0.8rem 1rem',
-        position: 'relative',
-        maxWidth: '15rem',
         ...getArrow(),
         ...(isExtendStyleFromThemeVars &&
             themeVars.tooltip(themePropsForThemeVarFn, props)),
@@ -326,9 +322,10 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
         onHoverEnd: onTooltipClose,
         onHoverStart: onTooltipOpen,
         isDisabled,
+        isCheckMouseInsidePolygon: true,
     })
 
-    const modifiers: PopperProp['modifiers'] = [
+    const modifiers: PopperProps['modifiers'] = [
         {
             name: 'offset',
             options: {
@@ -401,7 +398,7 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
             <TooltipRoot
                 anchorElement={childRef.current}
                 className={cx(className, classes.root)}
-                isOpen={isMouseOver}
+                isOpen={isMouseOver ?? false}
                 innerRef={(el: any) => {
                     setTooltipElement(el)
                     innerRef && setRef(innerRef, el)
