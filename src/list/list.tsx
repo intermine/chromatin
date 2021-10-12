@@ -72,9 +72,9 @@ const ListRoot = createStyledComponent<'ul', ListProps>(
             background: tto(themeType, bg.light, bg.dark),
             boxSizing: 'border-box',
             listStyle,
+            margin: 0,
             padding: 0,
             position: 'relative',
-            margin: 0,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.list(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme),

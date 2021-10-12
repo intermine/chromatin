@@ -11,16 +11,13 @@ import { LIST_ITEM } from '../constants/component-ids'
 import { CSSObject } from 'styled-components'
 import { getHoverProperties } from '../button-base/utils'
 
+import { Button } from '../button'
+import { ButtonBaseCommonProps } from '../button-base'
+
 import { Ref } from '../utils'
 
-export interface ListItemProps
-    extends Omit<React.HTMLProps<HTMLLIElement>, 'as' | 'ref'> {
+export interface ListItemProps extends ButtonBaseCommonProps {
     innerRef?: Ref
-    /**
-     * If given then list has hover effect
-     * @default undefined
-     */
-    hoverColor?: string
     /**
      * @default 'flex'
      */
@@ -46,6 +43,12 @@ export interface ListItemProps
      */
     isDense?: boolean
     /**
+     * To have button interactive properties
+     *
+     * @default false
+     */
+    isButtonLike?: boolean
+    /**
      * To extend the styles applied to the components
      */
     classes?: {
@@ -65,18 +68,19 @@ export interface ListItemProps
     }
 }
 
-const ListItemRoot = createStyledComponent<'li', ListItemProps>(
-    'li',
+const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
+    Button,
     (theme, props) => {
         const {
             csx = {},
             hasPadding = true,
             isDense = false,
-            hoverColor,
             display = 'flex',
             alignItems = 'center',
-            justifyContent,
+            justifyContent = 'flex-start',
             isExtendStyleFromThemeVars = true,
+            isButtonLike = false,
+            variant = 'ghost',
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
@@ -85,44 +89,20 @@ const ListItemRoot = createStyledComponent<'li', ListItemProps>(
         } = themePropsForThemeVarFn
 
         const getPadding = (): string | undefined => {
-            if (!hasPadding) return
+            if (!hasPadding) return '0'
             if (isDense) return '0.4rem 1.2rem'
             return '0.7rem 1.4rem'
         }
 
-        const hoverProperties = (): CSSObject => {
-            if (!hoverColor) return {}
-
-            let color = ''
-            if (hoverColor === 'neutral') color = palette.neutral[80]
-            else {
-                color = isThemeColorName(hoverColor)
-                    ? palette[hoverColor].main
-                    : hoverColor
-            }
-
-            return {
-                ...getHoverProperties({
-                    color,
-                    isDisabled: false,
-                    variant: 'ghost',
-                    theme,
-                    mainColor: color,
-                }),
-                cursor: 'default',
-            }
-        }
-
         return {
             alignItems,
-            borderRadius: '0.25rem',
-            color: palette.neutral[90],
+            borderRadius: '0',
+            color: isButtonLike ? undefined : palette.neutral[90],
+            cursor: isButtonLike ? 'pointer' : 'default',
             display,
             justifyContent,
+            marginTop: variant === 'outlined' ? '-0.0625rem' : undefined,
             padding: getPadding(),
-            ...(hoverColor && {
-                '&: hover': hoverProperties(),
-            }),
             ...body,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listItem(themePropsForThemeVarFn, props)),
@@ -132,12 +112,36 @@ const ListItemRoot = createStyledComponent<'li', ListItemProps>(
 )
 
 export const ListItem = (props: ListItemProps): JSX.Element => {
-    const { children, innerRef, className, classes = {}, ...rest } = props
+    const {
+        children,
+        className,
+        classes = {},
+        variant = 'ghost',
+        color = 'neutral',
+        hasHighlightOnFocus = false,
+        hasHoverEffectOnFocus = true,
+        isButtonLike = false,
+        hasHoverEffect = isButtonLike,
+        hasActiveEffect = isButtonLike,
+        hasElevation = false,
+        hasFocusEffect = isButtonLike,
+        ...rest
+    } = props
 
     return (
         <ListItemRoot
-            ref={innerRef}
+            Component="li"
+            variant={variant}
+            color={color}
+            hasHighlightOnFocus={hasHighlightOnFocus}
+            hasHoverEffectOnFocus={hasHoverEffectOnFocus}
+            hasFullWidth
+            hasActiveEffect={hasActiveEffect}
+            hasHoverEffect={hasHoverEffect}
+            hasFocusEffect={hasFocusEffect}
+            hasElevation={isButtonLike ? hasElevation : false}
             className={cx(className, classes.root)}
+            isButtonLike={isButtonLike}
             {...rest}
         >
             {children}

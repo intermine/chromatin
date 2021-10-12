@@ -82,6 +82,7 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
             padding: getPadding(),
             position: isSticky ? 'sticky' : 'relative',
             top: 0,
+            zIndex: 1,
             ...(headingType === 'sub' ? caption : title),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listHeading(themePropsForThemeVarFn, props)),

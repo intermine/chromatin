@@ -37,7 +37,16 @@ Default.args = {}
 
 const Template2: Story = (args) => {
     return (
-        <List listItemProps={{ hoverColor: 'primary' }} {...args}>
+        <List
+            listItemProps={{
+                isButtonLike: true,
+                color: 'secondary',
+                csx: {
+                    root: ({ palette }) => ({ color: palette.neutral[90] }),
+                },
+            }}
+            {...args}
+        >
             <ListItem>List Item 1</ListItem>
             <ListItem>List Item 2</ListItem>
             <ListItem>List Item 3</ListItem>
@@ -47,8 +56,8 @@ const Template2: Story = (args) => {
     )
 }
 
-export const ListWithHoverEffect = Template2.bind({})
-ListWithHoverEffect.args = {}
+export const ListAsButton = Template2.bind({})
+ListAsButton.args = {}
 
 const Template3: Story = (args) => {
     return (
@@ -69,46 +78,20 @@ const Template3: Story = (args) => {
 export const ListSeparatedByDivider = Template3.bind({})
 ListSeparatedByDivider.args = {}
 
-const SidebarItem = ({ children, isActive, onClick, Icon }) => {
+const SidebarItem = ({ children, Icon }) => {
     return (
-        <Button
-            Component="a"
-            variant="ghost"
-            color="primary"
-            onClick={onClick}
-            hasFullWidth
-            hasHoverEffectOnFocus
-            hasHighlightOnFocus={false}
-            isHovered={isActive}
+        <Box
             csx={{
                 root: {
-                    justifyContent: 'flex-start',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
                 },
             }}
         >
-            <Box
-                csx={{
-                    root: (theme) => ({
-                        fill: isActive
-                            ? 'inherit'
-                            : theme.themeType === 'light'
-                            ? '#000'
-                            : '#fff',
-                        color: isActive
-                            ? 'inherit'
-                            : theme.themeType === 'light'
-                            ? '#000'
-                            : '#fff',
-                        fontWeight: 600,
-                        display: 'flex',
-                        alignItems: 'center',
-                    }),
-                }}
-            >
-                {Icon}
-                {children}
-            </Box>
-        </Button>
+            {Icon}
+            {children}
+        </Box>
     )
 }
 const Sidebar: Story = (args) => {
@@ -119,11 +102,13 @@ const Sidebar: Story = (args) => {
     }
 
     return (
-        <List {...args}>
-            <ListItem>
+        <List listItemProps={{ isButtonLike: true }} {...args}>
+            <ListItem
+                color={activeItem === 1 ? 'primary' : 'neutral'}
+                onClick={() => handleOnClick(1)}
+                isHovered={activeItem === 1}
+            >
                 <SidebarItem
-                    isActive={activeItem === 1}
-                    onClick={() => handleOnClick(1)}
                     Icon={
                         <Icon1
                             height={16}
@@ -135,7 +120,11 @@ const Sidebar: Story = (args) => {
                     Sidebar Item 1
                 </SidebarItem>
             </ListItem>
-            <ListItem>
+            <ListItem
+                color={activeItem === 2 ? 'primary' : 'neutral'}
+                onClick={() => handleOnClick(2)}
+                isHovered={activeItem === 2}
+            >
                 <SidebarItem
                     Icon={
                         <Icon2
@@ -144,13 +133,15 @@ const Sidebar: Story = (args) => {
                             style={{ marginRight: '1rem' }}
                         />
                     }
-                    isActive={activeItem === 2}
-                    onClick={() => handleOnClick(2)}
                 >
                     Sidebar Item 2
                 </SidebarItem>
             </ListItem>
-            <ListItem>
+            <ListItem
+                color={activeItem === 3 ? 'primary' : 'neutral'}
+                onClick={() => handleOnClick(3)}
+                isHovered={activeItem === 3}
+            >
                 <SidebarItem
                     Icon={
                         <Icon3
@@ -159,13 +150,15 @@ const Sidebar: Story = (args) => {
                             style={{ marginRight: '1rem' }}
                         />
                     }
-                    isActive={activeItem === 3}
-                    onClick={() => handleOnClick(3)}
                 >
                     Sidebar Item 3
                 </SidebarItem>
             </ListItem>
-            <ListItem>
+            <ListItem
+                color={activeItem === 4 ? 'primary' : 'neutral'}
+                onClick={() => handleOnClick(4)}
+                isHovered={activeItem === 4}
+            >
                 <SidebarItem
                     Icon={
                         <Icon4
@@ -174,13 +167,15 @@ const Sidebar: Story = (args) => {
                             style={{ marginRight: '1rem' }}
                         />
                     }
-                    isActive={activeItem === 4}
-                    onClick={() => handleOnClick(4)}
                 >
                     Sidebar Item 4
                 </SidebarItem>
             </ListItem>
-            <ListItem>
+            <ListItem
+                color={activeItem === 5 ? 'primary' : 'neutral'}
+                onClick={() => handleOnClick(5)}
+                isHovered={activeItem === 5}
+            >
                 <SidebarItem
                     Icon={
                         <Icon5
@@ -189,8 +184,6 @@ const Sidebar: Story = (args) => {
                             style={{ marginRight: '1rem' }}
                         />
                     }
-                    isActive={activeItem === 5}
-                    onClick={() => handleOnClick(5)}
                 >
                     Sidebar Item 5
                 </SidebarItem>
@@ -216,27 +209,27 @@ const ListImg = ({ url }) => {
 
 const Template4: Story = (args) => {
     return (
-        <List listItemProps={{ hoverColor: 'neutral' }} {...args}>
+        <List listItemProps={{ isButtonLike: true }} {...args}>
             <ListHeading>Default Mines</ListHeading>
-            <ListItem>
+            <ListItem color="secondary">
                 <ListImg url="https://www.flymine.org/flymine/model/images/logo.png" />
                 FlyMine
             </ListItem>
-            <ListItem>
+            <ListItem color="primary">
                 <ListImg url="https://www.humanmine.org/humanmine/model/images/logo.png" />
                 HumanMine
             </ListItem>
             <ListHeading>Registry Mines</ListHeading>
-            <ListItem>
+            <ListItem color="primary">
                 <ListImg url="https://mines.legumeinfo.org/beanmine/model/images/common-bean.png" />
                 BeanMine
             </ListItem>
-            <ListItem>
+            <ListItem color="info">
                 <ListImg url="https://test.intermine.org/covidmine/model/images/logo.png" />
                 CovidMine
             </ListItem>
             <ListHeading>Incompatible Mines</ListHeading>
-            <ListItem>
+            <ListItem color="warning">
                 <ListImg url="http://ratmine.mcw.edu/ratmine/model/images/logo.png" />
                 RatMine
             </ListItem>
