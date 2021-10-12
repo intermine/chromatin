@@ -38,6 +38,9 @@ export interface ButtonBaseCommonProps
      * @default false
      */
     hasHoverEffectOnFocus?: boolean
+    hasHoverEffect?: boolean
+    hasActiveEffect?: boolean
+    hasFocusEffect?: boolean
     /**
      * To activate hover style
      */
@@ -106,6 +109,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             isActive = false,
             isFocused = false,
             isHovered = false,
+            hasHoverEffect = true,
+            hasActiveEffect = true,
+            hasFocusEffect = true,
             isExtendStyleFromThemeVars = true,
         } = props
 
@@ -303,9 +309,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
 
-            '&:hover': hoverProperties,
-            '&:active&:hover': activeProperties,
-            '&:focus': focusProperties,
+            ...(hasHoverEffect && { '&:hover': hoverProperties }),
+            ...(hasActiveEffect && { '&:active&:hover': activeProperties }),
+            ...(hasFocusEffect && { '&:focus': focusProperties }),
 
             '@media print': {
                 colorAdjust: 'exact',
