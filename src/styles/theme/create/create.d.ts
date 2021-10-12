@@ -36,6 +36,9 @@ import {
     CardHeaderProps,
     TooltipProps,
     PopperProps,
+    MenuProps,
+    MenuHeadingProps,
+    MenuItemProps,
 } from '../../..'
 
 /**
@@ -80,6 +83,9 @@ export type ThemeVars = {
     cardContent: ThemeVariableFunction<CardContentProps>
     cardHeader: ThemeVariableFunction<CardHeaderProps>
     tooltip: ThemeVariableFunction<TooltipProps>
+    menu: ThemeVariableFunction<MenuProps>
+    menuHeading: ThemeVariableFunction<MenuHeadingProps>
+    menuItem: ThemeVariableFunction<MenuItemProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

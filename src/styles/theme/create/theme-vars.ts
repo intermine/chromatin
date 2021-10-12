@@ -39,6 +39,9 @@ export const createThemeVars = (
         cardContent = themeVarDefaultFunction,
         tooltip = themeVarDefaultFunction,
         popper = themeVarDefaultFunction,
+        menu = themeVarDefaultFunction,
+        menuHeading = themeVarDefaultFunction,
+        menuItem = themeVarDefaultFunction,
     } = options
 
     return {
@@ -73,5 +76,8 @@ export const createThemeVars = (
         cardHeader,
         tooltip,
         popper,
+        menu,
+        menuHeading,
+        menuItem,
     }
 }

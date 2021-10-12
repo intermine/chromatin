@@ -35,6 +35,9 @@ export { CardAction } from './card-action'
 export { CardContent } from './card-content'
 export { CardHeader } from './card-header'
 export { Tooltip } from './tooltip'
+export { Menu } from './menu'
+export { MenuItem } from './menu-item'
+export { MenuHeading } from './menu-heading'
 
 // -------------------------
 // Types
@@ -73,3 +76,6 @@ export type { CardActionProps } from './card-action'
 export type { CardContentProps } from './card-content'
 export type { CardHeaderProps } from './card-header'
 export type { TooltipProps } from './tooltip'
+export type { MenuProps } from './menu'
+export type { MenuItemProps } from './menu-item'
+export type { MenuHeadingProps } from './menu-heading'
