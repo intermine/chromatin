@@ -38,6 +38,7 @@ export { Tooltip } from './tooltip'
 export { Menu } from './menu'
 export { MenuItem } from './menu-item'
 export { MenuHeading } from './menu-heading'
+export { Zoom } from './zoom'
 
 // -------------------------
 // Types
@@ -79,3 +80,4 @@ export type { TooltipProps } from './tooltip'
 export type { MenuProps } from './menu'
 export type { MenuItemProps } from './menu-item'
 export type { MenuHeadingProps } from './menu-heading'
+export type { ZoomProps } from './zoom'
