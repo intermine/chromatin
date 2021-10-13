@@ -1,15 +1,8 @@
 import cx from 'clsx'
 
-import {
-    createStyledComponent,
-    getThemeCSSObject,
-    isThemeColorName,
-    ThemeCSSStyles,
-} from '../styles'
-import { attachSignatureToComponent, Ref } from '../utils'
+import { createStyledComponent, getThemeCSSObject } from '../styles'
+import { attachSignatureToComponent } from '../utils'
 import { MENU_ITEM } from '../constants/component-ids'
-import { CSSObject } from 'styled-components'
-import { getHoverProperties } from '../button-base/utils'
 import { ListItem, ListItemProps } from '../list-item'
 
 export interface MenuItemProps extends ListItemProps {

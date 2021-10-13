@@ -16,7 +16,7 @@ import {
 } from '../utils'
 import { ALERT_GROUP, ALERT } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
+import type { CallableRef } from '../utils'
 import { Portal, PortalProps } from '../portal'
 import { CSSObject } from 'styled-components'
 import { Collapsible } from '../collapsible'
@@ -34,7 +34,7 @@ export interface AlertGroupProps
      * @default true
      */
     isScrollToBottom?: boolean
-    innerRef?: Ref
+    innerRef?: CallableRef
     portalProps?: PortalProps
     alertChildProps?: Omit<
         AlertProps,
