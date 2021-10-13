@@ -20,7 +20,15 @@ export interface MenuProps
         React.HTMLProps<HTMLOListElement | HTMLUListElement | HTMLDivElement>,
         'as' | 'ref'
     > {
+    /**
+     * It is given to the popper element
+     */
+
     innerRef?: Ref
+    /**
+     * It is given to the menu/ul
+     */
+    menuRef?: Ref
     /**
      * @default false
      */
@@ -34,8 +42,8 @@ export interface MenuProps
      */
     placement?: PopperProps['placement']
     /**
-     * If true then overlap the anchor element.
-     * @default true
+     * If false then overlap the anchor element.
+     * @default false
      */
     isOverlapAnchorElement?: boolean
     /**
@@ -185,6 +193,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
         classes: _classes = {},
         waitForXDurationBeforeUnmount = 230,
         innerRef,
+        menuRef: _menuRef,
         ...rest
     } = props
 
@@ -192,7 +201,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
     const [isOpen, setIsOpen] = useState(_isOpen)
 
     const ref = useRef<null | HTMLElement>(null)
-    const menuRef = useForkRef(ref, innerRef)
+    const menuRef = useForkRef(ref, _menuRef)
 
     const getOffset = (): [number, number] => {
         if (!isOverlapAnchorElement || !anchorElement) return [0, 0]
@@ -243,6 +252,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
             anchorElement={anchorElement}
             placement={placement}
             modifiers={modifiers}
+            innerRef={innerRef}
         >
             <MenuRoot
                 isOpen={isOpen}
