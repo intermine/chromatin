@@ -39,6 +39,7 @@ import {
     MenuProps,
     MenuHeadingProps,
     MenuItemProps,
+    StepperProps,
 } from '../../..'
 
 /**
@@ -86,6 +87,7 @@ export type ThemeVars = {
     menu: ThemeVariableFunction<MenuProps>
     menuHeading: ThemeVariableFunction<MenuHeadingProps>
     menuItem: ThemeVariableFunction<MenuItemProps>
+    stepper: ThemeVariableFunction<StepperProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

@@ -42,6 +42,7 @@ export const createThemeVars = (
         menu = themeVarDefaultFunction,
         menuHeading = themeVarDefaultFunction,
         menuItem = themeVarDefaultFunction,
+        stepper = themeVarDefaultFunction,
     } = options
 
     return {
@@ -79,5 +80,6 @@ export const createThemeVars = (
         menu,
         menuHeading,
         menuItem,
+        stepper,
     }
 }

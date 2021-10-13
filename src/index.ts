@@ -39,6 +39,7 @@ export { Menu } from './menu'
 export { MenuItem } from './menu-item'
 export { MenuHeading } from './menu-heading'
 export { Zoom } from './zoom'
+export { Stepper } from './stepper'
 
 // -------------------------
 // Types
@@ -81,3 +82,4 @@ export type { MenuProps } from './menu'
 export type { MenuItemProps } from './menu-item'
 export type { MenuHeadingProps } from './menu-heading'
 export type { ZoomProps } from './zoom'
+export type { StepperProps } from './stepper'
