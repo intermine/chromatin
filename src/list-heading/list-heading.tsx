@@ -4,7 +4,6 @@ import {
     createStyledComponent,
     getThemeCSSObject,
     ThemeCSSStyles,
-    themeTernaryOperator as tto,
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { LIST_HEADING } from '../constants/component-ids'
@@ -65,8 +64,7 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            themeType,
-            palette: { recommendedThemeBackground: bg, neutral },
+            palette: { neutral },
             typography: { title, caption },
         } = themePropsForThemeVarFn
 
@@ -77,7 +75,7 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
         }
 
         return {
-            background: tto(themeType, bg.light, bg.dark),
+            background: 'inherit',
             color: neutral[70],
             padding: getPadding(),
             position: isSticky ? 'sticky' : 'relative',
