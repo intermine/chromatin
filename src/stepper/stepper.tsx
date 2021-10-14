@@ -429,7 +429,7 @@ export const Stepper = (props: StepperProps): JSX.Element => {
                             </AvatarAndTitleContainer>
                             <DescriptionContainer
                                 alignment={alignment}
-                                isOpen={activeStep === idx + 1}
+                                in={activeStep === idx + 1}
                                 csx={{ root: csx.description }}
                                 classes={{ root: classes.description }}
                                 isLast={idx + 1 === steps.length}

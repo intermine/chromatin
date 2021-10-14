@@ -21,6 +21,7 @@ const Template: Story = (props) => {
                         width: 500,
                         background: '#232323',
                         color: '#fff',
+                        padding: '3rem',
                     },
                 }}
             >

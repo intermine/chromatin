@@ -75,7 +75,7 @@ const Template: Story = (args) => {
     return (
         <Box>
             <Button color="info" variant="ghost" onClick={decreaseStep}>
-                Decrease Step
+                Previous Step
             </Button>
             <Button
                 csx={{ root: { margin: '0 0 1rem 1rem' } }}
@@ -83,7 +83,7 @@ const Template: Story = (args) => {
                 color="info"
                 variant="ghost"
             >
-                Increase Step
+                Next Step
             </Button>
 
             <Stepper stepsStatus={stepsStatus} activeStep={step} {...args} />
@@ -115,7 +115,7 @@ const Template2: Story = (args) => {
     return (
         <Box>
             <Button color="info" variant="ghost" onClick={decreaseStep}>
-                Decrease Step
+                Previous Step
             </Button>
             <Button
                 csx={{ root: { margin: '0 0 1rem 1rem' } }}
@@ -123,7 +123,7 @@ const Template2: Story = (args) => {
                 color="info"
                 variant="ghost"
             >
-                Increase Step
+                Next Step
             </Button>
 
             <Stepper stepsStatus={stepsStatus} activeStep={step} {...args} />

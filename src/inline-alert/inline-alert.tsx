@@ -104,7 +104,7 @@ export const InlineAlert = (props: InlineAlertProps): JSX.Element => {
     }
 
     return (
-        <Collapsible isOpen={isOpen} {...containerProps}>
+        <Collapsible in={isOpen} {...containerProps}>
             <InlineAlertRoot
                 isOpen
                 type={type}
