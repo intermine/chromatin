@@ -46,7 +46,12 @@ export type StepsType = {
      */
     id?: string
 }
-export type StepStatusEnum = 'complete' | 'error' | 'warning' | 'none'
+export type StepStatusEnum =
+    | 'complete'
+    | 'error'
+    | 'warning'
+    | 'none'
+    | 'current'
 export type StepStatus = { [k: number]: StepStatusEnum }
 
 export interface StepperProps
@@ -88,6 +93,10 @@ export interface StepperProps
          */
         title?: string
         /**
+         * Applied to avatar and title container
+         */
+        avatarAndTitleContainer?: string
+        /**
          * Applied to description
          */
         description?: string
@@ -117,6 +126,10 @@ export interface StepperProps
          */
         title?: ThemeCSSStyles
         /**
+         * Applied to avatar and title container
+         */
+        avatarAndTitleContainer?: string
+        /**
          * Applied to description
          */
         description?: ThemeCSSStyles
@@ -132,7 +145,8 @@ const getThemeColorBasedOnStatus = (
     status: StepStatusEnum,
     palette: ThemePalette
 ): string => {
-    if (status === 'complete') return palette.primary[type]
+    if (status === 'complete' || status === 'current')
+        return palette.primary[type]
     if (status === 'warning') return palette.warning[type]
     if (status === 'error') return palette.error[type]
 
@@ -143,25 +157,16 @@ type AvatarProps = {
     children?: ReactElement
     alignment?: StepperProps['alignment']
     status: StepStatusEnum
-    isActive: boolean
 }
 
 const Avatar = createStyledComponent<typeof Box, AvatarProps>(
     Box,
     (theme, props) => {
-        const { csx = {}, alignment, status, isActive } = props
+        const { csx = {}, alignment, status } = props
         const { palette } = theme
 
-        const background = getThemeColorBasedOnStatus(
-            'main',
-            isActive ? 'complete' : status,
-            palette
-        )
-        const color = getThemeColorBasedOnStatus(
-            'text',
-            isActive ? 'complete' : status,
-            palette
-        )
+        const background = getThemeColorBasedOnStatus('main', status, palette)
+        const color = getThemeColorBasedOnStatus('text', status, palette)
         return {
             alignItems: 'center',
             background,
@@ -174,6 +179,7 @@ const Avatar = createStyledComponent<typeof Box, AvatarProps>(
             justifyContent: 'center',
             margin: alignment === 'vt' ? '0 1.5rem 0 0' : '0 0 1rem 0',
             padding: '0.5rem',
+            transition: '0.230s',
             width: '2rem',
             ...getThemeCSSObject(csx.root, theme),
         }
@@ -184,13 +190,37 @@ const getAvatarIcon = (
     status: StepStatusEnum,
     props: Partial<StepsType>
 ): ReactElement => {
-    if (!status || status === 'none') return props.AvatarIcon
+    if (!status || status === 'none' || status === 'current')
+        return props.AvatarIcon
     if (status === 'complete') return props.CompleteIcon
     if (status === 'warning') return props.WarningIcon
     if (status === 'error') return props.ErrorIcon
 
     return props.AvatarIcon
 }
+
+type AvatarAndTitleContainerProps = {
+    alignment: StepperProps['alignment']
+}
+
+const AvatarAndTitleContainer = createStyledComponent<
+    typeof Box,
+    AvatarAndTitleContainerProps
+>(
+    Box,
+    (theme, props) => {
+        const { alignment, csx = {} } = props
+
+        return {
+            alignItems: 'center',
+            padding: '0.5rem',
+            display: 'flex',
+            flexDirection: alignment === 'vt' ? 'row' : 'column',
+            ...getThemeCSSObject(csx.root, theme),
+        }
+    },
+    { isExtendStyleFromThemeVars: false }
+)
 
 type StepContainerProps = {
     children?: ReactElement
@@ -200,11 +230,13 @@ type StepContainerProps = {
 const StepContainer = createStyledComponent<typeof Box, StepContainerProps>(
     Box,
     (theme, props) => {
-        const { csx = {}, alignment = 'vt' } = props
+        const { csx = {} } = props
 
         return {
             display: 'inline-flex',
+            flex: 1,
             flexDirection: 'column',
+            maxWidth: '25rem',
             ...getThemeCSSObject(csx.root, theme),
         }
     }
@@ -226,12 +258,14 @@ const DescriptionContainer = createStyledComponent<
         } = theme
         const { alignment, csx = {}, isLast } = props
         return {
-            marginLeft: alignment === 'vt' ? '1.5rem' : '0',
-            paddingLeft: alignment === 'vt' ? '2.5rem' : '0',
+            color: neutral[80],
             borderLeft:
                 alignment === 'vt' && !isLast
                     ? `0.0625rem solid ${neutral.main}`
                     : '0',
+            marginLeft: alignment === 'vt' ? '1.5rem' : '0',
+            paddingLeft: alignment === 'vt' ? '2.5rem' : '0',
+            textAlign: alignment === 'hr' ? 'center' : undefined,
             ...getThemeCSSObject(csx.root, theme),
         }
     },
@@ -266,13 +300,14 @@ const DividerRoot = createStyledComponent<typeof Divider, DividerRootProps>(
         return {
             borderColor: getThemeColorBasedOnStatus(
                 'main',
-                status,
+                status === 'current' ? 'none' : status,
                 theme.palette
             ),
             display: isLast ? 'none' : undefined,
             flex: 1,
             marginLeft: alignment === 'vt' ? '1.5rem' : '0',
             marginTop: alignment === 'vt' ? '0' : '1.5rem',
+            transition: '0.230s',
             ...getDimension(),
             ...getThemeCSSObject(csx.root, theme),
         }
@@ -317,6 +352,38 @@ export const Stepper = (props: StepperProps): JSX.Element => {
         ...rest
     } = props
 
+    const getTitle = (
+        title: ReactElement,
+        status: StepStatusEnum
+    ): ReactElement => {
+        if (typeof title === 'string') {
+            return (
+                <Typography
+                    variant="title"
+                    className={cx(classes.title)}
+                    csx={{
+                        root: (theme) => ({
+                            color:
+                                status === 'none' || !status
+                                    ? theme.palette.neutral[70]
+                                    : theme.palette.neutral[90],
+                            ...getThemeCSSObject(csx.title, theme),
+                        }),
+                    }}
+                >
+                    {title}
+                </Typography>
+            )
+        }
+        return title
+    }
+
+    const getStatus = (idx: number, activeStep: number): StepStatusEnum => {
+        if (stepsStatus[idx + 1]) return stepsStatus[idx + 1]
+        if (activeStep === idx + 1) return 'current'
+        return 'none'
+    }
+
     return (
         <StepperContainer
             className={cx(className, classes.root)}
@@ -335,28 +402,21 @@ export const Stepper = (props: StepperProps): JSX.Element => {
                     id = typeof title === 'string' ? title : idx,
                 } = step
 
+                const _status = getStatus(idx, activeStep)
                 return (
                     <>
-                        <StepContainer alignment={alignment} key={id}>
-                            <Box
-                                csx={{
-                                    root: {
-                                        alignItems: 'center',
-                                        padding: '0.5rem',
-                                        display: 'flex',
-                                        flexDirection:
-                                            alignment === 'vt'
-                                                ? 'row'
-                                                : 'column',
-                                    },
-                                }}
-                            >
+                        <StepContainer
+                            classes={{ root: classes.stepContainer }}
+                            csx={{ root: csx.stepContainer }}
+                            alignment={alignment}
+                            key={id}
+                        >
+                            <AvatarAndTitleContainer alignment={alignment}>
                                 <Avatar
                                     alignment={alignment}
                                     csx={{ root: csx.avatar }}
                                     className={cx(classes.avatar)}
-                                    status={stepsStatus[idx + 1] ?? 'none'}
-                                    isActive={idx + 1 == activeStep}
+                                    status={_status}
                                 >
                                     {getAvatarIcon(stepsStatus[idx + 1], {
                                         CompleteIcon: _CompleteIcon,
@@ -365,8 +425,8 @@ export const Stepper = (props: StepperProps): JSX.Element => {
                                         AvatarIcon,
                                     })}
                                 </Avatar>
-                                {title}
-                            </Box>
+                                {getTitle(title, _status)}
+                            </AvatarAndTitleContainer>
                             <DescriptionContainer
                                 alignment={alignment}
                                 isOpen={activeStep === idx + 1}
@@ -381,7 +441,7 @@ export const Stepper = (props: StepperProps): JSX.Element => {
                             isLast={idx + 1 === steps.length}
                             csx={{ root: csx.divider }}
                             classes={{ root: classes.divider }}
-                            status={stepsStatus[idx + 1] ?? 'none'}
+                            status={_status}
                             alignment={alignment}
                         />
                     </>
