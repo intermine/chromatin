@@ -17,7 +17,7 @@ export interface CollapsibleProps
     /**
      * To open or close collapsible.
      */
-    isOpen?: boolean
+    in?: boolean
     /**
      * Ref to collapsible container.
      */
@@ -52,7 +52,7 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
     (theme, props) => {
         const {
             csx = {},
-            isOpen = false,
+            in: _in = false,
             animationDuration,
             isExtendStyleFromThemeVars = true,
         } = props
@@ -61,7 +61,7 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
         return {
             boxSizing: 'border-box',
             height: 0,
-            opacity: isOpen ? 1 : 0,
+            opacity: _in ? 1 : 0,
             overflow: 'hidden',
             transition: `${animationDuration}ms`,
             ...(isExtendStyleFromThemeVars &&
@@ -86,7 +86,7 @@ export const Collapsible = (props: CollapsibleProps): JSX.Element => {
         children,
         classes = {},
         className,
-        isOpen = false,
+        in: _in = false,
         animationDuration: animationDurationProp,
         ...rest
     } = props
@@ -99,7 +99,7 @@ export const Collapsible = (props: CollapsibleProps): JSX.Element => {
     const onIsOpenChange = () => {
         if (!ref.current) return
 
-        if (isOpen) {
+        if (_in) {
             const height = ref.current.scrollHeight ?? 0
             ref.current.style.height = `${height}px`
         } else {
@@ -119,19 +119,23 @@ export const Collapsible = (props: CollapsibleProps): JSX.Element => {
 
     useLayoutEffect(() => {
         onIsOpenChange()
-    }, [isOpen, ref])
+    }, [_in, ref])
 
     return (
-        <Transition in={isOpen} timeout={animationDuration}>
-            <CollapsibleRoot
-                ref={collapsibleRef}
-                className={cx(className, classes.root)}
-                animationDuration={animationDuration}
-                isOpen={isOpen}
-                {...rest}
-            >
-                {children}
-            </CollapsibleRoot>
+        <Transition in={_in} timeout={animationDuration} {...rest}>
+            {(state) => {
+                return (
+                    <CollapsibleRoot
+                        ref={collapsibleRef}
+                        className={cx(className, classes.root)}
+                        animationDuration={animationDuration}
+                        in={state === 'entered' || state === 'entering'}
+                        {...rest}
+                    >
+                        {children}
+                    </CollapsibleRoot>
+                )
+            }}
         </Transition>
     )
 }

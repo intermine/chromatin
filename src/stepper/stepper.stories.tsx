@@ -67,7 +67,7 @@ const Template: Story = (args) => {
             setStep(step - 1)
             setStepsStatus((prev) => ({
                 ...prev,
-                [step - 1]: 'none',
+                [step - 1]: undefined,
             }))
         }
     }

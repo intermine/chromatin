@@ -9,14 +9,7 @@ import {
 
 import { createStyle } from '../styles'
 
-export type ZoomProps = {
-    /**
-     * @default false
-     */
-    isOpen?: boolean
-    timeout?: TransitionProps['timeout']
-    children?: TransitionProps['children']
-}
+export type ZoomProps = TransitionProps
 
 type StyleProps = {
     timeout: TransitionProps['timeout']
@@ -66,12 +59,12 @@ const useStyles = createStyle({
 })
 
 export const Zoom = (props: ZoomProps): JSX.Element => {
-    const { isOpen = false, timeout = 200, children, ...rest } = props
+    const { in: _in, timeout = 200, children, ...rest } = props
 
     const classes = (useStyles({ timeout }) as unknown) as any
 
     return (
-        <Transition in={isOpen} timeout={timeout} {...rest}>
+        <Transition in={_in} timeout={timeout} {...rest}>
             {(state: TransitionStatus, childProps: any) => {
                 return cloneElement(children as any, {
                     className: cx(childProps, classes[state]),

@@ -234,7 +234,7 @@ export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
                         { [classes.collapsible]: isChildOpen },
                         classesProps.collapsible
                     )}
-                    isOpen={isChildOpen}
+                    in={isChildOpen}
                 >
                     {alert}
                 </Collapsible>

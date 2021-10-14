@@ -10,8 +10,9 @@ export default {
 }
 
 const Template: Story = (props) => {
+    const { timeout = 200, ...rest } = props
     return (
-        <Zoom {...props}>
+        <Zoom timeout={timeout} {...props}>
             <Box
                 isContentCenter
                 csx={{
@@ -44,6 +45,6 @@ const Template: Story = (props) => {
 
 export const Default = Template.bind({})
 Default.args = {
-    isOpen: false,
+    in: false,
     timeout: 200,
 }
