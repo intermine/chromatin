@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires*/
-/* eslint-disable unicorn/prefer-module*/
-/* eslint-disable eslint-comments/no-aggregating-enable*/
-/* eslint-disable unicorn/no-process-exit*/
-
 /**
  * To run this you have to use ts-node.
  * Or any typescript compiler for node.
@@ -31,5 +26,3 @@ fs.writeFile(path.join(__dirname, `${args[0]}.ts`), toWrite, (err) => {
         console.log(err)
     }
 })
-
-/* eslint-enable */
