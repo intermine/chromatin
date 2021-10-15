@@ -3,6 +3,11 @@ const { promisify } = require('util')
 const copyfiles = require('copyfiles')
 const path = require('path')
 
+const readline = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+    })
+
 const exec = promisify(childProcess.exec)
 
 // Build package
@@ -32,8 +37,8 @@ const copyImportantFiles = async () => {
 }
 
 // Publish
-const publish = async () => {
-    const publishCommand = 'npm publish ./dist'
+const publish = async (otp) => {
+    const publishCommand = `npm publish ./dist ---otp ${otp}`
     
     console.log(`[COMMAND]: ${publishCommand}`)
     const { stderr, stdout } = await exec(publishCommand);
@@ -48,7 +53,12 @@ const publish = async () => {
 const deploy = async () => {
     await build()
     await copyImportantFiles()
-    await publish()
+    readline.question('OTP: ', async (_otp) => {
+        readline.close()
+        await publish(_otp)
+    })
+
 }
+
 
 deploy()
