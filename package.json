@@ -1,6 +1,6 @@
 {
     "name": "@intermine/chromatin",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Intermine's component library",
     "main": "./src/index.ts",
     "scripts": {
