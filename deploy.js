@@ -23,11 +23,12 @@ const build = async () => {
 const copyImportantFiles = async () => {
     const packageFilePath = path.join('.', 'package.json')
     const readmeFilePath = path.join('.', 'README.md')
+    const licenseFilePath = path.join('.', 'LICENSE')
 
     const distPath = path.join('.', 'dist')
 
     console.log(packageFilePath, distPath)
-    await copyfiles([packageFilePath, readmeFilePath, distPath], { flat: true }, () => { console.log('Copied files') })
+    await copyfiles([packageFilePath, readmeFilePath, licenseFilePath, distPath], { flat: true }, () => { console.log('Copied files') })
 }
 
 // Publish
