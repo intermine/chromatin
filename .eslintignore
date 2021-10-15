@@ -20,3 +20,6 @@ dist
 
 # icons
 icons
+
+# js files
+*.js
