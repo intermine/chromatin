@@ -18,38 +18,7 @@ import { CHECKBOX } from '../constants/component-ids'
 
 import { attachSignatureToComponent, Ref } from '../utils'
 
-export interface CheckboxProps
-    extends Omit<
-        React.HTMLProps<HTMLInputElement | HTMLTextAreaElement>,
-        'as' | 'ref' | 'color' | 'size' | 'label'
-    > {
-    /**
-     * Checkbox checked state.
-     *
-     * @default false
-     */
-    isChecked?: boolean
-    /**
-     * Whether checkbox is in indeterminate state
-     * or not. If true then it will override checked
-     * state and render indeterminate state. Also,
-     * indeterminate means checkbox is not checked.
-     */
-    isIndeterminate?: boolean
-    type?: 'checkbox' | 'radio'
-    /**
-     * Ref to container
-     */
-    innerRef?: Ref
-    /**
-     * Ref to input base
-     */
-    inputRef?: Ref
-    /**
-     * To extend the styles applied to the components
-     */
-
-    // Icon Button Props
+export interface CheckboxContainerProps {
     size?: 'small' | 'regular' | 'large'
     /**
      * @default 'squircle'
@@ -93,14 +62,15 @@ export interface CheckboxProps
      */
     isActive?: boolean
     isDisabled?: boolean
-    CheckedIcon?: ReactElement
-    UncheckedIcon?: ReactElement
-    IndeterminateIcon?: ReactElement
     classes?: {
         /**
          * Applied to root component
          */
         root?: string
+        /**
+         * Applied to inputBase component
+         */
+        inputBase?: string
     }
     /**
      * To override the applied styles.
@@ -110,7 +80,43 @@ export interface CheckboxProps
          * Applied to root component
          */
         root?: ThemeCSSStyles
+        /**
+         * Applied to inputBase component
+         */
+        inputBase?: ThemeCSSStyles
     }
+}
+export interface CheckboxProps
+    extends Omit<
+            React.HTMLProps<HTMLInputElement | HTMLTextAreaElement>,
+            'as' | 'ref' | 'color' | 'size' | 'label'
+        >,
+        CheckboxContainerProps {
+    /**
+     * Checkbox checked state.
+     *
+     * @default false
+     */
+    isChecked?: boolean
+    /**
+     * Whether checkbox is in indeterminate state
+     * or not. If true then it will override checked
+     * state and render indeterminate state. Also,
+     * indeterminate means checkbox is not checked.
+     */
+    isIndeterminate?: boolean
+    type?: 'checkbox' | 'radio'
+    /**
+     * Ref to container
+     */
+    innerRef?: Ref
+    /**
+     * Ref to input base
+     */
+    inputRef?: Ref
+    CheckedIcon?: ReactElement
+    UncheckedIcon?: ReactElement
+    IndeterminateIcon?: ReactElement
 }
 
 const InputBaseRoot = createStyledComponent(
@@ -137,6 +143,7 @@ const IconButtonRoot = createStyledComponent(
 export const Checkbox = (props: CheckboxProps): JSX.Element => {
     const {
         classes = {},
+        csx = {},
         className,
         isChecked = false,
         isIndeterminate = false,
@@ -146,7 +153,6 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         type = 'checkbox',
         innerRef,
         inputRef,
-        id: idProps,
         isDisabled,
         ...rest
     } = props
@@ -170,7 +176,6 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
         isHovered,
         isFocused,
         isActive,
-        csx,
         ...inputProps
     } = rest
 
@@ -205,6 +210,8 @@ export const Checkbox = (props: CheckboxProps): JSX.Element => {
                 checked={isIndeterminate ? false : isChecked}
                 isHidden={true}
                 innerRef={inputRef}
+                csx={{ root: csx.inputBase }}
+                className={cx(classes.inputBase)}
                 {...inputProps}
             />
         </IconButtonRoot>

@@ -17,7 +17,7 @@ import {
     TypographyProps,
     BoxProps,
     LabelProps,
-    CheckboxProps,
+    CheckboxContainerProps,
     RadioGroupProps,
     RadioProps,
     FormControlLabelProps,
@@ -66,7 +66,7 @@ export type ThemeVars = {
     typography: ThemeVariableFunction<TypographyProps<'div'>>
     label: ThemeVariableFunction<LabelProps>
     popper: ThemeVariableFunction<PopperProps>
-    checkbox: ThemeVariableFunction<CheckboxProps>
+    checkbox: ThemeVariableFunction<CheckboxContainerProps>
     radio: ThemeVariableFunction<RadioProps>
     radioGroup: ThemeVariableFunction<RadioGroupProps>
     formControlLabel: ThemeVariableFunction<FormControlLabelProps>
