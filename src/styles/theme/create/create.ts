@@ -40,6 +40,11 @@ import {
     MenuHeadingProps,
     MenuItemProps,
     StepperProps,
+    TableProps,
+    TableBodyProps,
+    TableCellProps,
+    TableHeadProps,
+    TableRowProps,
 } from '../../..'
 
 /**
@@ -88,6 +93,11 @@ export type ThemeVars = {
     menuHeading: ThemeVariableFunction<MenuHeadingProps>
     menuItem: ThemeVariableFunction<MenuItemProps>
     stepper: ThemeVariableFunction<StepperProps>
+    table: ThemeVariableFunction<TableProps>
+    tableBody: ThemeVariableFunction<TableBodyProps>
+    tableCell: ThemeVariableFunction<TableCellProps>
+    tableHead: ThemeVariableFunction<TableHeadProps>
+    tableRow: ThemeVariableFunction<TableRowProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>
