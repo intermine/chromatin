@@ -45,6 +45,7 @@ import {
     TableCellProps,
     TableHeadProps,
     TableRowProps,
+    ModalProps,
 } from '../../..'
 
 /**
@@ -98,6 +99,7 @@ export type ThemeVars = {
     tableCell: ThemeVariableFunction<TableCellProps>
     tableHead: ThemeVariableFunction<TableHeadProps>
     tableRow: ThemeVariableFunction<TableRowProps>
+    modal: ThemeVariableFunction<ModalProps>
 }
 
 export type CreateThemeVarsOptions = Partial<ThemeVars>

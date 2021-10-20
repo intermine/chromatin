@@ -48,6 +48,7 @@ export const createThemeVars = (
         tableCell = themeVarDefaultFunction,
         tableHead = themeVarDefaultFunction,
         tableRow = themeVarDefaultFunction,
+        modal = themeVarDefaultFunction,
     } = options
 
     return {
@@ -91,5 +92,6 @@ export const createThemeVars = (
         tableCell,
         tableHead,
         tableRow,
+        modal,
     }
 }

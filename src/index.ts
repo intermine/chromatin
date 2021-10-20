@@ -45,6 +45,7 @@ export { TableBody } from './table-body'
 export { TableCell } from './table-cell'
 export { TableHead } from './table-head'
 export { TableRow } from './table-row'
+export { Modal } from './modal'
 
 // -------------------------
 // Types
@@ -93,3 +94,4 @@ export type { TableBodyProps } from './table-body'
 export type { TableCellProps } from './table-cell'
 export type { TableHeadProps } from './table-head'
 export type { TableRowProps } from './table-row'
+export type { ModalProps } from './modal'
