@@ -4,7 +4,6 @@ import { List } from './list'
 import { ListItem } from '../list-item'
 import { ListHeading } from '../list-heading'
 import { Divider } from '../divider'
-import { Button } from '../button'
 import { useState } from 'react'
 import { Box } from '../box'
 
