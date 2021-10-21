@@ -7,7 +7,7 @@ import {
     getThemeCSSObject,
     createStyle,
     hex2rgba,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { MODAL } from '../constants/component-ids'
@@ -44,34 +44,15 @@ export interface ModalProps extends Omit<ReactModalProps, 'as' | 'ref'> {
     }
 }
 
-const ModalRoot = createStyledComponent<'table', ModalProps>(
-    'table',
-    (theme, props) => {
-        const { csx = {}, isExtendStyleFromThemeVars = true } = props
-        const { themeVars, ...themePropsForThemeVarFn } = theme
-        const {
-            typography: { body },
-            palette: { neutral },
-        } = themePropsForThemeVarFn
-
-        return {
-            ...body,
-            ...(isExtendStyleFromThemeVars &&
-                themeVars.table(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
-        }
-    }
-)
-
 const useStyles = createStyle((theme) => ({
     root: (props: ModalProps) => {
         const { isOpen = false, csx = {} } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             palette: {
-                common: { white, black },
+                common: { white, black }
             },
-            themeType,
+            themeType
         } = themePropsForThemeVarFn
 
         const rgba = hex2rgba(tto(themeType, black, white), 0.05)
@@ -87,21 +68,21 @@ const useStyles = createStyle((theme) => ({
             right: 0,
             top: 0,
             ...themeVars.modal(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
 
     content: (props: ModalProps) => {
         const { csx = {} } = props
         const {
-            palette: { neutral },
+            palette: { neutral }
         } = theme
 
         return {
             color: neutral[90],
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
-    },
+    }
 }))
 
 export const Modal = (props: ModalProps): JSX.Element => {
