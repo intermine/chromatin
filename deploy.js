@@ -53,7 +53,7 @@ const publish = async (otp) => {
 const deploy = async () => {
     await build()
     await copyImportantFiles()
-    readline.question('OTP: ', async (_otp) => {
+    readline.question('\n\nOTP: ', async (_otp) => {
         readline.close()
         await publish(_otp)
     })

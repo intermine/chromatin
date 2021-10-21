@@ -34,14 +34,6 @@ Then install dependencies.
 npm i
 ```
 
-Typescript:
-
-```bash
-npm install -g typescript
-# or
-npm install -g typescript@next
-```
-
 > Note: `react` and `react-dom` are peer dependencies. So to build this project locally or to run storybook you need to install these two dependencies manually. You can do so by following below steps.
 
 ```bash
