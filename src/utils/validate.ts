@@ -8,7 +8,9 @@ export const isProdEnv = (): boolean => {
 }
 
 export const isValidAnchorElement = (
-    anchorElement?: Element
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    anchorElement: any
 ): anchorElement is Element => {
     if (anchorElement === null) return false
 

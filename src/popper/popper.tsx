@@ -30,7 +30,7 @@ export interface PopperProps extends Omit<BoxProps<'div'>, 'Component'> {
      */
     strategy?: PositioningStrategy
     onFirstUpdate?: ((arg0: Partial<PopperState>) => void) | undefined
-    anchorElement?: Element
+    anchorElement?: Element | null
 }
 
 const PopperRoot = createStyledComponent<typeof Box, PopperProps>(
