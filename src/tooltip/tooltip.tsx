@@ -10,14 +10,14 @@ import {
     isValidColorHex,
     ReactElement,
     ThemeCSSStyles,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
 import {
     attachSignatureToComponent,
     isChromatinElement,
     setRef,
     useForkRef,
-    useMouseOver,
+    useMouseOver
 } from '../utils'
 import { TOOLTIP } from '../constants/component-ids'
 
@@ -142,7 +142,7 @@ const TooltipRoot = createStyledComponent<
     const {
         common: { black, white },
         neutral,
-        contrastThreshold,
+        contrastThreshold
     } = palette
 
     const {
@@ -152,7 +152,7 @@ const TooltipRoot = createStyledComponent<
         hasArrow = true,
         actualPlacement: placement = 'top',
         isExtendStyleFromThemeVars = true,
-        isOpen,
+        isOpen
     } = props
 
     const getBackground = (): string => {
@@ -193,12 +193,12 @@ const TooltipRoot = createStyledComponent<
                     right: 0,
                     ...(placement === 'top-end' && {
                         left: 'unset',
-                        right: `${borderDim}rem`,
+                        right: `${borderDim}rem`
                     }),
                     ...(placement === 'top-start' && {
                         left: `${borderDim}rem`,
-                        right: 'unset',
-                    }),
+                        right: 'unset'
+                    })
                 }
             }
             if (placement.startsWith('bottom')) {
@@ -209,12 +209,12 @@ const TooltipRoot = createStyledComponent<
                     top: `-${borderDim * 2}rem`,
                     ...(placement === 'bottom-end' && {
                         left: 'unset',
-                        right: `${borderDim}rem`,
+                        right: `${borderDim}rem`
                     }),
                     ...(placement === 'bottom-start' && {
                         left: `${borderDim}rem`,
-                        right: 'unset',
-                    }),
+                        right: 'unset'
+                    })
                 }
             }
             if (placement.startsWith('right')) {
@@ -225,12 +225,12 @@ const TooltipRoot = createStyledComponent<
                     top: 0,
                     ...(placement === 'right-end' && {
                         top: 'unset',
-                        bottom: `${borderDim}rem`,
+                        bottom: `${borderDim}rem`
                     }),
                     ...(placement === 'right-start' && {
                         top: `${borderDim}rem`,
-                        bottom: 'unset',
-                    }),
+                        bottom: 'unset'
+                    })
                 }
             }
 
@@ -241,12 +241,12 @@ const TooltipRoot = createStyledComponent<
                 top: 0,
                 ...(placement === 'left-end' && {
                     top: 'unset',
-                    bottom: `${borderDim}rem`,
+                    bottom: `${borderDim}rem`
                 }),
                 ...(placement === 'left-start' && {
                     top: `${borderDim}rem`,
-                    bottom: 'unset',
-                }),
+                    bottom: 'unset'
+                })
             }
         }
         return {
@@ -257,8 +257,8 @@ const TooltipRoot = createStyledComponent<
                 position: 'absolute',
                 width: 0,
                 margin: 'auto',
-                ...getPosition(),
-            },
+                ...getPosition()
+            }
         }
     }
 
@@ -272,14 +272,15 @@ const TooltipRoot = createStyledComponent<
         opacity: isOpen ? 1 : 0,
         padding: '0.8rem 1rem',
         position: 'relative',
-        transition: 'all 0.3s',
+        transitionDuration: '0.3s',
+        transitionProperty: 'box-shadow, opacity',
         ...(hasElevation && {
-            boxShadow: elevation.low,
+            boxShadow: elevation.low
         }),
         ...getArrow(),
         ...(isExtendStyleFromThemeVars &&
             themeVars.tooltip(themePropsForThemeVarFn, props)),
-        ...getThemeCSSObject(csx.root, theme),
+        ...getThemeCSSObject(csx.root, theme)
     }
 })
 
@@ -322,15 +323,15 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
         onHoverEnd: onTooltipClose,
         onHoverStart: onTooltipOpen,
         isDisabled,
-        isCheckMouseInsidePolygon: true,
+        isCheckMouseInsidePolygon: true
     })
 
     const modifiers: PopperProps['modifiers'] = [
         {
             name: 'offset',
             options: {
-                offset: [0, 12],
-            },
+                offset: [0, 12]
+            }
         },
         {
             name: 'onUpdate',
@@ -340,9 +341,9 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
                 if (state.placement !== actualPlacement) {
                     setActualPlacement(state.placement)
                 }
-            },
+            }
         },
-        ..._modifiers,
+        ..._modifiers
     ]
 
     const getMessage = (): ReactElement => {
@@ -355,9 +356,9 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
                         root: (theme) => {
                             return {
                                 color: 'inherit',
-                                ...getThemeCSSObject(csx.message, theme),
+                                ...getThemeCSSObject(csx.message, theme)
                             }
-                        },
+                        }
                     }}
                 >
                     {message}
@@ -378,8 +379,8 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
                             color: 'inherit',
                             marginBottom: '0.6rem',
                             textAlign: 'center',
-                            ...getThemeCSSObject(csx.title, theme),
-                        }),
+                            ...getThemeCSSObject(csx.title, theme)
+                        })
                     }}
                 >
                     {title}
@@ -393,7 +394,7 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
         <>
             {cloneElement(children, {
                 ...children.props,
-                [childRefName]: childInnerRef,
+                [childRefName]: childInnerRef
             })}
             <TooltipRoot
                 anchorElement={childRef.current}
