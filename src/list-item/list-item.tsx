@@ -3,13 +3,11 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    isThemeColorName,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { LIST_ITEM } from '../constants/component-ids'
 import { CSSObject } from 'styled-components'
-import { getHoverProperties } from '../button-base/utils'
 
 import { Button } from '../button'
 import { ButtonBaseCommonProps } from '../button-base'
@@ -80,12 +78,12 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
             justifyContent = 'flex-start',
             isExtendStyleFromThemeVars = true,
             isButtonLike = false,
-            variant = 'ghost',
+            variant = 'ghost'
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             palette,
-            typography: { body },
+            typography: { body }
         } = themePropsForThemeVarFn
 
         const getPadding = (): string | undefined => {
@@ -106,7 +104,7 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
             ...body,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listItem(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )

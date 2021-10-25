@@ -6,7 +6,7 @@ import {
     createStyledComponent,
     getThemeCSSObject,
     ThemeCSSStyles,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
 import { attachSignatureToComponent, getChromatinElementId } from '../utils'
 import { LIST, LIST_HEADING, LIST_ITEM } from '../constants/component-ids'
@@ -60,24 +60,25 @@ const ListRoot = createStyledComponent<'ul', ListProps>(
         const {
             csx = {},
             listStyle = 'none',
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             themeType,
-            palette: { recommendedThemeBackground: bg },
+            palette: { recommendedThemeBackground: bg }
         } = themePropsForThemeVarFn
 
         return {
             background: tto(themeType, bg.light, bg.dark),
             boxSizing: 'border-box',
+            borderRadius: '0',
             listStyle,
             margin: 0,
             padding: 0,
             position: 'relative',
             ...(isExtendStyleFromThemeVars &&
                 themeVars.list(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -98,14 +99,14 @@ export const List = (props: ListProps): JSX.Element => {
         if (id === LIST_ITEM) {
             return cloneElement(child, {
                 ...listItemProps,
-                ...child.props,
+                ...child.props
             })
         }
 
         if (id === LIST_HEADING) {
             return cloneElement(child, {
                 ...listHeadingProps,
-                ...child.props,
+                ...child.props
             })
         }
 
