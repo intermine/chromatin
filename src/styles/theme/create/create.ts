@@ -77,7 +77,7 @@ export type ThemeVars = {
     radioGroup: ThemeVariableFunction<RadioGroupProps>
     formControlLabel: ThemeVariableFunction<FormControlLabelProps>
     toggle: ThemeVariableFunction<ToggleProps>
-    divider: ThemeVariableFunction<DividerProps>
+    divider: ThemeVariableFunction<DividerProps<'div'>>
     collapsible: ThemeVariableFunction<CollapsibleProps>
     list: ThemeVariableFunction<ListProps>
     listItem: ThemeVariableFunction<ListItemProps>
