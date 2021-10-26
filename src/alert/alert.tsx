@@ -1,5 +1,6 @@
-import { useEffect, useState, cloneElement } from 'react'
+import { useEffect, useState, cloneElement, forwardRef } from 'react'
 import cx from 'clsx'
+import { CSSObject } from 'styled-components'
 
 import {
     createStyledComponent,
@@ -9,30 +10,27 @@ import {
     ThemeCSSStyles,
     useTheme,
     themeTernaryOperator as tto,
-    createStyle,
+    createStyle
 } from '../styles'
 import {
     DefaultSuccessIcon,
     DefaultErrorIcon,
     DefaultWarningIcon,
     DefaultInfoIcon,
-    DefaultCloseIcon,
+    DefaultCloseIcon
 } from '../constants/default-icons'
 
-import { attachSignatureToComponent, CallableRef } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonProps } from '../icon-button'
 import { Typography } from '../typography'
 import { Portal, PortalProps } from '../portal'
-
-import { CSSObject } from 'styled-components'
 
 type IconType = ReactElement
 
 export interface AlertProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'title'> {
     portalProps?: PortalProps
-    innerRef?: CallableRef
     /**
      * Pass false if you don't want to render main icon
      * @default true
@@ -176,14 +174,14 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
             palette: { recommendedThemeBackground: rtb, neutral },
             elevation,
             themeType,
-            breakingPoints: { mixin },
+            breakingPoints: { mixin }
         } = themePropsForThemeVarFn
         const {
             csx = {},
             origin = 'top-right',
             margin,
             isOpen,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const getOrigin = (): CSSObject => {
@@ -191,30 +189,30 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
             if (origin === 'top-right')
                 return {
                     top: offset,
-                    right: offset,
+                    right: offset
                 }
 
             if (origin === 'bottom-right') {
                 return {
                     bottom: offset,
-                    right: offset,
+                    right: offset
                 }
             }
             if (origin === 'top-left') {
                 return {
                     top: offset,
-                    left: offset,
+                    left: offset
                 }
             }
             if (origin === 'bottom-left') {
                 return {
                     bottom: offset,
-                    left: offset,
+                    left: offset
                 }
             }
             return {
                 top: offset,
-                right: offset,
+                right: offset
             }
         }
 
@@ -247,15 +245,15 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
                             origin === 'top-right' || origin === 'top-left'
                                 ? 0
                                 : undefined,
-                        width: 'auto',
-                    },
+                        width: 'auto'
+                    }
                 },
                 'max'
             ),
             ...getOrigin(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.alert(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -269,7 +267,7 @@ const IconContainer = createStyledComponent<'div', IconContainerProps>(
             alignItems: 'flex-start',
             display: 'flex',
             padding: hasPadding ? '0.3125rem' : undefined,
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -278,7 +276,7 @@ const MainSection = createStyledComponent<'div', MainSectionProps>(
     'div',
     (theme, props) => {
         const {
-            typography: { body },
+            typography: { body }
         } = theme
         const { csx = {} } = props
         return {
@@ -288,7 +286,7 @@ const MainSection = createStyledComponent<'div', MainSectionProps>(
             height: '100%',
             padding: '0.3125rem 1rem',
             ...body,
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -296,236 +294,239 @@ const MainSection = createStyledComponent<'div', MainSectionProps>(
 const useStyles = createStyle({
     '@keyframes scaleAnimation': {
         '0%': {
-            transform: 'scale(0)',
+            transform: 'scale(0)'
         },
         '100%': {
-            transform: 'scale(1)',
-        },
+            transform: 'scale(1)'
+        }
     },
     '@keyframes scaleAnimationReverse': {
         '0%': {
-            transform: 'scale(1)',
+            transform: 'scale(1)'
         },
         '100%': {
-            transform: 'scale(0)',
-        },
+            transform: 'scale(0)'
+        }
     },
     entryAnimation: {
-        animation: '$scaleAnimation 0.2s forwards',
+        animation: '$scaleAnimation 0.2s forwards'
     },
     exitAnimation: {
-        animation: '$scaleAnimationReverse 0.2s forwards',
-    },
+        animation: '$scaleAnimationReverse 0.2s forwards'
+    }
 })
 
-export const Alert = (props: AlertProps): JSX.Element => {
-    const {
-        title,
-        message,
-        closeButtonProps = {} as IconButtonProps<any>,
-        classes: classesProps = {},
-        csx = {},
-        className,
-        children,
-        hasCloseButton = true,
-        hasMainIcon = true,
-        iconColor,
-        Icon,
-        type = 'success',
-        isOpen = false,
-        portalProps = {},
-        onClose,
-        duration,
-        hasAnimation = true,
-        ...rest
-    } = props
+export const Alert = forwardRef<HTMLDivElement, AlertProps>(
+    (props, ref): JSX.Element => {
+        const {
+            title,
+            message,
+            closeButtonProps = {} as IconButtonProps<any>,
+            classes: classesProps = {},
+            csx = {},
+            className,
+            children,
+            hasCloseButton = true,
+            hasMainIcon = true,
+            iconColor,
+            Icon,
+            type = 'success',
+            isOpen = false,
+            portalProps = {},
+            onClose,
+            duration,
+            hasAnimation = true,
+            ...rest
+        } = props
 
-    const { onClick, ...restCloseButtonProps } = closeButtonProps
+        const { onClick, ...restCloseButtonProps } = closeButtonProps
 
-    const [isMounted, setIsMounted] = useState(isOpen)
+        const [isMounted, setIsMounted] = useState(isOpen)
 
-    const classes = useStyles()
-    const theme = useTheme()
-    const { palette, themeType } = theme
-    const {
-        common: { black, white },
-    } = palette
+        const classes = useStyles()
+        const theme = useTheme()
+        const { palette, themeType } = theme
+        const {
+            common: { black, white }
+        } = palette
 
-    const getMainIcon = (): JSX.Element | null => {
-        if (!hasMainIcon) return null
+        const getMainIcon = (): JSX.Element | null => {
+            if (!hasMainIcon) return null
 
-        const fillColor =
-            iconColor ??
-            (isThemeColorName(type)
-                ? palette[type].main
-                : tto(themeType, black, white))
-        const iconProps = {
-            height: '24',
-            width: '24',
-            fill: fillColor,
+            const fillColor =
+                iconColor ??
+                (isThemeColorName(type)
+                    ? palette[type].main
+                    : tto(themeType, black, white))
+            const iconProps = {
+                height: '24',
+                width: '24',
+                fill: fillColor
+            }
+
+            if (Icon) {
+                return cloneElement(Icon as any, {
+                    ...(Icon as any).props,
+                    ...iconProps
+                })
+            }
+
+            if (type === 'success') {
+                return <DefaultSuccessIcon {...iconProps} />
+            }
+            if (type === 'error') {
+                return <DefaultErrorIcon {...iconProps} />
+            }
+            if (type === 'warning') {
+                return <DefaultWarningIcon {...iconProps} />
+            }
+            if (type === 'info') {
+                return <DefaultInfoIcon {...iconProps} />
+            }
+
+            // No icon for neutral and other
+            return <></>
         }
 
-        if (Icon) {
-            return cloneElement(Icon as any, {
-                ...(Icon as any).props,
-                ...iconProps,
-            })
-        }
-
-        if (type === 'success') {
-            return <DefaultSuccessIcon {...iconProps} />
-        }
-        if (type === 'error') {
-            return <DefaultErrorIcon {...iconProps} />
-        }
-        if (type === 'warning') {
-            return <DefaultWarningIcon {...iconProps} />
-        }
-        if (type === 'info') {
-            return <DefaultInfoIcon {...iconProps} />
-        }
-
-        // No icon for neutral and other
-        return <></>
-    }
-
-    const getMessage = (): ReactElement => {
-        if (typeof message === 'string') {
-            return (
-                <Typography
-                    variant="body"
-                    className={cx(classesProps.message)}
-                    csx={{
-                        root: (theme) => {
-                            const {
-                                palette: { neutral },
-                            } = theme
-                            return {
-                                color: neutral[80],
-                                ...getThemeCSSObject(csx.message, theme),
+        const getMessage = (): ReactElement => {
+            if (typeof message === 'string') {
+                return (
+                    <Typography
+                        variant="body"
+                        className={cx(classesProps.message)}
+                        csx={{
+                            root: (theme) => {
+                                const {
+                                    palette: { neutral }
+                                } = theme
+                                return {
+                                    color: neutral[80],
+                                    ...getThemeCSSObject(csx.message, theme)
+                                }
                             }
-                        },
-                    }}
-                >
-                    {message}
-                </Typography>
-            )
-        }
-        return message
-    }
-
-    const getTitle = (): ReactElement => {
-        if (typeof title === 'string') {
-            return (
-                <Typography
-                    variant="title"
-                    className={cx(classesProps.title)}
-                    csx={{
-                        root: (theme) => ({
-                            marginBottom: '0.5rem',
-                            ...getThemeCSSObject(csx.title, theme),
-                        }),
-                    }}
-                >
-                    {title}
-                </Typography>
-            )
-        }
-        return title
-    }
-
-    const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (typeof onClick === 'function') {
-            onClick(event)
-        }
-        if (typeof onClose === 'function') {
-            onClose()
-        }
-    }
-
-    useEffect(() => {
-        let interval: NodeJS.Timeout | null
-        if (!isOpen) {
-            interval = setTimeout(
-                () => setIsMounted(false),
-                hasAnimation ? 300 : 0
-            )
-        } else {
-            setIsMounted(true)
+                        }}
+                    >
+                        {message}
+                    </Typography>
+                )
+            }
+            return message
         }
 
-        return () => {
-            if (interval) {
-                clearInterval(interval)
+        const getTitle = (): ReactElement => {
+            if (typeof title === 'string') {
+                return (
+                    <Typography
+                        variant="title"
+                        className={cx(classesProps.title)}
+                        csx={{
+                            root: (theme) => ({
+                                marginBottom: '0.5rem',
+                                ...getThemeCSSObject(csx.title, theme)
+                            })
+                        }}
+                    >
+                        {title}
+                    </Typography>
+                )
+            }
+            return title
+        }
+
+        const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+            if (typeof onClick === 'function') {
+                onClick(event)
+            }
+            if (typeof onClose === 'function') {
+                onClose()
             }
         }
-    }, [isOpen])
 
-    useEffect(() => {
-        let interval: NodeJS.Timeout | null
-        if (
-            typeof duration === 'number' &&
-            typeof onClose === 'function' &&
-            isOpen
-        ) {
-            interval = setTimeout(() => onClose(), duration)
-        }
+        useEffect(() => {
+            let interval: NodeJS.Timeout | null
+            if (!isOpen) {
+                interval = setTimeout(
+                    () => setIsMounted(false),
+                    hasAnimation ? 300 : 0
+                )
+            } else {
+                setIsMounted(true)
+            }
 
-        return () => {
-            if (interval) clearInterval(interval)
-        }
-    }, [duration, isOpen])
+            return () => {
+                if (interval) {
+                    clearInterval(interval)
+                }
+            }
+        }, [isOpen])
 
-    if (!isMounted) return <></>
-    return (
-        <Portal {...portalProps}>
-            <AlertRoot
-                isOpen={isOpen}
-                className={cx(className, classesProps.root, {
-                    [classesProps.entryAnimation ?? classes.entryAnimation]:
-                        isOpen && hasAnimation,
-                    [classesProps.exitAnimation ?? classes.exitAnimation]:
-                        !isOpen && hasAnimation,
-                })}
-                csx={csx}
-                {...rest}
-            >
-                {hasMainIcon && (
-                    <IconContainer
-                        hasPadding
-                        className={cx(classesProps.mainIconContainer)}
-                        csx={{ root: csx.mainIconContainer }}
-                    >
-                        {getMainIcon()}
-                    </IconContainer>
-                )}
-                <MainSection
-                    className={cx(classesProps.mainSection)}
-                    csx={{ root: csx.mainSection }}
+        useEffect(() => {
+            let interval: NodeJS.Timeout | null
+            if (
+                typeof duration === 'number' &&
+                typeof onClose === 'function' &&
+                isOpen
+            ) {
+                interval = setTimeout(() => onClose(), duration)
+            }
+
+            return () => {
+                if (interval) clearInterval(interval)
+            }
+        }, [duration, isOpen])
+
+        if (!isMounted) return <></>
+        return (
+            <Portal {...portalProps}>
+                <AlertRoot
+                    isOpen={isOpen}
+                    className={cx(className, classesProps.root, {
+                        [classesProps.entryAnimation ?? classes.entryAnimation]:
+                            isOpen && hasAnimation,
+                        [classesProps.exitAnimation ?? classes.exitAnimation]:
+                            !isOpen && hasAnimation
+                    })}
+                    csx={csx}
+                    ref={ref}
+                    {...rest}
                 >
-                    {getTitle()}
-                    {getMessage()}
-                    {children}
-                </MainSection>
-                {hasCloseButton && (
-                    <IconContainer
-                        className={cx(classesProps.closeIconContainer)}
-                        csx={{ root: csx.closeIconContainer }}
+                    {hasMainIcon && (
+                        <IconContainer
+                            hasPadding
+                            className={cx(classesProps.mainIconContainer)}
+                            csx={{ root: csx.mainIconContainer }}
+                        >
+                            {getMainIcon()}
+                        </IconContainer>
+                    )}
+                    <MainSection
+                        className={cx(classesProps.mainSection)}
+                        csx={{ root: csx.mainSection }}
                     >
-                        <IconButton
-                            size="regular"
-                            isDense
-                            color="error"
-                            borderStyle="circle"
-                            Icon={<DefaultCloseIcon />}
-                            onClick={handleClose}
-                            {...restCloseButtonProps}
-                        />
-                    </IconContainer>
-                )}
-            </AlertRoot>
-        </Portal>
-    )
-}
+                        {getTitle()}
+                        {getMessage()}
+                        {children}
+                    </MainSection>
+                    {hasCloseButton && (
+                        <IconContainer
+                            className={cx(classesProps.closeIconContainer)}
+                            csx={{ root: csx.closeIconContainer }}
+                        >
+                            <IconButton
+                                size="regular"
+                                isDense
+                                color="error"
+                                borderStyle="circle"
+                                Icon={<DefaultCloseIcon />}
+                                onClick={handleClose}
+                                {...restCloseButtonProps}
+                            />
+                        </IconContainer>
+                    )}
+                </AlertRoot>
+            </Portal>
+        )
+    }
+)
 
 attachSignatureToComponent(Alert, ALERT)

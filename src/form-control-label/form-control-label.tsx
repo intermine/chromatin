@@ -1,4 +1,4 @@
-import { useState, cloneElement } from 'react'
+import { useState, cloneElement, forwardRef } from 'react'
 import cx from 'clsx'
 
 import { Label, LabelProps } from '../label'
@@ -6,19 +6,19 @@ import { Label, LabelProps } from '../label'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ReactElement,
+    ReactElement
 } from '../styles'
 import {
     CHECKBOX,
     FORM_CONTROL_LABEL,
     RADIO,
-    TOGGLE,
+    TOGGLE
 } from '../constants/component-ids'
 
 import {
     attachSignatureToComponent,
     getChromatinElementId,
-    isChromatinElement,
+    isChromatinElement
 } from '../utils'
 import { CSSObject } from 'styled-components'
 
@@ -58,7 +58,7 @@ const Container = createStyledComponent<typeof Label, FormControlLabelProps>(
             csx = {},
             labelPlacement = 'right',
             spacing: spacingProps = 1,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { spacing } = themePropsForThemeVarFn
@@ -82,11 +82,11 @@ const Container = createStyledComponent<typeof Label, FormControlLabelProps>(
             margin: getMargin(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.formControlLabel(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     {
-        isExtendStyleFromThemeVars: false,
+        isExtendStyleFromThemeVars: false
     }
 )
 
@@ -110,12 +110,15 @@ const Spacer = createStyledComponent<
             height:
                 labelPlacement === 'top' || labelPlacement === 'bottom'
                     ? spacing(spaceBetween)
-                    : 0,
-        }),
+                    : 0
+        })
     }
 })
 
-export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
+export const FormControlLabel = forwardRef<
+    HTMLLabelElement,
+    FormControlLabelProps
+>((props, ref): JSX.Element => {
     const {
         classes = {},
         className,
@@ -165,6 +168,7 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
             className={cx(className, classes.root)}
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
+            ref={ref}
             {...rest}
         >
             {getControlElement()}
@@ -175,6 +179,6 @@ export const FormControlLabel = (props: FormControlLabelProps): JSX.Element => {
             {label}
         </Container>
     )
-}
+})
 
 attachSignatureToComponent(FormControlLabel, FORM_CONTROL_LABEL)

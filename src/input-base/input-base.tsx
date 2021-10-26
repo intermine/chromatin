@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
@@ -6,12 +7,10 @@ import {
     createStyledComponent,
     isThemeColorName,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { INPUT_BASE } from '../constants/component-ids'
-
-import type { Ref } from '../utils'
 
 export interface InputBaseProps
     extends Omit<
@@ -41,7 +40,6 @@ export interface InputBaseProps
      * @default false
      */
     isHidden?: boolean
-    innerRef?: Ref
     isDisabled?: boolean
     /**
      * To extend the styles applied to the components
@@ -76,7 +74,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             color = 'neutral',
             isDisabled,
             csx = {},
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -109,7 +107,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
         const getHoverProperties = (): CSSObject => {
             if (isDisabled) return {}
             return {
-                background: palette.neutral[30],
+                background: palette.neutral[30]
             }
         }
 
@@ -124,12 +122,12 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             return {
                 background: 'transparent',
                 ...(hasOutline && {
-                    boxShadow: `${shadowBase} ${shadowColor}`,
+                    boxShadow: `${shadowBase} ${shadowColor}`
                 }),
                 ...(!hasOutline &&
                     hasOutlineOnFocus && {
-                        boxShadow: `${shadowBase} ${shadowColor}`,
-                    }),
+                        boxShadow: `${shadowBase} ${shadowColor}`
+                    })
             }
         }
 
@@ -141,20 +139,20 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
                         palette.neutral[70],
                         palette.neutral[80]
                     ),
-                    opacity: 1,
+                    opacity: 1
                 }
             }
 
             return {
                 color: palette.neutral[60],
-                opacity: 1,
+                opacity: 1
             }
         }
 
         if (isHidden)
             return {
                 display: 'none',
-                ...themeVars.inputBase(theme, props),
+                ...themeVars.inputBase(theme, props)
             }
 
         return {
@@ -172,51 +170,52 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
 
             ':disabled, &[disabled]': {
                 pointerEvents: 'none',
-                cursor: 'default',
+                cursor: 'default'
             },
 
             ...(isExtendStyleFromThemeVars &&
                 themeVars.inputBase(theme, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const InputBase = (props: InputBaseProps): JSX.Element => {
-    const {
-        hasOutline,
-        hasOutlineOnFocus,
-        hasTransparentBackground,
-        color,
-        isHidden,
-        innerRef,
-        classes = {},
-        className,
-        Component = 'input',
-        isDisabled = false,
-        ...rest
-    } = props
+export const InputBase = forwardRef<any, InputBaseProps>(
+    (props, ref): JSX.Element => {
+        const {
+            hasOutline,
+            hasOutlineOnFocus,
+            hasTransparentBackground,
+            color,
+            isHidden,
+            classes = {},
+            className,
+            Component = 'input',
+            isDisabled = false,
+            ...rest
+        } = props
 
-    const styleProps = {
-        hasOutline,
-        hasTransparentBackground,
-        hasOutlineOnFocus,
-        color,
-        isHidden,
-        Component,
+        const styleProps = {
+            hasOutline,
+            hasTransparentBackground,
+            hasOutlineOnFocus,
+            color,
+            isHidden,
+            Component
+        }
+
+        return (
+            <InputBaseRoot
+                as={Component}
+                className={cx(className, classes.root)}
+                ref={ref}
+                disabled={isDisabled}
+                isDisabled={isDisabled}
+                {...styleProps}
+                {...rest}
+            />
+        )
     }
-
-    return (
-        <InputBaseRoot
-            as={Component}
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            disabled={isDisabled}
-            isDisabled={isDisabled}
-            {...styleProps}
-            {...rest}
-        />
-    )
-}
+)
 
 attachSignatureToComponent(InputBase, INPUT_BASE)

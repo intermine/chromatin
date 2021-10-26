@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
@@ -12,10 +13,7 @@ import { CSSObject } from 'styled-components'
 import { Button } from '../button'
 import { ButtonBaseCommonProps } from '../button-base'
 
-import { Ref } from '../utils'
-
 export interface ListItemProps extends ButtonBaseCommonProps {
-    innerRef?: Ref
     /**
      * @default 'flex'
      */
@@ -109,42 +107,45 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
     }
 )
 
-export const ListItem = (props: ListItemProps): JSX.Element => {
-    const {
-        children,
-        className,
-        classes = {},
-        variant = 'ghost',
-        color = 'neutral',
-        hasHighlightOnFocus = false,
-        hasHoverEffectOnFocus = true,
-        isButtonLike = false,
-        hasHoverEffect = isButtonLike,
-        hasActiveEffect = isButtonLike,
-        hasElevation = false,
-        hasFocusEffect = isButtonLike,
-        ...rest
-    } = props
+export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children,
+            className,
+            classes = {},
+            variant = 'ghost',
+            color = 'neutral',
+            hasHighlightOnFocus = false,
+            hasHoverEffectOnFocus = true,
+            isButtonLike = false,
+            hasHoverEffect = isButtonLike,
+            hasActiveEffect = isButtonLike,
+            hasElevation = false,
+            hasFocusEffect = isButtonLike,
+            ...rest
+        } = props
 
-    return (
-        <ListItemRoot
-            Component="li"
-            variant={variant}
-            color={color}
-            hasHighlightOnFocus={hasHighlightOnFocus}
-            hasHoverEffectOnFocus={hasHoverEffectOnFocus}
-            hasFullWidth
-            hasActiveEffect={hasActiveEffect}
-            hasHoverEffect={hasHoverEffect}
-            hasFocusEffect={hasFocusEffect}
-            hasElevation={isButtonLike ? hasElevation : false}
-            className={cx(className, classes.root)}
-            isButtonLike={isButtonLike}
-            {...rest}
-        >
-            {children}
-        </ListItemRoot>
-    )
-}
+        return (
+            <ListItemRoot
+                Component="li"
+                variant={variant}
+                color={color}
+                hasHighlightOnFocus={hasHighlightOnFocus}
+                hasHoverEffectOnFocus={hasHoverEffectOnFocus}
+                hasFullWidth
+                hasActiveEffect={hasActiveEffect}
+                hasHoverEffect={hasHoverEffect}
+                hasFocusEffect={hasFocusEffect}
+                hasElevation={isButtonLike ? hasElevation : false}
+                className={cx(className, classes.root)}
+                isButtonLike={isButtonLike}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </ListItemRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(ListItem, LIST_ITEM)

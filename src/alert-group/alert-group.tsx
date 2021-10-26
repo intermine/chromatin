@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useEffect, useRef } from 'react'
+import { Children, cloneElement, useEffect, useRef, forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
@@ -6,17 +6,16 @@ import {
     createStyledComponent,
     getThemeCSSObject,
     Theme,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { AlertProps } from '../alert'
 import {
     attachSignatureToComponent,
     getChromatinElementId,
-    useForkRef,
+    useForkRef
 } from '../utils'
 import { ALERT_GROUP, ALERT } from '../constants/component-ids'
 
-import type { CallableRef } from '../utils'
 import { Portal, PortalProps } from '../portal'
 import { CSSObject } from 'styled-components'
 import { Collapsible } from '../collapsible'
@@ -34,7 +33,6 @@ export interface AlertGroupProps
      * @default true
      */
     isScrollToBottom?: boolean
-    innerRef?: CallableRef
     portalProps?: PortalProps
     alertChildProps?: Omit<
         AlertProps,
@@ -90,10 +88,10 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
         const {
             csx = {},
             origin = 'top-right',
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const {
-            breakingPoints: { mixin },
+            breakingPoints: { mixin }
         } = themePropsForThemeVarFn
 
         const getOrigin = (): CSSObject => {
@@ -101,14 +99,14 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
                 return {
                     top: 0,
                     bottom: 0,
-                    right: 0,
+                    right: 0
                 }
             }
 
             return {
                 left: 0,
                 top: 0,
-                bottom: 0,
+                bottom: 0
             }
         }
 
@@ -140,15 +138,15 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
                             origin === 'top-right' || origin === 'top-left'
                                 ? 0
                                 : 'auto',
-                        width: 'auto',
-                    },
+                        width: 'auto'
+                    }
                 },
                 'max'
             ),
             ...getOrigin(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.alertGroup(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -170,7 +168,7 @@ const useStyles = createStyle((theme) => ({
                 { sm: { width: '100%', padding: 0, alignItems: 'flex-end' } },
                 'max'
             ),
-            ...getThemeCSSObject(csx.wrapper, theme),
+            ...getThemeCSSObject(csx.wrapper, theme)
         }
     },
     collapsible: (props: AlertGroupProps) => {
@@ -182,95 +180,96 @@ const useStyles = createStyle((theme) => ({
                 { sm: { padding: '0.2rem 0' } },
                 'max'
             ),
-            ...getThemeCSSObject(csx.collapsible, theme),
+            ...getThemeCSSObject(csx.collapsible, theme)
         }
-    },
+    }
 }))
 
-export const AlertGroup = (props: AlertGroupProps): JSX.Element => {
-    const {
-        children: childrenProps,
-        innerRef,
-        classes: classesProps = {},
-        className,
-        portalProps = {},
-        alertChildProps = {},
-        isOpen = false,
-        isScrollToBottom = true,
-        origin = 'top-right',
-        ...rest
-    } = props
-    const classes = useStyles(props)
-    const alertGroupRef = useRef<HTMLDivElement | null>(null)
-    const ref = useForkRef(alertGroupRef, innerRef)
+export const AlertGroup = forwardRef<HTMLDivElement, AlertGroupProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children: childrenProps,
+            classes: classesProps = {},
+            className,
+            portalProps = {},
+            alertChildProps = {},
+            isOpen = false,
+            isScrollToBottom = true,
+            origin = 'top-right',
+            ...rest
+        } = props
+        const classes = useStyles(props)
+        const alertGroupRef = useRef<HTMLDivElement | null>(null)
+        const _ref = useForkRef(alertGroupRef, ref)
 
-    const children = Children.map(childrenProps, (child: any) => {
-        const id = getChromatinElementId(child)
-        if (id === ALERT) {
-            const alert = cloneElement(child, {
-                ...child.props,
-                portalProps: { hasUseReactPortal: false },
-                ...alertChildProps,
-                csx: {
-                    ...child.csx,
-                    root: (theme: Theme) => ({
-                        left: 'unset',
-                        position: 'relative',
-                        right: 'unset',
-                        top: 'unset',
-                        bottom: 'unset',
-                        ...alertChildProps.csx?.root,
-                        ...(child.csx &&
-                            child.csx.root &&
-                            getThemeCSSObject(child.csx.root, theme)),
-                    }),
-                },
-            })
-            const isChildOpen = alert.props.isOpen
+        const children = Children.map(childrenProps, (child: any) => {
+            const id = getChromatinElementId(child)
+            if (id === ALERT) {
+                const alert = cloneElement(child, {
+                    ...child.props,
+                    portalProps: { hasUseReactPortal: false },
+                    ...alertChildProps,
+                    csx: {
+                        ...child.csx,
+                        root: (theme: Theme) => ({
+                            left: 'unset',
+                            position: 'relative',
+                            right: 'unset',
+                            top: 'unset',
+                            bottom: 'unset',
+                            ...alertChildProps.csx?.root,
+                            ...(child.csx &&
+                                child.csx.root &&
+                                getThemeCSSObject(child.csx.root, theme))
+                        })
+                    }
+                })
+                const isChildOpen = alert.props.isOpen
 
-            return (
-                <Collapsible
-                    className={cx(
-                        { [classes.collapsible]: isChildOpen },
-                        classesProps.collapsible
-                    )}
-                    in={isChildOpen}
+                return (
+                    <Collapsible
+                        className={cx(
+                            { [classes.collapsible]: isChildOpen },
+                            classesProps.collapsible
+                        )}
+                        in={isChildOpen}
+                    >
+                        {alert}
+                    </Collapsible>
+                )
+            }
+            return child
+        })
+
+        useEffect(() => {
+            if (
+                alertGroupRef.current &&
+                isScrollToBottom &&
+                (origin === 'top-right' || origin === 'top-left')
+            ) {
+                alertGroupRef.current.scrollTo(
+                    0,
+                    alertGroupRef.current.scrollHeight
+                )
+            }
+        }, [children?.length])
+
+        if (!isOpen) return <></>
+        return (
+            <Portal {...portalProps}>
+                <AlertGroupRoot
+                    aria-live="polite"
+                    role="alert-group"
+                    className={cx(className, classesProps.root)}
+                    ref={_ref}
+                    origin={origin}
+                    {...rest}
                 >
-                    {alert}
-                </Collapsible>
-            )
-        }
-        return child
-    })
-
-    useEffect(() => {
-        if (
-            alertGroupRef.current &&
-            isScrollToBottom &&
-            (origin === 'top-right' || origin === 'top-left')
-        ) {
-            alertGroupRef.current.scrollTo(
-                0,
-                alertGroupRef.current.scrollHeight
-            )
-        }
-    }, [children?.length])
-
-    if (!isOpen) return <></>
-    return (
-        <Portal {...portalProps}>
-            <AlertGroupRoot
-                aria-live="polite"
-                role="alert-group"
-                className={cx(className, classesProps.root)}
-                ref={ref}
-                origin={origin}
-                {...rest}
-            >
-                <div className={classes.wrapper}>{children}</div>
-            </AlertGroupRoot>
-        </Portal>
-    )
-}
+                    <div className={classes.wrapper}>{children}</div>
+                </AlertGroupRoot>
+            </Portal>
+        )
+    }
+)
 
 attachSignatureToComponent(AlertGroup, ALERT_GROUP)

@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
@@ -7,14 +8,12 @@ import {
     isThemeFontVariant,
     ThemeTypographyVariant,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TYPOGRAPHY } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
-export interface TypographyProps<T>
+export interface TypographyBaseProps
     extends Omit<
         React.HTMLProps<
             | HTMLHeadingElement
@@ -24,12 +23,6 @@ export interface TypographyProps<T>
         >,
         'as' | 'ref'
     > {
-    innerRef?: Ref<T>
-    Component?:
-        | React.ElementType
-        | React.ComponentType<T>
-        | React.ForwardRefExoticComponent<T>
-
     variant?: ThemeTypographyVariant
     color?: string
     /**
@@ -52,6 +45,13 @@ export interface TypographyProps<T>
     }
 }
 
+export type TypographyProps<T> = TypographyBaseProps & {
+    Component?:
+        | React.ElementType
+        | React.ComponentType<T>
+        | React.ForwardRefExoticComponent<T>
+} & T
+
 const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
     'div',
     (theme, props) => {
@@ -61,7 +61,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
             variant = 'body',
             color,
             csx = {},
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const getColor = (): string | undefined => {
@@ -82,49 +82,50 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
             ...getFontProperties(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.typography(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const Typography = <T,>(props: TypographyProps<T>): JSX.Element => {
-    const {
-        children,
-        innerRef,
-        variant,
-        className,
-        classes = {},
-        Component,
-        ...rest
-    } = props
+export const Typography = forwardRef(
+    <T,>(props: TypographyProps<T>, ref: any): JSX.Element => {
+        const {
+            children,
+            variant,
+            className,
+            classes = {},
+            Component,
+            ...rest
+        } = props
 
-    const getComponent = (): TypographyProps<T>['Component'] => {
-        if (Component) return Component
-        switch (variant) {
-            case 'body':
-            case 'bodyLg':
-            case 'bodySm':
-            case 'title':
-            case 'small':
-            case 'caption':
-                return 'div'
-            default:
-                if (variant) return variant
-                return 'div'
+        const getComponent = (): React.ElementType => {
+            if (Component) return Component
+            switch (variant) {
+                case 'body':
+                case 'bodyLg':
+                case 'bodySm':
+                case 'title':
+                case 'small':
+                case 'caption':
+                    return 'div'
+                default:
+                    if (variant) return variant
+                    return 'div'
+            }
         }
-    }
 
-    return (
-        <TypographyRoot
-            as={getComponent()}
-            ref={innerRef}
-            variant={variant}
-            className={cx(className, classes.root)}
-            {...rest}
-        >
-            {children}
-        </TypographyRoot>
-    )
-}
+        return (
+            <TypographyRoot
+                as={getComponent()}
+                ref={ref}
+                variant={variant}
+                className={cx(className, classes.root)}
+                {...rest}
+            >
+                {children}
+            </TypographyRoot>
+        )
+    }
+) as <T>(props: TypographyProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(Typography, TYPOGRAPHY)

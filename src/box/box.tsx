@@ -1,24 +1,17 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { BOX } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
-export interface BoxProps<T>
+export interface BoxBaseProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
-    innerRef?: Ref<T>
-    Component?:
-        | React.ElementType
-        | React.ComponentType<T>
-        | React.ForwardRefExoticComponent<T>
-
     /**
      * To keep content at center
      * @default false
@@ -59,6 +52,13 @@ export interface BoxProps<T>
     }
 }
 
+export type BoxProps<T> = BoxBaseProps & {
+    Component?:
+        | React.ElementType
+        | React.ComponentType<T>
+        | React.ForwardRefExoticComponent<T>
+} & T
+
 const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
     'div',
     (theme, props) => {
@@ -69,12 +69,12 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
             isContentJustifyCenter,
             isContentCenter,
             display,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            typography: { body },
+            typography: { body }
         } = themePropsForThemeVarFn
 
         const getContentProperties = (): CSSObject => {
@@ -105,31 +105,32 @@ const BoxRoot = createStyledComponent<'div', BoxProps<'div'>>(
             ...getContentProperties(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.box(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const Box = <T,>(props: BoxProps<T>): JSX.Element => {
-    const {
-        children,
-        className,
-        classes = {},
-        innerRef,
-        Component = 'div',
-        ...rest
-    } = props
+export const Box = forwardRef(
+    <T,>(props: BoxProps<T>, ref: unknown): JSX.Element => {
+        const {
+            children,
+            className,
+            classes = {},
+            Component = 'div',
+            ...rest
+        } = props
 
-    return (
-        <BoxRoot
-            className={cx(className, classes.root)}
-            as={Component}
-            ref={innerRef}
-            {...rest}
-        >
-            {children}
-        </BoxRoot>
-    )
-}
+        return (
+            <BoxRoot
+                className={cx(className, classes.root)}
+                as={Component}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </BoxRoot>
+        )
+    }
+) as <T>(props: BoxProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(Box, BOX)

@@ -1,14 +1,15 @@
+import { forwardRef } from 'react'
 import ReactSelect, {
     Props,
     defaultTheme as reactSelectDefaultTheme,
     CSSObjectWithLabel,
     GroupBase,
     StylesConfig,
-    Theme as ReactSelectTheme,
+    Theme as ReactSelectTheme
 } from 'react-select'
 import cx from 'clsx'
 import type { StylesProps } from 'react-select/dist/declarations/src/styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, Ref } from '../utils'
 import { SELECT } from '../constants/component-ids'
 
 import {
@@ -19,7 +20,7 @@ import {
     isValidColorHex,
     Theme,
     themeTernaryOperator as tto,
-    useTheme,
+    useTheme
 } from '../styles'
 
 type ReactSelectStylesFunctions<
@@ -63,7 +64,7 @@ const buildStyle = <
     if (!csx) return {}
 
     const styles = {} as StylesConfig
-    const allStyleConfigNames = (Object.keys(csx) as unknown) as Array<
+    const allStyleConfigNames = Object.keys(csx) as unknown as Array<
         keyof StylesProps<Option, IsMulti, Group>
     >
 
@@ -76,7 +77,7 @@ const buildStyle = <
         } else {
             styles[key] = (base, props: any) => ({
                 ...base,
-                ...fn(theme, base, props),
+                ...fn(theme, base, props)
             })
         }
     }
@@ -101,84 +102,86 @@ const getColor25 = (theme: Theme, color: string) => {
 
 const useStyles = createStyle(({ typography }) => ({
     root: {
-        ...typography.body,
-    },
+        ...typography.body
+    }
 }))
 
-export const Select = <
-    Option,
-    IsMulti extends boolean,
-    Group extends GroupBase<Option>
->(
-    props: SelectProps<Option, IsMulti, Group>
-): JSX.Element => {
-    const {
-        color = 'primary',
-        csx = {},
-        className,
-        theme: themeProps,
-        ...rest
-    } = props
-    const theme = useTheme()
-    const styles = buildStyle(theme, csx)
-    const classes = useStyles()
-
-    const getColors = (): ReactSelectTheme['colors'] => {
-        const { palette, themeType } = theme
+export const Select = forwardRef(
+    <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
+        props: SelectProps<Option, IsMulti, Group>,
+        ref: any
+    ): JSX.Element => {
         const {
-            error,
-            neutral,
-            common: { white, black },
-            disable,
-        } = palette
+            color = 'primary',
+            csx = {},
+            className,
+            theme: themeProps,
+            ...rest
+        } = props
+        const theme = useTheme()
+        const styles = buildStyle(theme, csx)
+        const classes = useStyles()
 
-        const colorPalette = isValidColorHex(color)
-            ? createColor(color)
-            : { 30: color, 40: color, 50: color }
+        const getColors = (): ReactSelectTheme['colors'] => {
+            const { palette, themeType } = theme
+            const {
+                error,
+                neutral,
+                common: { white, black },
+                disable
+            } = palette
 
-        return {
-            danger: error.main,
-            dangerLight: error.mainLightShade,
-            neutral0: neutral[10],
-            neutral5: disable.main,
-            neutral10: disable.mainDarkShade,
-            neutral20: neutral[60],
-            neutral30: neutral[70],
-            neutral40: neutral[80],
-            neutral50: neutral[70],
-            neutral60: neutral[70],
-            neutral70: neutral[70],
-            neutral80: neutral[80],
-            neutral90: tto(themeType, black, white),
-            primary: isThemeColorName(color)
-                ? palette[color].main
-                : colorPalette[50],
-            primary25: getColor25(theme, color),
-            primary50: isThemeColorName(color)
-                ? palette[color][30]
-                : colorPalette[30],
-            primary75: isThemeColorName(color)
-                ? palette[color][40]
-                : colorPalette[40],
+            const colorPalette = isValidColorHex(color)
+                ? createColor(color)
+                : { 30: color, 40: color, 50: color }
+
+            return {
+                danger: error.main,
+                dangerLight: error.mainLightShade,
+                neutral0: neutral[10],
+                neutral5: disable.main,
+                neutral10: disable.mainDarkShade,
+                neutral20: neutral[60],
+                neutral30: neutral[70],
+                neutral40: neutral[80],
+                neutral50: neutral[70],
+                neutral60: neutral[70],
+                neutral70: neutral[70],
+                neutral80: neutral[80],
+                neutral90: tto(themeType, black, white),
+                primary: isThemeColorName(color)
+                    ? palette[color].main
+                    : colorPalette[50],
+                primary25: getColor25(theme, color),
+                primary50: isThemeColorName(color)
+                    ? palette[color][30]
+                    : colorPalette[30],
+                primary75: isThemeColorName(color)
+                    ? palette[color][40]
+                    : colorPalette[40]
+            }
         }
-    }
 
-    const getTheme = () => {
-        return {
-            ...reactSelectDefaultTheme,
-            colors: getColors(),
-            ...themeProps,
+        const getTheme = () => {
+            return {
+                ...reactSelectDefaultTheme,
+                colors: getColors(),
+                ...themeProps
+            }
         }
-    }
 
-    return (
-        <ReactSelect
-            styles={styles}
-            className={cx(classes.root, className)}
-            theme={getTheme()}
-            {...rest}
-        />
-    )
-}
+        return (
+            <ReactSelect
+                styles={styles}
+                className={cx(classes.root, className)}
+                theme={getTheme()}
+                ref={ref}
+                {...rest}
+            />
+        )
+    }
+) as <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
+    props: SelectProps<Option, IsMulti, Group> & { ref?: any }
+) => JSX.Element
 
 attachSignatureToComponent(Select, SELECT)

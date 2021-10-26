@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { CSSObject } from 'styled-components'
 
 import {
@@ -5,7 +6,7 @@ import {
     getThemeCSSObject,
     isThemeColorName,
     themeTernaryOperator as tto,
-    Theme,
+    Theme
 } from '../styles'
 
 import { Alert, AlertProps } from '../alert'
@@ -32,7 +33,7 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
             csx = {},
             hasFullWidth = true,
             type = 'neutral',
-            isExtendStyleFromThemeVars,
+            isExtendStyleFromThemeVars
         } = props
 
         /**
@@ -54,7 +55,7 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
                 isDisabled: false,
                 variant: 'ghost',
                 theme,
-                mainColor: color,
+                mainColor: color
             })
         }
 
@@ -71,60 +72,63 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
             ...getBackgroundColor(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.inlineAlert(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     {
-        isExtendStyleFromThemeVars: false,
+        isExtendStyleFromThemeVars: false
     }
 )
 
-export const InlineAlert = (props: InlineAlertProps): JSX.Element => {
-    const {
-        hasAnimation = false,
-        type = 'neutral',
-        csx = {},
-        containerProps = {},
-        isOpen = false,
-        ...rest
-    } = props
+export const InlineAlert = forwardRef<HTMLDivElement, InlineAlertProps>(
+    (props, ref): JSX.Element => {
+        const {
+            hasAnimation = false,
+            type = 'neutral',
+            csx = {},
+            containerProps = {},
+            isOpen = false,
+            ...rest
+        } = props
 
-    const getColor = (theme: Theme): string => {
-        const { palette, themeType } = theme
-        if (!isThemeColorName(type)) {
-            const {
-                common: { black, white },
-            } = palette
-            return tto(themeType, black, white)
+        const getColor = (theme: Theme): string => {
+            const { palette, themeType } = theme
+            if (!isThemeColorName(type)) {
+                const {
+                    common: { black, white }
+                } = palette
+                return tto(themeType, black, white)
+            }
+
+            if (type === 'neutral') return palette.neutral[90]
+
+            return palette[type].main
         }
 
-        if (type === 'neutral') return palette.neutral[90]
-
-        return palette[type].main
+        return (
+            <Collapsible in={isOpen} {...containerProps}>
+                <InlineAlertRoot
+                    isOpen
+                    type={type}
+                    hasAnimation={hasAnimation}
+                    csx={{
+                        ...csx,
+                        title: (theme) => ({
+                            color: getColor(theme),
+                            ...getThemeCSSObject(csx.title, theme)
+                        }),
+                        message: (theme) => ({
+                            color: getColor(theme),
+                            ...getThemeCSSObject(csx.message, theme)
+                        })
+                    }}
+                    portalProps={{ hasUseReactPortal: false }}
+                    ref={ref}
+                    {...rest}
+                />
+            </Collapsible>
+        )
     }
-
-    return (
-        <Collapsible in={isOpen} {...containerProps}>
-            <InlineAlertRoot
-                isOpen
-                type={type}
-                hasAnimation={hasAnimation}
-                csx={{
-                    ...csx,
-                    title: (theme) => ({
-                        color: getColor(theme),
-                        ...getThemeCSSObject(csx.title, theme),
-                    }),
-                    message: (theme) => ({
-                        color: getColor(theme),
-                        ...getThemeCSSObject(csx.message, theme),
-                    }),
-                }}
-                portalProps={{ hasUseReactPortal: false }}
-                {...rest}
-            />
-        </Collapsible>
-    )
-}
+)
 
 attachSignatureToComponent(InlineAlert, INLINE_ALERT)

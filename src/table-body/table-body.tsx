@@ -1,18 +1,16 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TABLE_BODY } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
 export interface TableBodyProps
     extends Omit<React.HTMLProps<HTMLTableSectionElement>, 'as' | 'ref'> {
-    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */
@@ -43,21 +41,23 @@ const TableBodyRoot = createStyledComponent<'tbody', TableBodyProps>(
             display: 'table-row-group',
             ...(isExtendStyleFromThemeVars &&
                 themeVars.tableBody(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const TableBody = (props: TableBodyProps): JSX.Element => {
-    const { innerRef, classes = {}, className, ...rest } = props
+export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
+    (props, ref): JSX.Element => {
+        const { classes = {}, className, ...rest } = props
 
-    return (
-        <TableBodyRoot
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            {...rest}
-        />
-    )
-}
+        return (
+            <TableBodyRoot
+                className={cx(className, classes.root)}
+                ref={ref}
+                {...rest}
+            />
+        )
+    }
+)
 
 attachSignatureToComponent(TableBody, TABLE_BODY)

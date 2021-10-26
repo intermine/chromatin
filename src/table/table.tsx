@@ -1,20 +1,18 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TABLE } from '../constants/component-ids'
 
 import TableContext from './table-context'
 
-import type { Ref } from '../utils'
-
 export interface TableProps
     extends Omit<React.HTMLProps<HTMLTableElement>, 'as' | 'ref'> {
-    innerRef?: Ref
     /**
      * @default false
      */
@@ -49,12 +47,12 @@ const TableRoot = createStyledComponent<'table', TableProps>(
         const {
             csx = {},
             isExtendStyleFromThemeVars = true,
-            hasStickyHeader,
+            hasStickyHeader
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             typography: { body },
-            palette: { neutral },
+            palette: { neutral }
         } = themePropsForThemeVarFn
 
         return {
@@ -67,36 +65,37 @@ const TableRoot = createStyledComponent<'table', TableProps>(
             ...body,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.table(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const Table = (props: TableProps): JSX.Element => {
-    const {
-        innerRef,
-        classes = {},
-        className,
-        isDense = false,
-        hasStickyHeader = false,
-        ...rest
-    } = props
+export const Table = forwardRef<HTMLTableElement, TableProps>(
+    (props, ref): JSX.Element => {
+        const {
+            classes = {},
+            className,
+            isDense = false,
+            hasStickyHeader = false,
+            ...rest
+        } = props
 
-    const tableContext = {
-        isDense,
-        hasStickyHeader,
+        const tableContext = {
+            isDense,
+            hasStickyHeader
+        }
+
+        return (
+            <TableContext.Provider value={tableContext}>
+                <TableRoot
+                    className={cx(className, classes.root)}
+                    ref={ref}
+                    hasStickyHeader={hasStickyHeader}
+                    {...rest}
+                />
+            </TableContext.Provider>
+        )
     }
-
-    return (
-        <TableContext.Provider value={tableContext}>
-            <TableRoot
-                className={cx(className, classes.root)}
-                ref={innerRef}
-                hasStickyHeader={hasStickyHeader}
-                {...rest}
-            />
-        </TableContext.Provider>
-    )
-}
+)
 
 attachSignatureToComponent(Table, TABLE)

@@ -1,19 +1,19 @@
+import { Children, cloneElement, forwardRef } from 'react'
 import cx from 'clsx'
-import { Children, cloneElement } from 'react'
 import { CSSObject } from 'styled-components'
 
 import {
     createStyle,
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 
-import { Box, BoxProps } from '../box'
+import { Box, BoxBaseProps } from '../box'
 import { attachSignatureToComponent } from '../utils'
 import { GRID } from '../constants/component-ids'
 
-export interface GridProps extends BoxProps<'div'> {
+export interface GridProps extends BoxBaseProps {
     /**
      * @default false
      */
@@ -64,7 +64,7 @@ const GridRoot = createStyledComponent<typeof Box, GridProps>(
             isInline = false,
             direction = 'row',
             csx = {},
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
@@ -75,11 +75,11 @@ const GridRoot = createStyledComponent<typeof Box, GridProps>(
             flexWrap: 'wrap',
             ...(isExtendStyleFromThemeVars &&
                 themeVars.grid(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     {
-        isExtendStyleFromThemeVars: false,
+        isExtendStyleFromThemeVars: false
     }
 )
 
@@ -87,19 +87,16 @@ const useStyle = createStyle((theme) => ({
     gridItem: (props: GridProps) => ({
         paddingLeft: theme.spacing(props.spacing ?? 0),
         paddingTop: theme.spacing(props.spacing ?? 0),
-        ...(props.csx && getThemeCSSObject(props.csx.gridItem, theme)),
-    }),
+        ...(props.csx && getThemeCSSObject(props.csx.gridItem, theme))
+    })
 }))
 
-export const Grid = (props: GridProps): JSX.Element => {
+export const Grid = forwardRef<any, GridProps>((props, ref): JSX.Element => {
     const {
         children: childrenProps,
         spacing,
         className,
         classes: classesProps = {},
-        // Omitting Component
-        Component: _,
-        innerRef,
         ...rest
     } = props
 
@@ -114,7 +111,7 @@ export const Grid = (props: GridProps): JSX.Element => {
                       classes.gridItem,
                       child.props.className,
                       classesProps.gridItem
-                  ),
+                  )
               })
           })
 
@@ -122,12 +119,12 @@ export const Grid = (props: GridProps): JSX.Element => {
         <GridRoot
             className={cx(className, classesProps.root)}
             spacing={spacing}
-            innerRef={innerRef as any}
+            ref={ref}
             {...rest}
         >
             {children}
         </GridRoot>
     )
-}
+})
 
 attachSignatureToComponent(Grid, GRID)

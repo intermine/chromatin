@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import { IconButton } from '../icon-button'
@@ -5,18 +6,18 @@ import { InputBase } from '../input-base'
 import {
     DefaultCheckedIcon,
     DefaultIndeterminateIcon,
-    DefaultUncheckedIcon,
+    DefaultUncheckedIcon
 } from '../constants/default-icons'
 
 import {
     ReactElement,
     ThemeCSSStyles,
     createStyledComponent,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { CHECKBOX } from '../constants/component-ids'
 
-import { attachSignatureToComponent, Ref } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 
 export interface CheckboxContainerProps {
     size?: 'small' | 'regular' | 'large'
@@ -109,11 +110,7 @@ export interface CheckboxProps
     /**
      * Ref to container
      */
-    innerRef?: Ref
-    /**
-     * Ref to input base
-     */
-    inputRef?: Ref
+    containerRef?: any
     CheckedIcon?: ReactElement
     UncheckedIcon?: ReactElement
     IndeterminateIcon?: ReactElement
@@ -134,88 +131,89 @@ const IconButtonRoot = createStyledComponent(
         return {
             ...(isExtendStyleFromThemeVars &&
                 themeVars.checkbox(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
 )
 
-export const Checkbox = (props: CheckboxProps): JSX.Element => {
-    const {
-        classes = {},
-        csx = {},
-        className,
-        isChecked = false,
-        isIndeterminate = false,
-        CheckedIcon = <DefaultCheckedIcon />,
-        UncheckedIcon = <DefaultUncheckedIcon />,
-        IndeterminateIcon = <DefaultIndeterminateIcon />,
-        type = 'checkbox',
-        innerRef,
-        inputRef,
-        isDisabled,
-        ...rest
-    } = props
+export const Checkbox = forwardRef<any, CheckboxProps>(
+    (props, ref): JSX.Element => {
+        const {
+            classes = {},
+            csx = {},
+            className,
+            isChecked = false,
+            isIndeterminate = false,
+            CheckedIcon = <DefaultCheckedIcon />,
+            UncheckedIcon = <DefaultUncheckedIcon />,
+            IndeterminateIcon = <DefaultIndeterminateIcon />,
+            type = 'checkbox',
+            containerRef,
+            isDisabled,
+            ...rest
+        } = props
 
-    const getIconToRender = (): ReactElement => {
-        if (isIndeterminate) return IndeterminateIcon
-        if (isChecked) return CheckedIcon
-        return UncheckedIcon
+        const getIconToRender = (): ReactElement => {
+            if (isIndeterminate) return IndeterminateIcon
+            if (isChecked) return CheckedIcon
+            return UncheckedIcon
+        }
+
+        const {
+            size,
+            borderStyle,
+            isDense,
+            isLoading,
+            variant = 'ghost',
+            color = 'primary',
+            hasElevation,
+            hasHighlightOnFocus,
+            hasHoverEffectOnFocus,
+            isHovered,
+            isFocused,
+            isActive,
+            ...inputProps
+        } = rest
+
+        const iconButtonProps = {
+            isDisabled,
+            size,
+            borderStyle,
+            isDense,
+            isLoading,
+            variant,
+            color,
+            hasElevation,
+            hasHighlightOnFocus,
+            hasHoverEffectOnFocus,
+            isHovered,
+            isFocused,
+            isActive,
+            csx
+        }
+
+        return (
+            <IconButtonRoot
+                className={cx(className, classes.root)}
+                Component="label"
+                Icon={getIconToRender()}
+                ref={containerRef}
+                {...iconButtonProps}
+            >
+                <InputBaseRoot
+                    isDisabled={isDisabled}
+                    type={type}
+                    checked={isIndeterminate ? false : isChecked}
+                    isHidden={true}
+                    ref={ref}
+                    csx={{ root: csx.inputBase }}
+                    className={cx(classes.inputBase)}
+                    {...inputProps}
+                />
+            </IconButtonRoot>
+        )
     }
-
-    const {
-        size,
-        borderStyle,
-        isDense,
-        isLoading,
-        variant = 'ghost',
-        color = 'primary',
-        hasElevation,
-        hasHighlightOnFocus,
-        hasHoverEffectOnFocus,
-        isHovered,
-        isFocused,
-        isActive,
-        ...inputProps
-    } = rest
-
-    const iconButtonProps = {
-        isDisabled,
-        size,
-        borderStyle,
-        isDense,
-        isLoading,
-        variant,
-        color,
-        hasElevation,
-        hasHighlightOnFocus,
-        hasHoverEffectOnFocus,
-        isHovered,
-        isFocused,
-        isActive,
-        csx,
-    }
-
-    return (
-        <IconButtonRoot
-            className={cx(className, classes.root)}
-            Component="label"
-            Icon={getIconToRender()}
-            innerRef={innerRef}
-            {...iconButtonProps}
-        >
-            <InputBaseRoot
-                isDisabled={isDisabled}
-                type={type}
-                checked={isIndeterminate ? false : isChecked}
-                isHidden={true}
-                innerRef={inputRef}
-                csx={{ root: csx.inputBase }}
-                className={cx(classes.inputBase)}
-                {...inputProps}
-            />
-        </IconButtonRoot>
-    )
-}
+)
 
 attachSignatureToComponent(Checkbox, CHECKBOX)

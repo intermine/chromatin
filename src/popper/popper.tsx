@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, forwardRef } from 'react'
 
 import {
     createPopper,
@@ -6,17 +6,17 @@ import {
     Placement,
     Modifier,
     PositioningStrategy,
-    State as PopperState,
+    State as PopperState
 } from '@popperjs/core'
 
 import { createStyledComponent, getThemeCSSObject } from '../styles'
-import { Box, BoxProps } from '../box'
+import { Box, BoxBaseProps } from '../box'
 import { isValidAnchorElement, useForkRef } from '../utils'
 import { Portal } from '../portal'
 import { attachSignatureToComponent } from '../utils'
 import { POPPER } from '../constants/component-ids'
 
-export interface PopperProps extends Omit<BoxProps<'div'>, 'Component'> {
+export interface PopperProps extends BoxBaseProps {
     /**
      * @default 'auto'
      */
@@ -42,51 +42,52 @@ const PopperRoot = createStyledComponent<typeof Box, PopperProps>(
         return {
             ...(isExtendStyleFromThemeVars &&
                 themeVars.popper(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const Popper = (props: PopperProps): JSX.Element => {
-    const {
-        anchorElement,
-        children,
-        innerRef,
-        placement = 'auto',
-        modifiers = [],
-        strategy = 'absolute',
-        onFirstUpdate = () => ({}),
-        ...rest
-    } = props
+export const Popper = forwardRef<HTMLDivElement, PopperProps>(
+    (props, ref): JSX.Element => {
+        const {
+            anchorElement,
+            children,
+            placement = 'auto',
+            modifiers = [],
+            strategy = 'absolute',
+            onFirstUpdate = () => ({}),
+            ...rest
+        } = props
 
-    const ref = useRef(null)
-    const popperContainerRef = useForkRef(innerRef, ref)
+        const _ref = useRef(null)
+        const popperContainerRef = useForkRef(_ref, ref)
 
-    useLayoutEffect(() => {
-        let popper: PopperInstance | null = null
-        if (isValidAnchorElement(anchorElement) && ref.current) {
-            popper = createPopper(anchorElement, ref.current, {
-                placement,
-                modifiers,
-                strategy,
-                onFirstUpdate,
-            })
-        }
-
-        return () => {
-            if (popper) {
-                popper.destroy()
+        useLayoutEffect(() => {
+            let popper: PopperInstance | null = null
+            if (isValidAnchorElement(anchorElement) && _ref.current) {
+                popper = createPopper(anchorElement, _ref.current, {
+                    placement,
+                    modifiers,
+                    strategy,
+                    onFirstUpdate
+                })
             }
-        }
-    }, [anchorElement, placement, modifiers, strategy, onFirstUpdate])
 
-    return (
-        <Portal>
-            <PopperRoot innerRef={popperContainerRef} {...rest}>
-                {children}
-            </PopperRoot>
-        </Portal>
-    )
-}
+            return () => {
+                if (popper) {
+                    popper.destroy()
+                }
+            }
+        }, [anchorElement, placement, modifiers, strategy, onFirstUpdate])
+
+        return (
+            <Portal>
+                <PopperRoot ref={popperContainerRef} {...rest}>
+                    {children}
+                </PopperRoot>
+            </Portal>
+        )
+    }
+)
 
 attachSignatureToComponent(Popper, POPPER)

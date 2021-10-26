@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import { createStyledComponent, getThemeCSSObject } from '../styles'
@@ -5,9 +6,7 @@ import { attachSignatureToComponent, Ref } from '../utils'
 import { MENU_HEADING } from '../constants/component-ids'
 import { ListHeading, ListHeadingProps } from '../list-heading'
 
-export interface MenuHeadingProps extends ListHeadingProps {
-    hoverable?: boolean
-}
+export type MenuHeadingProps = ListHeadingProps
 
 const MenuHeadingRoot = createStyledComponent<
     typeof ListHeading,
@@ -20,30 +19,33 @@ const MenuHeadingRoot = createStyledComponent<
         return {
             ...(isExtendStyleFromThemeVars &&
                 themeVars.menuHeading(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
 )
 
-export const MenuHeading = (props: MenuHeadingProps): JSX.Element => {
-    const {
-        children,
-        className,
-        classes = {},
-        isSticky = false,
-        ...rest
-    } = props
+export const MenuHeading = forwardRef<any, MenuHeadingProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children,
+            className,
+            classes = {},
+            isSticky = false,
+            ...rest
+        } = props
 
-    return (
-        <MenuHeadingRoot
-            isSticky={isSticky}
-            className={cx(className, classes.root)}
-            {...rest}
-        >
-            {children}
-        </MenuHeadingRoot>
-    )
-}
+        return (
+            <MenuHeadingRoot
+                isSticky={isSticky}
+                className={cx(className, classes.root)}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </MenuHeadingRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(MenuHeading, MENU_HEADING)

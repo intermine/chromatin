@@ -1,4 +1,4 @@
-import { cloneElement, useRef, useState } from 'react'
+import { cloneElement, useRef, useState, forwardRef } from 'react'
 import cx from 'clsx'
 
 import { Popper, PopperProps } from '../popper'
@@ -14,14 +14,12 @@ import {
 } from '../styles'
 import {
     attachSignatureToComponent,
-    isChromatinElement,
     setRef,
     useForkRef,
     useMouseOver
 } from '../utils'
 import { TOOLTIP } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
 import { Typography } from '../typography'
 
@@ -30,7 +28,6 @@ export interface TooltipProps
         React.HTMLProps<HTMLDivElement>,
         'as' | 'ref' | 'title' | 'children'
     > {
-    innerRef?: Ref
     /**
      * Color of tooltip
      */
@@ -284,137 +281,134 @@ const TooltipRoot = createStyledComponent<
     }
 })
 
-export const Tooltip = (props: TooltipProps): JSX.Element => {
-    const {
-        children,
-        className,
-        classes = {},
-        title,
-        message,
-        isDisabled = false,
-        innerRef,
-        refPropName: _refPropsName = 'ref',
-        modifiers: _modifiers = [],
-        placement = 'top',
-        csx = {},
-        onTooltipClose,
-        onTooltipOpen,
-        isInteractiveTooltip = true,
-        ...rest
-    } = props
+export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children,
+            className,
+            classes = {},
+            title,
+            message,
+            isDisabled = false,
+            refPropName = 'ref',
+            modifiers: _modifiers = [],
+            placement = 'top',
+            csx = {},
+            onTooltipClose,
+            onTooltipOpen,
+            isInteractiveTooltip = true,
+            ...rest
+        } = props
 
-    const [tooltipElement, setTooltipElement] = useState<HTMLDivElement | null>(
-        null
-    )
+        const [tooltipElement, setTooltipElement] =
+            useState<HTMLDivElement | null>(null)
 
-    const [actualPlacement, setActualPlacement] = useState(placement)
-    const childRefName = isChromatinElement(children)
-        ? 'innerRef'
-        : _refPropsName
+        const [actualPlacement, setActualPlacement] = useState(placement)
 
-    const childRef = useRef<any>(null)
-    const _childInnerRef = children.props[childRefName]
+        const childRef = useRef<any>(null)
+        const _childInnerRef = children.props[refPropName]
 
-    const childInnerRef = useForkRef(childRef, _childInnerRef)
+        const childInnerRef = useForkRef(childRef, _childInnerRef)
 
-    const isMouseOver = useMouseOver({
-        anchorElement: childRef.current,
-        otherElement: isInteractiveTooltip ? tooltipElement : undefined,
-        onHoverEnd: onTooltipClose,
-        onHoverStart: onTooltipOpen,
-        isDisabled,
-        isCheckMouseInsidePolygon: true
-    })
+        const isMouseOver = useMouseOver({
+            anchorElement: childRef.current,
+            otherElement: isInteractiveTooltip ? tooltipElement : undefined,
+            onHoverEnd: onTooltipClose,
+            onHoverStart: onTooltipOpen,
+            isDisabled,
+            isCheckMouseInsidePolygon: true
+        })
 
-    const modifiers: PopperProps['modifiers'] = [
-        {
-            name: 'offset',
-            options: {
-                offset: [0, 12]
-            }
-        },
-        {
-            name: 'onUpdate',
-            enabled: true,
-            phase: 'afterWrite',
-            fn: ({ state }: any) => {
-                if (state.placement !== actualPlacement) {
-                    setActualPlacement(state.placement)
+        const modifiers: PopperProps['modifiers'] = [
+            {
+                name: 'offset',
+                options: {
+                    offset: [0, 12]
                 }
-            }
-        },
-        ..._modifiers
-    ]
+            },
+            {
+                name: 'onUpdate',
+                enabled: true,
+                phase: 'afterWrite',
+                fn: ({ state }: any) => {
+                    if (state.placement !== actualPlacement) {
+                        setActualPlacement(state.placement)
+                    }
+                }
+            },
+            ..._modifiers
+        ]
 
-    const getMessage = (): ReactElement => {
-        if (typeof message === 'string') {
-            return (
-                <Typography
-                    variant="body"
-                    className={cx(classes.message)}
-                    csx={{
-                        root: (theme) => {
-                            return {
-                                color: 'inherit',
-                                ...getThemeCSSObject(csx.message, theme)
+        const getMessage = (): ReactElement => {
+            if (typeof message === 'string') {
+                return (
+                    <Typography
+                        variant="body"
+                        className={cx(classes.message)}
+                        csx={{
+                            root: (theme) => {
+                                return {
+                                    color: 'inherit',
+                                    ...getThemeCSSObject(csx.message, theme)
+                                }
                             }
-                        }
-                    }}
-                >
-                    {message}
-                </Typography>
-            )
+                        }}
+                    >
+                        {message}
+                    </Typography>
+                )
+            }
+            return message
         }
-        return message
-    }
 
-    const getTitle = (): ReactElement => {
-        if (typeof title === 'string') {
-            return (
-                <Typography
-                    variant="title"
-                    className={cx(classes.title)}
-                    csx={{
-                        root: (theme) => ({
-                            color: 'inherit',
-                            marginBottom: '0.6rem',
-                            textAlign: 'center',
-                            ...getThemeCSSObject(csx.title, theme)
-                        })
-                    }}
-                >
-                    {title}
-                </Typography>
-            )
+        const getTitle = (): ReactElement => {
+            if (typeof title === 'string') {
+                return (
+                    <Typography
+                        variant="title"
+                        className={cx(classes.title)}
+                        csx={{
+                            root: (theme) => ({
+                                color: 'inherit',
+                                marginBottom: '0.6rem',
+                                textAlign: 'center',
+                                ...getThemeCSSObject(csx.title, theme)
+                            })
+                        }}
+                    >
+                        {title}
+                    </Typography>
+                )
+            }
+            return title
         }
-        return title
-    }
 
-    return (
-        <>
-            {cloneElement(children, {
-                ...children.props,
-                [childRefName]: childInnerRef
-            })}
-            <TooltipRoot
-                anchorElement={childRef.current}
-                className={cx(className, classes.root)}
-                isOpen={isMouseOver ?? false}
-                innerRef={(el: any) => {
-                    setTooltipElement(el)
-                    innerRef && setRef(innerRef, el)
-                }}
-                placement={placement}
-                modifiers={modifiers}
-                actualPlacement={actualPlacement}
-                csx={csx}
-                {...rest}
-            >
-                {getTitle()}
-                {getMessage()}
-            </TooltipRoot>
-        </>
-    )
-}
+        return (
+            <>
+                {cloneElement(children, {
+                    ...children.props,
+                    [refPropName]: childInnerRef
+                })}
+                <TooltipRoot
+                    anchorElement={childRef.current}
+                    className={cx(className, classes.root)}
+                    isOpen={isMouseOver ?? false}
+                    ref={(el: any) => {
+                        setTooltipElement(el)
+                        ref && setRef(ref, el)
+                    }}
+                    placement={placement}
+                    modifiers={modifiers}
+                    actualPlacement={actualPlacement}
+                    csx={csx}
+                    {...rest}
+                >
+                    {getTitle()}
+                    {getMessage()}
+                </TooltipRoot>
+            </>
+        )
+    }
+)
 
 attachSignatureToComponent(Tooltip, TOOLTIP)

@@ -1,18 +1,16 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TABLE_ROW } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
 export interface TableRowProps
     extends Omit<React.HTMLProps<HTMLTableRowElement>, 'as' | 'ref'> {
-    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */
@@ -42,21 +40,22 @@ const TableRowRoot = createStyledComponent<'tr', TableRowProps>(
             display: 'table-row',
             ...(isExtendStyleFromThemeVars &&
                 themeVars.tableRow(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const TableRow = (props: TableRowProps): JSX.Element => {
-    const { innerRef, classes = {}, className, ...rest } = props
+export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
+    (props, ref): JSX.Element => {
+        const { classes = {}, className, ...rest } = props
 
-    return (
-        <TableRowRoot
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            {...rest}
-        />
-    )
-}
-
+        return (
+            <TableRowRoot
+                className={cx(className, classes.root)}
+                ref={ref}
+                {...rest}
+            />
+        )
+    }
+)
 attachSignatureToComponent(TableRow, TABLE_ROW)

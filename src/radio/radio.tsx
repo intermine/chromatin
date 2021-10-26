@@ -1,3 +1,5 @@
+import { forwardRef } from 'react'
+
 import { Checkbox, CheckboxProps } from '../checkbox'
 import { createStyledComponent, getThemeCSSObject } from '../styles'
 import { useRadioGroup } from '../radio-group'
@@ -16,15 +18,15 @@ const CheckboxRoot = createStyledComponent(
         return {
             ...(isExtendStyleFromThemeVars &&
                 themeVars.radio(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     {
-        isExtendStyleFromThemeVars: false,
+        isExtendStyleFromThemeVars: false
     }
 )
 
-export const Radio = (props: RadioProps): JSX.Element => {
+export const Radio = forwardRef<any, RadioProps>((props, ref): JSX.Element => {
     const context = useRadioGroup()
 
     const { isChecked, name, value, onChange, ...rest } = props
@@ -53,9 +55,10 @@ export const Radio = (props: RadioProps): JSX.Element => {
             value={value}
             CheckedIcon={<RadioChecked />}
             UncheckedIcon={<RadioUnchecked />}
+            ref={ref}
             {...rest}
         />
     )
-}
+})
 
 attachSignatureToComponent(Radio, RADIO)

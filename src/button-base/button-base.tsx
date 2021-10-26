@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes, forwardRef } from 'react'
 import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 import {
@@ -9,19 +9,17 @@ import {
     createStyledComponent,
     themeTernaryOperator as tto,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { BUTTON_BASE } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
 import { getActiveProperties, getHoverProperties } from './utils'
 
 export interface ButtonBaseCommonProps
-    extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'as' | 'ref'> {
+    extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'as'> {
     variant?: 'normal' | 'outlined' | 'ghost'
     color?: string
-    innerRef?: Ref
     /**
      * This is not applicable for ghost and outlined variant
      * @default true
@@ -106,7 +104,7 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             hasHoverEffect = true,
             hasActiveEffect = true,
             hasFocusEffect = true,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const getMainColor = (inverted = false): string => {
@@ -214,13 +212,13 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             isDisabled,
             mainColor: getMainColor(),
             theme,
-            variant,
+            variant
         })
         const activeProperties = getActiveProperties({
             color,
             isDisabled,
             variant,
-            theme,
+            theme
         })
 
         // TODO: Move getFocusProperties to ./utils
@@ -237,10 +235,10 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                             boxShadow: boxShadowWithBorder(
                                 `${boxShadowBase} ${c}`,
                                 borderAsBoxShadow
-                            ),
+                            )
                         }),
 
-                        ...(hasHoverEffectOnFocus && hoverProperties),
+                        ...(hasHoverEffectOnFocus && hoverProperties)
                     }
                 }
 
@@ -253,9 +251,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                         boxShadow: boxShadowWithBorder(
                             `${boxShadowBase} ${c}`,
                             borderAsBoxShadow
-                        ),
+                        )
                     }),
-                    ...(hasHoverEffectOnFocus && hoverProperties),
+                    ...(hasHoverEffectOnFocus && hoverProperties)
                 }
             }
 
@@ -269,9 +267,9 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                             ).rgba
                         }`,
                         borderAsBoxShadow
-                    ),
+                    )
                 }),
-                ...(hasHoverEffectOnFocus && hoverProperties),
+                ...(hasHoverEffectOnFocus && hoverProperties)
             }
         }
 
@@ -296,11 +294,11 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
 
             ':disabled, &[disabled]': {
                 pointerEvents: 'none',
-                cursor: 'default',
+                cursor: 'default'
             },
 
             '&::-moz-focus-inner': {
-                borderStyle: 'none', // Remove Firefox dotted outline.
+                borderStyle: 'none' // Remove Firefox dotted outline.
             },
 
             ...(hasHoverEffect && { '&:hover': hoverProperties }),
@@ -308,60 +306,63 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             ...(hasFocusEffect && { '&:focus': focusProperties }),
 
             '@media print': {
-                colorAdjust: 'exact',
+                colorAdjust: 'exact'
             },
             ...(isHovered && hoverProperties),
             ...(isActive && activeProperties),
             ...(isFocused && focusProperties),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.buttonBase(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const ButtonBase = <T,>(props: ButtonBaseProps<T>): JSX.Element => {
-    /**
-     * ButtonBase
-     * Use ButtonBase to create component which behaves like a button.
-     *
-     * This component will handle normal, focus, active and hover
-     * state depending on the variant and background provided via props.
-     */
-    const {
-        children,
-        Component = 'button',
-        innerRef,
-        classes = {},
-        className,
-        tabIndex = 0,
-        isDisabled,
-        onKeyUp,
-        ...rest
-    } = props
+export const ButtonBase = forwardRef(
+    <T,>(props: ButtonBaseProps<T>, ref: unknown): JSX.Element => {
+        /**
+         * ButtonBase
+         * Use ButtonBase to create component which behaves like a button.
+         *
+         * This component will handle normal, focus, active and hover
+         * state depending on the variant and background provided via props.
+         */
+        const {
+            children,
+            Component = 'button',
+            classes = {},
+            className,
+            tabIndex = 0,
+            isDisabled,
+            onKeyUp,
+            ...rest
+        } = props
 
-    const triggerClickAnimationOnKeyUp = (event: React.KeyboardEvent<any>) => {
-        if (onKeyUp) {
-            onKeyUp(event)
+        const triggerClickAnimationOnKeyUp = (
+            event: React.KeyboardEvent<any>
+        ) => {
+            if (onKeyUp) {
+                onKeyUp(event)
+            }
+
+            // TODO: Trigger click animation
         }
 
-        // TODO: Trigger click animation
+        return (
+            <ButtonBaseRoot
+                onKeyUp={triggerClickAnimationOnKeyUp}
+                as={Component}
+                className={cx(className, classes.root)}
+                ref={ref}
+                tabIndex={tabIndex}
+                disabled={isDisabled}
+                isDisabled={isDisabled}
+                {...rest}
+            >
+                {children}
+            </ButtonBaseRoot>
+        )
     }
-
-    return (
-        <ButtonBaseRoot
-            onKeyUp={triggerClickAnimationOnKeyUp}
-            as={Component}
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            tabIndex={tabIndex}
-            disabled={isDisabled}
-            isDisabled={isDisabled}
-            {...rest}
-        >
-            {children}
-        </ButtonBaseRoot>
-    )
-}
+) as <T>(props: ButtonBaseProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(ButtonBase, BUTTON_BASE)

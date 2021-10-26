@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
@@ -6,7 +7,7 @@ import {
     getThemeCSSObject,
     ReactElement,
     ThemeCSSStyles,
-    ThemePalette,
+    ThemePalette
 } from '../styles'
 import DefaultWarningIcon from '../icons/System/alert-line'
 import DefaultCompleteIcon from '../icons/System/check-fill'
@@ -17,7 +18,7 @@ import { STEPPER } from '../constants/component-ids'
 import { Box } from '../box'
 import { Typography } from '../typography'
 import { Collapsible, CollapsibleProps } from '../collapsible'
-import { Divider, DividerProps } from '../divider'
+import { Divider, DividerBaseProps } from '../divider'
 
 export type StepsType = {
     /**
@@ -181,7 +182,7 @@ const Avatar = createStyledComponent<typeof Box, AvatarProps>(
             padding: '0.5rem',
             transition: '0.230s',
             width: '2rem',
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -216,7 +217,7 @@ const AvatarAndTitleContainer = createStyledComponent<
             padding: '0.5rem',
             display: 'flex',
             flexDirection: alignment === 'vt' ? 'row' : 'column',
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
@@ -237,7 +238,7 @@ const StepContainer = createStyledComponent<typeof Box, StepContainerProps>(
             flex: 1,
             flexDirection: 'column',
             maxWidth: '25rem',
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -254,7 +255,7 @@ const DescriptionContainer = createStyledComponent<
     Collapsible,
     (theme, props) => {
         const {
-            palette: { neutral },
+            palette: { neutral }
         } = theme
         const { alignment, csx = {}, isLast } = props
         return {
@@ -266,13 +267,13 @@ const DescriptionContainer = createStyledComponent<
             marginLeft: alignment === 'vt' ? '1.5rem' : '0',
             paddingLeft: alignment === 'vt' ? '2.5rem' : '0',
             textAlign: alignment === 'hr' ? 'center' : undefined,
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
 )
 
-interface DividerRootProps extends DividerProps {
+interface DividerRootProps extends DividerBaseProps {
     alignment: StepperProps['alignment']
     isLast: boolean
     status: StepStatusEnum
@@ -287,14 +288,14 @@ const DividerRoot = createStyledComponent<typeof Divider, DividerRootProps>(
                 return {
                     height: '1.5rem',
                     minHeight: '1.5rem',
-                    width: 0,
+                    width: 0
                 }
             }
 
             return {
                 height: 0,
                 minWidth: '3rem',
-                width: '3rem',
+                width: '3rem'
             }
         }
         return {
@@ -309,7 +310,7 @@ const DividerRoot = createStyledComponent<typeof Divider, DividerRootProps>(
             marginTop: alignment === 'vt' ? '0' : '1.5rem',
             transition: '0.230s',
             ...getDimension(),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
@@ -321,7 +322,7 @@ const StepperContainer = createStyledComponent<typeof Box, StepperProps>(
         const {
             alignment = 'vt',
             csx = {},
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -331,124 +332,127 @@ const StepperContainer = createStyledComponent<typeof Box, StepperProps>(
             position: 'relative',
             ...(isExtendStyleFromThemeVars &&
                 themeVars.stepper(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
 )
 
-export const Stepper = (props: StepperProps): JSX.Element => {
-    const {
-        alignment = 'vt',
-        className,
-        classes = {},
-        csx = {},
-        steps = [],
-        stepsStatus = {},
-        activeStep = 1,
-        CompleteIcon = <DefaultCompleteIcon />,
-        WarningIcon = <DefaultWarningIcon />,
-        ErrorIcon = <DefaultErrorIcon />,
-        ...rest
-    } = props
+export const Stepper = forwardRef<any, StepperProps>(
+    (props, ref): JSX.Element => {
+        const {
+            alignment = 'vt',
+            className,
+            classes = {},
+            csx = {},
+            steps = [],
+            stepsStatus = {},
+            activeStep = 1,
+            CompleteIcon = <DefaultCompleteIcon />,
+            WarningIcon = <DefaultWarningIcon />,
+            ErrorIcon = <DefaultErrorIcon />,
+            ...rest
+        } = props
 
-    const getTitle = (
-        title: ReactElement,
-        status: StepStatusEnum
-    ): ReactElement => {
-        if (typeof title === 'string') {
-            return (
-                <Typography
-                    variant="title"
-                    className={cx(classes.title)}
-                    csx={{
-                        root: (theme) => ({
-                            color:
-                                status === 'none' || !status
-                                    ? theme.palette.neutral[70]
-                                    : theme.palette.neutral[90],
-                            ...getThemeCSSObject(csx.title, theme),
-                        }),
-                    }}
-                >
-                    {title}
-                </Typography>
-            )
-        }
-        return title
-    }
-
-    const getStatus = (idx: number, activeStep: number): StepStatusEnum => {
-        if (stepsStatus[idx + 1]) return stepsStatus[idx + 1]
-        if (activeStep === idx + 1) return 'current'
-        return 'none'
-    }
-
-    return (
-        <StepperContainer
-            className={cx(className, classes.root)}
-            csx={csx}
-            alignment={alignment}
-            {...rest}
-        >
-            {steps.map((step, idx) => {
-                const {
-                    CompleteIcon: _CompleteIcon = CompleteIcon,
-                    WarningIcon: _WarningIcon = WarningIcon,
-                    ErrorIcon: _ErrorIcon = ErrorIcon,
-                    AvatarIcon = idx + 1,
-                    title,
-                    description,
-                    id = typeof title === 'string' ? title : idx,
-                } = step
-
-                const _status = getStatus(idx, activeStep)
+        const getTitle = (
+            title: ReactElement,
+            status: StepStatusEnum
+        ): ReactElement => {
+            if (typeof title === 'string') {
                 return (
-                    <>
-                        <StepContainer
-                            classes={{ root: classes.stepContainer }}
-                            csx={{ root: csx.stepContainer }}
-                            alignment={alignment}
-                            key={id}
-                        >
-                            <AvatarAndTitleContainer alignment={alignment}>
-                                <Avatar
-                                    alignment={alignment}
-                                    csx={{ root: csx.avatar }}
-                                    className={cx(classes.avatar)}
-                                    status={_status}
-                                >
-                                    {getAvatarIcon(stepsStatus[idx + 1], {
-                                        CompleteIcon: _CompleteIcon,
-                                        WarningIcon: _WarningIcon,
-                                        ErrorIcon: _ErrorIcon,
-                                        AvatarIcon,
-                                    })}
-                                </Avatar>
-                                {getTitle(title, _status)}
-                            </AvatarAndTitleContainer>
-                            <DescriptionContainer
-                                alignment={alignment}
-                                in={activeStep === idx + 1}
-                                csx={{ root: csx.description }}
-                                classes={{ root: classes.description }}
-                                isLast={idx + 1 === steps.length}
-                            >
-                                {description}
-                            </DescriptionContainer>
-                        </StepContainer>
-                        <DividerRoot
-                            isLast={idx + 1 === steps.length}
-                            csx={{ root: csx.divider }}
-                            classes={{ root: classes.divider }}
-                            status={_status}
-                            alignment={alignment}
-                        />
-                    </>
+                    <Typography
+                        variant="title"
+                        className={cx(classes.title)}
+                        csx={{
+                            root: (theme) => ({
+                                color:
+                                    status === 'none' || !status
+                                        ? theme.palette.neutral[70]
+                                        : theme.palette.neutral[90],
+                                ...getThemeCSSObject(csx.title, theme)
+                            })
+                        }}
+                    >
+                        {title}
+                    </Typography>
                 )
-            })}
-        </StepperContainer>
-    )
-}
+            }
+            return title
+        }
+
+        const getStatus = (idx: number, activeStep: number): StepStatusEnum => {
+            if (stepsStatus[idx + 1]) return stepsStatus[idx + 1]
+            if (activeStep === idx + 1) return 'current'
+            return 'none'
+        }
+
+        return (
+            <StepperContainer
+                className={cx(className, classes.root)}
+                csx={csx}
+                alignment={alignment}
+                ref={ref}
+                {...rest}
+            >
+                {steps.map((step, idx) => {
+                    const {
+                        CompleteIcon: _CompleteIcon = CompleteIcon,
+                        WarningIcon: _WarningIcon = WarningIcon,
+                        ErrorIcon: _ErrorIcon = ErrorIcon,
+                        AvatarIcon = idx + 1,
+                        title,
+                        description,
+                        id = typeof title === 'string' ? title : idx
+                    } = step
+
+                    const _status = getStatus(idx, activeStep)
+                    return (
+                        <>
+                            <StepContainer
+                                classes={{ root: classes.stepContainer }}
+                                csx={{ root: csx.stepContainer }}
+                                alignment={alignment}
+                                key={id}
+                            >
+                                <AvatarAndTitleContainer alignment={alignment}>
+                                    <Avatar
+                                        alignment={alignment}
+                                        csx={{ root: csx.avatar }}
+                                        className={cx(classes.avatar)}
+                                        status={_status}
+                                    >
+                                        {getAvatarIcon(stepsStatus[idx + 1], {
+                                            CompleteIcon: _CompleteIcon,
+                                            WarningIcon: _WarningIcon,
+                                            ErrorIcon: _ErrorIcon,
+                                            AvatarIcon
+                                        })}
+                                    </Avatar>
+                                    {getTitle(title, _status)}
+                                </AvatarAndTitleContainer>
+                                <DescriptionContainer
+                                    alignment={alignment}
+                                    in={activeStep === idx + 1}
+                                    csx={{ root: csx.description }}
+                                    classes={{ root: classes.description }}
+                                    isLast={idx + 1 === steps.length}
+                                >
+                                    {description}
+                                </DescriptionContainer>
+                            </StepContainer>
+                            <DividerRoot
+                                isLast={idx + 1 === steps.length}
+                                csx={{ root: csx.divider }}
+                                classes={{ root: classes.divider }}
+                                status={_status}
+                                alignment={alignment}
+                            />
+                        </>
+                    )
+                })}
+            </StepperContainer>
+        )
+    }
+)
 
 attachSignatureToComponent(Stepper, STEPPER)

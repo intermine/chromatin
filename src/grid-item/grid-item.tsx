@@ -1,14 +1,13 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { GRID_ITEM } from '../constants/component-ids'
-
-import type { Ref } from '../utils'
 
 export type ColWidthValues =
     | 0
@@ -40,7 +39,6 @@ export interface GridItemProps
      * @default 'block'
      */
     display?: CSSObject['display']
-    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */
@@ -72,7 +70,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
             xl,
             display = 'block',
             csx = {},
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { mixin } = themePropsForThemeVarFn.breakingPoints
@@ -82,7 +80,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
 
             if (width === 0 || width === 'hidden')
                 return {
-                    display: 'none',
+                    display: 'none'
                 }
 
             if (width === 'auto') {
@@ -90,7 +88,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                     display,
                     flex: '0 0 auto',
                     maxWidth: 'none',
-                    width: 'auto',
+                    width: 'auto'
                 }
             }
 
@@ -98,7 +96,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                 return {
                     display,
                     flex: 1,
-                    width: '100%',
+                    width: '100%'
                 }
             }
 
@@ -106,7 +104,7 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
             return {
                 display,
                 flex: `0 0 ${w}`,
-                maxWidth: w,
+                maxWidth: w
             }
         }
 
@@ -127,28 +125,30 @@ const GridItemRoot = createStyledComponent<'div', GridItemProps>(
                     sm: colMixin(sm),
                     md: colMixin(md),
                     lg: colMixin(lg),
-                    xl: colMixin(xl),
+                    xl: colMixin(xl)
                 },
                 'min'
             ),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.gridItem(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const GridItem = (props: GridItemProps): JSX.Element => {
-    const { children, innerRef, className, classes = {}, ...rest } = props
-    return (
-        <GridItemRoot
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            {...rest}
-        >
-            {children}
-        </GridItemRoot>
-    )
-}
+export const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
+    (props, ref): JSX.Element => {
+        const { children, className, classes = {}, ...rest } = props
+        return (
+            <GridItemRoot
+                className={cx(className, classes.root)}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </GridItemRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(GridItem, GRID_ITEM)

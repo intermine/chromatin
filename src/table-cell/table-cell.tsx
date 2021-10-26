@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 import { useContext } from 'react'
 
@@ -5,19 +6,17 @@ import {
     createStyledComponent,
     ThemeCSSStyles,
     getThemeCSSObject,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TABLE_CELL } from '../constants/component-ids'
 
 import TableContext from '../table/table-context'
 
-import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
 
 export interface TableCellProps
     extends Omit<React.HTMLProps<HTMLTableCellElement>, 'as' | 'ref'> {
-    innerRef?: Ref
     /**
      * @default false
      */
@@ -57,22 +56,22 @@ const TableCellRoot = createStyledComponent<'td' | 'th', TableCellProps>(
             csx = {},
             isExtendStyleFromThemeVars = true,
             isDense,
-            isSticky,
+            isSticky
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             palette: {
                 neutral,
-                common: { white },
+                common: { white }
             },
-            themeType,
+            themeType
         } = themePropsForThemeVarFn
 
         const getStickyProps = (): CSSObject => {
             if (!isSticky) return {}
             return {
                 position: 'sticky',
-                top: '0',
+                top: '0'
             }
         }
 
@@ -84,37 +83,40 @@ const TableCellRoot = createStyledComponent<'td' | 'th', TableCellProps>(
             ...getStickyProps(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.tableCell(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const TableCell = (props: TableCellProps): JSX.Element => {
-    const {
-        Component = 'td',
-        innerRef,
-        className,
-        classes = {},
-        isSticky: _isSticky,
-        isDense: _isDense,
-        ...rest
-    } = props
+export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
+    (props, ref): JSX.Element => {
+        const {
+            Component = 'td',
+            className,
+            classes = {},
+            isSticky: _isSticky,
+            isDense: _isDense,
+            ...rest
+        } = props
 
-    const tableContext = useContext(TableContext)
-    const isSticky =
-        _isSticky ?? Component === 'th' ? tableContext?.hasStickyHeader : false
-    const isDense = _isDense ?? tableContext?.isDense
+        const tableContext = useContext(TableContext)
+        const isSticky =
+            _isSticky ?? Component === 'th'
+                ? tableContext?.hasStickyHeader
+                : false
+        const isDense = _isDense ?? tableContext?.isDense
 
-    return (
-        <TableCellRoot
-            className={cx(className, classes.root)}
-            as={Component}
-            ref={innerRef}
-            isSticky={isSticky}
-            isDense={isDense}
-            {...rest}
-        />
-    )
-}
+        return (
+            <TableCellRoot
+                className={cx(className, classes.root)}
+                as={Component}
+                ref={ref}
+                isSticky={isSticky}
+                isDense={isDense}
+                {...rest}
+            />
+        )
+    }
+)
 
 attachSignatureToComponent(TableCell, TABLE_CELL)

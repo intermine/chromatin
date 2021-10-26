@@ -1,4 +1,4 @@
-import { Children, cloneElement } from 'react'
+import { Children, cloneElement, forwardRef } from 'react'
 import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 
@@ -11,7 +11,6 @@ import {
 import { attachSignatureToComponent, getChromatinElementId } from '../utils'
 import { LIST, LIST_HEADING, LIST_ITEM } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
 import type { ListHeadingProps } from '../list-heading'
 import type { ListItemProps } from '../list-item'
 
@@ -24,7 +23,6 @@ export interface ListProps
     /**
      * @default 'none'
      */
-    innerRef?: Ref
     listStyle?: CSSObject['listStyle']
     /**
      * To pass the props to the list items
@@ -83,44 +81,45 @@ const ListRoot = createStyledComponent<'ul', ListProps>(
     }
 )
 
-export const List = (props: ListProps): JSX.Element => {
-    const {
-        children: childrenProps,
-        className,
-        classes = {},
-        innerRef,
-        listItemProps = {},
-        listHeadingProps = {},
-        ...rest
-    } = props
+export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children: childrenProps,
+            className,
+            classes = {},
+            listItemProps = {},
+            listHeadingProps = {},
+            ...rest
+        } = props
 
-    const children = Children.map(childrenProps, (child: any) => {
-        const id = getChromatinElementId(child)
-        if (id === LIST_ITEM) {
-            return cloneElement(child, {
-                ...listItemProps,
-                ...child.props
-            })
-        }
+        const children = Children.map(childrenProps, (child: any) => {
+            const id = getChromatinElementId(child)
+            if (id === LIST_ITEM) {
+                return cloneElement(child, {
+                    ...listItemProps,
+                    ...child.props
+                })
+            }
 
-        if (id === LIST_HEADING) {
-            return cloneElement(child, {
-                ...listHeadingProps,
-                ...child.props
-            })
-        }
+            if (id === LIST_HEADING) {
+                return cloneElement(child, {
+                    ...listHeadingProps,
+                    ...child.props
+                })
+            }
 
-        return child
-    })
-    return (
-        <ListRoot
-            ref={innerRef}
-            className={cx(className, classes.root)}
-            {...rest}
-        >
-            {children}
-        </ListRoot>
-    )
-}
+            return child
+        })
+        return (
+            <ListRoot
+                ref={ref}
+                className={cx(className, classes.root)}
+                {...rest}
+            >
+                {children}
+            </ListRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(List, LIST)

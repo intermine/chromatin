@@ -1,27 +1,17 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     getThemeCSSObject,
     isThemeColorName,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { DIVIDER } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
-export interface DividerProps
+export interface DividerBaseProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
-    /**
-     * @default 'div'
-     */
-    Component?:
-        | React.ElementType
-        | React.ComponentType<any>
-        | React.ForwardRefExoticComponent<any>
-
-    innerRef?: Ref
     /**
      * Alignment of the divider.
      * hr - horizontal, vt - vertical
@@ -63,7 +53,14 @@ export interface DividerProps
     }
 }
 
-const DividerRoot = createStyledComponent<'div', DividerProps>(
+export type DividerProps<T> = DividerBaseProps & {
+    Component?:
+        | React.ElementType
+        | React.ComponentType<any>
+        | React.ForwardRefExoticComponent<any>
+} & T
+
+const DividerRoot = createStyledComponent<'div', DividerProps<'div'>>(
     'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -71,8 +68,8 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
             palette,
             spacing,
             typography: {
-                meta: { documentFontSize },
-            },
+                meta: { documentFontSize }
+            }
         } = themePropsForThemeVarFn
 
         const {
@@ -81,7 +78,7 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
             alignment = 'hr',
             color = 'neutral',
             borderWidth = 1,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
 
         const getMargin = (): string | undefined => {
@@ -114,47 +111,43 @@ const DividerRoot = createStyledComponent<'div', DividerProps>(
                 height: 0,
                 display: 'block',
                 flex: hasFlexParent ? 1 : undefined,
-                width: hasFlexParent ? undefined : '100%',
+                width: hasFlexParent ? undefined : '100%'
             }),
             ...(alignment === 'vt' && {
                 bottom: 0,
                 top: 0,
-                display: 'inline-block',
+                display: 'inline-block'
             }),
             ...(!hasFlexParent &&
                 alignment === 'vt' && {
                     position: 'relative',
                     top: 0,
-                    bottom: 0,
+                    bottom: 0
                 }),
             ...(hasFlexParent &&
                 alignment !== 'hr' && {
                     alignSelf: 'stretch',
-                    height: 'auto',
+                    height: 'auto'
                 }),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.divider(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const Divider = (props: DividerProps): JSX.Element => {
-    const {
-        className,
-        classes = {},
-        innerRef,
-        Component = 'div',
-        ...rest
-    } = props
-    return (
-        <DividerRoot
-            as={Component}
-            ref={innerRef}
-            className={cx(className, classes.root)}
-            {...rest}
-        />
-    )
-}
+export const Divider = forwardRef(
+    <T,>(props: DividerProps<T>, ref: any): JSX.Element => {
+        const { className, classes = {}, Component = 'div', ...rest } = props
+        return (
+            <DividerRoot
+                as={Component}
+                ref={ref}
+                className={cx(className, classes.root)}
+                {...rest}
+            />
+        )
+    }
+) as <T>(props: DividerProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(Divider, DIVIDER)

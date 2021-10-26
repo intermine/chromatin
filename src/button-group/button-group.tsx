@@ -1,18 +1,18 @@
-import React, { HTMLProps } from 'react'
+import { HTMLProps, forwardRef, Children, cloneElement } from 'react'
 import cx from 'clsx'
 
 import { ButtonBaseCommonProps } from '../button-base'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent, getChromatinElementId } from '../utils'
 import {
     BUTTON_GROUP,
     BUTTON,
     ICON_BUTTON,
-    BUTTON_BASE,
+    BUTTON_BASE
 } from '../constants/component-ids'
 
 import type { Ref } from '../utils'
@@ -25,7 +25,6 @@ export interface ButtonGroupProps<T>
     extends Omit<HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
     variant?: ButtonBaseCommonProps['variant']
     size?: 'small' | 'regular' | 'large'
-    innerRef?: Ref
     /**
      * Only applied to button, button-base or icon-button
      */
@@ -70,7 +69,7 @@ const ButtonGroupRoot = createStyledComponent<
     const {
         csx = {},
         display = 'inline-flex',
-        isExtendStyleFromThemeVars = true,
+        isExtendStyleFromThemeVars = true
     } = props
 
     return {
@@ -81,65 +80,66 @@ const ButtonGroupRoot = createStyledComponent<
             borderRightWidth: 0,
             marginRight: '0.0625rem',
             marginLeft: '0.0625rem',
-            position: 'relative',
+            position: 'relative'
         },
 
         '& .bg-child:first-child': {
             borderBottomLeftRadius: '0.25rem',
             borderTopLeftRadius: '0.25rem',
-            marginLeft: 0,
+            marginLeft: 0
         },
 
         '& .bg-child:last-child': {
             borderBottomRightRadius: '0.25rem',
             borderTopRightRadius: '0.25rem',
-            marginRight: 0,
+            marginRight: 0
         },
         ...(isExtendStyleFromThemeVars &&
             themeVars.buttonGroup(themePropsForThemeVarFn, props)),
-        ...getThemeCSSObject(csx.root, theme),
+        ...getThemeCSSObject(csx.root, theme)
     }
 })
 
-export const ButtonGroup = <T,>(props: ButtonGroupProps<T>): JSX.Element => {
-    const {
-        children: childrenProps,
-        innerRef,
-        className,
-        classes = {},
-        csx = {},
-        buttonProps = {},
-        ...rest
-    } = props
+export const ButtonGroup = forwardRef(
+    <T,>(props: ButtonGroupProps<T>, ref: Ref<any>): JSX.Element => {
+        const {
+            children: childrenProps,
+            className,
+            classes = {},
+            csx = {},
+            buttonProps = {},
+            ...rest
+        } = props
 
-    const { buttonGroupChild, root } = classes
+        const { buttonGroupChild, root } = classes
 
-    const children = React.Children.map(childrenProps, (child: any) => {
-        const id = getChromatinElementId(child)
-        if (id === BUTTON || id === ICON_BUTTON || id === BUTTON_BASE) {
-            return React.cloneElement(child, {
-                ...buttonProps,
-                ...child.props,
-                className: cx(
-                    'bg-child',
-                    child.props.className,
-                    buttonGroupChild
-                ),
-            })
-        }
-        return child
-    })
+        const children = Children.map(childrenProps, (child: any) => {
+            const id = getChromatinElementId(child)
+            if (id === BUTTON || id === ICON_BUTTON || id === BUTTON_BASE) {
+                return cloneElement(child, {
+                    ...buttonProps,
+                    ...child.props,
+                    className: cx(
+                        'bg-child',
+                        child.props.className,
+                        buttonGroupChild
+                    )
+                })
+            }
+            return child
+        })
 
-    return (
-        <ButtonGroupRoot
-            className={cx(className, root)}
-            ref={innerRef}
-            csx={csx}
-            {...rest}
-        >
-            {children}
-        </ButtonGroupRoot>
-    )
-}
+        return (
+            <ButtonGroupRoot
+                className={cx(className, root)}
+                ref={ref}
+                csx={csx}
+                {...rest}
+            >
+                {children}
+            </ButtonGroupRoot>
+        )
+    }
+) as <T>(props: ButtonGroupProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(ButtonGroup, BUTTON_GROUP)

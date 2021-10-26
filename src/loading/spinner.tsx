@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import { CSSObject } from 'styled-components'
@@ -6,12 +7,10 @@ import {
     createStyle,
     isThemeColorName,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { SPINNER } from '../constants/component-ids'
-
-import type { Ref } from '../utils'
 
 export interface SpinnerProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref' | 'size'> {
@@ -29,7 +28,6 @@ export interface SpinnerProps
      * Size of a dot. Value is equivalent to px.
      */
     dotSize?: number
-    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */
@@ -73,22 +71,22 @@ const mapSizeToRemValue = (
 const useStyle = createStyle((theme) => ({
     '@keyframes rotation': {
         '0%': {
-            transform: 'rotate(0deg)',
+            transform: 'rotate(0deg)'
         },
         '70%': {
-            transform: 'rotate(360deg)',
+            transform: 'rotate(360deg)'
         },
         '100%': {
-            transform: 'rotate(360deg)',
-        },
+            transform: 'rotate(360deg)'
+        }
     },
     dots: (props: SpinnerProps) => {
         const { size = 'regular', color, dotSize, csx = {} } = props
         const {
             typography: {
-                meta: { documentFontSize },
+                meta: { documentFontSize }
             },
-            palette,
+            palette
         } = theme
 
         const rem = mapSizeToRemValue(size, documentFontSize)
@@ -112,7 +110,7 @@ const useStyle = createStyle((theme) => ({
 
             return {
                 height: dim,
-                width: dim,
+                width: dim
             }
         }
 
@@ -122,7 +120,7 @@ const useStyle = createStyle((theme) => ({
             transformOrigin: getTransformOrigin(),
             transform: `translateX(-${rem / 20})`,
             ...getDimension(),
-            ...getThemeCSSObject(csx.dots, theme),
+            ...getThemeCSSObject(csx.dots, theme)
         }
     },
 
@@ -130,28 +128,28 @@ const useStyle = createStyle((theme) => ({
         '& $dots': {
             position: 'absolute',
             animation: '$rotation 2s cubic-bezier(0.5, 0, 0.5, 1) infinite',
-            borderRadius: '50%',
+            borderRadius: '50%'
         },
 
         '& $dots:nth-child(2)': {
-            animationDelay: '0.1s',
+            animationDelay: '0.1s'
         },
         '& $dots:nth-child(3)': {
-            animationDelay: '0.2s',
+            animationDelay: '0.2s'
         },
         '& $dots:nth-child(4)': {
-            animationDelay: '0.3s',
+            animationDelay: '0.3s'
         },
         '& $dots:nth-child(5)': {
-            animationDelay: '0.4s',
+            animationDelay: '0.4s'
         },
         '& $dots:nth-child(6)': {
-            animationDelay: '0.5s',
+            animationDelay: '0.5s'
         },
         '& $dots:nth-child(7)': {
-            animationDelay: '0.6s',
-        },
-    },
+            animationDelay: '0.6s'
+        }
+    }
 }))
 
 const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
@@ -166,7 +164,7 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
 
             return {
                 height: dimension,
-                width: dimension,
+                width: dimension
             }
         }
         return {
@@ -176,7 +174,7 @@ const SpinnerContainer = createStyledComponent<'div', SpinnerProps>(
             ...getDimension(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.spinner(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -191,26 +189,28 @@ const Dots = ({ className = '' }): JSX.Element => (
     </svg>
 )
 
-export const Spinner = (props: SpinnerProps): JSX.Element => {
-    const classes = useStyle(props)
-    const { className, classes: classesProps = {}, innerRef, ...rest } = props
-    const dotsClassName = cx(classes.dots, classesProps.dots)
+export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
+    (props, ref): JSX.Element => {
+        const classes = useStyle(props)
+        const { className, classes: classesProps = {}, ...rest } = props
+        const dotsClassName = cx(classes.dots, classesProps.dots)
 
-    return (
-        <SpinnerContainer
-            ref={innerRef}
-            className={cx(classes.animation, className, classesProps.root)}
-            {...rest}
-        >
-            <Dots className={dotsClassName} />
-            <Dots className={dotsClassName} />
-            <Dots className={dotsClassName} />
-            <Dots className={dotsClassName} />
-            <Dots className={dotsClassName} />
-            <Dots className={dotsClassName} />
-            <Dots className={dotsClassName} />
-        </SpinnerContainer>
-    )
-}
+        return (
+            <SpinnerContainer
+                ref={ref}
+                className={cx(classes.animation, className, classesProps.root)}
+                {...rest}
+            >
+                <Dots className={dotsClassName} />
+                <Dots className={dotsClassName} />
+                <Dots className={dotsClassName} />
+                <Dots className={dotsClassName} />
+                <Dots className={dotsClassName} />
+                <Dots className={dotsClassName} />
+                <Dots className={dotsClassName} />
+            </SpinnerContainer>
+        )
+    }
+)
 
 attachSignatureToComponent(Spinner, SPINNER)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, forwardRef } from 'react'
 import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
@@ -11,7 +11,7 @@ import {
     isValidColorHex,
     ReactElement,
     ThemeCSSStyles,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { INPUT } from '../constants/component-ids'
@@ -28,7 +28,7 @@ export type InputProps = InputBaseProps & {
     LeftIcon?: ReactElement
     RightIcon?: ReactElement
     Component?: 'input' | 'textarea'
-
+    containerRef?: any
     /**
      * To specify resize property
      * Only works if Component is textarea.
@@ -138,7 +138,7 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             RightIcon,
             csx = {},
             resize = 'none',
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { body, bodySm, h3 } = themePropsForThemeVarFn.typography
 
@@ -159,26 +159,26 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             const borderRadius = '0.25rem'
             if (!LeftIcon && !RightIcon) {
                 return {
-                    borderRadius,
+                    borderRadius
                 }
             }
 
             if (LeftIcon && RightIcon) {
                 return {
-                    borderRadius: 0,
+                    borderRadius: 0
                 }
             }
 
             if (LeftIcon) {
                 return {
                     borderTopRightRadius: borderRadius,
-                    borderBottomRightRadius: borderRadius,
+                    borderBottomRightRadius: borderRadius
                 }
             }
 
             return {
                 borderTopLeftRadius: borderRadius,
-                borderBottomLeftRadius: borderRadius,
+                borderBottomLeftRadius: borderRadius
             }
         }
 
@@ -192,11 +192,11 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             ...getBorderRadius(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.input(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.inputRoot, theme),
+            ...getThemeCSSObject(csx.inputRoot, theme)
         }
     },
     {
-        isExtendStyleFromThemeVars: false,
+        isExtendStyleFromThemeVars: false
     }
 )
 
@@ -210,7 +210,7 @@ const Container = createStyledComponent<'div', ContainerProps>(
             display: 'inline-flex',
 
             width: (hasFullWidth && '100%') || undefined,
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -227,13 +227,13 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             isRight = false,
             isFocus,
             color = 'neutral',
-            csx = {},
+            csx = {}
         } = props
         const { palette } = theme
 
         if (!children) {
             return {
-                display: 'none',
+                display: 'none'
             }
         }
 
@@ -288,10 +288,10 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
         const getDimensions = (): CSSObject => {
             if (size === 'regular' || size === 'large')
                 return {
-                    width: '2rem',
+                    width: '2rem'
                 }
             return {
-                width: '2rem',
+                width: '2rem'
             }
         }
 
@@ -301,12 +301,12 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             if (isRight)
                 return {
                     borderTopRightRadius: borderRadius,
-                    borderBottomRightRadius: borderRadius,
+                    borderBottomRightRadius: borderRadius
                 }
 
             return {
                 borderTopLeftRadius: borderRadius,
-                borderBottomLeftRadius: borderRadius,
+                borderBottomLeftRadius: borderRadius
             }
         }
 
@@ -327,12 +327,12 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             ...getBorderRadius(),
             ...getThemeCSSObject(csx.iconContainer, theme),
             ...(isRight && getThemeCSSObject(csx.iconContainerRight, theme)),
-            ...(!isRight && getThemeCSSObject(csx.iconContainerLeft, theme)),
+            ...(!isRight && getThemeCSSObject(csx.iconContainerLeft, theme))
         }
     }
 )
 
-export const Input = (props: InputProps): JSX.Element => {
+export const Input = forwardRef<any, InputProps>((props, ref): JSX.Element => {
     const {
         hasFullWidth,
         RightIcon,
@@ -348,6 +348,7 @@ export const Input = (props: InputProps): JSX.Element => {
         className,
         classes = {},
         csx,
+        containerRef,
         Component = 'input',
         ...rest
     } = props
@@ -360,7 +361,7 @@ export const Input = (props: InputProps): JSX.Element => {
         isDisabled,
         hasTransparentBackground,
         csx,
-        Component,
+        Component
     }
 
     const {
@@ -388,6 +389,7 @@ export const Input = (props: InputProps): JSX.Element => {
         <Container
             className={cx(className, root)}
             hasFullWidth={hasFullWidth}
+            ref={containerRef}
             {...styleProps}
         >
             <IconContainer
@@ -403,6 +405,7 @@ export const Input = (props: InputProps): JSX.Element => {
                 RightIcon={RightIcon}
                 onFocus={onFocus}
                 onBlur={onBlur}
+                ref={ref}
                 {...styleProps}
                 {...rest}
             />
@@ -416,6 +419,6 @@ export const Input = (props: InputProps): JSX.Element => {
             </IconContainer>
         </Container>
     )
-}
+})
 
 attachSignatureToComponent(Input, INPUT)

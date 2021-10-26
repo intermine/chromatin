@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
@@ -6,14 +6,12 @@ import {
     createStyledComponent,
     getThemeCSSObject,
     ThemeCSSStyles,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
-import { attachSignatureToComponent, useForkRef } from '../utils'
+import { attachSignatureToComponent, Ref, useForkRef } from '../utils'
 import { MENU } from '../constants/component-ids'
 import { List } from '../list'
 import { Popper, PopperProps } from '../popper'
-
-import type { Ref } from '../utils'
 
 export interface MenuProps
     extends Omit<
@@ -21,14 +19,9 @@ export interface MenuProps
         'as' | 'ref'
     > {
     /**
-     * It is given to the popper element
+     * It is given to the portal
      */
-
-    innerRef?: Ref
-    /**
-     * It is given to the menu/ul
-     */
-    menuRef?: Ref
+    portalRef?: Ref<HTMLDivElement>
     /**
      * @default false
      */
@@ -91,13 +84,13 @@ const MenuRoot = createStyledComponent<typeof List, MenuProps>(
         const { elevation, themeType, palette } = themePropsForThemeVarFn
         const {
             neutral,
-            common: { white },
+            common: { white }
         } = palette
         const {
             hasElevation = true,
             csx = {},
             isOpen,
-            isExtendStyleFromThemeVars,
+            isExtendStyleFromThemeVars
         } = props
 
         return {
@@ -105,11 +98,11 @@ const MenuRoot = createStyledComponent<typeof List, MenuProps>(
             display: isOpen ? 'block' : 'none',
             minWidth: '15rem',
             ...(hasElevation && {
-                boxShadow: elevation.low,
+                boxShadow: elevation.low
             }),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.menu(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
@@ -118,19 +111,19 @@ const MenuRoot = createStyledComponent<typeof List, MenuProps>(
 const useStyles = createStyle({
     '@keyframes entry': {
         '0%': {
-            transform: 'scale(0)',
+            transform: 'scale(0)'
         },
         '100%': {
-            transform: 'scale(1)',
-        },
+            transform: 'scale(1)'
+        }
     },
     '@keyframes exit': {
         '0%': {
-            transform: 'scale(1)',
+            transform: 'scale(1)'
         },
         '100%': {
-            transform: 'scale(0)',
-        },
+            transform: 'scale(0)'
+        }
     },
 
     menu: (props: MenuProps) => {
@@ -168,107 +161,108 @@ const useStyles = createStyle({
         }
 
         return {
-            transformOrigin: getTransformOrigin(),
+            transformOrigin: getTransformOrigin()
         }
     },
 
     entryAnimation: {
-        animation: '$entry 0.230s  forwards',
+        animation: '$entry 0.230s  forwards'
     },
 
     exitAnimation: {
-        animation: '$exit 0.230s forwards',
-    },
+        animation: '$exit 0.230s forwards'
+    }
 })
 
-export const Menu = (props: MenuProps): JSX.Element => {
-    const {
-        children,
-        isOpen: _isOpen,
-        anchorElement,
-        placement = 'bottom-start',
-        modifiers: _modifiers = [],
-        isOverlapAnchorElement = false,
-        className,
-        classes: _classes = {},
-        waitForXDurationBeforeUnmount = 230,
-        innerRef,
-        menuRef: _menuRef,
-        ...rest
-    } = props
+export const Menu = forwardRef<HTMLUListElement, MenuProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children,
+            isOpen: _isOpen,
+            anchorElement,
+            placement = 'bottom-start',
+            modifiers: _modifiers = [],
+            isOverlapAnchorElement = false,
+            className,
+            classes: _classes = {},
+            waitForXDurationBeforeUnmount = 230,
+            portalRef,
+            ...rest
+        } = props
 
-    const [actualPlacement, setActualPlacement] = useState(placement)
-    const [isOpen, setIsOpen] = useState(_isOpen)
+        const [actualPlacement, setActualPlacement] = useState(placement)
+        const [isOpen, setIsOpen] = useState(_isOpen)
 
-    const ref = useRef<null | HTMLElement>(null)
-    const menuRef = useForkRef(ref, _menuRef)
+        const _ref = useRef<null | HTMLElement>(null)
+        const menuRef = useForkRef(ref, _ref)
 
-    const getOffset = (): [number, number] => {
-        if (!isOverlapAnchorElement || !anchorElement) return [0, 0]
-        const { height = 0 } = anchorElement.getBoundingClientRect()
-        return [0, -height]
-    }
+        const getOffset = (): [number, number] => {
+            if (!isOverlapAnchorElement || !anchorElement) return [0, 0]
+            const { height = 0 } = anchorElement.getBoundingClientRect()
+            return [0, -height]
+        }
 
-    const modifiers: PopperProps['modifiers'] = [
-        {
-            name: 'onUpdate',
-            enabled: true,
-            phase: 'afterWrite',
-            fn: ({ state }: any) => {
-                if (state.placement !== actualPlacement) {
-                    setActualPlacement(state.placement)
+        const modifiers: PopperProps['modifiers'] = [
+            {
+                name: 'onUpdate',
+                enabled: true,
+                phase: 'afterWrite',
+                fn: ({ state }: any) => {
+                    if (state.placement !== actualPlacement) {
+                        setActualPlacement(state.placement)
+                    }
                 }
             },
-        },
-        {
-            name: 'offset',
-            options: {
-                offset: getOffset(),
+            {
+                name: 'offset',
+                options: {
+                    offset: getOffset()
+                }
             },
-        },
-        ..._modifiers,
-    ]
+            ..._modifiers
+        ]
 
-    const classes = useStyles({ ...props, placement: actualPlacement })
+        const classes = useStyles({ ...props, placement: actualPlacement })
 
-    useEffect(() => {
-        let interval: NodeJS.Timeout | null
-        if (_isOpen) {
-            setIsOpen(true)
-        } else {
-            interval = setTimeout(
-                () => setIsOpen(false),
-                waitForXDurationBeforeUnmount
-            )
-        }
+        useEffect(() => {
+            let interval: NodeJS.Timeout | null
+            if (_isOpen) {
+                setIsOpen(true)
+            } else {
+                interval = setTimeout(
+                    () => setIsOpen(false),
+                    waitForXDurationBeforeUnmount
+                )
+            }
 
-        return () => {
-            if (interval) clearInterval(interval)
-        }
-    }, [_isOpen, waitForXDurationBeforeUnmount])
+            return () => {
+                if (interval) clearInterval(interval)
+            }
+        }, [_isOpen, waitForXDurationBeforeUnmount])
 
-    return (
-        <Popper
-            anchorElement={anchorElement}
-            placement={placement}
-            modifiers={modifiers}
-            innerRef={innerRef}
-        >
-            <MenuRoot
-                isOpen={isOpen}
-                tabIndex={0}
-                innerRef={menuRef}
-                className={cx(classes.menu, className, _classes.root, {
-                    [_classes.entryAnimation ??
-                    classes.entryAnimation]: _isOpen,
-                    [_classes.exitAnimation ?? classes.exitAnimation]: !_isOpen,
-                })}
-                {...rest}
+        return (
+            <Popper
+                anchorElement={anchorElement}
+                placement={placement}
+                modifiers={modifiers}
+                ref={portalRef}
             >
-                {children}
-            </MenuRoot>
-        </Popper>
-    )
-}
-
+                <MenuRoot
+                    isOpen={isOpen}
+                    tabIndex={0}
+                    ref={menuRef}
+                    className={cx(classes.menu, className, _classes.root, {
+                        [_classes.entryAnimation ?? classes.entryAnimation]:
+                            _isOpen,
+                        [_classes.exitAnimation ?? classes.exitAnimation]:
+                            !_isOpen
+                    })}
+                    {...rest}
+                >
+                    {children}
+                </MenuRoot>
+            </Popper>
+        )
+    }
+)
 attachSignatureToComponent(Menu, MENU)

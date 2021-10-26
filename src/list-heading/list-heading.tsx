@@ -1,14 +1,13 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { LIST_HEADING } from '../constants/component-ids'
-
-import { Ref } from '../utils'
 
 export interface ListHeadingProps
     extends Omit<React.HTMLProps<HTMLLIElement>, 'as' | 'ref'> {
@@ -20,7 +19,6 @@ export interface ListHeadingProps
      * To have dense padding
      */
     isDense?: boolean
-    innerRef?: Ref
     /**
      * To specify heading is sticky or normal
      * @default true
@@ -60,12 +58,12 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
             hasPadding = true,
             isDense = false,
             isSticky = true,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             palette: { neutral },
-            typography: { title, caption },
+            typography: { title, caption }
         } = themePropsForThemeVarFn
 
         const getPadding = (): string | undefined => {
@@ -84,23 +82,25 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
             ...(headingType === 'sub' ? caption : title),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listHeading(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const ListHeading = (props: ListHeadingProps): JSX.Element => {
-    const { children, innerRef, className, classes = {}, ...rest } = props
+export const ListHeading = forwardRef<HTMLLIElement, ListHeadingProps>(
+    (props, ref): JSX.Element => {
+        const { children, className, classes = {}, ...rest } = props
 
-    return (
-        <ListHeadingRoot
-            ref={innerRef}
-            className={cx(className, classes.root)}
-            {...rest}
-        >
-            {children}
-        </ListHeadingRoot>
-    )
-}
+        return (
+            <ListHeadingRoot
+                ref={ref}
+                className={cx(className, classes.root)}
+                {...rest}
+            >
+                {children}
+            </ListHeadingRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(ListHeading, LIST_HEADING)

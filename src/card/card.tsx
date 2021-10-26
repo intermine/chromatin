@@ -1,20 +1,19 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     getThemeCSSObject,
     ThemeCSSStyles,
-    themeTernaryOperator as tto,
+    themeTernaryOperator as tto
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { CARD } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
 import { CSSObject } from 'styled-components'
 
 export interface CardProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
-    innerRef?: Ref
     /**
      * @default 'shadow'
      */
@@ -51,7 +50,7 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             csx = {},
             variant = 'shadow',
             hoverVariant = variant,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
@@ -60,8 +59,8 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             themeType,
             palette: {
                 neutral,
-                common: { white },
-            },
+                common: { white }
+            }
         } = themePropsForThemeVarFn
 
         const getBoxShadow = (): string | undefined => {
@@ -78,12 +77,12 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             if (hoverVariant === 'none') return {}
             if (hoverVariant === 'shadow') {
                 return {
-                    boxShadow: elevation.medium,
+                    boxShadow: elevation.medium
                 }
             }
 
             return {
-                boxShadow: `inset 0 0 0 2px ${neutral[60]}`,
+                boxShadow: `inset 0 0 0 2px ${neutral[60]}`
             }
         }
 
@@ -97,23 +96,25 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             ...body,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.card(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const Card = (props: CardProps): JSX.Element => {
-    const { children, className, classes = {}, innerRef, ...rest } = props
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+    (props, ref): JSX.Element => {
+        const { children, className, classes = {}, ...rest } = props
 
-    return (
-        <CardRoot
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            {...rest}
-        >
-            {children}
-        </CardRoot>
-    )
-}
+        return (
+            <CardRoot
+                className={cx(className, classes.root)}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </CardRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(Card, CARD)

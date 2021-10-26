@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import { createStyledComponent, getThemeCSSObject } from '../styles'
@@ -5,9 +6,7 @@ import { attachSignatureToComponent } from '../utils'
 import { MENU_ITEM } from '../constants/component-ids'
 import { ListItem, ListItemProps } from '../list-item'
 
-export interface MenuItemProps extends ListItemProps {
-    hoverable?: boolean
-}
+export type MenuItemProps = ListItemProps
 
 const MenuItemRoot = createStyledComponent<typeof ListItem, MenuItemProps>(
     ListItem,
@@ -17,30 +16,33 @@ const MenuItemRoot = createStyledComponent<typeof ListItem, MenuItemProps>(
         return {
             ...(isExtendStyleFromThemeVars &&
                 themeVars.menuItem(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
 )
 
-export const MenuItem = (props: MenuItemProps): JSX.Element => {
-    const {
-        children,
-        className,
-        classes = {},
-        isButtonLike = true,
-        ...rest
-    } = props
+export const MenuItem = forwardRef<any, MenuItemProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children,
+            className,
+            classes = {},
+            isButtonLike = true,
+            ...rest
+        } = props
 
-    return (
-        <MenuItemRoot
-            className={cx(className, classes.root)}
-            isButtonLike={isButtonLike}
-            {...rest}
-        >
-            {children}
-        </MenuItemRoot>
-    )
-}
+        return (
+            <MenuItemRoot
+                className={cx(className, classes.root)}
+                isButtonLike={isButtonLike}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </MenuItemRoot>
+        )
+    }
+)
 
 attachSignatureToComponent(MenuItem, MENU_ITEM)

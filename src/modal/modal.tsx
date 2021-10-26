@@ -1,8 +1,8 @@
+import { forwardRef } from 'react'
 import ReactModal, { Props as ReactModalProps } from 'react-modal'
 import cx from 'clsx'
 
 import {
-    createStyledComponent,
     ThemeCSSStyles,
     getThemeCSSObject,
     createStyle,
@@ -12,10 +12,7 @@ import {
 import { attachSignatureToComponent } from '../utils'
 import { MODAL } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
-export interface ModalProps extends Omit<ReactModalProps, 'as' | 'ref'> {
-    innerRef?: Ref
+export interface ModalProps extends Omit<ReactModalProps, 'as'> {
     /**
      * To extend the styles applied to the components
      */
@@ -85,14 +82,8 @@ const useStyles = createStyle((theme) => ({
     }
 }))
 
-export const Modal = (props: ModalProps): JSX.Element => {
-    const {
-        innerRef,
-        classes: _classes = {},
-        className,
-        children,
-        ...rest
-    } = props
+export const Modal = forwardRef<any, ModalProps>((props, ref): JSX.Element => {
+    const { classes: _classes = {}, className, children, ...rest } = props
 
     const classes = useStyles(props)
 
@@ -100,12 +91,12 @@ export const Modal = (props: ModalProps): JSX.Element => {
         <ReactModal
             className={cx(classes.content, _classes.content)}
             overlayClassName={cx(classes.root, className, _classes.root)}
-            ref={innerRef}
+            ref={ref}
             {...rest}
         >
             {children}
         </ReactModal>
     )
-}
+})
 
 attachSignatureToComponent(Modal, MODAL)

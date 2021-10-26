@@ -1,17 +1,20 @@
 import cx from 'clsx'
 
+import { forwardRef } from 'react'
 import { ButtonBase, ButtonBaseProps } from '../button-base/button-base'
+
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 
-import type { ReactElement } from '../styles'
 import { Spinner } from '../loading'
 
 import { attachSignatureToComponent } from '../utils'
 import { ICON_BUTTON } from '../constants/component-ids'
+
+import type { ReactElement } from '../styles'
 
 export type IconButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
@@ -67,7 +70,7 @@ const IconButtonRoot = createStyledComponent<
             borderStyle = 'squircle',
             isDense = false,
             csx = {},
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
@@ -114,48 +117,51 @@ const IconButtonRoot = createStyledComponent<
             width: dim,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.iconButton(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     },
     { isExtendStyleFromThemeVars: false }
 )
 
-export const IconButton = <T,>(props: IconButtonProps<T>): JSX.Element => {
-    const {
-        Icon,
-        variant = 'ghost',
-        className,
-        isLoading = false,
-        classes = {},
-        csx = {},
-        isDisabled = false,
-        size = 'regular',
-        children,
-        ...rest
-    } = props
-    const { root, spinner, ...classesForBase } = classes
-    return (
-        <IconButtonRoot
-            className={cx(className, root)}
-            variant={variant}
-            classes={classesForBase}
-            size={size}
-            csx={csx}
-            isDisabled={isLoading || isDisabled}
-            {...rest}
-        >
-            {!isLoading && Icon}
-            {isLoading && (
-                <Spinner
-                    className={cx(spinner)}
-                    csx={{ root: csx.spinner }}
-                    size={size}
-                    color="inherit"
-                />
-            )}
-            {children}
-        </IconButtonRoot>
-    )
-}
+export const IconButton = forwardRef(
+    <T,>(props: IconButtonProps<T>, ref: unknown): JSX.Element => {
+        const {
+            Icon,
+            variant = 'ghost',
+            className,
+            isLoading = false,
+            classes = {},
+            csx = {},
+            isDisabled = false,
+            size = 'regular',
+            children,
+            ...rest
+        } = props
+        const { root, spinner, ...classesForBase } = classes
+        return (
+            <IconButtonRoot
+                className={cx(className, root)}
+                variant={variant}
+                classes={classesForBase}
+                size={size}
+                csx={csx}
+                isDisabled={isLoading || isDisabled}
+                ref={ref}
+                {...rest}
+            >
+                {!isLoading && Icon}
+                {isLoading && (
+                    <Spinner
+                        className={cx(spinner)}
+                        csx={{ root: csx.spinner }}
+                        size={size}
+                        color="inherit"
+                    />
+                )}
+                {children}
+            </IconButtonRoot>
+        )
+    }
+) as <T>(props: IconButtonProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(IconButton, ICON_BUTTON)

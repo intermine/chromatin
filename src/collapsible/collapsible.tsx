@@ -1,16 +1,14 @@
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useRef, useState, useLayoutEffect, forwardRef } from 'react'
 import { Transition } from 'react-transition-group'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent, useForkRef } from '../utils'
 import { COLLAPSIBLE } from '../constants/component-ids'
-
-import type { Ref } from '../utils'
 
 export interface CollapsibleProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
@@ -18,10 +16,6 @@ export interface CollapsibleProps
      * To open or close collapsible.
      */
     in?: boolean
-    /**
-     * Ref to collapsible container.
-     */
-    innerRef?: Ref<HTMLDivElement>
     /**
      * Animation duration when collapse or expand the collapsible.
      * If not given then it will automatically calculated based on
@@ -54,7 +48,7 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
             csx = {},
             in: _in = false,
             animationDuration,
-            isExtendStyleFromThemeVars = true,
+            isExtendStyleFromThemeVars = true
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
 
@@ -66,7 +60,7 @@ const CollapsibleRoot = createStyledComponent<'div', CollapsibleProps>(
             transition: `${animationDuration}ms`,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.collapsible(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
@@ -80,64 +74,65 @@ const getAnimationDurationBasedOnHeight = (height: number): number => {
     return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10)
 }
 
-export const Collapsible = (props: CollapsibleProps): JSX.Element => {
-    const {
-        innerRef,
-        children,
-        classes = {},
-        className,
-        in: _in = false,
-        animationDuration: animationDurationProp,
-        ...rest
-    } = props
+export const Collapsible = forwardRef<HTMLDivElement, CollapsibleProps>(
+    (props, ref): JSX.Element => {
+        const {
+            children,
+            classes = {},
+            className,
+            in: _in = false,
+            animationDuration: animationDurationProp,
+            ...rest
+        } = props
 
-    const [animationDuration, setAnimationDuration] = useState(0)
+        const [animationDuration, setAnimationDuration] = useState(0)
 
-    const ref = useRef<HTMLDivElement | null>(null)
-    const collapsibleRef = useForkRef(innerRef, ref)
+        const _ref = useRef<HTMLDivElement | null>(null)
+        const collapsibleRef = useForkRef(ref, _ref)
 
-    const onIsOpenChange = () => {
-        if (!ref.current) return
+        const onIsOpenChange = () => {
+            if (!_ref.current) return
 
-        if (_in) {
-            const height = ref.current.scrollHeight ?? 0
-            ref.current.style.height = `${height}px`
-        } else {
-            ref.current.style.height = '0'
+            if (_in) {
+                const height = _ref.current.scrollHeight ?? 0
+                _ref.current.style.height = `${height}px`
+            } else {
+                _ref.current.style.height = '0'
+            }
         }
+
+        useLayoutEffect(() => {
+            if (animationDurationProp) {
+                setAnimationDuration(animationDurationProp)
+            } else if (_ref.current) {
+                const height = _ref.current.scrollHeight ?? 0
+                const duration = getAnimationDurationBasedOnHeight(height)
+                setAnimationDuration(duration)
+            }
+        }, [animationDurationProp, _ref])
+
+        useLayoutEffect(() => {
+            onIsOpenChange()
+        }, [_in, ref])
+
+        return (
+            <Transition in={_in} timeout={animationDuration} {...rest}>
+                {(state) => {
+                    return (
+                        <CollapsibleRoot
+                            ref={collapsibleRef}
+                            className={cx(className, classes.root)}
+                            animationDuration={animationDuration}
+                            in={state === 'entered' || state === 'entering'}
+                            {...rest}
+                        >
+                            {children}
+                        </CollapsibleRoot>
+                    )
+                }}
+            </Transition>
+        )
     }
-
-    useLayoutEffect(() => {
-        if (animationDurationProp) {
-            setAnimationDuration(animationDurationProp)
-        } else if (ref.current) {
-            const height = ref.current.scrollHeight ?? 0
-            const duration = getAnimationDurationBasedOnHeight(height)
-            setAnimationDuration(duration)
-        }
-    }, [animationDurationProp, ref])
-
-    useLayoutEffect(() => {
-        onIsOpenChange()
-    }, [_in, ref])
-
-    return (
-        <Transition in={_in} timeout={animationDuration} {...rest}>
-            {(state) => {
-                return (
-                    <CollapsibleRoot
-                        ref={collapsibleRef}
-                        className={cx(className, classes.root)}
-                        animationDuration={animationDuration}
-                        in={state === 'entered' || state === 'entering'}
-                        {...rest}
-                    >
-                        {children}
-                    </CollapsibleRoot>
-                )
-            }}
-        </Transition>
-    )
-}
+)
 
 attachSignatureToComponent(Collapsible, COLLAPSIBLE)

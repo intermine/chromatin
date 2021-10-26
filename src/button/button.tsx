@@ -1,3 +1,5 @@
+import { forwardRef } from 'react'
+
 import { CSSObject } from 'styled-components'
 import cx from 'clsx'
 
@@ -6,14 +8,14 @@ import {
     createStyledComponent,
     createStyle,
     ThemeCSSStyles,
-    getThemeCSSObject,
+    getThemeCSSObject
 } from '../styles'
-
-import type { ReactElement } from '../styles'
 
 import { Spinner } from '../loading'
 import { attachSignatureToComponent } from '../utils'
 import { BUTTON } from '../constants/component-ids'
+
+import type { ReactElement } from '../styles'
 
 export type ButtonProps<T> = ButtonBaseProps<T> & {
     size?: 'small' | 'regular' | 'large'
@@ -121,7 +123,7 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
             size = 'regular',
             children,
             csx = {},
-            isLoading,
+            isLoading
         } = props
 
         const getDimProperties = (): CSSObject => {
@@ -137,7 +139,7 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
 
         if (!children) {
             return {
-                display: 'none',
+                display: 'none'
             }
         }
 
@@ -156,7 +158,7 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
             ...getDimProperties(),
             ...getThemeCSSObject(csx.iconContainer, theme),
             ...(isRight && getThemeCSSObject(csx.iconContainerRight, theme)),
-            ...(!isRight && getThemeCSSObject(csx.iconContainerLeft, theme)),
+            ...(!isRight && getThemeCSSObject(csx.iconContainerLeft, theme))
         }
     }
 )
@@ -171,7 +173,7 @@ const ButtonRoot = createStyledComponent<
         isDense = false,
         csx = {},
         isLoading,
-        isExtendStyleFromThemeVars = true,
+        isExtendStyleFromThemeVars = true
     } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
     const { body, bodySm, bodyLg } = themePropsForThemeVarFn.typography
@@ -206,7 +208,7 @@ const ButtonRoot = createStyledComponent<
         if (!isLoading) return {}
 
         return {
-            color: 'transparent',
+            color: 'transparent'
         }
     }
 
@@ -219,7 +221,7 @@ const ButtonRoot = createStyledComponent<
         ...getFontProperties(),
         ...(isExtendStyleFromThemeVars &&
             themeVars.button(themePropsForThemeVarFn, props)),
-        ...getThemeCSSObject(csx.root, theme),
+        ...getThemeCSSObject(csx.root, theme)
     }
 })
 
@@ -232,81 +234,84 @@ const useStyle = createStyle({
         position: 'absolute',
         right: 0,
         visibility: props.isLoading ? 'visible' : 'hidden',
-        ...getThemeCSSObject(props.csx?.buttonSpinnerContainer),
-    }),
+        ...getThemeCSSObject(props.csx?.buttonSpinnerContainer)
+    })
 })
 
-export const Button = <T,>(props: ButtonProps<T>): JSX.Element => {
-    const {
-        children,
-        RightIcon: RightIconProps,
-        LeftIcon: LeftIconProps,
-        size,
-        isDense,
-        isLoading = false,
-        isDisabled = false,
-        className,
-        csx,
-        classes: classesProps = {},
-        ...rest
-    } = props
+export const Button = forwardRef(
+    <T,>(props: ButtonProps<T>, ref: any): JSX.Element => {
+        const {
+            children,
+            RightIcon: RightIconProps,
+            LeftIcon: LeftIconProps,
+            size,
+            isDense,
+            isLoading = false,
+            isDisabled = false,
+            className,
+            csx,
+            classes: classesProps = {},
+            ...rest
+        } = props
 
-    const styleProps = {
-        size,
-        isDense,
-        csx,
-        isLoading,
+        const styleProps = {
+            size,
+            isDense,
+            csx,
+            isLoading
+        }
+
+        const classes = useStyle(props)
+        const { buttonSpinnerContainer } = classes
+        const {
+            root: rootProps,
+            buttonSpinner: buttonSpinnerProps,
+            buttonSpinnerContainer: buttonSpinnerContainerProps,
+            iconContainer: iconContainerProps,
+            iconContainerLeft: iconContainerLeftProps,
+            iconContainerRight: iconContainerRightProps,
+            ...classesForBase
+        } = classesProps
+
+        return (
+            <ButtonRoot
+                className={cx(className, rootProps)}
+                isDisabled={isLoading || isDisabled}
+                classes={classesForBase}
+                ref={ref}
+                {...styleProps}
+                {...rest}
+            >
+                <IconContainer
+                    className={cx(iconContainerProps, iconContainerLeftProps)}
+                    isRight
+                    {...styleProps}
+                >
+                    {LeftIconProps}
+                </IconContainer>
+                {children}
+                <IconContainer
+                    className={cx(iconContainerProps, iconContainerRightProps)}
+                    {...styleProps}
+                >
+                    {RightIconProps}
+                </IconContainer>
+                <div
+                    className={cx(
+                        buttonSpinnerContainer,
+                        buttonSpinnerContainerProps
+                    )}
+                >
+                    <Spinner
+                        className={cx(buttonSpinnerProps)}
+                        csx={{ root: csx?.buttonSpinner }}
+                        color="inherit"
+                        size={size}
+                    />
+                </div>
+            </ButtonRoot>
+        )
     }
-
-    const classes = useStyle(props)
-    const { buttonSpinnerContainer } = classes
-    const {
-        root: rootProps,
-        buttonSpinner: buttonSpinnerProps,
-        buttonSpinnerContainer: buttonSpinnerContainerProps,
-        iconContainer: iconContainerProps,
-        iconContainerLeft: iconContainerLeftProps,
-        iconContainerRight: iconContainerRightProps,
-        ...classesForBase
-    } = classesProps
-
-    return (
-        <ButtonRoot
-            className={cx(className, rootProps)}
-            isDisabled={isLoading || isDisabled}
-            classes={classesForBase}
-            {...styleProps}
-            {...rest}
-        >
-            <IconContainer
-                className={cx(iconContainerProps, iconContainerLeftProps)}
-                isRight
-                {...styleProps}
-            >
-                {LeftIconProps}
-            </IconContainer>
-            {children}
-            <IconContainer
-                className={cx(iconContainerProps, iconContainerRightProps)}
-                {...styleProps}
-            >
-                {RightIconProps}
-            </IconContainer>
-            <div
-                className={cx(
-                    buttonSpinnerContainer,
-                    buttonSpinnerContainerProps
-                )}
-            >
-                <Spinner
-                    className={cx(buttonSpinnerProps)}
-                    csx={{ root: csx?.buttonSpinner }}
-                    color="inherit"
-                    size={size}
-                />
-            </div>
-        </ButtonRoot>
-    )
-}
+) as <T>(props: ButtonProps<T> & { ref?: any }) => JSX.Element
 
 attachSignatureToComponent(Button, BUTTON)

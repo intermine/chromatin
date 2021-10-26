@@ -1,18 +1,16 @@
+import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles,
+    ThemeCSSStyles
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { CARD_CONTENT } from '../constants/component-ids'
 
-import type { Ref } from '../utils'
-
 export interface CardContentProps
     extends Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'> {
-    innerRef?: Ref
     /**
      * To extend the styles applied to the components
      */
@@ -40,7 +38,7 @@ const CardContentRoot = createStyledComponent<'div', CardContentProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             typography: { body },
-            palette: { neutral },
+            palette: { neutral }
         } = themePropsForThemeVarFn
 
         return {
@@ -51,23 +49,24 @@ const CardContentRoot = createStyledComponent<'div', CardContentProps>(
             lineHeight: 1.5,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.cardContent(themePropsForThemeVarFn, props)),
-            ...getThemeCSSObject(csx.root, theme),
+            ...getThemeCSSObject(csx.root, theme)
         }
     }
 )
 
-export const CardContent = (props: CardContentProps): JSX.Element => {
-    const { children, className, classes = {}, innerRef, ...rest } = props
+export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
+    (props, ref): JSX.Element => {
+        const { children, className, classes = {}, ...rest } = props
 
-    return (
-        <CardContentRoot
-            className={cx(className, classes.root)}
-            ref={innerRef}
-            {...rest}
-        >
-            {children}
-        </CardContentRoot>
-    )
-}
-
+        return (
+            <CardContentRoot
+                className={cx(className, classes.root)}
+                ref={ref}
+                {...rest}
+            >
+                {children}
+            </CardContentRoot>
+        )
+    }
+)
 attachSignatureToComponent(CardContent, CARD_CONTENT)
