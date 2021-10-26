@@ -26,6 +26,18 @@ export class RGBA {
         this.rgba = rgba
         this.hex = hex
     }
+    /**
+     * This will return rgba string. There is an
+     * option to get rgba colour with updated alpha value.
+     *
+     * @param alpha alpha value.
+     * @returns {string} rgba string
+     */
+    getRGBA(alpha = this.alpha): string {
+        return `rgba(${this.r}, ${this.g}, ${this.b}, ${
+            alpha > 1 ? 1 : alpha < 0 ? 0 : alpha
+        })`
+    }
 }
 
 /**

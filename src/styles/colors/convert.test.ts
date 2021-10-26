@@ -40,5 +40,15 @@ describe('Testing styles/utils/convert', () => {
             rgba: 'rgba(255, 0, 0, 0.4)',
             hex: '#f00',
         })
+
+        const colorObject = hex2rgba('#ddd', 0.5)
+
+        expect(hex2rgba('#ddd', 0.5).getRGBA(0.6)).toEqual(
+            'rgba(221, 221, 221, 0.6)'
+        )
+
+        expect(hex2rgba('#ddd', 0.5).getRGBA(10)).toEqual(
+            'rgba(221, 221, 221, 1)'
+        )
     })
 })
