@@ -1,5 +1,5 @@
 import { CSSObject } from 'styled-components'
-import { BasicColor, CreateColorOptions } from '../../colors'
+import { BasicColor, CreateColorOptions, RGBA } from '../../colors'
 import { ThemeType } from '../../colors/color'
 import { FontMixinReturn, namedTypographyScales } from '../../typography'
 
@@ -127,8 +127,8 @@ export type ThemeColorName =
     | 'disable'
 
 export type ThemePalette = {
-    recommendedThemeBackground: {
-        [x in ThemeType]: string
+    themeBackground: {
+        [x in ThemeType]: RGBA
     }
     primary: ThemePaletteColor
     secondary: ThemePaletteColor

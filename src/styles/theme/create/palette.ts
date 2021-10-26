@@ -11,6 +11,7 @@ import {
     grey as greyColor,
     orange,
     themeTernaryOperator as tto,
+    hex2rgba,
 } from '../../colors'
 import { createColor, getContrastRatio, ThemeType } from '../../colors'
 import {
@@ -158,9 +159,9 @@ export const createPalette = (
         active,
         neutral,
         disable,
-        recommendedThemeBackground: {
-            light: '#ffffff',
-            dark: '#121212',
+        themeBackground: {
+            light: hex2rgba('#ffffff'),
+            dark: hex2rgba('#121212'),
         },
     }
 }
