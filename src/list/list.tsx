@@ -63,11 +63,13 @@ const ListRoot = createStyledComponent<'ul', ListProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             themeType,
-            palette: { recommendedThemeBackground: bg }
+            palette: {
+                themeBackground: { light, dark }
+            }
         } = themePropsForThemeVarFn
 
         return {
-            background: tto(themeType, bg.light, bg.dark),
+            background: tto(themeType, light.hex, dark.hex),
             boxSizing: 'border-box',
             borderRadius: '0',
             listStyle,

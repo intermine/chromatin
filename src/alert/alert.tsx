@@ -171,7 +171,10 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            palette: { recommendedThemeBackground: rtb, neutral },
+            palette: {
+                themeBackground: { light },
+                neutral
+            },
             elevation,
             themeType,
             breakingPoints: { mixin }
@@ -218,7 +221,7 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
 
         return {
             alignSelf: 'flex-start',
-            background: tto(themeType, rtb.light, neutral[40]),
+            background: tto(themeType, light.hex, neutral[40]),
             borderRadius: '0.25rem',
             boxSizing: 'border-box',
             boxShadow: elevation.low,
