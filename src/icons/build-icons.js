@@ -1,5 +1,9 @@
 const fs = require('fs-extra')
 const path = require('path')
+const childProcess = require('child_process')
+const { promisify } = require('util')
+
+const exec = promisify(childProcess.exec)
 
 // Helper functions
 const readdir = (path) => {
@@ -60,13 +64,29 @@ async function readAndWrite(svgPath, output) {
     const file = await fs.readFile(svgPath, { encoding: 'utf8' })
     const fileName = path.basename(svgPath, '.svg') + '.tsx'
     const template = `
-    export default (props: React.SVGProps<SVGSVGElement> & { innerRef?: React.RefObject<any>}): JSX.Element => {
-        const { innerRef, ...rest } = props
-        return (
-            ${file.replace(/<svg/, '<svg ref={innerRef} {...rest}')}
-            )
-    }
-    
+import { forwardRef } from 'react'
+import cx from 'clsx'
+
+import { createStyle, getThemeCSSObject } from '../../styles'
+import type { ChromatinIcon } from '../types'
+
+const useStyles = createStyle((theme) => ({
+    root: (props: ChromatinIcon) => ({
+        ...getThemeCSSObject(props?.csx?.root, theme)
+    })
+}))
+
+export default forwardRef<any, ChromatinIcon>((props, ref): JSX.Element => {
+    const { className, classes: _classes = {}, csx = {}, ...rest } = props
+    const classes = useStyles({ className, classes: _classes, csx, ...rest})
+
+    return (
+        ${file.replace(
+            /<svg/,
+            '<svg className={cx(classes.root, _classes.root, className)} ref={ref} {...rest}'
+        )}
+    )
+})    
 `
 
     await fs.writeFile(path.join(output, fileName), template, (err) => {
@@ -141,6 +161,9 @@ async function init() {
     })
 
     console.log('Completed!')
+    console.log('Now running prettier...')
+
+    exec('npx prettier --write ' + __dirname)
 }
 
 console.log('Building...')

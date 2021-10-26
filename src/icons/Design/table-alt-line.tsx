@@ -1,14 +1,34 @@
+import { forwardRef } from 'react'
+import cx from 'clsx'
 
-    export default (props: React.SVGProps<SVGSVGElement> & { innerRef?: React.RefObject<any>}): JSX.Element => {
-        const { innerRef, ...rest } = props
-        return (
-            <svg ref={innerRef} {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <g>
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path fill-rule="nonzero" d="M21 3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18zm-1 13H4v3h16v-3zM8 5H4v9h4V5zm6 0h-4v9h4V5zm6 0h-4v9h4V5z"/>
-    </g>
-</svg>
+import { createStyle, getThemeCSSObject } from '../../styles'
+import type { ChromatinIcon } from '../types'
 
-            )
-    }
-    
+const useStyles = createStyle((theme) => ({
+    root: (props: ChromatinIcon) => ({
+        ...getThemeCSSObject(props?.csx?.root, theme),
+    }),
+}))
+
+export default forwardRef<any, ChromatinIcon>((props, ref): JSX.Element => {
+    const { className, classes: _classes = {}, csx = {}, ...rest } = props
+    const classes = useStyles({ className, classes: _classes, csx, ...rest })
+
+    return (
+        <svg
+            className={cx(classes.root, _classes.root, className)}
+            ref={ref}
+            {...rest}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+        >
+            <g>
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                    fill-rule="nonzero"
+                    d="M21 3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18zm-1 13H4v3h16v-3zM8 5H4v9h4V5zm6 0h-4v9h4V5zm6 0h-4v9h4V5z"
+                />
+            </g>
+        </svg>
+    )
+})

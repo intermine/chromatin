@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import cx from 'clsx'
 
 import { createStyledComponent, getThemeCSSObject } from '../styles'
-import { attachSignatureToComponent, Ref } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { MENU_HEADING } from '../constants/component-ids'
 import { ListHeading, ListHeadingProps } from '../list-heading'
 
