@@ -8,8 +8,7 @@ import {
     isThemeFontVariant,
     ThemeTypographyVariant,
     ThemeCSSStyles,
-    getThemeCSSObject,
-    ReactElement
+    getThemeCSSObject
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TYPOGRAPHY } from '../constants/component-ids'

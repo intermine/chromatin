@@ -59,7 +59,7 @@ export const isThemeFontVariant = (
         name === 'h6' ||
         name === 'body' ||
         name === 'bodyLg' ||
-        name === 'body Sm' ||
+        name === 'bodySm' ||
         name === 'caption' ||
         name === 'title' ||
         name === 'small'
