@@ -21,6 +21,7 @@ export interface InlineAlertProps extends Omit<AlertProps, 'portalProps'> {
      * To occupy full space
      */
     hasFullWidth?: boolean
+    isDense?: boolean
     containerProps?: Omit<CollapsibleProps, 'isOpen'>
 }
 
@@ -32,6 +33,7 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
         const {
             csx = {},
             hasFullWidth = true,
+            isDense = false,
             type = 'neutral',
             isExtendStyleFromThemeVars
         } = props
@@ -64,7 +66,7 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
             boxShadow: 'unset',
             left: 'unset',
             maxWidth: 'unset',
-            padding: '1rem',
+            padding: isDense ? '0.5rem' : '1rem',
             position: 'relative',
             right: 'unset',
             top: 'unset',
