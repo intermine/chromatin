@@ -514,7 +514,15 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
                     {hasCloseButton && (
                         <IconContainer
                             className={cx(classesProps.closeIconContainer)}
-                            csx={{ root: csx.closeIconContainer }}
+                            csx={{
+                                root: (theme) => ({
+                                    marginTop: '2px',
+                                    ...getThemeCSSObject(
+                                        csx.closeIconContainer,
+                                        theme
+                                    )
+                                })
+                            }}
                         >
                             <IconButton
                                 size="regular"
