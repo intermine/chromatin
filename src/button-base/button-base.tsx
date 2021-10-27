@@ -335,6 +335,7 @@ export const ButtonBase = forwardRef(
             tabIndex = 0,
             isDisabled,
             onKeyUp,
+            type = 'button',
             ...rest
         } = props
 
@@ -357,6 +358,7 @@ export const ButtonBase = forwardRef(
                 tabIndex={tabIndex}
                 disabled={isDisabled}
                 isDisabled={isDisabled}
+                type={type}
                 {...rest}
             >
                 {children}
