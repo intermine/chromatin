@@ -70,7 +70,7 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             if (variant === 'shadow') {
                 return elevation.low
             }
-            return `inset 0 0 0 1px ${neutral[60]}`
+            return `inset 0 0 0 1px ${neutral[50]}`
         }
 
         const getHoverProperties = (): CSSObject => {
@@ -82,7 +82,7 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             }
 
             return {
-                boxShadow: `inset 0 0 0 2px ${neutral[60]}`
+                boxShadow: `inset 0 0 0 2px ${neutral[50]}`
             }
         }
 
