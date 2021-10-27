@@ -8,7 +8,8 @@ import {
     isThemeFontVariant,
     ThemeTypographyVariant,
     ThemeCSSStyles,
-    getThemeCSSObject
+    getThemeCSSObject,
+    ReactElement
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { TYPOGRAPHY } from '../constants/component-ids'
@@ -25,6 +26,16 @@ export interface TypographyBaseProps
     > {
     variant?: ThemeTypographyVariant
     color?: string
+    /**
+     * If true, then text will truncate with a text
+     * overflow ellipsis.
+     *
+     * Note: Text overflow can only happen with block
+     * or inline-block level elements.
+     *
+     * @default false
+     */
+    isTruncateText?: boolean
     /**
      * To extend the styles applied to the components
      */
@@ -60,6 +71,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
         const {
             variant = 'body',
             color,
+            isTruncateText = false,
             csx = {},
             isExtendStyleFromThemeVars = true
         } = props
@@ -77,8 +89,19 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
             return typography[variant]
         }
 
+        const getTruncateProperties = (): CSSObject => {
+            if (!isTruncateText) return {}
+            return {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%'
+            }
+        }
+
         return {
             color: getColor(),
+            ...getTruncateProperties(),
             ...getFontProperties(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.typography(themePropsForThemeVarFn, props)),
