@@ -22,7 +22,7 @@ import {
 
 import { attachSignatureToComponent } from '../utils'
 import { ALERT } from '../constants/component-ids'
-import { IconButton, IconButtonProps } from '../icon-button'
+import { IconButton, IconButtonCommonProps } from '../icon-button'
 import { Typography } from '../typography'
 import { Portal, PortalProps } from '../portal'
 
@@ -63,7 +63,7 @@ export interface AlertProps
      */
     hasCloseButton?: boolean
     onClose?: () => void
-    closeButtonProps?: IconButtonProps<'button'>
+    closeButtonProps?: IconButtonCommonProps
     /**
      * Alert is open or close.
      *
@@ -324,7 +324,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         const {
             title,
             message,
-            closeButtonProps = {} as IconButtonProps<any>,
+            closeButtonProps = {} as IconButtonCommonProps,
             classes: classesProps = {},
             csx = {},
             className,

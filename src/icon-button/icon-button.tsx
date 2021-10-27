@@ -1,7 +1,11 @@
 import cx from 'clsx'
 
 import { forwardRef } from 'react'
-import { ButtonBase, ButtonBaseProps } from '../button-base/button-base'
+import {
+    ButtonBase,
+    ButtonBaseProps,
+    ButtonBaseCommonProps
+} from '../button-base/button-base'
 
 import {
     createStyledComponent,
@@ -16,7 +20,7 @@ import { ICON_BUTTON } from '../constants/component-ids'
 
 import type { ReactElement } from '../styles'
 
-export type IconButtonProps<T> = ButtonBaseProps<T> & {
+export interface IconButtonCommonProps extends ButtonBaseCommonProps {
     size?: 'small' | 'regular' | 'large'
     Icon?: ReactElement
     /**
@@ -58,6 +62,7 @@ export type IconButtonProps<T> = ButtonBaseProps<T> & {
         spinner?: ThemeCSSStyles
     }
 }
+export type IconButtonProps<T> = IconButtonCommonProps & ButtonBaseProps<T>
 
 const IconButtonRoot = createStyledComponent<
     typeof ButtonBase,
