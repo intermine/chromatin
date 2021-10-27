@@ -404,6 +404,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
                                 } = theme
                                 return {
                                     color: neutral[80],
+                                    marginTop: '0.125rem',
                                     ...getThemeCSSObject(csx.message, theme)
                                 }
                             }
@@ -424,7 +425,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
                         className={cx(classesProps.title)}
                         csx={{
                             root: (theme) => ({
-                                marginBottom: '0.5rem',
+                                marginBottom: '0.25rem',
                                 ...getThemeCSSObject(csx.title, theme)
                             })
                         }}
