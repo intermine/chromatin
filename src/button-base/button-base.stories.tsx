@@ -13,7 +13,6 @@ const Template: Story = ({ children, ...args }) => (
 export const Default = Template.bind({})
 Default.args = {
     children: 'Button Base',
-    color: 'primary',
     Component: 'button',
     isDisabled: false,
     hasHoverEffectOnFocus: false,

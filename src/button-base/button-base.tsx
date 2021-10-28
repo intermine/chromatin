@@ -9,7 +9,9 @@ import {
     createStyledComponent,
     themeTernaryOperator as tto,
     ThemeCSSStyles,
-    getThemeCSSObject
+    getThemeCSSObject,
+    getColorNameAndKey,
+    getThemeColorUsingKey
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { BUTTON_BASE } from '../constants/component-ids'
@@ -85,14 +87,18 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
         const { palette, elevation, themeType } = themePropsForThemeVarFn
         const {
             common: { black, white },
+            grey,
+            darkGrey,
             contrastThreshold,
             focus,
             ...themeColors
         } = palette
 
+        const { disable } = themeColors
+
         const {
             variant = 'normal',
-            color = '',
+            color,
             isDisabled = false,
             hasElevation: hasElevationProps = true,
             hasHighlightOnFocus = true,
@@ -107,18 +113,23 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             isExtendStyleFromThemeVars = true
         } = props
 
-        const getMainColor = (inverted = false): string => {
-            if (!isThemeColorName(color)) return ''
-            if (color !== 'neutral') return themeColors[color].main
-            if (!inverted) return tto(themeType, black, white)
-            return tto(themeType, white, black)
-        }
+        const colorTuple = color
+            ? getColorNameAndKey(color, { theme })
+            : undefined
 
-        const getBackground = (): string => {
+        const getBackground = (): string | undefined => {
             if (isDisabled) {
-                if (variant === 'ghost') return themeColors.disable[20]
+                if (variant === 'ghost') return disable[20]
 
-                return themeColors.disable.main
+                return disable.main
+            }
+
+            if (!color) {
+                /**
+                 * If there is no value then returning default color
+                 * based on theme type
+                 */
+                return tto(themeType, grey[20], darkGrey[40])
             }
 
             if (variant !== 'normal') {
@@ -129,21 +140,11 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 return 'transparent'
             }
 
-            if (isThemeColorName(color)) {
-                return themeColors[color].main
+            if (colorTuple) {
+                return getThemeColorUsingKey(colorTuple, theme)
             }
-            /**
-             * If there is any value in color then return
-             * that value. It is important because it may
-             * has value like 'red'.
-             */
-            if (color) return color
 
-            /**
-             * If there is no value then returning default color
-             * based on theme type
-             */
-            return themeColors.neutral.main
+            return color
         }
 
         const boxShadowWithBorder = (
@@ -167,25 +168,32 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             if (variant === 'outlined') {
                 const boxShadowBase = 'inset 0 0 0 1px'
                 if (isDisabled)
-                    return `${boxShadowBase} ${themeColors.disable[60]}`
+                    return `${boxShadowBase} ${disable.mainDarkShade}`
 
-                if (!isThemeColorName(color)) {
-                    if (!color) return
-                    return `${boxShadowBase} ${color}`
+                if (colorTuple) {
+                    const shadowColor = getThemeColorUsingKey(colorTuple, theme)
+                    return `${boxShadowBase} ${shadowColor}`
                 }
 
-                const shadowColor = getMainColor()
+                const shadowColor =
+                    color ?? tto(themeType, darkGrey[10], grey[10])
+
                 return `${boxShadowBase} ${shadowColor}`
             }
         }
 
         const getColor = (): string | undefined => {
             if (isDisabled) {
-                return themeColors.disable[70]
+                return disable.mainDarkShade
+            }
+
+            if (!color) {
+                return tto(themeType, darkGrey[10], grey[10])
             }
 
             if (variant === 'normal') {
-                if (isThemeColorName(color)) return themeColors[color].text
+                if (colorTuple)
+                    return getThemeColorUsingKey([colorTuple[0], 'text'], theme)
 
                 if (isValidColorHex(color)) {
                     const textColorFirstPref = tto(themeType, white, black)
@@ -199,18 +207,20 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 return
             }
 
-            if (!isThemeColorName(color)) {
-                return color
+            /**
+             * For ghost and outlined
+             */
+            if (colorTuple) {
+                return getThemeColorUsingKey(colorTuple, theme)
             }
 
-            return getMainColor()
+            return tto(themeType, darkGrey[10], grey[10])
         }
 
         const calculatedColor = getColor()
         const hoverProperties = getHoverProperties({
             color,
             isDisabled,
-            mainColor: getMainColor(),
             theme,
             variant
         })
@@ -227,29 +237,17 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
 
             const boxShadowBase = '0 0 0 3px'
             const borderAsBoxShadow = getBoxShadow()
-            if (!isThemeColorName(color)) {
-                if (isValidColorHex(color)) {
-                    const c = hex2rgba(color, focus.borderOpacity).rgba
-                    return {
-                        ...(hasHighlightOnFocus && {
-                            boxShadow: boxShadowWithBorder(
-                                `${boxShadowBase} ${c}`,
-                                borderAsBoxShadow
-                            )
-                        }),
 
-                        ...(hasHoverEffectOnFocus && hoverProperties)
-                    }
-                }
-
-                const c = hex2rgba(
-                    tto(themeType, black, white),
-                    focus.unknownColorBorderOpacity
-                ).rgba
+            if (colorTuple) {
                 return {
                     ...(hasHighlightOnFocus && {
                         boxShadow: boxShadowWithBorder(
-                            `${boxShadowBase} ${c}`,
+                            `${boxShadowBase} ${
+                                hex2rgba(
+                                    getThemeColorUsingKey(colorTuple, theme),
+                                    focus.borderOpacity
+                                ).rgba
+                            }`,
                             borderAsBoxShadow
                         )
                     }),
@@ -257,15 +255,27 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 }
             }
 
+            const _color = color ?? tto(themeType, darkGrey[10], grey[10])
+
+            if (isValidColorHex(_color)) {
+                const c = hex2rgba(_color, focus.borderOpacity).rgba
+                return {
+                    ...(hasHighlightOnFocus && {
+                        boxShadow: boxShadowWithBorder(
+                            `${boxShadowBase} ${c}`,
+                            borderAsBoxShadow
+                        )
+                    }),
+
+                    ...(hasHoverEffectOnFocus && hoverProperties)
+                }
+            }
+
+            const c = hex2rgba(_color, focus.unknownColorBorderOpacity).rgba
             return {
                 ...(hasHighlightOnFocus && {
                     boxShadow: boxShadowWithBorder(
-                        `${boxShadowBase} ${
-                            hex2rgba(
-                                themeColors[color].mainDarkShade,
-                                focus.borderOpacity
-                            ).rgba
-                        }`,
+                        `${boxShadowBase} ${c}`,
                         borderAsBoxShadow
                     )
                 }),

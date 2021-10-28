@@ -1,34 +1,43 @@
 import { CSSObject } from 'styled-components'
 import {
+    getColorNameAndKey,
+    getThemeColorUsingKey,
     getTintOrShade,
     hex2rgba,
-    isThemeColorName,
     isValidColorHex,
     Theme,
 } from '../styles'
 
 export type GetHoverPropertiesOptions = {
-    color: string
+    color?: string
     isDisabled: boolean
     variant: string
-    mainColor: string
     theme: Theme
 }
 
 export const getHoverProperties = (
     options = {} as GetHoverPropertiesOptions
 ): CSSObject => {
-    const { color, isDisabled, mainColor, theme, variant } = options
+    const { color, isDisabled, theme, variant } = options
 
     if (!color || isDisabled) return {}
 
     const { themeType, palette } = theme
     const { hover } = palette
 
+    const colorTuple = getColorNameAndKey(color, { theme })
+
     if (variant === 'normal') {
-        if (!isThemeColorName(color)) {
-            if (!isValidColorHex(color))
-                return { opacity: hover.unknownColorOpacity }
+        if (colorTuple) {
+            return {
+                background: getThemeColorUsingKey(
+                    [colorTuple[0], 'mainDarkShade'],
+                    theme
+                ),
+            }
+        }
+
+        if (isValidColorHex(color)) {
             return {
                 background: getTintOrShade(
                     color,
@@ -38,16 +47,19 @@ export const getHoverProperties = (
             }
         }
 
+        return { opacity: hover.unknownColorOpacity }
+    }
+
+    if (colorTuple) {
         return {
-            background: palette[color].mainDarkShade,
+            background: hex2rgba(
+                getThemeColorUsingKey(colorTuple, theme),
+                hover.ghostElementBackgroundOpacity
+            ).rgba,
         }
     }
 
-    if (!isThemeColorName(color)) {
-        if (!isValidColorHex(color))
-            return {
-                opacity: hover.unknownColorOpacity,
-            }
+    if (isValidColorHex(color)) {
         return {
             background: hex2rgba(color, hover.ghostElementBackgroundOpacity)
                 .rgba,
@@ -55,28 +67,33 @@ export const getHoverProperties = (
     }
 
     return {
-        background: hex2rgba(mainColor, hover.ghostElementBackgroundOpacity)
-            .rgba,
+        opacity: hover.unknownColorOpacity,
     }
 }
 
-export type GetActivePropertiesOptions = Omit<
-    GetHoverPropertiesOptions,
-    'mainColor'
->
+export type GetActivePropertiesOptions = GetHoverPropertiesOptions
 
 export const getActiveProperties = (
     options = {} as GetActivePropertiesOptions
 ): CSSObject => {
     const { color, isDisabled, theme, variant } = options
+    if (!color || isDisabled) return {}
+
+    const colorTuple = getColorNameAndKey(color, { theme })
+
     const { palette, themeType } = theme
     const { active } = palette
 
-    if (!color || isDisabled) return {}
-
     if (variant === 'normal') {
-        if (!isThemeColorName(color)) {
-            if (!isValidColorHex(color)) return { opacity: 1 }
+        if (colorTuple) {
+            return {
+                background: getThemeColorUsingKey(
+                    [colorTuple[0], 'mainLightShade'],
+                    theme
+                ),
+            }
+        }
+        if (isValidColorHex(color)) {
             return {
                 background: getTintOrShade(
                     color,
@@ -85,21 +102,24 @@ export const getActiveProperties = (
                 ),
             }
         }
+        return { opacity: 1 }
+    }
 
+    if (colorTuple) {
         return {
-            background: palette[color].mainLightShade,
+            background: hex2rgba(
+                getThemeColorUsingKey(colorTuple, theme),
+                active.ghostElementBackgroundOpacity
+            ).rgba,
         }
     }
 
-    if (!isThemeColorName(color)) {
-        if (!isValidColorHex(color)) return { opacity: 1 }
+    if (isValidColorHex(color)) {
         return {
             background: hex2rgba(color, active.ghostElementBackgroundOpacity)
                 .rgba,
         }
     }
 
-    return {
-        background: palette[color][10],
-    }
+    return { opacity: 1 }
 }
