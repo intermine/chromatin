@@ -1,8 +1,15 @@
+import { isBasicColorKey } from '..'
 import { isProdEnv } from '../../utils'
-import { ThemeColorName, ThemeTypographyVariant } from './create'
+import {
+    ThemeColorName,
+    ThemeTypographyVariant,
+    Theme,
+    ThemePaletteColor,
+} from './create'
 
 export const isThemeColorName = (
-    colorName: string
+    colorName: string,
+    theme?: Theme
 ): colorName is ThemeColorName => {
     if (typeof colorName !== 'string') {
         if (!isProdEnv()) {
@@ -24,14 +31,18 @@ export const isThemeColorName = (
         colorName === 'warning' ||
         colorName === 'info' ||
         colorName === 'neutral' ||
-        colorName === 'disable'
+        colorName === 'disable' ||
+        colorName === 'grey' ||
+        colorName === 'darkGrey' ||
+        colorName === 'common'
     )
         return true
     return false
 }
 
 export const isThemeFontVariant = (
-    name: string
+    name: string,
+    theme?: Theme
 ): name is ThemeTypographyVariant => {
     if (typeof name !== 'string') {
         if (!isProdEnv()) {
@@ -60,5 +71,32 @@ export const isThemeFontVariant = (
         name === 'small'
     )
         return true
+    return false
+}
+
+export const isThemePaletteColorKey = (
+    key: string | number
+): key is keyof ThemePaletteColor => {
+    if (typeof key !== 'string' && typeof key !== 'number') {
+        if (!isProdEnv()) {
+            console.error(
+                '[Chromatin - isThemePaletteColorKey]: Expecting '.concat(
+                    'key as string or number. Got: ',
+                    typeof key
+                )
+            )
+        }
+        return false
+    }
+
+    if (
+        isBasicColorKey(key) ||
+        key == 'main' ||
+        key == 'text' ||
+        key == 'mainLightShade' ||
+        key == 'mainDarkShade'
+    ) {
+        return true
+    }
     return false
 }
