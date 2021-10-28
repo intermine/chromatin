@@ -5,8 +5,9 @@ import { isThemePaletteColorKey } from '.'
 import { isBasicColorKey } from '..'
 
 export type ColorAndKeyTuple = [
-    ThemeColorName,
-    keyof ThemePaletteColor | 'black' | 'white'
+    ThemeColorName | 'custom',
+    keyof ThemePaletteColor | 'black' | 'white',
+    (keyof ThemePaletteColor)?
 ]
 
 export const getColorNameAndKey = (
@@ -28,23 +29,33 @@ export const getColorNameAndKey = (
     /**
      * Default key is 'main'
      */
-    const [colorName, key = 'main'] = color.split('.')
+    const [colorName, key = 'main', _ = 'main'] = color.split('.')
 
     if (colorName === undefined) {
         return
     }
 
-    /**
-     * Special case for common color palette.
-     * Currently common palette has only two colors,
-     * i.e., black and white.
-     */
-    if (colorName === 'common') {
-        if (key === 'black' || key === 'white') {
-            return [colorName, key] as ColorAndKeyTuple
-        }
-        return
+    if (colorName === 'custom') {
+        /**
+         * it should be something like custom.abc.90
+         *
+         * TODO: fix typing.
+         */
+        return [key, _] as unknown as ColorAndKeyTuple
     }
+
+    if (color)
+        if (colorName === 'common') {
+            /**
+             * Special case for common color palette.
+             * Currently common palette has only two colors,
+             * i.e., black and white.
+             */
+            if (key === 'black' || key === 'white') {
+                return [colorName, key] as ColorAndKeyTuple
+            }
+            return
+        }
 
     if (isThemeColorName(colorName, theme) && isThemePaletteColorKey(key)) {
         if (colorName === 'darkGrey' || colorName === 'grey') {
@@ -79,7 +90,26 @@ export const getThemeColorUsingKey = (
         return ''
     }
 
-    const [color, key] = colorTuple
+    const [color, key, _ = 'main'] = colorTuple
+
+    if (color === 'custom') {
+        try {
+            return theme.palette.custom[key][_]
+        } catch {
+            if (!isProdEnv()) {
+                console.error(
+                    '[Chromatin - getThemeColorUsingKey]: Custom color '.concat(
+                        'is not defined. theme.palette.custom.',
+                        key.toString(),
+                        '.',
+                        _.toString(),
+                        ' throw error'
+                    )
+                )
+            }
+            return ''
+        }
+    }
 
     if (color === 'common') {
         if (key === 'black' || key === 'white') {

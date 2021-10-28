@@ -147,6 +147,10 @@ export type ThemePalette = {
     }
     grey: BasicColor
     darkGrey: BasicColor
+    custom: {
+        [x: string]: ThemePaletteColor
+    }
+
     contrastThreshold: number
     themeType: ThemeType
     hover: {
@@ -210,6 +214,9 @@ export type CreateThemePaletteOptions = {
     focus?: {
         borderOpacity?: number
         unknownColorBorderOpacity?: number
+    }
+    custom?: {
+        [x: string]: ThemePaletteColor
     }
 }
 

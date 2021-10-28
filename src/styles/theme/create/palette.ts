@@ -79,6 +79,7 @@ export const createPalette = (
         hover: hoverInput = {},
         focus: focusInput = {},
         active: activeInput = {},
+        custom = {},
     } = options
 
     const individualPaletteOptions = { contrastThreshold, themeType }
@@ -163,5 +164,6 @@ export const createPalette = (
             light: hex2rgba('#ffffff'),
             dark: hex2rgba('#121212'),
         },
+        custom,
     }
 }
