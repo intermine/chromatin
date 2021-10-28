@@ -28,7 +28,7 @@ type CreateIndividualPaletteOptions = {
 
 const { white, black } = common
 
-const createIndividualPalette = (
+export const createIndividualPalette = (
     color: CreateThemePaletteOptionsColorType,
     options: CreateIndividualPaletteOptions
 ): ThemePaletteColor => {
@@ -60,7 +60,7 @@ const createIndividualPalette = (
     }
 }
 
-export const createPalette = (
+export const createThemePalette = (
     options = {} as CreateThemePaletteOptions
 ): ThemePalette => {
     const {
@@ -79,7 +79,7 @@ export const createPalette = (
         hover: hoverInput = {},
         focus: focusInput = {},
         active: activeInput = {},
-        custom = {},
+        other = {},
     } = options
 
     const individualPaletteOptions = { contrastThreshold, themeType }
@@ -164,6 +164,6 @@ export const createPalette = (
             light: hex2rgba('#ffffff'),
             dark: hex2rgba('#121212'),
         },
-        custom,
+        other,
     }
 }
