@@ -1,19 +1,42 @@
 import * as React from 'react'
 
 import './container.css'
-import { ThemeProvider, createTheme } from '../src/styles'
+import {
+    ThemeProvider,
+    createTheme,
+    createIndividualPalette
+} from '../src/styles'
 
 export default ({ story, context }) => {
     const { theme: themeContext } = context.globals
 
     const [theme, setTheme] = React.useState(
-        createTheme({ palette: { themeType: themeContext } })
+        createTheme({
+            palette: {
+                themeType: themeContext,
+                other: {
+                    link: createIndividualPalette('#005bff', {
+                        contrastThreshold: 3,
+                        themeType: themeContext
+                    })
+                }
+            }
+        })
     )
 
     React.useEffect(() => {
         setTheme(
             createTheme({
                 themeType: themeContext,
+                palette: {
+                    themeType: themeContext,
+                    other: {
+                        link: createIndividualPalette('#005bff', {
+                            contrastThreshold: 3,
+                            themeType: themeContext
+                        })
+                    }
+                }
             })
         )
         if (themeContext === 'dark') {
