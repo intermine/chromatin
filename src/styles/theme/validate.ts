@@ -33,16 +33,23 @@ export const isThemeColorName = (
         colorName === 'neutral' ||
         colorName === 'disable' ||
         colorName === 'grey' ||
-        colorName === 'darkGrey' ||
-        colorName === 'common'
-    )
+        colorName === 'darkGrey'
+    ) {
         return true
+    }
+
+    if (!theme) return false
+
+    if (colorName.startsWith('$')) {
+        const otherColorName = colorName.slice(1)
+        return otherColorName in theme.palette.other
+    }
+
     return false
 }
 
 export const isThemeFontVariant = (
-    name: string,
-    theme?: Theme
+    name: string
 ): name is ThemeTypographyVariant => {
     if (typeof name !== 'string') {
         if (!isProdEnv()) {
