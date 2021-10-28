@@ -1,10 +1,10 @@
 import { CreateThemeOptions, Theme } from './create'
-import { createPalette } from './palette'
+import { createThemePalette } from './palette'
 import { createThemeVars } from './theme-vars'
-import { createTypography } from './typography'
-import { createElevation } from './elevation'
-import { createBreakingPoints } from './breaking-points'
-import { createSpacing } from './spacing'
+import { createThemeTypography } from './typography'
+import { createThemeElevation } from './elevation'
+import { createThemeBreakingPoints } from './breaking-points'
+import { createThemeSpacing } from './spacing'
 
 export const createTheme = (options = {} as CreateThemeOptions): Theme => {
     const {
@@ -18,11 +18,11 @@ export const createTheme = (options = {} as CreateThemeOptions): Theme => {
     } = options
 
     const themeVars = createThemeVars(themeVarsOptions)
-    const palette = createPalette(paletteOptions)
-    const typography = createTypography(typographyOptions)
-    const elevation = createElevation(elevationOptions)
-    const spacing = createSpacing(spacingOptions)
-    const breakingPoints = createBreakingPoints({
+    const palette = createThemePalette(paletteOptions)
+    const typography = createThemeTypography(typographyOptions)
+    const elevation = createThemeElevation(elevationOptions)
+    const spacing = createThemeSpacing(spacingOptions)
+    const breakingPoints = createThemeBreakingPoints({
         ...breakingPointsOptions,
         baseFontSize: typography.meta.documentFontSize,
     })

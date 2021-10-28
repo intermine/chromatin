@@ -125,7 +125,6 @@ export type ThemeColorName =
     | 'warning'
     | 'neutral'
     | 'disable'
-    | 'common'
     | 'grey'
     | 'darkGrey'
 
@@ -147,7 +146,7 @@ export type ThemePalette = {
     }
     grey: BasicColor
     darkGrey: BasicColor
-    custom: {
+    other: {
         [x: string]: ThemePaletteColor
     }
 
@@ -178,7 +177,6 @@ export type ThemeColors = {
     info: ThemePalette['info']
     disable: ThemePalette['disable']
     neutral: ThemePalette['neutral']
-    common: ThemePalette['common']
     grey: ThemePalette['grey']
     darkGrey: ThemePalette['darkGrey']
 }
@@ -199,7 +197,7 @@ export type CreateThemePaletteOptions = {
     disable?: CreateThemePaletteOptionsColorType
     grey?: BasicColor
     darkGrey?: BasicColor
-    themeType?: ThemeType
+    themeType: ThemeType
     contrastThreshold?: number
     hover?: {
         ghostElementBackgroundOpacity?: number
@@ -215,7 +213,7 @@ export type CreateThemePaletteOptions = {
         borderOpacity?: number
         unknownColorBorderOpacity?: number
     }
-    custom?: {
+    other?: {
         [x: string]: ThemePaletteColor
     }
 }

@@ -6,7 +6,7 @@ import {
     ThemeBreakingPoints,
 } from './create'
 
-export const createBreakingPoints = (
+export const createThemeBreakingPoints = (
     options: CreateThemeBreakingPointsOptions
 ): ThemeBreakingPoints => {
     const bp = mergeDeep(

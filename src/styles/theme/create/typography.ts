@@ -12,7 +12,7 @@ import {
 } from '../../typography'
 import { CreateThemeTypographyOptions, ThemeTypography } from './create'
 
-export const createTypography = (
+export const createThemeTypography = (
     options = {} as CreateThemeTypographyOptions
 ): ThemeTypography => {
     if (typeof options !== 'function' && typeof options !== 'object') {

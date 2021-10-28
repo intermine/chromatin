@@ -1,6 +1,6 @@
 import type { ThemeSpacing, CreateThemeSpacingOptions } from './create'
 
-export const createSpacing = (
+export const createThemeSpacing = (
     options: CreateThemeSpacingOptions
 ): ThemeSpacing => {
     if (typeof options === 'function') return options

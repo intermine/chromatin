@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { CreateThemeElevationOptions, ThemeElevation } from './create'
 
-export const createElevation = (
+export const createThemeElevation = (
     options: CreateThemeElevationOptions
 ): ThemeElevation => {
     const {
