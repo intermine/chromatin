@@ -1,4 +1,7 @@
-import { getColorNameAndKey } from './utils'
+import { createTheme } from './create'
+import { getColorNameAndKey, getThemeColorUsingKey } from './utils'
+
+const theme = createTheme()
 
 describe('Testing theme/utils', () => {
     test('Testing getColorNameAndKey', () => {
@@ -22,8 +25,8 @@ describe('Testing theme/utils', () => {
         expect(getColorNameAndKey('darkGrey.mainLightShade')).toBeUndefined()
     })
     test('Testing getThemeColorUsingKey', () => {
-        // expect(
-        //     getThemeColorUsingKey(getColorNameAndKey('primary.90'), theme)
-        // ).toEqual(expect.any(String))
+        expect(
+            getThemeColorUsingKey(getColorNameAndKey('primary.90'), theme)
+        ).toEqual(expect.any(String))
     })
 })
