@@ -32,24 +32,10 @@ export const getHoverProperties = (
 
     if (variant === 'normal') {
         if (colorTuple) {
-            return {
-                background: getThemeColorUsingKey(
-                    [colorTuple[0], 'mainDarkShade'],
-                    theme
-                ),
-            }
+            _color = colorTuple[0]
         }
 
         if (isValidColorHex(_color)) {
-            console.log(
-                hover,
-                _color,
-                getTintOrShade(
-                    _color,
-                    themeType !== 'light',
-                    hover.tintOrShadeFactor
-                )
-            )
             return {
                 background: getTintOrShade(
                     _color,
@@ -63,15 +49,12 @@ export const getHoverProperties = (
     }
 
     if (colorTuple) {
-        return {
-            background: hex2rgba(
-                getThemeColorUsingKey(colorTuple, theme),
-                hover.ghostElementBackgroundOpacity
-            ).rgba,
-        }
+        _color = colorTuple[0]
     }
 
-    _color = color ?? tto(themeType, darkGrey[10], grey[10])
+    if (!color && !colorTuple) {
+        _color = tto(themeType, darkGrey[10], grey[10])
+    }
 
     if (isValidColorHex(_color)) {
         return {
@@ -101,13 +84,9 @@ export const getActiveProperties = (
 
     if (variant === 'normal') {
         if (colorTuple) {
-            return {
-                background: getThemeColorUsingKey(
-                    [colorTuple[0], 'mainLightShade'],
-                    theme
-                ),
-            }
+            _color = colorTuple[0]
         }
+
         if (isValidColorHex(_color)) {
             return {
                 background: getTintOrShade(
@@ -121,15 +100,12 @@ export const getActiveProperties = (
     }
 
     if (colorTuple) {
-        return {
-            background: hex2rgba(
-                getThemeColorUsingKey(colorTuple, theme),
-                active.ghostElementBackgroundOpacity
-            ).rgba,
-        }
+        _color = colorTuple[0]
     }
 
-    _color = color ?? tto(themeType, darkGrey[10], grey[10])
+    if (!color && !colorTuple) {
+        _color = tto(themeType, darkGrey[10], grey[10])
+    }
 
     if (isValidColorHex(_color)) {
         return {
