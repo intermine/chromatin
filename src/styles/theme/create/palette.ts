@@ -17,7 +17,7 @@ import {
     ThemeType,
 } from '../../colors'
 
-import {
+import type {
     CreateThemePaletteOptions,
     CreateThemePaletteOptionsColorType,
     ThemePalette,

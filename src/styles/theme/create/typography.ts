@@ -10,7 +10,8 @@ import {
     fontMixin,
     getFontSizeInRem,
 } from '../../typography'
-import { CreateThemeTypographyOptions, ThemeTypography } from './create'
+
+import type { CreateThemeTypographyOptions, ThemeTypography } from './create'
 
 export const createThemeTypography = (
     options = {} as CreateThemeTypographyOptions

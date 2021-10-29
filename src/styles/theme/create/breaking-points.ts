@@ -1,6 +1,6 @@
 import { CSSObject } from 'styled-components'
 import { mergeDeep } from '../../../utils/misc'
-import {
+import type {
     CreateThemeBreakingPointsOptions,
     ThemeBPMixinObj,
     ThemeBreakingPoints,
