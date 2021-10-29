@@ -18,9 +18,7 @@ const Template: Story = ({ children, ...args }) => (
 
 export const Default = Template.bind({})
 Default.args = {
-    children: 'Neutral Button',
-    color:'$link.50',
-    variant: 'outlined',
+    children: 'Default Button',
     Component: 'button',
     onClick: (event) => console.log('You clicked me', event.currentTarget),
     onFocus: () => console.log('I am on focus'),

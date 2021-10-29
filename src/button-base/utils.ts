@@ -6,6 +6,7 @@ import {
     hex2rgba,
     isValidColorHex,
     Theme,
+    themeTernaryOperator as tto,
 } from '../styles'
 
 export type GetHoverPropertiesOptions = {
@@ -20,12 +21,14 @@ export const getHoverProperties = (
 ): CSSObject => {
     const { color, isDisabled, theme, variant } = options
 
-    if (!color || isDisabled) return {}
+    if (isDisabled) return {}
 
     const { themeType, palette } = theme
-    const { hover } = palette
+    const { hover, darkGrey, grey } = palette
 
-    const colorTuple = getColorNameAndKey(color, { theme })
+    let _color = color ?? tto(themeType, grey[10], darkGrey[30])
+
+    const colorTuple = getColorNameAndKey(_color, { theme })
 
     if (variant === 'normal') {
         if (colorTuple) {
@@ -37,10 +40,19 @@ export const getHoverProperties = (
             }
         }
 
-        if (isValidColorHex(color)) {
+        if (isValidColorHex(_color)) {
+            console.log(
+                hover,
+                _color,
+                getTintOrShade(
+                    _color,
+                    themeType !== 'light',
+                    hover.tintOrShadeFactor
+                )
+            )
             return {
                 background: getTintOrShade(
-                    color,
+                    _color,
                     themeType !== 'light',
                     hover.tintOrShadeFactor
                 ),
@@ -59,9 +71,11 @@ export const getHoverProperties = (
         }
     }
 
-    if (isValidColorHex(color)) {
+    _color = color ?? tto(themeType, darkGrey[10], grey[10])
+
+    if (isValidColorHex(_color)) {
         return {
-            background: hex2rgba(color, hover.ghostElementBackgroundOpacity)
+            background: hex2rgba(_color, hover.ghostElementBackgroundOpacity)
                 .rgba,
         }
     }
@@ -77,12 +91,13 @@ export const getActiveProperties = (
     options = {} as GetActivePropertiesOptions
 ): CSSObject => {
     const { color, isDisabled, theme, variant } = options
-    if (!color || isDisabled) return {}
-
-    const colorTuple = getColorNameAndKey(color, { theme })
+    if (isDisabled) return {}
 
     const { palette, themeType } = theme
-    const { active } = palette
+    const { active, grey, darkGrey } = palette
+
+    let _color = color ?? tto(themeType, grey[10], darkGrey[30])
+    const colorTuple = getColorNameAndKey(_color, { theme })
 
     if (variant === 'normal') {
         if (colorTuple) {
@@ -93,10 +108,10 @@ export const getActiveProperties = (
                 ),
             }
         }
-        if (isValidColorHex(color)) {
+        if (isValidColorHex(_color)) {
             return {
                 background: getTintOrShade(
-                    color,
+                    _color,
                     themeType === 'light',
                     active.tintOrShadeFactor
                 ),
@@ -114,9 +129,11 @@ export const getActiveProperties = (
         }
     }
 
-    if (isValidColorHex(color)) {
+    _color = color ?? tto(themeType, darkGrey[10], grey[10])
+
+    if (isValidColorHex(_color)) {
         return {
-            background: hex2rgba(color, active.ghostElementBackgroundOpacity)
+            background: hex2rgba(_color, active.ghostElementBackgroundOpacity)
                 .rgba,
         }
     }

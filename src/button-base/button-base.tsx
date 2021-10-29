@@ -5,7 +5,6 @@ import {
     getContrastRatio,
     hex2rgba,
     isValidColorHex,
-    isThemeColorName,
     createStyledComponent,
     themeTernaryOperator as tto,
     ThemeCSSStyles,
@@ -124,20 +123,20 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
                 return disable.main
             }
 
-            if (!color) {
-                /**
-                 * If there is no value then returning default color
-                 * based on theme type
-                 */
-                return tto(themeType, grey[20], darkGrey[40])
-            }
-
             if (variant !== 'normal') {
                 /**
                  * Ghost and outlined variant didn't have any background
                  * by default
                  */
                 return 'transparent'
+            }
+
+            if (!color) {
+                /**
+                 * If there is no value then returning default color
+                 * based on theme type
+                 */
+                return tto(themeType, grey[10], darkGrey[30])
             }
 
             if (colorTuple) {
