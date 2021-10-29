@@ -15,14 +15,12 @@ describe('Testing theme/utils', () => {
             'mainLightShade',
         ])
         expect(getColorNameAndKey('primary')).toEqual(['primary', 'main'])
-        expect(getColorNameAndKey('grey')).toEqual(['grey', 50])
+        expect(getColorNameAndKey('grey')).toEqual(['grey', 'main'])
         expect(getColorNameAndKey('grey.60')).toEqual(['grey', '60'])
-        expect(getColorNameAndKey('darkGrey')).toEqual(['darkGrey', 50])
+        expect(getColorNameAndKey('darkGrey')).toEqual(['darkGrey', 'main'])
 
         expect(getColorNameAndKey('abc.90')).toBeUndefined()
         expect(getColorNameAndKey('primary.19')).toBeUndefined()
-        expect(getColorNameAndKey('grey.mainDarkShade')).toBeUndefined()
-        expect(getColorNameAndKey('darkGrey.mainLightShade')).toBeUndefined()
     })
     test('Testing getThemeColorUsingKey', () => {
         expect(

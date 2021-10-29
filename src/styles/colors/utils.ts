@@ -1,7 +1,4 @@
-import type { ThemeType, BasicColor } from './types'
-
-export const themeTernaryOperator = <T>(theme: ThemeType, v1: T, v2: T): T =>
-    theme === 'light' ? v1 : v2
+import type { BasicColor } from './types'
 
 export const isBasicColorKey = (
     key: number | string
