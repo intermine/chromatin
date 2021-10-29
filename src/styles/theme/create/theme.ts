@@ -1,10 +1,11 @@
-import { CreateThemeOptions, Theme } from './create'
 import { createThemePalette } from './palette'
 import { createThemeVars } from './theme-vars'
 import { createThemeTypography } from './typography'
 import { createThemeElevation } from './elevation'
 import { createThemeBreakingPoints } from './breaking-points'
 import { createThemeSpacing } from './spacing'
+
+import type { CreateThemeOptions, Theme } from './create'
 
 export const createTheme = (options = {} as CreateThemeOptions): Theme => {
     const {

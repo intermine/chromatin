@@ -13,3 +13,6 @@ export * from './check'
 export * from './color'
 export * from './convert'
 export * from './utils'
+export * from './rgba'
+
+export type { BasicColor, CreateColorOptions, ThemeType } from './types'

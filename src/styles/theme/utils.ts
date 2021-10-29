@@ -1,8 +1,8 @@
 import { Theme, ThemeColorName, ThemePaletteColor } from './create'
 import { isProdEnv } from '../../utils'
-import { isThemeColorName } from './validate'
-import { isThemePaletteColorKey } from '.'
-import { BasicColor, isBasicColorKey } from '..'
+import { isThemeColorName, isThemePaletteColorKey } from './validate'
+import { isBasicColorKey } from '../colors/utils'
+import type { BasicColor } from '../colors/color'
 
 export type ColorAndKeyTuple = [ThemeColorName, keyof ThemePaletteColor]
 

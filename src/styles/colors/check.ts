@@ -1,4 +1,4 @@
-import { RGBA } from './convert'
+import { RGBA } from './rgba'
 
 /**
  * To check whether given string is a valid color hex value.

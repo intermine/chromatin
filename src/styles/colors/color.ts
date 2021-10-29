@@ -1,18 +1,9 @@
 import { isProdEnv } from '../../utils'
 import { isValidColorHex, isColorOrRGBA } from './check'
-import { hex2rgba, RGBA } from './convert'
+import { hex2rgba } from './convert'
+import { RGBA } from './rgba'
 
-export type BasicColor = {
-    10: string
-    20: string
-    30: string
-    40: string
-    50: string
-    60: string
-    70: string
-    80: string
-    90: string
-}
+import type { BasicColor, CreateColorOptions } from './types'
 
 /**
  * To get the tint or shade of the given color.
@@ -66,14 +57,6 @@ export const getTintOrShade = (
     }
 
     return `#${ich(r)}${ich(g)}${ich(b)}`
-}
-
-export type ThemeType = 'dark' | 'light'
-
-export type CreateColorOptions = {
-    tintFactor?: number
-    shadeFactor?: number
-    themeType?: ThemeType
 }
 
 /**

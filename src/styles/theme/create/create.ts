@@ -1,7 +1,14 @@
-import { CSSObject } from 'styled-components'
-import { BasicColor, CreateColorOptions, RGBA } from '../../colors'
-import { ThemeType } from '../../colors/color'
-import { FontMixinReturn, namedTypographyScales } from '../../typography'
+import type { CSSObject } from 'styled-components'
+
+import { namedTypographyScales } from '../../typography'
+
+import type {
+    BasicColor,
+    CreateColorOptions,
+    RGBA,
+    ThemeType,
+} from '../../colors'
+import type { FontMixinReturn } from '../../typography'
 
 // Component Props
 import {
@@ -46,7 +53,7 @@ import {
     TableHeadProps,
     TableRowProps,
     ModalProps,
-} from '../../..'
+} from '../../../index'
 
 /**
  * -----------------------------

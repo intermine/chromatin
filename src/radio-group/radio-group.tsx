@@ -1,5 +1,5 @@
 import { useState, forwardRef } from 'react'
-import { RadioGroupContextProps } from '.'
+import { RadioGroupContextProps } from './radio-group-context'
 import { Box, BoxBaseProps } from '../box'
 import { createStyledComponent, getThemeCSSObject } from '../styles'
 import { getId } from '../utils'

@@ -1,4 +1,4 @@
-import { isBasicColorKey } from '..'
+import { isBasicColorKey } from '../colors/utils'
 import { isProdEnv } from '../../utils'
 import {
     ThemeColorName,

@@ -12,8 +12,11 @@ import {
     orange,
     themeTernaryOperator as tto,
     hex2rgba,
+    createColor,
+    getContrastRatio,
+    ThemeType,
 } from '../../colors'
-import { createColor, getContrastRatio, ThemeType } from '../../colors'
+
 import {
     CreateThemePaletteOptions,
     CreateThemePaletteOptionsColorType,
