@@ -1,5 +1,5 @@
 import { CSSObject } from 'styled-components'
-import { isProdEnv } from '../../utils'
+import { __DEV__ } from '../../constants/env'
 import { Theme } from './create'
 
 export type ThemeCSSStyles = CSSObject | ((theme: Theme) => CSSObject)
@@ -9,7 +9,7 @@ export const getThemeCSSObject = (
     theme?: Theme
 ): CSSObject => {
     if (typeof styles !== 'object' && typeof styles !== 'function') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - themeCSSObject]: Expecting styles as'.concat(
                     ' Object or Function. Got ',
@@ -23,7 +23,7 @@ export const getThemeCSSObject = (
     if (typeof styles === 'object') return styles
 
     if (!theme) {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - themeCSSObject]: If styles is a Function'.concat(
                     ' then theme object is required. '
@@ -34,7 +34,7 @@ export const getThemeCSSObject = (
     }
 
     if (typeof theme !== 'object') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - themeCSSObject]: theme is not valid'.concat(
                     ' Expecting theme as an object. Got ',

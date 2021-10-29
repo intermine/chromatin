@@ -1,6 +1,7 @@
+import { __DEV__ } from '../../constants/env'
 import { isBasicColorKey } from '../colors/utils'
-import { isProdEnv } from '../../utils'
-import {
+
+import type {
     ThemeColorName,
     ThemeTypographyVariant,
     Theme,
@@ -12,7 +13,7 @@ export const isThemeColorName = (
     theme?: Theme
 ): colorName is ThemeColorName => {
     if (typeof colorName !== 'string') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - isThemeColorName]: Expecting '.concat(
                     'colorName as string. Got: ',
@@ -52,7 +53,7 @@ export const isThemeFontVariant = (
     name: string
 ): name is ThemeTypographyVariant => {
     if (typeof name !== 'string') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - isThemeFontVariant]: Expecting '.concat(
                     'name as string. Got: ',
@@ -85,7 +86,7 @@ export const isThemePaletteColorKey = (
     key: string | number
 ): key is keyof ThemePaletteColor => {
     if (typeof key !== 'string' && typeof key !== 'number') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - isThemePaletteColorKey]: Expecting '.concat(
                     'key as string or number. Got: ',

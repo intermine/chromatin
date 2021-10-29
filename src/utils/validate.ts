@@ -1,11 +1,4 @@
-/**
- * To check whether current environment is production.
- * @returns {boolean}
- */
-export const isProdEnv = (): boolean => {
-    if (process.env.NODE_ENV === 'production') return true
-    return false
-}
+import { __DEV__, __TEST__ } from '../constants/env'
 
 export const isValidAnchorElement = (
     // eslint-disable-next-line max-len
@@ -15,7 +8,7 @@ export const isValidAnchorElement = (
     if (anchorElement === null) return false
 
     if (!anchorElement || typeof anchorElement !== 'object') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 [
                     '[Chromatin - isValidAnchorElement]: Anchor Element is not',
@@ -31,13 +24,13 @@ export const isValidAnchorElement = (
     const element = anchorElement.getBoundingClientRect()
 
     if (
-        process.env.NODE_ENV !== 'test' &&
+        !__TEST__ &&
         element.top === 0 &&
         element.left === 0 &&
         element.right === 0 &&
         element.bottom === 0
     ) {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.warn(
                 [
                     '[Chromatin - isValidAnchorElement]: Anchor Element',

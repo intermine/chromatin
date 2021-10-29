@@ -1,4 +1,4 @@
-import { isProdEnv } from '../../utils'
+import { __DEV__ } from '../../constants/env'
 import { isValidColorHex } from './check'
 import { RGBA } from './rgba'
 
@@ -11,7 +11,7 @@ import { RGBA } from './rgba'
  */
 export const hex2rgbArray = (hexValue: string): [number, number, number] => {
     if (!isValidColorHex(`#${hexValue}`)) {
-        if (isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 '[Chromatin - hex2rgbArray]: Expecting hex value only.',
                 'Hex without "#". Got: '.concat(hexValue)
@@ -74,7 +74,7 @@ export const hex2rgbArray = (hexValue: string): [number, number, number] => {
  */
 export const hex2rgba = (hex: string, alpha = 1): RGBA => {
     if (!isValidColorHex(hex)) {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error('[Chromatin - hex2rgba]: Not a valid hex. Given', hex)
         }
 

@@ -1,11 +1,11 @@
-import { isProdEnv } from './validate'
+import { __DEV__ } from '../constants/env'
 
 export const attachSignatureToComponent = <T>(
     Component: T,
     id: string
 ): void => {
     if (typeof id !== 'string') {
-        if (!isProdEnv()) {
+        if (__DEV__) {
             console.error(
                 [
                     '[Chromatin - attachSignatureToComponent]: id is required,',
