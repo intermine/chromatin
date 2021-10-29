@@ -5,11 +5,10 @@ import cx from 'clsx'
 import {
     themeTernaryOperator as tto,
     createStyledComponent,
-    isThemeColorName,
     ThemeCSSStyles,
     getThemeCSSObject
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { INPUT_BASE } from '../constants/component-ids'
 
 export interface InputBaseProps
@@ -71,7 +70,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             hasTransparentBackground = false,
             isError = false,
             isWarning = false,
-            color = 'neutral',
+            color,
             isDisabled,
             csx = {},
             isExtendStyleFromThemeVars = true
@@ -80,34 +79,40 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { palette, themeType } = themePropsForThemeVarFn
 
+        const { grey, darkGrey, disable, error, warning } = palette
+
         const getBackground = (): string => {
-            if (isDisabled) return palette.disable.main
+            if (isDisabled) return disable.main
 
             if (hasTransparentBackground || isError || isWarning)
                 return 'transparent'
-            return palette.neutral[10]
+            return tto(themeType, grey[10], darkGrey[10])
         }
 
         const getBoxShadow = (): string => {
             if (!hasOutline) return 'none'
-            if (isDisabled) return palette.disable.mainDarkShade
+            if (isDisabled) return disable.mainDarkShade
 
             const base = 'inset 0 0 0 1px'
 
-            if (isError) return `${base} ${palette.error.main}`
-            if (isWarning) return `${base} ${palette.warning.main}`
+            if (isError) return `${base} ${error.main}`
+            if (isWarning) return `${base} ${warning.main}`
 
-            return `${base} ${palette.neutral.main}`
+            const _color = tto(themeType, grey[50], darkGrey[50])
+            return `${base} ${_color}`
         }
 
         const getColor = (): string => {
-            return tto(themeType, palette.darkGrey[80], palette.grey[80])
+            return tto(themeType, darkGrey[80], grey[80])
         }
 
         const getHoverProperties = (): CSSObject => {
             if (isDisabled) return {}
+
+            const _color = tto(themeType, grey[30], darkGrey[30])
+
             return {
-                background: palette.neutral[30]
+                background: _color
             }
         }
 
@@ -115,9 +120,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             if (isDisabled) return {}
 
             const shadowBase = 'inset 0 0 0 2px'
-            const shadowColor = isThemeColorName(color)
-                ? palette[color].main
-                : color
+            const shadowColor = getColorForComponent({ theme, color })
 
             return {
                 background: 'transparent',
@@ -134,17 +137,13 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
         const getPlaceholderProperties = (): CSSObject => {
             if (isDisabled) {
                 return {
-                    color: tto(
-                        themeType,
-                        palette.neutral[70],
-                        palette.neutral[80]
-                    ),
+                    color: tto(themeType, grey[90], darkGrey[90]),
                     opacity: 1
                 }
             }
 
             return {
-                color: palette.neutral[60],
+                color: tto(themeType, grey[60], darkGrey[60]),
                 opacity: 1
             }
         }

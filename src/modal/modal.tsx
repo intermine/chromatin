@@ -9,7 +9,7 @@ import {
     hex2rgba,
     themeTernaryOperator as tto
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { MODAL } from '../constants/component-ids'
 
 export interface ModalProps extends Omit<ReactModalProps, 'as'> {
@@ -41,46 +41,51 @@ export interface ModalProps extends Omit<ReactModalProps, 'as'> {
     }
 }
 
-const useStyles = createStyle((theme) => ({
-    root: (props: ModalProps) => {
-        const { isOpen = false, csx = {} } = props
-        const { themeVars, ...themePropsForThemeVarFn } = theme
-        const {
-            palette: {
-                common: { white, black }
-            },
-            themeType
-        } = themePropsForThemeVarFn
-
-        const rgba = hex2rgba(tto(themeType, black, white), 0.05)
-
-        return {
-            alignItems: 'center',
-            background: rgba.rgba,
-            bottom: 0,
-            display: isOpen ? 'flex' : 'none',
-            justifyContent: 'center',
-            left: 0,
-            position: 'fixed',
-            right: 0,
-            top: 0,
-            ...themeVars.modal(themePropsForThemeVarFn, props),
-            ...getThemeCSSObject(csx.root, theme)
+const useStyles = createStyle((theme) => {
+    const { themeVars, ...themePropsForThemeVarFn } = theme
+    const {
+        themeType,
+        palette: {
+            common: { white, black }
         }
-    },
+    } = themePropsForThemeVarFn
 
-    content: (props: ModalProps) => {
-        const { csx = {} } = props
-        const {
-            palette: { neutral }
-        } = theme
+    const _color = getColorForComponent({ theme })
 
-        return {
-            color: neutral[90],
-            ...getThemeCSSObject(csx.root, theme)
+    return {
+        root: (props: ModalProps) => {
+            const { isOpen = false, csx = {} } = props
+
+            const rgba = hex2rgba(tto(themeType, black, white), 0.05)
+
+            return {
+                alignItems: 'center',
+                background: rgba.rgba,
+                bottom: 0,
+                display: isOpen ? 'flex' : 'none',
+                justifyContent: 'center',
+                left: 0,
+                position: 'fixed',
+                right: 0,
+                top: 0,
+                ...themeVars.modal(themePropsForThemeVarFn, props),
+                ...getThemeCSSObject(csx.root, theme)
+            }
+        },
+
+        content: (props: ModalProps) => {
+            const { csx = {} } = props
+
+            return {
+                /**
+                 * Setting color on assuming theme type.
+                 */
+                color: _color,
+                ...getThemeCSSObject(csx.root, theme)
+            }
         }
     }
-}))
+})
 
 export const Modal = forwardRef<any, ModalProps>((props, ref): JSX.Element => {
     const { classes: _classes = {}, className, children, ...rest } = props

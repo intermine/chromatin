@@ -34,9 +34,8 @@ const Template2: Story = (args) => {
     return (
         <Box>
             <Button
-                innerRef={anchorRef}
+                ref={anchorRef}
                 variant={isOpen ? 'normal' : 'ghost'}
-                color="neutral"
                 csx={{ root: { margin: '10rem', borderRadius: 0 } }}
                 hasHighlightOnFocus={false}
                 RightIcon={<DownArrow />}
@@ -44,7 +43,7 @@ const Template2: Story = (args) => {
                 Queries By
             </Button>
             <Menu
-                innerRef={menuRef}
+                ref={menuRef}
                 anchorElement={anchorRef.current}
                 isOpen={isOpen}
                 {...args}
@@ -79,7 +78,7 @@ const Template3: Story = (args) => {
     return (
         <Box>
             <Button
-                innerRef={anchorRef}
+                ref={anchorRef}
                 variant={isOpen ? 'normal' : 'ghost'}
                 color="neutral"
                 csx={{ root: { margin: '10rem', borderRadius: 0 } }}
@@ -89,7 +88,7 @@ const Template3: Story = (args) => {
                 Queries By
             </Button>
             <Menu
-                innerRef={menuRef}
+                ref={menuRef}
                 anchorElement={anchorRef.current}
                 isOpen={isOpen}
                 csx={{ root: { maxHeight: 300, overflow: 'auto' } }}
@@ -155,7 +154,7 @@ const Template: Story = (args) => {
     return (
         <Box>
             <Button
-                innerRef={anchorRef}
+                ref={anchorRef}
                 variant={isOpen ? 'normal' : 'ghost'}
                 color="neutral"
                 csx={{ root: { margin: '10rem', borderRadius: 0 } }}
@@ -165,7 +164,7 @@ const Template: Story = (args) => {
                 Queries By
             </Button>
             <Menu
-                innerRef={menuRef}
+                ref={menuRef}
                 anchorElement={anchorRef.current}
                 isOpen={isOpen}
                 {...args}
@@ -176,13 +175,13 @@ const Template: Story = (args) => {
                 <MenuItem>Regulation</MenuItem>
                 <MenuItem>Interactions</MenuItem>
                 <MenuItem>Homology</MenuItem>
-                <MenuItem innerRef={anchor2Ref}>Nested Menu</MenuItem>
+                <MenuItem ref={anchor2Ref}>Nested Menu</MenuItem>
             </Menu>
             <Menu
                 anchorElement={anchor2Ref.current}
                 placement="right-start"
                 isOpen={isMouseOver}
-                innerRef={menu2Ref}
+                ref={menu2Ref}
             >
                 <MenuItem>Functions</MenuItem>
                 <MenuItem>Genes</MenuItem>

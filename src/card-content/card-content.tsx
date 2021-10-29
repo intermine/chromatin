@@ -6,7 +6,10 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import {
+    attachSignatureToComponent,
+    getNeutralBasicColorForComponent
+} from '../utils'
 import { CARD_CONTENT } from '../constants/component-ids'
 
 export interface CardContentProps
@@ -37,12 +40,16 @@ const CardContentRoot = createStyledComponent<'div', CardContentProps>(
         const { csx = {}, isExtendStyleFromThemeVars = true } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            typography: { body },
-            palette: { neutral }
+            typography: { body }
         } = themePropsForThemeVarFn
 
+        const _neutral = getNeutralBasicColorForComponent({
+            theme,
+            isOpposite: true
+        })
+
         return {
-            color: neutral[70],
+            color: _neutral[80],
             flex: '1',
             padding: '1.2rem',
             ...body,

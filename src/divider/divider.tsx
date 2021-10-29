@@ -4,10 +4,9 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    isThemeColorName,
     ThemeCSSStyles
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { DIVIDER } from '../constants/component-ids'
 
 export interface DividerBaseProps
@@ -26,7 +25,6 @@ export interface DividerBaseProps
     borderWidth?: number
     /**
      * Color of the border
-     * @default 'neutral'
      */
     color?: string
     /**
@@ -65,7 +63,6 @@ const DividerRoot = createStyledComponent<'div', DividerProps<'div'>>(
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            palette,
             spacing,
             typography: {
                 meta: { documentFontSize }
@@ -76,7 +73,7 @@ const DividerRoot = createStyledComponent<'div', DividerProps<'div'>>(
             csx = {},
             hasFlexParent,
             alignment = 'hr',
-            color = 'neutral',
+            color,
             borderWidth = 1,
             isExtendStyleFromThemeVars = true
         } = props
@@ -91,11 +88,15 @@ const DividerRoot = createStyledComponent<'div', DividerProps<'div'>>(
 
         const getBorder = (): string => {
             const width = `${borderWidth / documentFontSize}rem`
-            let borderColor = color
-
-            if (isThemeColorName(color)) {
-                borderColor = palette[color].main
-            }
+            const borderColor = getColorForComponent({
+                theme,
+                color,
+                isSwitchDefaultColor: true,
+                defaultKey: {
+                    grey: 30,
+                    darkGrey: 40
+                }
+            })
 
             return `${width} solid ${borderColor}`
         }

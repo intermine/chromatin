@@ -8,7 +8,10 @@ import {
     getThemeCSSObject,
     themeTernaryOperator as tto
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import {
+    attachSignatureToComponent,
+    getNeutralBasicColorForComponent
+} from '../utils'
 import { TABLE_CELL } from '../constants/component-ids'
 
 import TableContext from '../table/table-context'
@@ -61,7 +64,6 @@ const TableCellRoot = createStyledComponent<'td' | 'th', TableCellProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
             palette: {
-                neutral,
                 common: { white }
             },
             themeType
@@ -75,9 +77,10 @@ const TableCellRoot = createStyledComponent<'td' | 'th', TableCellProps>(
             }
         }
 
+        const _neutral = getNeutralBasicColorForComponent({ theme })
         return {
-            background: tto(themeType, white, neutral[40]),
-            borderBottom: `1px solid ${neutral[50]}`,
+            background: tto(themeType, white, _neutral[30]),
+            borderBottom: `1px solid ${_neutral[40]}`,
             display: 'table-cell',
             padding: isDense ? '0.5rem 1rem' : '1rem',
             ...getStickyProps(),

@@ -6,7 +6,7 @@ import {
     ThemeCSSStyles,
     getThemeCSSObject
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { TABLE } from '../constants/component-ids'
 
 import TableContext from './table-context'
@@ -51,14 +51,15 @@ const TableRoot = createStyledComponent<'table', TableProps>(
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            typography: { body },
-            palette: { neutral }
+            typography: { body }
         } = themePropsForThemeVarFn
+
+        const _color = getColorForComponent({ theme })
 
         return {
             borderCollapse: hasStickyHeader ? 'separate' : 'collapse',
             borderSpacing: '0',
-            color: neutral[90],
+            color: _color,
             display: 'table',
             width: '100%',
             textAlign: 'left',

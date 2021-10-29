@@ -6,7 +6,10 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import {
+    attachSignatureToComponent,
+    getNeutralBasicColorForComponent
+} from '../utils'
 import { LIST_ITEM } from '../constants/component-ids'
 import { CSSObject } from 'styled-components'
 
@@ -80,7 +83,6 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            palette,
             typography: { body }
         } = themePropsForThemeVarFn
 
@@ -90,10 +92,15 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
             return '0.7rem 1.4rem'
         }
 
+        const _neutral = getNeutralBasicColorForComponent({
+            theme,
+            isOpposite: true
+        })
+
         return {
             alignItems,
             borderRadius: '0',
-            color: isButtonLike ? undefined : palette.neutral[90],
+            color: isButtonLike ? undefined : _neutral[10],
             cursor: isButtonLike ? 'pointer' : 'default',
             display,
             justifyContent,
@@ -114,7 +121,7 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
             className,
             classes = {},
             variant = 'ghost',
-            color = 'neutral',
+            color,
             hasHighlightOnFocus = false,
             hasHoverEffectOnFocus = true,
             isButtonLike = false,

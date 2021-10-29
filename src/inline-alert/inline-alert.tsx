@@ -4,7 +4,6 @@ import { CSSObject } from 'styled-components'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    isThemeColorName,
     themeTernaryOperator as tto,
     Theme
 } from '../styles'
@@ -12,7 +11,7 @@ import {
 import { Alert, AlertProps } from '../alert'
 import { Collapsible, CollapsibleProps } from '../collapsible'
 
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { INLINE_ALERT } from '../constants/component-ids'
 import { getHoverProperties } from '../button-base/utils'
 
@@ -29,12 +28,11 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
     Alert,
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { palette } = themePropsForThemeVarFn
         const {
             csx = {},
             hasFullWidth = true,
             isDense = false,
-            type = 'neutral',
+            type,
             isExtendStyleFromThemeVars
         } = props
 
@@ -46,18 +44,11 @@ const InlineAlertRoot = createStyledComponent<typeof Alert, InlineAlertProps>(
         const getBackgroundColor = (): CSSObject => {
             if (type === 'other') return {}
 
-            let color = ''
-            if (type === 'neutral') color = palette.neutral[80]
-            else {
-                color = isThemeColorName(type) ? palette[type].main : type
-            }
-
             return getHoverProperties({
-                color,
+                color: type,
                 isDisabled: false,
                 variant: 'ghost',
-                theme,
-                mainColor: color
+                theme
             })
         }
 
@@ -86,7 +77,7 @@ export const InlineAlert = forwardRef<HTMLDivElement, InlineAlertProps>(
     (props, ref): JSX.Element => {
         const {
             hasAnimation = false,
-            type = 'neutral',
+            type,
             csx = {},
             containerProps = {},
             isOpen = false,
@@ -94,17 +85,22 @@ export const InlineAlert = forwardRef<HTMLDivElement, InlineAlertProps>(
         } = props
 
         const getColor = (theme: Theme): string => {
-            const { palette, themeType } = theme
-            if (!isThemeColorName(type)) {
-                const {
-                    common: { black, white }
-                } = palette
-                return tto(themeType, black, white)
-            }
+            const _color = getColorForComponent({
+                theme,
+                color: type,
+                isReturnDefaultColor: false
+            })
 
-            if (type === 'neutral') return palette.neutral[90]
+            if (_color) return _color
 
-            return palette[type].main
+            const {
+                palette: {
+                    themeType,
+                    common: { white, black }
+                }
+            } = theme
+
+            return tto(themeType, black, white)
         }
 
         return (

@@ -83,7 +83,7 @@ const MenuRoot = createStyledComponent<typeof List, MenuProps>(
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const { elevation, themeType, palette } = themePropsForThemeVarFn
         const {
-            neutral,
+            darkGrey,
             common: { white }
         } = palette
         const {
@@ -94,7 +94,7 @@ const MenuRoot = createStyledComponent<typeof List, MenuProps>(
         } = props
 
         return {
-            background: tto(themeType, white, neutral[40]),
+            background: tto(themeType, white, darkGrey[30]),
             display: isOpen ? 'block' : 'none',
             minWidth: '15rem',
             ...(hasElevation && {

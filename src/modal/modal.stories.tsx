@@ -25,13 +25,13 @@ const Template: Story = (args) => {
             <Modal onRequestClose={toggleModal} isOpen={isOpen} {...args}>
                 <Box
                     csx={{
-                        root: (theme) => ({
+                        root: ({ palette: { themeType, common: { white}, neutral}}) => ({
                             display: 'flex',
                             flexDirection: 'column',
                             width: '300px',
                             height: '100px',
                             padding: '1rem 2rem',
-                            background: theme.palette.neutral[10],
+                            background: themeType === 'dark' ? neutral[10]: white,
                         }),
                     }}
                 >

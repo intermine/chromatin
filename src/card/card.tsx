@@ -7,7 +7,10 @@ import {
     ThemeCSSStyles,
     themeTernaryOperator as tto
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import {
+    attachSignatureToComponent,
+    getNeutralBasicColorForComponent
+} from '../utils'
 import { CARD } from '../constants/component-ids'
 
 import { CSSObject } from 'styled-components'
@@ -58,10 +61,11 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             elevation,
             themeType,
             palette: {
-                neutral,
                 common: { white }
             }
         } = themePropsForThemeVarFn
+
+        const _neutral = getNeutralBasicColorForComponent({ theme })
 
         const getBoxShadow = (): string | undefined => {
             if (variant === 'none') {
@@ -70,7 +74,7 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             if (variant === 'shadow') {
                 return elevation.low
             }
-            return `inset 0 0 0 1px ${neutral[50]}`
+            return `inset 0 0 0 1px ${_neutral[40]}`
         }
 
         const getHoverProperties = (): CSSObject => {
@@ -82,12 +86,12 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             }
 
             return {
-                boxShadow: `inset 0 0 0 2px ${neutral[50]}`
+                boxShadow: `inset 0 0 0 2px ${_neutral[40]}`
             }
         }
 
         return {
-            background: tto(themeType, white, neutral[40]),
+            background: tto(themeType, white, _neutral[30]),
             borderRadius: '0.25rem',
             boxShadow: getBoxShadow(),
             display: 'flex',

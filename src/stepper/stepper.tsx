@@ -7,12 +7,16 @@ import {
     getThemeCSSObject,
     ReactElement,
     ThemeCSSStyles,
-    ThemePalette
+    ThemePalette,
+    themeTernaryOperator as tto
 } from '../styles'
 import DefaultWarningIcon from '../icons/System/alert-line'
 import DefaultCompleteIcon from '../icons/System/check-fill'
 import DefaultErrorIcon from '../icons/System/close-fill'
-import { attachSignatureToComponent } from '../utils'
+import {
+    attachSignatureToComponent,
+    getNeutralBasicColorForComponent
+} from '../utils'
 import { STEPPER } from '../constants/component-ids'
 
 import { Box } from '../box'
@@ -146,12 +150,14 @@ const getThemeColorBasedOnStatus = (
     status: StepStatusEnum,
     palette: ThemePalette
 ): string => {
-    if (status === 'complete' || status === 'current')
-        return palette.primary[type]
-    if (status === 'warning') return palette.warning[type]
-    if (status === 'error') return palette.error[type]
+    const { themeType, darkGrey, grey, primary, error, warning } = palette
 
-    return type == 'text' ? palette.neutral[70] : palette.neutral.main
+    if (status === 'complete' || status === 'current') return primary[type]
+    if (status === 'warning') return warning[type]
+    if (status === 'error') return error[type]
+
+    if (type === 'text') return tto(themeType, darkGrey[10], grey[10])
+    return tto(themeType, grey[50], darkGrey[50])
 }
 
 type AvatarProps = {
@@ -254,15 +260,18 @@ const DescriptionContainer = createStyledComponent<
 >(
     Collapsible,
     (theme, props) => {
-        const {
-            palette: { neutral }
-        } = theme
+        const { palette } = theme
         const { alignment, csx = {}, isLast } = props
+
+        const _color = getThemeColorBasedOnStatus('text', 'none', palette)
+
+        const _border = getThemeColorBasedOnStatus('main', 'none', palette)
+
         return {
-            color: neutral[80],
+            color: _color,
             borderLeft:
                 alignment === 'vt' && !isLast
-                    ? `0.0625rem solid ${neutral.main}`
+                    ? `0.0625rem solid ${_border}`
                     : '0',
             marginLeft: alignment === 'vt' ? '1.5rem' : '0',
             paddingLeft: alignment === 'vt' ? '2.5rem' : '0',
@@ -364,13 +373,20 @@ export const Stepper = forwardRef<any, StepperProps>(
                         variant="title"
                         className={cx(classes.title)}
                         csx={{
-                            root: (theme) => ({
-                                color:
-                                    status === 'none' || !status
-                                        ? theme.palette.neutral[70]
-                                        : theme.palette.neutral[90],
-                                ...getThemeCSSObject(csx.title, theme)
-                            })
+                            root: (theme) => {
+                                const _neutral =
+                                    getNeutralBasicColorForComponent({
+                                        theme,
+                                        isOpposite: true
+                                    })
+                                return {
+                                    color:
+                                        status === 'none' || !status
+                                            ? _neutral[90]
+                                            : _neutral[10],
+                                    ...getThemeCSSObject(csx.title, theme)
+                                }
+                            }
                         }}
                     >
                         {title}

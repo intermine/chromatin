@@ -6,7 +6,6 @@ import {
     createStyledComponent,
     getContrastRatio,
     getThemeCSSObject,
-    isThemeColorName,
     isValidColorHex,
     ReactElement,
     ThemeCSSStyles,
@@ -14,6 +13,7 @@ import {
 } from '../styles'
 import {
     attachSignatureToComponent,
+    getColorForComponent,
     setRef,
     useForkRef,
     useMouseOver
@@ -134,13 +134,15 @@ const TooltipRoot = createStyledComponent<
     }
 >(Popper, (theme, props) => {
     const { themeVars, ...themePropsForThemeVarFn } = theme
-    const { themeType, palette, elevation } = themePropsForThemeVarFn
-
     const {
-        common: { black, white },
-        neutral,
-        contrastThreshold
-    } = palette
+        themeType,
+        palette: {
+            common: { white, black },
+            darkGrey,
+            contrastThreshold
+        },
+        elevation
+    } = themePropsForThemeVarFn
 
     const {
         csx = {},
@@ -153,14 +155,26 @@ const TooltipRoot = createStyledComponent<
     } = props
 
     const getBackground = (): string => {
-        if (!color) return tto(themeType, black, neutral[50])
-        if (isThemeColorName(color)) return palette[color].main
-        return color
+        const _color = getColorForComponent({
+            theme,
+            color,
+            isReturnDefaultColor: false
+        })
+        if (_color) return _color
+        return darkGrey[30]
     }
 
     const getColor = (): string => {
         if (!color) return white
-        if (isThemeColorName(color)) return palette[color].text
+
+        const _color = getColorForComponent({
+            theme,
+            color,
+            isReturnDefaultColor: false
+        })
+
+        if (_color) return _color
+
         if (!isValidColorHex(color)) {
             /**
              * Only guessing based on theme type.

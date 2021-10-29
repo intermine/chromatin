@@ -4,13 +4,12 @@ import cx from 'clsx'
 
 import {
     createStyledComponent,
-    isThemeColorName,
     isThemeFontVariant,
     ThemeTypographyVariant,
     ThemeCSSStyles,
     getThemeCSSObject
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { TYPOGRAPHY } from '../constants/component-ids'
 
 export interface TypographyBaseProps
@@ -66,7 +65,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
     'div',
     (theme, props) => {
         const { themeVars, ...themePropsForThemeVarFn } = theme
-        const { typography, palette } = themePropsForThemeVarFn
+        const { typography } = themePropsForThemeVarFn
         const {
             variant = 'body',
             color,
@@ -74,12 +73,6 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
             csx = {},
             isExtendStyleFromThemeVars = true
         } = props
-
-        const getColor = (): string | undefined => {
-            if (!color) return palette.neutral[90]
-            if (isThemeColorName(color)) return palette[color].main
-            return color
-        }
 
         const getFontProperties = (): CSSObject => {
             if (!isThemeFontVariant(variant)) {
@@ -99,7 +92,7 @@ const TypographyRoot = createStyledComponent<'div', TypographyProps<'div'>>(
         }
 
         return {
-            color: getColor(),
+            color: getColorForComponent({ color, theme }),
             ...getTruncateProperties(),
             ...getFontProperties(),
             ...(isExtendStyleFromThemeVars &&

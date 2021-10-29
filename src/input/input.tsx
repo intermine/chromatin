@@ -7,13 +7,12 @@ import {
     createStyledComponent,
     getContrastRatio,
     getThemeCSSObject,
-    isThemeColorName,
     isValidColorHex,
     ReactElement,
     ThemeCSSStyles,
     themeTernaryOperator as tto
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { INPUT } from '../constants/component-ids'
 
 export type InputProps = InputBaseProps & {
@@ -226,10 +225,21 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             isWarning,
             isRight = false,
             isFocus,
-            color = 'neutral',
+            color,
             csx = {}
         } = props
-        const { palette } = theme
+        const {
+            palette: {
+                disable,
+                warning,
+                error,
+                grey,
+                darkGrey,
+                common: { white, black },
+                contrastThreshold
+            },
+            themeType
+        } = theme
 
         if (!children) {
             return {
@@ -237,52 +247,40 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
             }
         }
 
-        const getBackground = (): string => {
-            if (isDisabled) return palette.disable.main
+        const getBackground = (): string | undefined => {
+            if (isDisabled) return disable.main
 
             if (isFocus) {
-                if (isThemeColorName(color)) {
-                    return palette[color].main
-                }
-                return color
+                return getColorForComponent({ theme, color })
             }
 
-            if (isError) return palette.error.main
-            if (isWarning) return palette.warning.main
+            if (isError) return error.main
+            if (isWarning) return warning.main
 
-            return palette.neutral.mainLightShade
+            return tto(themeType, grey[50], darkGrey[50])
         }
 
-        const getFillColor = (): string => {
-            if (isDisabled) return palette.neutral[80]
-            if (isFocus) {
-                if (isThemeColorName(color)) {
-                    return palette[color].text
-                }
+        const getFillColor = (): string | undefined => {
+            if (isDisabled) return disable.mainDarkShade
 
-                if (isValidColorHex(color)) {
-                    const { black, white } = palette.common
-                    const textColorFirstPref = tto(
-                        palette.themeType,
-                        white,
-                        black
-                    )
-                    const textColorSecondPref = tto(
-                        palette.themeType,
-                        black,
-                        white
-                    )
+            if (isFocus) {
+                if (color && isValidColorHex(color)) {
+                    const textColorFirstPref = tto(themeType, white, black)
+                    const textColorSecondPref = tto(themeType, black, white)
 
                     return getContrastRatio(color, textColorFirstPref) >
-                        palette.contrastThreshold
+                        contrastThreshold
                         ? textColorFirstPref
                         : textColorSecondPref
                 }
-            }
-            if (isError) return palette.error.text
-            if (isWarning) return palette.warning.text
 
-            return palette.neutral[80]
+                return getColorForComponent({ theme, color, key: 'text' })
+            }
+
+            if (isError) return error.text
+            if (isWarning) return warning.text
+
+            return tto(themeType, black, white)
         }
 
         const getDimensions = (): CSSObject => {

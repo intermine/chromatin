@@ -5,11 +5,10 @@ import { CSSObject } from 'styled-components'
 import {
     createStyledComponent,
     createStyle,
-    isThemeColorName,
     ThemeCSSStyles,
     getThemeCSSObject
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { SPINNER } from '../constants/component-ids'
 
 export interface SpinnerProps
@@ -85,17 +84,10 @@ const useStyle = createStyle((theme) => ({
         const {
             typography: {
                 meta: { documentFontSize }
-            },
-            palette
+            }
         } = theme
 
         const rem = mapSizeToRemValue(size, documentFontSize)
-
-        const getBackground = (): string | undefined => {
-            if (!color) return undefined
-            if (isThemeColorName(color)) return palette[color].main
-            return color
-        }
 
         const getTransformOrigin = (): string => {
             const origin = `${rem / 2}rem`
@@ -115,7 +107,7 @@ const useStyle = createStyle((theme) => ({
         }
 
         return {
-            fill: getBackground(),
+            fill: getColorForComponent({ theme, color }),
             left: '50%',
             transformOrigin: getTransformOrigin(),
             transform: `translateX(-${rem / 20})`,

@@ -101,7 +101,7 @@ export const Toggle = forwardRef<any, ToggleProps>(
             <CheckboxRoot
                 type="checkbox"
                 borderStyle={borderStyle}
-                color={isChecked ? color : 'neutral'}
+                color={isChecked ? color : undefined}
                 CheckedIcon={<ToggleSVG isChecked={isChecked} />}
                 UncheckedIcon={<ToggleSVG isChecked={isChecked} />}
                 ref={ref}

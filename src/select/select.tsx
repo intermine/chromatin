@@ -9,7 +9,7 @@ import ReactSelect, {
 } from 'react-select'
 import cx from 'clsx'
 import type { StylesProps } from 'react-select/dist/declarations/src/styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { SELECT } from '../constants/component-ids'
 
 import {
@@ -22,6 +22,7 @@ import {
     themeTernaryOperator as tto,
     useTheme
 } from '../styles'
+import { getHoverProperties } from '../button-base/utils'
 
 type ReactSelectStylesFunctions<
     Option,
@@ -85,21 +86,6 @@ const buildStyle = <
     return styles
 }
 
-const getColor25 = (theme: Theme, color: string) => {
-    const { hover } = theme.palette
-    if (!isThemeColorName(color)) {
-        if (!isValidColorHex(color)) return color
-
-        return hex2rgba(color, hover.ghostElementBackgroundOpacity).rgba
-    }
-
-    const mainColor =
-        color === 'neutral'
-            ? theme.palette[color][80]
-            : theme.palette[color].main
-    return hex2rgba(mainColor, hover.ghostElementBackgroundOpacity).rgba
-}
-
 const useStyles = createStyle(({ typography }) => ({
     root: {
         ...typography.body
@@ -126,38 +112,55 @@ export const Select = forwardRef(
             const { palette, themeType } = theme
             const {
                 error,
-                neutral,
                 common: { white, black },
-                disable
+                disable,
+                grey,
+                darkGrey,
+                primary,
+                hover
             } = palette
 
             const colorPalette = isValidColorHex(color)
                 ? createColor(color)
                 : { 30: color, 40: color, 50: color }
 
+            const _neutral = tto(themeType, grey, darkGrey)
+            const _neutralText = tto(themeType, black, white)
+
             return {
                 danger: error.main,
                 dangerLight: error.mainLightShade,
-                neutral0: neutral[10],
+                neutral0: tto(themeType, white, _neutral[30]),
                 neutral5: disable.main,
                 neutral10: disable.mainDarkShade,
-                neutral20: neutral[60],
-                neutral30: neutral[70],
-                neutral40: neutral[80],
-                neutral50: neutral[70],
-                neutral60: neutral[70],
-                neutral70: neutral[70],
-                neutral80: neutral[80],
-                neutral90: tto(themeType, black, white),
-                primary: isThemeColorName(color)
-                    ? palette[color].main
+                neutral20: _neutral[60],
+                neutral30: _neutral[70],
+                neutral40: _neutralText,
+                neutral50: _neutral[70],
+                neutral60: _neutral[70],
+                neutral70: _neutral[70],
+                neutral80: _neutralText,
+                neutral90: _neutralText,
+                primary: isThemeColorName(color, theme)
+                    ? getColorForComponent({ color, theme, key: 'main' }) ??
+                      primary.main
                     : colorPalette[50],
-                primary25: getColor25(theme, color),
-                primary50: isThemeColorName(color)
-                    ? palette[color][30]
+                primary25:
+                    (getHoverProperties({
+                        theme,
+                        color,
+                        isDisabled: false,
+                        variant: 'ghost'
+                    }).background as string) ??
+                    hex2rgba(_neutral[50], hover.ghostElementBackgroundOpacity)
+                        .rgba,
+                primary50: isThemeColorName(color, theme)
+                    ? getColorForComponent({ color, theme, key: '30' }) ??
+                      primary[30]
                     : colorPalette[30],
-                primary75: isThemeColorName(color)
-                    ? palette[color][40]
+                primary75: isThemeColorName(color, theme)
+                    ? getColorForComponent({ color, theme, key: '40' }) ??
+                      primary[40]
                     : colorPalette[40]
             }
         }

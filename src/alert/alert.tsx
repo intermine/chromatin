@@ -5,7 +5,6 @@ import { CSSObject } from 'styled-components'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    isThemeColorName,
     ReactElement,
     ThemeCSSStyles,
     useTheme,
@@ -20,7 +19,7 @@ import {
     DefaultCloseIcon
 } from '../constants/default-icons'
 
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonCommonProps } from '../icon-button'
 import { Typography } from '../typography'
@@ -173,7 +172,7 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
         const {
             palette: {
                 themeBackground: { light },
-                neutral
+                darkGrey
             },
             elevation,
             themeType,
@@ -221,7 +220,7 @@ const AlertRoot = createStyledComponent<'div', AlertProps>(
 
         return {
             alignSelf: 'flex-start',
-            background: tto(themeType, light.hex, neutral[40]),
+            background: tto(themeType, light.hex, darkGrey[40]),
             borderRadius: '0.25rem',
             boxSizing: 'border-box',
             boxShadow: elevation.low,
@@ -348,19 +347,14 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 
         const classes = useStyles()
         const theme = useTheme()
-        const { palette, themeType } = theme
-        const {
-            common: { black, white }
-        } = palette
 
         const getMainIcon = (): JSX.Element | null => {
             if (!hasMainIcon) return null
 
-            const fillColor =
-                iconColor ??
-                (isThemeColorName(type)
-                    ? palette[type].main
-                    : tto(themeType, black, white))
+            const fillColor = getColorForComponent({
+                theme,
+                color: iconColor ?? type
+            })
             const iconProps = {
                 height: '24',
                 width: '24',
@@ -399,11 +393,8 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
                         className={cx(classesProps.message)}
                         csx={{
                             root: (theme) => {
-                                const {
-                                    palette: { neutral }
-                                } = theme
                                 return {
-                                    color: neutral[80],
+                                    color: getColorForComponent({ theme }),
                                     marginTop: '0.125rem',
                                     ...getThemeCSSObject(csx.message, theme)
                                 }

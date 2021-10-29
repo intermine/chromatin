@@ -6,7 +6,10 @@ import {
     getThemeCSSObject,
     ThemeCSSStyles
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import {
+    attachSignatureToComponent,
+    getNeutralBasicColorForComponent
+} from '../utils'
 import { LIST_HEADING } from '../constants/component-ids'
 
 export interface ListHeadingProps
@@ -62,9 +65,13 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
         } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            palette: { neutral },
             typography: { title, caption }
         } = themePropsForThemeVarFn
+
+        const _neutral = getNeutralBasicColorForComponent({
+            theme,
+            isOpposite: true
+        })
 
         const getPadding = (): string | undefined => {
             if (!hasPadding) return
@@ -74,7 +81,7 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
 
         return {
             background: 'inherit',
-            color: neutral[70],
+            color: _neutral[70],
             padding: getPadding(),
             position: isSticky ? 'sticky' : 'relative',
             top: 0,

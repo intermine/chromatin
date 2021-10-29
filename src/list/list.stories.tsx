@@ -103,7 +103,7 @@ const Sidebar: Story = (args) => {
     return (
         <List listItemProps={{ isButtonLike: true }} {...args}>
             <ListItem
-                color={activeItem === 1 ? 'primary' : 'neutral'}
+                color={activeItem === 1 ? 'primary' : undefined}
                 onClick={() => handleOnClick(1)}
                 isHovered={activeItem === 1}
             >
@@ -120,7 +120,7 @@ const Sidebar: Story = (args) => {
                 </SidebarItem>
             </ListItem>
             <ListItem
-                color={activeItem === 2 ? 'primary' : 'neutral'}
+                color={activeItem === 2 ? 'primary' : undefined}
                 onClick={() => handleOnClick(2)}
                 isHovered={activeItem === 2}
             >
@@ -137,7 +137,7 @@ const Sidebar: Story = (args) => {
                 </SidebarItem>
             </ListItem>
             <ListItem
-                color={activeItem === 3 ? 'primary' : 'neutral'}
+                color={activeItem === 3 ? 'primary' : undefined}
                 onClick={() => handleOnClick(3)}
                 isHovered={activeItem === 3}
             >
@@ -154,7 +154,7 @@ const Sidebar: Story = (args) => {
                 </SidebarItem>
             </ListItem>
             <ListItem
-                color={activeItem === 4 ? 'primary' : 'neutral'}
+                color={activeItem === 4 ? 'primary' : undefined}
                 onClick={() => handleOnClick(4)}
                 isHovered={activeItem === 4}
             >
@@ -171,7 +171,7 @@ const Sidebar: Story = (args) => {
                 </SidebarItem>
             </ListItem>
             <ListItem
-                color={activeItem === 5 ? 'primary' : 'neutral'}
+                color={activeItem === 5 ? 'primary' : undefined}
                 onClick={() => handleOnClick(5)}
                 isHovered={activeItem === 5}
             >

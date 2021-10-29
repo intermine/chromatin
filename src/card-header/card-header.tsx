@@ -4,7 +4,8 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles
+    ThemeCSSStyles,
+    themeTernaryOperator as tto
 } from '../styles'
 import { attachSignatureToComponent } from '../utils'
 import { CARD_HEADER } from '../constants/component-ids'
@@ -37,13 +38,16 @@ const CardHeaderRoot = createStyledComponent<'div', CardHeaderProps>(
         const { csx = {}, isExtendStyleFromThemeVars = true } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
+            themeType,
             typography: { h4 },
-            palette: { neutral }
+            palette: {
+                common: { black, white }
+            }
         } = themePropsForThemeVarFn
 
         return {
             alignItems: 'center',
-            color: neutral[90],
+            color: tto(themeType, black, white),
             display: 'flex',
             padding: '1rem 1.2rem',
             ...h4,

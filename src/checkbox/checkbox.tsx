@@ -166,7 +166,7 @@ export const Checkbox = forwardRef<any, CheckboxProps>(
             isDense,
             isLoading,
             variant = 'ghost',
-            color = 'primary',
+            color,
             hasElevation,
             hasHighlightOnFocus,
             hasHoverEffectOnFocus,

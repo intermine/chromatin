@@ -13,7 +13,6 @@ const Template: Story = (args) => <IconButton {...args} />
 export const Default = Template.bind({})
 Default.args = {
     Icon: <SendMail />,
-    color: 'primary',
     isDisabled: false,
     hasHighlightOnFocus: true,
     hasHoverEffectOnFocus: false,

@@ -4,10 +4,9 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    isThemeColorName,
     ThemeCSSStyles
 } from '../styles'
-import { attachSignatureToComponent } from '../utils'
+import { attachSignatureToComponent, getColorForComponent } from '../utils'
 import { LABEL } from '../constants/component-ids'
 
 export interface LabelProps
@@ -39,19 +38,13 @@ const LabelRoot = createStyledComponent<'label', LabelProps>(
         const { csx = {}, color, isExtendStyleFromThemeVars = true } = props
         const { themeVars, ...themePropsForThemeVarFn } = theme
         const {
-            palette,
             typography: { body }
         } = themePropsForThemeVarFn
 
-        const getColor = (): string | undefined => {
-            if (!color) return palette.neutral[90]
-            if (isThemeColorName(color)) return palette[color].main
-            return color
-        }
-
+        const _color = getColorForComponent({ color, theme })
         return {
-            color: getColor(),
-            fill: color,
+            color: _color,
+            fill: _color,
             ...body,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.label(themePropsForThemeVarFn, props)),
