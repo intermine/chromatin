@@ -1,7 +1,6 @@
 import { Theme, ThemeColorName, ThemePaletteColor } from './create'
 import { isThemeColorName, isThemePaletteColorKey } from './validate'
 import { isBasicColorKey } from '../colors/utils'
-import { __DEV__ } from '../../constants/env'
 
 import type { BasicColor, ThemeType } from '../colors'
 
@@ -15,7 +14,7 @@ export const getColorNameAndKey = (
     options = {} as { theme: Theme; defaultKey?: string }
 ): ColorAndKeyTuple | undefined => {
     if (typeof color !== 'string') {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getColorNameAndKey]: Expecting '.concat(
                     'color as string. Got: ',
@@ -44,7 +43,7 @@ export const getThemeColorUsingKey = (
     theme: Theme
 ): string => {
     if (!Array.isArray(colorTuple)) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getThemeColorUsingKey]: Expecting'.concat(
                     'colorTuple but Got:  ',
@@ -62,7 +61,7 @@ export const getThemeColorUsingKey = (
             const colorName = color.slice(1)
             return (theme.palette.other[colorName] as any)[key]
         } catch {
-            if (__DEV__) {
+            if (process.env.NODE_ENV !== 'production') {
                 console.error(
                     '[Chromatin - getThemeColorUsingKey]: Other color '.concat(
                         'is not defined. theme.palette.other.',

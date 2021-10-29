@@ -1,4 +1,3 @@
-import { __DEV__ } from '../../constants/env'
 import { isValidColorHex, isColorOrRGBA } from './check'
 import { hex2rgba } from './convert'
 import { RGBA } from './rgba'
@@ -19,7 +18,7 @@ export const getTintOrShade = (
     factor = 0.1
 ): string => {
     if (!isColorOrRGBA(color)) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getTintOrShade]: color should be'.concat(
                     ' a valid hex code or an instance of RGBA class. Got: ',
@@ -34,7 +33,7 @@ export const getTintOrShade = (
     }
 
     if (factor > 1 || factor < 0) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getTintOrShade] Factor should be between 0 and 1',
                 'Got: '.concat(factor.toString())
@@ -91,7 +90,7 @@ export const createColor = (
     options = {} as CreateColorOptions
 ): BasicColor => {
     if (!isValidColorHex(baseColor)) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - createColor]: Expecting baseColor as hex'.concat(
                     ' as string. Got',
@@ -156,7 +155,7 @@ export const createColor = (
  */
 export const getLuminous = (color: RGBA): number => {
     if (!(color instanceof RGBA)) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getLuminous]: color is not an instance of RGBA'
             )
@@ -190,7 +189,7 @@ export const getContrastRatio = (
     color2: string | RGBA
 ): number => {
     if (!isColorOrRGBA(color1)) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getContrastRatio]: color1 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',
@@ -204,7 +203,7 @@ export const getContrastRatio = (
     }
 
     if (!isColorOrRGBA(color2)) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - getContrastRatio]: color2 is not valid.'.concat(
                     ' It should be hex code or an instance of RGBA',

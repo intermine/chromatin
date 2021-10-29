@@ -1,5 +1,3 @@
-import { __DEV__, __TEST__ } from '../constants/env'
-
 export const isValidAnchorElement = (
     // eslint-disable-next-line max-len
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -8,7 +6,7 @@ export const isValidAnchorElement = (
     if (anchorElement === null) return false
 
     if (!anchorElement || typeof anchorElement !== 'object') {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 [
                     '[Chromatin - isValidAnchorElement]: Anchor Element is not',
@@ -24,13 +22,13 @@ export const isValidAnchorElement = (
     const element = anchorElement.getBoundingClientRect()
 
     if (
-        !__TEST__ &&
+        process.env.NODE_ENV !== 'test' &&
         element.top === 0 &&
         element.left === 0 &&
         element.right === 0 &&
         element.bottom === 0
     ) {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.warn(
                 [
                     '[Chromatin - isValidAnchorElement]: Anchor Element',

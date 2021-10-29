@@ -1,4 +1,3 @@
-import { __DEV__ } from '../../../constants/env'
 import { mergeDeep } from '../../../utils'
 import {
     namedTypographyScales as scales,
@@ -18,7 +17,7 @@ export const createThemeTypography = (
     options = {} as CreateThemeTypographyOptions
 ): ThemeTypography => {
     if (typeof options !== 'function' && typeof options !== 'object') {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 '[Chromatin - createTypography]: Expecting options as'.concat(
                     ' an object or a function. Got',

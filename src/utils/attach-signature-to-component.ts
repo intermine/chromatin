@@ -1,11 +1,9 @@
-import { __DEV__ } from '../constants/env'
-
 export const attachSignatureToComponent = <T>(
     Component: T,
     id: string
 ): void => {
     if (typeof id !== 'string') {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
             console.error(
                 [
                     '[Chromatin - attachSignatureToComponent]: id is required,',
