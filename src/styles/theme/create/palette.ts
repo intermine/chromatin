@@ -74,8 +74,16 @@ export const createThemePalette = (
         error: errorProps = tto(themeType, red[60], red[40]),
         warning: warningProps = tto(themeType, orange[50], yellow[50]),
         info: infoProps = tto(themeType, blue[60], blue[40]),
-        neutral: neutralProps = tto(themeType, grey[40], darkGrey[40]),
-        disable: disableProps = tto(themeType, grey[60], darkGrey[60]),
+        neutral: neutralProps = tto(
+            themeType,
+            darkGreyColor[50],
+            greyColor[50]
+        ),
+        disable: disableProps = tto(
+            themeType,
+            greyColor[60],
+            darkGreyColor[60]
+        ),
         hover: hoverInput = {},
         focus: focusInput = {},
         active: activeInput = {},
