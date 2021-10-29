@@ -7,9 +7,10 @@ import {
     isThemeFontVariant,
     ThemeTypographyVariant,
     ThemeCSSStyles,
-    getThemeCSSObject
+    getThemeCSSObject,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { TYPOGRAPHY } from '../constants/component-ids'
 
 export interface TypographyBaseProps

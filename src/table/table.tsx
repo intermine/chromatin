@@ -4,9 +4,10 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     ThemeCSSStyles,
-    getThemeCSSObject
+    getThemeCSSObject,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { TABLE } from '../constants/component-ids'
 
 import TableContext from './table-context'

@@ -4,9 +4,10 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles
+    ThemeCSSStyles,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { DIVIDER } from '../constants/component-ids'
 
 export interface DividerBaseProps

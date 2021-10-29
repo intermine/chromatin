@@ -4,12 +4,10 @@ import cx from 'clsx'
 import {
     createStyledComponent,
     getThemeCSSObject,
-    ThemeCSSStyles
-} from '../styles'
-import {
-    attachSignatureToComponent,
+    ThemeCSSStyles,
     getNeutralBasicColorForComponent
-} from '../utils'
+} from '../styles'
+import { attachSignatureToComponent } from '../utils'
 import { LIST_HEADING } from '../constants/component-ids'
 
 export interface ListHeadingProps

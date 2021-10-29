@@ -8,15 +8,13 @@ import {
     ReactElement,
     ThemeCSSStyles,
     ThemePalette,
-    themeTernaryOperator as tto
+    themeTernaryOperator as tto,
+    getNeutralBasicColorForComponent
 } from '../styles'
 import DefaultWarningIcon from '../icons/System/alert-line'
 import DefaultCompleteIcon from '../icons/System/check-fill'
 import DefaultErrorIcon from '../icons/System/close-fill'
-import {
-    attachSignatureToComponent,
-    getNeutralBasicColorForComponent
-} from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { STEPPER } from '../constants/component-ids'
 
 import { Box } from '../box'

@@ -5,12 +5,10 @@ import {
     createStyledComponent,
     getThemeCSSObject,
     ThemeCSSStyles,
-    themeTernaryOperator as tto
-} from '../styles'
-import {
-    attachSignatureToComponent,
+    themeTernaryOperator as tto,
     getNeutralBasicColorForComponent
-} from '../utils'
+} from '../styles'
+import { attachSignatureToComponent } from '../utils'
 import { CARD } from '../constants/component-ids'
 
 import { CSSObject } from 'styled-components'

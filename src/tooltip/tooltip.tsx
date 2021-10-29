@@ -9,11 +9,11 @@ import {
     isValidColorHex,
     ReactElement,
     ThemeCSSStyles,
-    themeTernaryOperator as tto
+    themeTernaryOperator as tto,
+    getColorForComponent
 } from '../styles'
 import {
     attachSignatureToComponent,
-    getColorForComponent,
     setRef,
     useForkRef,
     useMouseOver

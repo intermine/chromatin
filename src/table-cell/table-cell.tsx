@@ -6,12 +6,10 @@ import {
     createStyledComponent,
     ThemeCSSStyles,
     getThemeCSSObject,
-    themeTernaryOperator as tto
-} from '../styles'
-import {
-    attachSignatureToComponent,
+    themeTernaryOperator as tto,
     getNeutralBasicColorForComponent
-} from '../utils'
+} from '../styles'
+import { attachSignatureToComponent } from '../utils'
 import { TABLE_CELL } from '../constants/component-ids'
 
 import TableContext from '../table/table-context'

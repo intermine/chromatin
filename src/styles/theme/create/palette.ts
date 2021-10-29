@@ -10,7 +10,6 @@ import {
     darkGrey as darkGreyColor,
     grey as greyColor,
     orange,
-    themeTernaryOperator as tto,
     hex2rgba,
     createColor,
     getContrastRatio,
@@ -23,6 +22,8 @@ import type {
     ThemePalette,
     ThemePaletteColor,
 } from './create'
+
+import { themeTernaryOperator as tto } from '../utils'
 
 type CreateIndividualPaletteOptions = {
     contrastThreshold: number

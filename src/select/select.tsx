@@ -9,7 +9,9 @@ import ReactSelect, {
 } from 'react-select'
 import cx from 'clsx'
 import type { StylesProps } from 'react-select/dist/declarations/src/styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+
+import { getColorForComponent } from '../styles'
+import { attachSignatureToComponent } from '../utils'
 import { SELECT } from '../constants/component-ids'
 
 import {

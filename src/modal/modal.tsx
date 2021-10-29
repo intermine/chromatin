@@ -7,9 +7,10 @@ import {
     getThemeCSSObject,
     createStyle,
     hex2rgba,
-    themeTernaryOperator as tto
+    themeTernaryOperator as tto,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { MODAL } from '../constants/component-ids'
 
 export interface ModalProps extends Omit<ReactModalProps, 'as'> {

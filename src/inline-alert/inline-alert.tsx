@@ -5,13 +5,14 @@ import {
     createStyledComponent,
     getThemeCSSObject,
     themeTernaryOperator as tto,
-    Theme
+    Theme,
+    getColorForComponent
 } from '../styles'
 
 import { Alert, AlertProps } from '../alert'
 import { Collapsible, CollapsibleProps } from '../collapsible'
 
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { INLINE_ALERT } from '../constants/component-ids'
 import { getHoverProperties } from '../button-base/utils'
 

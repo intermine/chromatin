@@ -10,9 +10,10 @@ import {
     isValidColorHex,
     ReactElement,
     ThemeCSSStyles,
-    themeTernaryOperator as tto
+    themeTernaryOperator as tto,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { INPUT } from '../constants/component-ids'
 
 export type InputProps = InputBaseProps & {

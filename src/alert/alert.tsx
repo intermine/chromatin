@@ -9,7 +9,8 @@ import {
     ThemeCSSStyles,
     useTheme,
     themeTernaryOperator as tto,
-    createStyle
+    createStyle,
+    getColorForComponent
 } from '../styles'
 import {
     DefaultSuccessIcon,
@@ -19,7 +20,7 @@ import {
     DefaultCloseIcon
 } from '../constants/default-icons'
 
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { ALERT } from '../constants/component-ids'
 import { IconButton, IconButtonCommonProps } from '../icon-button'
 import { Typography } from '../typography'

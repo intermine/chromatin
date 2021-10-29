@@ -6,9 +6,10 @@ import {
     createStyledComponent,
     createStyle,
     ThemeCSSStyles,
-    getThemeCSSObject
+    getThemeCSSObject,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { SPINNER } from '../constants/component-ids'
 
 export interface SpinnerProps

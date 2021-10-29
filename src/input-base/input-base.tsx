@@ -6,9 +6,10 @@ import {
     themeTernaryOperator as tto,
     createStyledComponent,
     ThemeCSSStyles,
-    getThemeCSSObject
+    getThemeCSSObject,
+    getColorForComponent
 } from '../styles'
-import { attachSignatureToComponent, getColorForComponent } from '../utils'
+import { attachSignatureToComponent } from '../utils'
 import { INPUT_BASE } from '../constants/component-ids'
 
 export interface InputBaseProps
