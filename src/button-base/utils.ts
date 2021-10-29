@@ -30,11 +30,15 @@ export const getHoverProperties = (
 
     const colorTuple = getColorNameAndKey(_color, { theme })
 
-    if (variant === 'normal') {
-        if (colorTuple) {
-            _color = colorTuple[0]
-        }
+    if (colorTuple) {
+        /**
+         * If it is a theme color then extracting
+         * hex value of the color.
+         */
+        _color = getThemeColorUsingKey(colorTuple, theme)
+    }
 
+    if (variant === 'normal') {
         if (isValidColorHex(_color)) {
             return {
                 background: getTintOrShade(
@@ -46,10 +50,6 @@ export const getHoverProperties = (
         }
 
         return { opacity: hover.unknownColorOpacity }
-    }
-
-    if (colorTuple) {
-        _color = colorTuple[0]
     }
 
     if (!color && !colorTuple) {
@@ -82,11 +82,15 @@ export const getActiveProperties = (
     let _color = color ?? tto(themeType, grey[10], darkGrey[30])
     const colorTuple = getColorNameAndKey(_color, { theme })
 
-    if (variant === 'normal') {
-        if (colorTuple) {
-            _color = colorTuple[0]
-        }
+    if (colorTuple) {
+        /**
+         * If it is a theme color then extracting
+         * hex value of the color.
+         */
+        _color = getThemeColorUsingKey(colorTuple, theme)
+    }
 
+    if (variant === 'normal') {
         if (isValidColorHex(_color)) {
             return {
                 background: getTintOrShade(
@@ -97,10 +101,6 @@ export const getActiveProperties = (
             }
         }
         return { opacity: 1 }
-    }
-
-    if (colorTuple) {
-        _color = colorTuple[0]
     }
 
     if (!color && !colorTuple) {
