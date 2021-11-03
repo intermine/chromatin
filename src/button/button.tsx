@@ -186,21 +186,21 @@ const ButtonRoot = createStyledComponent<
 
     const getPadding = (): string => {
         if (size === 'regular') {
-            if (isDense) return '0.6rem 1.5rem'
+            if (isDense) return '0.6rem 0.875rem'
             return '1rem 2rem'
         }
 
         if (size === 'small') {
-            if (isDense) return '0.4rem 0.8rem'
+            if (isDense) return '0.4rem 0.875rem'
             return '0.6rem 1.3rem'
         }
 
-        if (isDense) return '0.6rem 1.5rem'
+        if (isDense) return '0.6rem 0.875rem'
         return '1rem 2rem'
     }
 
     const getFontProperties = (): CSSObject => {
-        if (size === 'regular') return body
+        if (size === 'regular') return { ...body, fontSize: '0.875rem' }
         if (size === 'small') return bodySm
         return bodyLg
     }
