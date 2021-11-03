@@ -104,6 +104,7 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
             justifyContent,
             marginTop: variant === 'outlined' ? '-0.0625rem' : undefined,
             padding: getPadding(),
+            textTransform: 'none',
             ...body,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listItem(themePropsForThemeVarFn, props)),
