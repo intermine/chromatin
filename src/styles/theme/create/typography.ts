@@ -32,7 +32,7 @@ export const createThemeTypography = (
 
     const {
         documentFontSize = 16,
-        fontFamily: fontFamilyInput = {},
+        font: _font = {},
         scale: scaleInput = 'perfectForth',
     } = options
 
@@ -41,99 +41,105 @@ export const createThemeTypography = (
             ? scaleInput
             : scales[scaleInput] ?? scales['perfectForth']
 
-    const fontFamily = mergeDeep(
+    const _default = {
+        name: _font.default?.name ?? defaultFontFamily,
+        lineHeight: _font.default?.lineHeight ?? defaultLineHeight,
+    }
+    const font = mergeDeep(
         {
             bold: {
-                name: defaultFontFamily,
+                name: _default.name,
                 weight: defaultBoldFontWeight,
-                lineHeight: defaultLineHeight,
+                lineHeight: _default.lineHeight,
             },
             regular: {
-                name: defaultFontFamily,
+                name: _default.name,
                 weight: defaultRegularFontWeight,
-                lineHeight: defaultLineHeight,
+                lineHeight: _default.lineHeight,
             },
             light: {
-                name: defaultFontFamily,
+                name: _default.name,
                 weight: defaultLightFontWeight,
-                lineHeight: defaultLineHeight,
+                lineHeight: _default.lineHeight,
             },
         },
-        fontFamilyInput
+        _font
     )
+
+    const { bold, regular, light } = font
 
     return {
         h1: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, 3),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         h2: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, 2),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         h3: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, 1),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         h4: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, 0),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         h5: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, -1),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         h6: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, -2),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         bodyLg: fontMixin(
-            fontFamily.regular.name,
+            regular.name,
             getFontSizeInRem(scale, 1),
-            fontFamily.regular.weight,
-            fontFamily.regular.lineHeight
+            regular.weight,
+            regular.lineHeight
         ),
         body: fontMixin(
-            fontFamily.regular.name,
+            regular.name,
             getFontSizeInRem(scale, 0),
-            fontFamily.regular.weight,
-            fontFamily.regular.lineHeight
+            regular.weight,
+            regular.lineHeight
         ),
         bodySm: fontMixin(
-            fontFamily.regular.name,
+            regular.name,
             getFontSizeInRem(scale, -1),
-            fontFamily.regular.weight,
-            fontFamily.regular.lineHeight
+            regular.weight,
+            regular.lineHeight
         ),
         title: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, 0),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         caption: fontMixin(
-            fontFamily.bold.name,
+            bold.name,
             getFontSizeInRem(scale, -1),
-            fontFamily.bold.weight,
-            fontFamily.bold.lineHeight
+            bold.weight,
+            bold.lineHeight
         ),
         small: fontMixin(
-            fontFamily.light.name,
+            light.name,
             getFontSizeInRem(scale, -2),
-            fontFamily.light.weight,
-            fontFamily.light.lineHeight
+            light.weight,
+            light.lineHeight
         ),
         meta: {
             documentFontSize,

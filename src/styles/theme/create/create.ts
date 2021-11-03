@@ -259,10 +259,11 @@ export type CreateThemeTypographyOptionsObject = {
      * Document font size is in px. Only give the number value.
      */
     documentFontSize?: number
-    fontFamily?: {
+    font?: {
         bold?: { name?: string; weight?: number; lineHeight?: number }
         regular?: { name?: string; weight?: number; lineHeight?: number }
-        medium?: { name?: string; weight?: number; lineHeight?: number }
+        light?: { name?: string; weight?: number; lineHeight?: number }
+        default?: { name?: string; lineHeight?: number }
     }
 }
 
