@@ -186,16 +186,16 @@ const ButtonRoot = createStyledComponent<
 
     const getPadding = (): string => {
         if (size === 'regular') {
-            if (isDense) return '0.4rem 0.7rem'
-            return '0.7rem 1.4rem'
+            if (isDense) return '0.6rem 1.5rem'
+            return '1rem 2rem'
         }
 
         if (size === 'small') {
-            if (isDense) return '0.2rem 0.6rem'
-            return '0.4rem 1.2rem'
+            if (isDense) return '0.4rem 0.8rem'
+            return '0.6rem 1.3rem'
         }
 
-        if (isDense) return '0.5rem 1rem'
+        if (isDense) return '0.6rem 1.5rem'
         return '1rem 2rem'
     }
 
@@ -225,6 +225,8 @@ const ButtonRoot = createStyledComponent<
         transition: '0.130s',
         ...getColor(),
         ...getFontProperties(),
+        fontWeight: 700,
+        textTransform: 'uppercase',
         ...(isExtendStyleFromThemeVars &&
             themeVars.button(themePropsForThemeVarFn, props)),
         ...getThemeCSSObject(csx.root, theme)
