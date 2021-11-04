@@ -186,8 +186,9 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             flex: 1,
             padding: getPadding(),
             margin: 0,
-            transition: '0.13s',
             resize,
+            transition: '0.13s',
+            width: '100%',
             ...getTypographyProperties(),
             ...getBorderRadius(),
             ...(isExtendStyleFromThemeVars &&

@@ -35,6 +35,10 @@ export interface ButtonCommonProps extends ButtonBaseCommonProps {
      */
     isLoading?: boolean
     /**
+     * @default true
+     */
+    isTextUppercase?: boolean
+    /**
      * To extend the styles applied to the components
      */
     classes?: {
@@ -179,6 +183,7 @@ const ButtonRoot = createStyledComponent<
         isDense = false,
         csx = {},
         isLoading,
+        isTextUppercase = true,
         isExtendStyleFromThemeVars = true
     } = props
     const { themeVars, ...themePropsForThemeVarFn } = theme
@@ -226,7 +231,8 @@ const ButtonRoot = createStyledComponent<
         ...getColor(),
         ...getFontProperties(),
         fontWeight: 700,
-        textTransform: 'uppercase',
+        textAlign: 'center',
+        textTransform: isTextUppercase ? 'uppercase' : undefined,
         ...(isExtendStyleFromThemeVars &&
             themeVars.button(themePropsForThemeVarFn, props)),
         ...getThemeCSSObject(csx.root, theme)
