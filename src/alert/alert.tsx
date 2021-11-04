@@ -396,7 +396,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
                             root: (theme) => {
                                 return {
                                     color: getColorForComponent({ theme }),
-                                    marginTop: '0.125rem',
+                                    marginTop: '0.25rem',
                                     ...getThemeCSSObject(csx.message, theme)
                                 }
                             }
