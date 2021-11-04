@@ -86,7 +86,8 @@ export default forwardRef<any, ChromatinIcon>((props, ref): JSX.Element => {
             '<svg className={cx(classes.root, _classes.root, className)} ref={ref} {...rest}'
         )}
     )
-})    
+}) as (props: ChromatinIcon & { ref?: any }) => JSX.Element
+  
 `
 
     await fs.writeFile(path.join(output, fileName), template, (err) => {

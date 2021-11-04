@@ -12,9 +12,9 @@ import { LIST_ITEM } from '../constants/component-ids'
 import { CSSObject } from 'styled-components'
 
 import { Button } from '../button'
-import { ButtonBaseCommonProps } from '../button-base'
+import { ButtonCommonProps } from '../button'
 
-export interface ListItemProps extends ButtonBaseCommonProps {
+export interface ListItemProps extends ButtonCommonProps {
     /**
      * @default 'flex'
      */
