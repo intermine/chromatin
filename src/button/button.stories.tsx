@@ -83,7 +83,7 @@ const Template3: Story = (props) => {
         <div>
             <InputBase id="upload" type="file" isHidden />
             <Button
-                innerRef={br}
+                ref={br}
                 onClick={() => console.log('Clicked')}
                 variant="normal"
                 color="secondary"

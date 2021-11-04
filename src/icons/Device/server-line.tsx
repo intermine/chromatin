@@ -28,4 +28,4 @@ export default forwardRef<any, ChromatinIcon>((props, ref): JSX.Element => {
             </g>
         </svg>
     )
-})
+}) as (props: ChromatinIcon & { ref?: any }) => JSX.Element

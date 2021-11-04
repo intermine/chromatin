@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react'
+import { ButtonHTMLAttributes, forwardRef, HTMLProps } from 'react'
 import cx from 'clsx'
 import { CSSObject } from 'styled-components'
 import {
@@ -77,7 +77,7 @@ export type ButtonBaseProps<T> = ButtonBaseCommonProps & {
         | React.ElementType
         | React.ComponentType<T>
         | React.ForwardRefExoticComponent<T>
-} & T
+} & (T extends string ? Omit<HTMLProps<HTMLButtonElement>, 'size' | 'as'> : T)
 
 const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
     'button',
