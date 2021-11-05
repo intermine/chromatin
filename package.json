@@ -52,7 +52,6 @@
         "@testing-library/user-event": "^13.2.1",
         "@types/clone-deep": "^4.0.1",
         "@types/jest": "^27.0.1",
-        "@types/react-modal": "^3.13.1",
         "@typescript-eslint/eslint-plugin": "^4.29.3",
         "@typescript-eslint/parser": "^4.29.3",
         "babel-jest": "^27.1.0",
@@ -85,6 +84,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.10.1",
+        "@types/react-modal": "^3.13.1",
         "@types/react-transition-group": "^4.4.3",
         "@types/styled-components": "^5.1.14",
         "clone-deep": "^4.0.1",
