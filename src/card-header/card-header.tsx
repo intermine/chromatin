@@ -51,6 +51,7 @@ const CardHeaderRoot = createStyledComponent<'div', CardHeaderProps>(
             display: 'flex',
             padding: '1rem 1.2rem',
             ...h4,
+            lineHeight: 1.5,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.cardHeader(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme)

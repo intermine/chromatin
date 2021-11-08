@@ -39,7 +39,6 @@ const Template: Story = (args) => {
                         This is a modal
                     </Typography>
                     <Button
-                        csx
                         onClick={toggleModal}
                         color="error"
                         variant="outlined"

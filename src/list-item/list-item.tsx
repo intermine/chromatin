@@ -106,6 +106,7 @@ const ListItemRoot = createStyledComponent<typeof Button, ListItemProps>(
             padding: getPadding(),
             textTransform: 'none',
             ...body,
+            lineHeight: 1.2,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listItem(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme)

@@ -296,7 +296,6 @@ const ButtonBaseRoot = createStyledComponent<'button', ButtonBaseCommonProps>(
             display: 'inline-flex',
             fill: calculatedColor,
             justifyContent: 'center',
-            margin: 0,
             outline: 0,
             position: 'relative',
             textDecoration: 'none',

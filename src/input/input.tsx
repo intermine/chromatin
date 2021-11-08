@@ -190,6 +190,7 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             transition: '0.13s',
             width: '100%',
             ...getTypographyProperties(),
+            lineHeight: 1.2,
             ...getBorderRadius(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.input(themePropsForThemeVarFn, props)),

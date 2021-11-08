@@ -271,6 +271,7 @@ const DescriptionContainer = createStyledComponent<
                 alignment === 'vt' && !isLast
                     ? `0.0625rem solid ${_border}`
                     : '0',
+            lineHeight: 1.2,
             marginLeft: alignment === 'vt' ? '1.5rem' : '0',
             paddingLeft: alignment === 'vt' ? '2.5rem' : '0',
             textAlign: alignment === 'hr' ? 'center' : undefined,

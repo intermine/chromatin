@@ -43,6 +43,8 @@ const CardActionRoot = createStyledComponent<'div', CardActionProps>(
         return {
             padding: '1rem 0.5rem',
             ...body,
+            lineHeight: 1.3,
+
             ...(isExtendStyleFromThemeVars &&
                 themeVars.cardAction(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme)

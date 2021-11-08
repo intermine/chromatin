@@ -85,6 +85,7 @@ const ListHeadingRoot = createStyledComponent<'li', ListHeadingProps>(
             top: 0,
             zIndex: 1,
             ...(headingType === 'sub' ? caption : title),
+            lineHeight: 1.2,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.listHeading(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme)

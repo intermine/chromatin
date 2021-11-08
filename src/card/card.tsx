@@ -96,6 +96,7 @@ const CardRoot = createStyledComponent<'div', CardProps>(
             flexDirection: 'column',
             '&:hover': getHoverProperties(),
             ...body,
+            lineHeight: 1.3,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.card(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme)

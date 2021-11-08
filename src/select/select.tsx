@@ -90,7 +90,8 @@ const buildStyle = <
 
 const useStyles = createStyle(({ typography }) => ({
     root: {
-        ...typography.body
+        ...typography.body,
+        lineHeight: 1.2
     }
 }))
 

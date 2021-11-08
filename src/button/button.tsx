@@ -230,6 +230,7 @@ const ButtonRoot = createStyledComponent<
         transition: '0.130s',
         ...getColor(),
         ...getFontProperties(),
+        lineHeight: 1,
         fontWeight: 700,
         textAlign: 'center',
         textTransform: isTextUppercase ? 'uppercase' : undefined,

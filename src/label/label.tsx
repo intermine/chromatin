@@ -47,6 +47,7 @@ const LabelRoot = createStyledComponent<'label', LabelProps>(
             color: _color,
             fill: _color,
             ...body,
+            lineHeight: 1.2,
             ...(isExtendStyleFromThemeVars &&
                 themeVars.label(themePropsForThemeVarFn, props)),
             ...getThemeCSSObject(csx.root, theme)
