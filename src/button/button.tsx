@@ -299,13 +299,14 @@ export const Button = forwardRef(
             >
                 <IconContainer
                     className={cx(iconContainerProps, iconContainerLeftProps)}
-                    isRight
+                    isRight={false}
                     {...styleProps}
                 >
                     {LeftIconProps}
                 </IconContainer>
                 {children}
                 <IconContainer
+                    isRight={true}
                     className={cx(iconContainerProps, iconContainerRightProps)}
                     {...styleProps}
                 >
