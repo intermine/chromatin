@@ -72,6 +72,8 @@ import type { ChromatinIcon } from '../types'
 
 const useStyles = createStyle((theme) => ({
     root: (props: ChromatinIcon) => ({
+        height: props.height ?? '100%',
+        width: props.width ?? '100%',
         ...getThemeCSSObject(props?.csx?.root, theme)
     })
 }))
