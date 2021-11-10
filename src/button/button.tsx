@@ -162,8 +162,8 @@ const IconContainer = createStyledComponent<'span', IconContainerProps>(
              * button-base is responsible for this.
              * */
             fill: isLoading ? 'transparent' : undefined,
-            marginLeft: isRight ? undefined : '0.5rem',
-            marginRight: isRight ? '0.5rem' : undefined,
+            marginLeft: isRight ? '0.5rem' : undefined,
+            marginRight: isRight ? undefined : '0.5rem',
             transition: '0.130s',
             ...getDimProperties(),
             ...getThemeCSSObject(csx.iconContainer, theme),

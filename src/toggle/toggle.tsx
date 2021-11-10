@@ -21,7 +21,9 @@ export type ToggleIconProps = {
 
 const useStyles = createStyle((theme) => ({
     svg: (props: ToggleProps) => ({
+        height: '100%',
         transition: '0.23s',
+        width: '100%',
         ...getThemeCSSObject(props.csx && props.csx.root, theme)
     }),
     svgCircle: (props: ToggleProps) => ({
