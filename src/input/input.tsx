@@ -191,6 +191,7 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
             width: '100%',
             ...getTypographyProperties(),
             lineHeight: 1.2,
+            borderRadius: 0,
             ...getBorderRadius(),
             ...(isExtendStyleFromThemeVars &&
                 themeVars.input(themePropsForThemeVarFn, props)),
@@ -277,7 +278,12 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
                         : textColorSecondPref
                 }
 
-                return getColorForComponent({ theme, color, key: 'text' })
+                return getColorForComponent({
+                    theme,
+                    ...(color && { color: color.split('.')[0] }),
+                    key: 'text',
+                    isSwitchDefaultColor: true
+                })
             }
 
             if (isError) return error.text
