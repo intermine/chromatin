@@ -1,4 +1,11 @@
-import { Children, cloneElement, useEffect, useRef, forwardRef } from 'react'
+import {
+    Children,
+    cloneElement,
+    useEffect,
+    useRef,
+    forwardRef,
+    useState
+} from 'react'
 import cx from 'clsx'
 
 import {
@@ -29,10 +36,10 @@ export interface AlertGroupProps
     /**
      * If origin is top-* then only this is applicable.
      *
-     * Scroll to bottom on addition of new alert.
+     * Scroll to the latest alert.
      * @default true
      */
-    isScrollToBottom?: boolean
+    isScrollToLatestAlert?: boolean
     portalProps?: PortalProps
     alertChildProps?: Omit<
         AlertProps,
@@ -203,10 +210,13 @@ export const AlertGroup = forwardRef<HTMLDivElement, AlertGroupProps>(
             portalProps = {},
             alertChildProps = {},
             isOpen = false,
-            isScrollToBottom = true,
+            isScrollToLatestAlert = true,
             origin = 'top-right',
             ...rest
         } = props
+
+        const [isUserInteracted, setIsUserInteracted] = useState(false)
+
         const classes = useStyles(props)
         const alertGroupRef = useRef<HTMLDivElement | null>(null)
         const _ref = useForkRef(alertGroupRef, ref)
@@ -250,18 +260,45 @@ export const AlertGroup = forwardRef<HTMLDivElement, AlertGroupProps>(
             return child
         })
 
+        const handleUserInteraction = () => {
+            setIsUserInteracted(true)
+        }
+
         useEffect(() => {
             if (
+                !isUserInteracted &&
                 alertGroupRef.current &&
-                isScrollToBottom &&
-                (origin === 'top-right' || origin === 'top-left')
+                isScrollToLatestAlert
             ) {
-                alertGroupRef.current.scrollTo(
-                    0,
-                    alertGroupRef.current.scrollHeight
-                )
+                if (origin === 'top-right' || origin === 'top-left') {
+                    alertGroupRef.current.scrollTo(
+                        0,
+                        alertGroupRef.current.scrollHeight
+                    )
+                }
             }
         }, [children?.length])
+
+        useEffect(() => {
+            if (alertGroupRef.current) {
+                const element = alertGroupRef.current
+                element.addEventListener('wheel', handleUserInteraction)
+                element.addEventListener('click', handleUserInteraction)
+                element.addEventListener('touchstart', handleUserInteraction)
+            }
+
+            return () => {
+                if (alertGroupRef.current) {
+                    const element = alertGroupRef.current
+                    element.removeEventListener('wheel', handleUserInteraction)
+                    element.removeEventListener('click', handleUserInteraction)
+                    element.removeEventListener(
+                        'touchstart',
+                        handleUserInteraction
+                    )
+                }
+            }
+        }, [alertGroupRef.current])
 
         if (!isOpen) return <></>
         return (
