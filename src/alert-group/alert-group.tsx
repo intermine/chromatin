@@ -95,31 +95,40 @@ const AlertGroupRoot = createStyledComponent<'div', AlertGroupProps>(
         } = themePropsForThemeVarFn
 
         const getOrigin = (): CSSObject => {
-            if (origin === 'top-right' || origin === 'bottom-right') {
-                return {
-                    top: 0,
-                    bottom: 0,
-                    right: 0
-                }
-            }
+            switch (origin) {
+                case 'top-left':
+                    return {
+                        top: 0,
+                        left: 0
+                    }
+                case 'top-right':
+                    return {
+                        top: 0,
+                        right: 0
+                    }
 
-            return {
-                left: 0,
-                top: 0,
-                bottom: 0
+                case 'bottom-left':
+                    return {
+                        bottom: 0,
+                        left: 0
+                    }
+                default:
+                    return {
+                        bottom: 0,
+                        right: 0
+                    }
             }
         }
 
         return {
             boxSizing: 'border-box',
-            bottom: 0,
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'flex-end',
+            maxHeight: '100vh',
             overflowY: 'auto',
             position: 'fixed',
             scrollBehavior: 'smooth',
-            top: 0,
             width: '27rem',
             zIndex: 10,
             ...mixin(
