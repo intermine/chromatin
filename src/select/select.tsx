@@ -129,10 +129,9 @@ export const Select = forwardRef(
 
             const _neutral = tto(themeType, grey, darkGrey)
             const _neutralText = tto(themeType, black, white)
-
             return {
-                danger: error.main,
-                dangerLight: error.mainLightShade,
+                danger: error.text,
+                dangerLight: error.main,
                 neutral0: tto(themeType, white, _neutral[30]),
                 neutral5: disable.main,
                 neutral10: disable.mainDarkShade,

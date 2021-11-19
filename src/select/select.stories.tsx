@@ -21,3 +21,15 @@ Default.args = {
         { value: 'covid-mind', label: 'CovidMine' },
     ],
 }
+
+export const MultipleSelect = Template.bind({})
+MultipleSelect.args = {
+    isDisabled: false,
+    isMulti: true,
+    options: [
+        { value: 'fly-mine', label: 'FlyMine' },
+        { value: 'human--mine', label: 'HumanMine' },
+        { value: 'rat-mine', label: 'RatMine' },
+        { value: 'covid-mind', label: 'CovidMine' },
+    ],
+}

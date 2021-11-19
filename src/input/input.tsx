@@ -128,6 +128,9 @@ interface IconContainerProps {
     }
 }
 
+// TODO: Don't depend on padding to get a specific height of input box.
+// TODO: Use fixed value instead.
+
 const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
     InputBase,
     (theme, props) => {
@@ -143,10 +146,10 @@ const InputRoot = createStyledComponent<typeof InputBase, InputProps>(
         const { body, bodySm, h3 } = themePropsForThemeVarFn.typography
 
         const getPadding = (): string => {
-            if (size === 'regular') return '0.4rem 0.625rem'
-            if (size === 'small') return '0.3rem 0.4rem'
+            if (size === 'regular') return '0.6rem'
+            if (size === 'small') return '0.4rem 0.6rem'
 
-            return '0.5rem 0.8rem'
+            return '0.8rem 0.6rem'
         }
 
         const getTypographyProperties = (): CSSObject => {
@@ -298,7 +301,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
                     width: '2rem'
                 }
             return {
-                width: '2rem'
+                width: '1.5rem'
             }
         }
 
@@ -319,7 +322,7 @@ const IconContainer = createStyledComponent<'div ', IconContainerProps>(
 
         const getPadding = (): string => {
             if (size === 'regular' || size === 'large') return '0.5rem'
-            return '0.125rem'
+            return '0.25rem'
         }
 
         return {
