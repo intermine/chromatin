@@ -82,6 +82,8 @@ export const InlineAlert = forwardRef<HTMLDivElement, InlineAlertProps>(
             csx = {},
             containerProps = {},
             isOpen = false,
+            onClose,
+            duration = 5000,
             ...rest
         } = props
 
@@ -108,6 +110,7 @@ export const InlineAlert = forwardRef<HTMLDivElement, InlineAlertProps>(
             <Collapsible in={isOpen} {...containerProps}>
                 <InlineAlertRoot
                     isOpen
+                    duration={isOpen ? duration : 0}
                     type={type}
                     hasAnimation={hasAnimation}
                     csx={{
@@ -123,6 +126,7 @@ export const InlineAlert = forwardRef<HTMLDivElement, InlineAlertProps>(
                     }}
                     portalProps={{ hasUseReactPortal: false }}
                     ref={ref}
+                    onClose={onClose}
                     {...rest}
                 />
             </Collapsible>
