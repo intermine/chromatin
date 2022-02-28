@@ -82,7 +82,7 @@ const useStyles = createStyle((theme) => {
                  * Setting color on assuming theme type.
                  */
                 color: _color,
-                ...getThemeCSSObject(csx.root, theme)
+                ...getThemeCSSObject(csx.content, theme)
             }
         }
     }
