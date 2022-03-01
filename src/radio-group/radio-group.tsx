@@ -5,7 +5,8 @@ import { createStyledComponent, getThemeCSSObject } from '../styles'
 import { getId } from '../utils'
 import { RadioGroupContext } from './radio-group-context'
 
-export type RadioGroupProps = BoxBaseProps & RadioGroupContextProps
+export type RadioGroupProps = Omit<BoxBaseProps, 'onChange'> &
+    RadioGroupContextProps
 
 const RadioGroupRoot = createStyledComponent<typeof Box, RadioGroupProps>(
     Box,
@@ -36,7 +37,7 @@ export const RadioGroup = forwardRef<any, RadioGroupProps>(
 
         const [value, setValue] = useState(valueProps ?? '')
 
-        const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
+        const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             setValue(event.currentTarget.value)
             if (onChangeProps) {
                 onChangeProps(event)
