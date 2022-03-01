@@ -37,7 +37,7 @@ export const RadioGroup = forwardRef<any, RadioGroupProps>(
 
         const [value, setValue] = useState(valueProps ?? '')
 
-        const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
             setValue(event.currentTarget.value)
             if (onChangeProps) {
                 onChangeProps(event)
