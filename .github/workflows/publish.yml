@@ -1,8 +1,9 @@
 name: publish
 
 on:
-    pull_request:
-        branches: -production
+    push:
+        branches:
+            - production
 
 jobs:
     publish:
