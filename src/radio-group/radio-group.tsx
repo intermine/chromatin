@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react'
+import { useState, forwardRef, useEffect } from 'react'
 import { RadioGroupContextProps } from './radio-group-context'
 import { Box, BoxBaseProps } from '../box'
 import { createStyledComponent, getThemeCSSObject } from '../styles'
@@ -44,7 +44,14 @@ export const RadioGroup = forwardRef<any, RadioGroupProps>(
             }
         }
 
+        
         const name = nameProps ?? getId()
+        
+        useEffect(() => {
+            if(valueProps) {
+                setValue(valueProps)
+            }
+        }, [valueProps])
 
         return (
             <RadioGroupContext.Provider
