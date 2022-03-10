@@ -99,7 +99,7 @@ const InputBaseRoot = createStyledComponent<'input', InputBaseProps>(
             if (isError) return `${base} ${error.main}`
             if (isWarning) return `${base} ${warning.main}`
 
-            const _color = tto(themeType, grey[50], darkGrey[50])
+            const _color = tto(themeType, grey[80], darkGrey[50])
             return `${base} ${_color}`
         }
 
