@@ -10,7 +10,8 @@ import {
     ReactElement,
     ThemeCSSStyles,
     themeTernaryOperator as tto,
-    getColorForComponent
+    getColorForComponent,
+    isThemeColorName
 } from '../styles'
 import {
     attachSignatureToComponent,
@@ -26,12 +27,16 @@ import { Typography } from '../typography'
 export interface TooltipProps
     extends Omit<
         React.HTMLProps<HTMLDivElement>,
-        'as' | 'ref' | 'title' | 'children'
+        'as' | 'ref' | 'title' | 'children' | 'color' | 'background'
     > {
     /**
-     * Color of tooltip
+     * Background of tooltip
      */
-    color?: string
+    tooltipBackgroundColor?: string
+    /**
+     * tooltip's color text
+     */
+    textColor?: string
     /**
      * Tooltip placement
      */
@@ -146,7 +151,8 @@ const TooltipRoot = createStyledComponent<
 
     const {
         csx = {},
-        color,
+        tooltipBackgroundColor,
+        textColor,
         hasElevation = true,
         hasArrow = true,
         actualPlacement: placement = 'top',
@@ -157,7 +163,7 @@ const TooltipRoot = createStyledComponent<
     const getBackground = (): string => {
         const _color = getColorForComponent({
             theme,
-            color,
+            color: tooltipBackgroundColor,
             isReturnDefaultColor: false
         })
         if (_color) return _color
@@ -165,81 +171,91 @@ const TooltipRoot = createStyledComponent<
     }
 
     const getColor = (): string => {
-        if (!color) return white
+        if (!textColor && !tooltipBackgroundColor) return white
 
-        const _color = getColorForComponent({
-            theme,
-            color,
-            isReturnDefaultColor: false
-        })
+        let _color: string | undefined
 
-        if (_color) return _color
-
-        if (!isValidColorHex(color)) {
+        if (textColor) {
+            _color = getColorForComponent({
+                theme,
+                color: textColor,
+                isReturnDefaultColor: false
+            })
+        } else if (!tooltipBackgroundColor) {
             /**
              * Only guessing based on theme type.
              */
-            return tto(themeType, white, black)
+            _color = tto(themeType, white, black)
+        } else if (isThemeColorName(tooltipBackgroundColor.split('.')[0])) {
+            _color = getColorForComponent({
+                theme,
+                color: tooltipBackgroundColor,
+                isReturnDefaultColor: false,
+                key: 'text'
+            })
         }
+
+        if (_color) return _color
+
+        if (!tooltipBackgroundColor || !isValidColorHex(tooltipBackgroundColor))
+            return tto(themeType, white, black)
 
         const colorFirstPref = tto(themeType, white, black)
         const colorSecondPref = tto(themeType, black, white)
 
-        return getContrastRatio(color, colorFirstPref) > contrastThreshold
+        return getContrastRatio(tooltipBackgroundColor, colorFirstPref) >
+            contrastThreshold
             ? colorFirstPref
             : colorSecondPref
     }
 
     const getArrow = (): CSSObject => {
         if (!hasArrow) return {}
-        const borderDim = 0.5
+        const arrowDim = 0.7
         const background = getBackground()
 
-        const getPosition = (): CSSObject => {
+        const getPosition = (isForAfter: boolean): CSSObject => {
             if (placement.startsWith('top')) {
                 return {
-                    borderTopColor: background,
-                    bottom: `-${borderDim * 2}rem`,
+                    bottom: isForAfter ? 0 : `-${arrowDim / 2}rem`,
                     left: 0,
                     right: 0,
                     ...(placement === 'top-end' && {
                         left: 'unset',
-                        right: `${borderDim}rem`
+                        right: `${arrowDim}rem`
                     }),
                     ...(placement === 'top-start' && {
-                        left: `${borderDim}rem`,
+                        left: `${arrowDim}rem`,
                         right: 'unset'
                     })
                 }
             }
             if (placement.startsWith('bottom')) {
                 return {
-                    borderBottomColor: background,
                     left: 0,
                     right: 0,
-                    top: `-${borderDim * 2}rem`,
+                    top: isForAfter ? 0 : `-${arrowDim / 2}rem`,
                     ...(placement === 'bottom-end' && {
                         left: 'unset',
-                        right: `${borderDim}rem`
+                        right: `${arrowDim}rem`
                     }),
                     ...(placement === 'bottom-start' && {
-                        left: `${borderDim}rem`,
+                        left: `${arrowDim}rem`,
                         right: 'unset'
                     })
                 }
             }
             if (placement.startsWith('right')) {
                 return {
-                    borderRightColor: background,
                     bottom: 0,
-                    left: `-${borderDim * 2}rem`,
+                    left: isForAfter ? 0 : `-${arrowDim / 2}rem`,
                     top: 0,
                     ...(placement === 'right-end' && {
                         top: 'unset',
-                        bottom: `${borderDim}rem`
+                        bottom: `${arrowDim}rem`
                     }),
                     ...(placement === 'right-start' && {
-                        top: `${borderDim}rem`,
+                        top: `${arrowDim}rem`,
                         bottom: 'unset'
                     })
                 }
@@ -247,28 +263,39 @@ const TooltipRoot = createStyledComponent<
 
             return {
                 bottom: 0,
-                borderLeftColor: background,
-                right: `-${borderDim * 2}rem`,
+                right: isForAfter ? 0 : `-${arrowDim / 2}rem`,
                 top: 0,
                 ...(placement === 'left-end' && {
                     top: 'unset',
-                    bottom: `${borderDim}rem`
+                    bottom: `${arrowDim}rem`
                 }),
                 ...(placement === 'left-start' && {
-                    top: `${borderDim}rem`,
+                    top: `${arrowDim}rem`,
                     bottom: 'unset'
                 })
             }
         }
+
         return {
-            '&:before': {
-                border: `${borderDim}rem solid transparent`,
+            '&:before, &:after': {
+                background,
                 content: '""',
-                height: 0,
+                height: `${arrowDim}rem`,
                 position: 'absolute',
-                width: 0,
-                margin: 'auto',
-                ...getPosition()
+                width: `${arrowDim}rem`,
+                margin: 'auto'
+            },
+            '&:before': {
+                transform: 'rotate(45deg)',
+                ...getPosition(false),
+                ...(hasElevation && {
+                    boxShadow: elevation.low
+                })
+            },
+            '&:after': {
+                height: '1rem',
+                width: '1rem',
+                ...getPosition(true)
             }
         }
     }
