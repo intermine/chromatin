@@ -13,8 +13,22 @@ const useStyles = createStyle((theme) => ({
 }))
 
 export default forwardRef<any, ChromatinIcon>((props, ref): JSX.Element => {
-    const { className, classes: _classes = {}, csx = {}, ...rest } = props
-    const classes = useStyles({ className, classes: _classes, csx, ...rest })
+    const {
+        className,
+        classes: _classes = {},
+        csx = {},
+        height,
+        width,
+        ...rest
+    } = props
+    const classes = useStyles({
+        className,
+        classes: _classes,
+        csx,
+        height,
+        width,
+        ...rest,
+    })
 
     return (
         <svg
