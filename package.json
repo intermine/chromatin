@@ -21,7 +21,7 @@
         "type": "git",
         "url": "git+https://github.com/intermine/chromatin.git"
     },
-    "author": "Ankit Kumar <ankits.kvmdam@hotmail.com>",
+    "author": "InterMine Team",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/intermine/chromatin/issues"
